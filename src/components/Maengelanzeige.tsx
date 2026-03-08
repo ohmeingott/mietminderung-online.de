@@ -6,7 +6,6 @@ import {
   ArrowRight,
   ArrowLeft,
   Download,
-  Mail,
   Send,
   CheckCircle,
   Pen,
@@ -84,19 +83,25 @@ export default function Maengelanzeige({
     }))
   );
   const [signatureData, setSignatureData] = useState<string>("");
-  const [deliveryMethod, setDeliveryMethod] = useState<"download" | "email" | "post" | null>(null);
+  const [deliveryMethod, setDeliveryMethod] = useState<"download" | "post" | null>(null);
   const [copied, setCopied] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
-  const [emailSending, setEmailSending] = useState(false);
-  const [emailError, setEmailError] = useState("");
   const [postSending, setPostSending] = useState(false);
   const [postSent, setPostSent] = useState(false);
   const [postError, setPostError] = useState("");
   const [enhancing, setEnhancing] = useState(false);
+  const [editedBriefText, setEditedBriefText] = useState("");
+  const [emailOptIn, setEmailOptIn] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const signaturePadRef = useRef<SignaturePad | null>(null);
   const { t, locale } = useTranslation();
+
+  useEffect(() => {
+    if (step === 3) {
+      setEditedBriefText(generateBriefText());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
 
   useEffect(() => {
     if (step === 3 && canvasRef.current && !signaturePadRef.current) {
@@ -240,7 +245,7 @@ ${mieter.name}`;
   });
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(generateBriefText());
+    navigator.clipboard.writeText(editedBriefText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -253,7 +258,7 @@ ${mieter.name}`;
   };
 
   const handleDownloadTxt = () => {
-    const text = generateBriefText();
+    const text = editedBriefText;
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -263,35 +268,6 @@ ${mieter.name}`;
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  };
-
-  const handleEmailSend = async () => {
-    if (!mieter.email) return;
-    setEmailSending(true);
-    setEmailError("");
-    try {
-      const pdfBase64 = generatePdfBase64(getBriefData());
-      const res = await fetch("/api/send-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: mieter.email,
-          mieterName: mieter.name,
-          briefText: generateBriefText(),
-          pdfBase64,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setEmailError(data.error || "E-Mail konnte nicht gesendet werden.");
-      } else {
-        setEmailSent(true);
-      }
-    } catch {
-      setEmailError("Netzwerkfehler. Bitte versuchen Sie es erneut.");
-    } finally {
-      setEmailSending(false);
-    }
   };
 
   const handlePostSend = async () => {
@@ -477,7 +453,7 @@ ${mieter.name}`;
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("letter.email")}
+                    {t("letter.email")} *
                   </label>
                   <input
                     type="email"
@@ -491,10 +467,33 @@ ${mieter.name}`;
                 </div>
               </div>
 
-              <div className="mt-8 flex justify-end">
+              <div className="mt-6">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={emailOptIn}
+                    onChange={(e) => setEmailOptIn(e.target.checked)}
+                    className="mt-1 w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="text-sm text-gray-600">
+                    {t("letter.emailOptIn")}
+                  </span>
+                </label>
+              </div>
+
+              <div className="mt-6 flex justify-end">
                 <button
-                  onClick={() => setStep(1)}
-                  disabled={!mieter.name || !mieter.strasse || !mieter.plz || !mieter.ort}
+                  onClick={() => {
+                    if (emailOptIn) {
+                      fetch("/api/save-email", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email: mieter.email, name: mieter.name }),
+                      }).catch(() => {});
+                    }
+                    setStep(1);
+                  }}
+                  disabled={!mieter.name || !mieter.strasse || !mieter.plz || !mieter.ort || !mieter.email}
                   className="flex items-center gap-2 px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {t("check.next")}
@@ -719,14 +718,20 @@ ${mieter.name}`;
           {/* Step 3: Preview & Signature */}
           {step === 3 && (
             <div className="animate-fade-in-up">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
                 {t("letter.previewTitle")}
               </h3>
+              <p className="text-sm text-gray-500 mb-6">
+                {t("letter.editHint")}
+              </p>
 
-              {/* Letter preview */}
-              <div className="bg-gray-50 rounded-xl p-6 sm:p-8 mb-6 border border-gray-200 font-mono text-sm leading-relaxed whitespace-pre-wrap text-gray-800">
-                {generateBriefText()}
-              </div>
+              {/* Letter preview — editable */}
+              <textarea
+                value={editedBriefText}
+                onChange={(e) => setEditedBriefText(e.target.value)}
+                className="w-full bg-white rounded-xl p-6 sm:p-8 mb-6 border-2 border-gray-200 focus:border-blue-500 focus:outline-none font-mono text-sm leading-relaxed text-gray-800 resize-y min-h-[400px]"
+                rows={22}
+              />
 
               {/* Signature */}
               <div className="mb-6">
@@ -795,7 +800,7 @@ ${mieter.name}`;
                 {t("letter.chooseOption")}
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 {/* Download */}
                 <button
                   onClick={() => setDeliveryMethod("download")}
@@ -811,27 +816,6 @@ ${mieter.name}`;
                   </h4>
                   <p className="text-sm text-gray-500">
                     {t("letter.downloadDesc")}
-                  </p>
-                  <div className="mt-3 text-sm font-bold text-emerald-600">
-                    {t("letter.free")}
-                  </div>
-                </button>
-
-                {/* Email */}
-                <button
-                  onClick={() => setDeliveryMethod("email")}
-                  className={`card-hover p-6 rounded-xl border-2 text-left transition-all ${
-                    deliveryMethod === "email"
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-200 hover:border-blue-300"
-                  }`}
-                >
-                  <Mail className="w-8 h-8 text-violet-600 mb-3" />
-                  <h4 className="font-bold text-gray-900 mb-1">
-                    {t("letter.emailOption")}
-                  </h4>
-                  <p className="text-sm text-gray-500">
-                    {t("letter.emailDesc")}
                   </p>
                   <div className="mt-3 text-sm font-bold text-emerald-600">
                     {t("letter.free")}
@@ -889,63 +873,6 @@ ${mieter.name}`;
                       {copied ? t("letter.copied") : t("letter.copyText")}
                     </button>
                   </div>
-                </div>
-              )}
-
-              {deliveryMethod === "email" && (
-                <div className="bg-violet-50 rounded-xl p-6 border border-violet-200">
-                  {!emailSent ? (
-                    <div className="text-center">
-                      <p className="text-sm text-gray-600 mb-4">
-                        {t("letter.emailSendTo")} <strong>{mieter.email || t("letter.email")}</strong> {t("letter.emailSent")}
-                      </p>
-                      {!mieter.email && (
-                        <div className="max-w-sm mx-auto mb-4">
-                          <input
-                            type="email"
-                            value={mieter.email}
-                            onChange={(e) =>
-                              setMieter({ ...mieter, email: e.target.value })
-                            }
-                            placeholder="ihre@email.de"
-                            className={inputClasses}
-                          />
-                        </div>
-                      )}
-                      {emailError && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-                          {emailError}
-                        </div>
-                      )}
-                      <button
-                        onClick={handleEmailSend}
-                        disabled={!mieter.email || emailSending}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 text-white font-semibold rounded-xl hover:bg-violet-700 transition-colors disabled:opacity-40"
-                      >
-                        {emailSending ? (
-                          <>
-                            <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                            {t("letter.sending")}
-                          </>
-                        ) : (
-                          <>
-                            <Mail className="w-5 h-5" />
-                            {t("letter.sendEmail")}
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center">
-                      <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-                      <p className="font-semibold text-gray-900">
-                        {t("letter.emailSentSuccess").replace("{email}", mieter.email)}
-                      </p>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {t("letter.checkSpam")}
-                      </p>
-                    </div>
-                  )}
                 </div>
               )}
 

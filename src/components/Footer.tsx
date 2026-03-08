@@ -69,7 +69,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#"
+                  href="/impressum"
                   className="text-sm hover:text-white transition-colors"
                 >
                   {t("footer.imprint")}
@@ -77,7 +77,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/datenschutz"
                   className="text-sm hover:text-white transition-colors"
                 >
                   {t("footer.privacy")}
@@ -85,7 +85,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/nutzungsbedingungen"
                   className="text-sm hover:text-white transition-colors"
                 >
                   {t("footer.terms")}

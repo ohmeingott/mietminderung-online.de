@@ -40,7 +40,7 @@ export default function Home() {
       <HowItWorks />
       <MietminderungCheck onComplete={handleCheckComplete} />
 
-      <div ref={maengelanzeigeRef}>
+      <div ref={maengelanzeigeRef} style={{ scrollMarginTop: "6rem" }}>
         {checkResult && checkResult.eligible ? (
           <Maengelanzeige
             selectedMaengel={checkResult.selectedMaengel}

@@ -489,7 +489,7 @@ export default function MietminderungCheck({ onComplete }: MietminderungCheckPro
               </div>
 
               {/* Result cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 text-center border border-blue-200">
                   <div className="text-sm text-blue-600 font-medium mb-1">
                     {t("check.reductionRate")}
@@ -510,17 +510,6 @@ export default function MietminderungCheck({ onComplete }: MietminderungCheckPro
                   </div>
                   <div className="text-xs text-emerald-500 mt-1">
                     ({t("check.range")}: {savingsMin.toFixed(0)}–{savingsMax.toFixed(0)} €)
-                  </div>
-                </div>
-                <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-6 text-center border border-amber-200">
-                  <div className="text-sm text-amber-600 font-medium mb-1">
-                    {t("check.yearlySavings")}
-                  </div>
-                  <div className="text-3xl font-bold text-amber-800">
-                    {(savingsTypical * 12).toFixed(0)} €
-                  </div>
-                  <div className="text-xs text-amber-500 mt-1">
-                    {t("check.withPermanent")}
                   </div>
                 </div>
               </div>

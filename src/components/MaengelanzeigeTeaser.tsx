@@ -37,6 +37,10 @@ export default function MaengelanzeigeTeaser() {
               <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
               <span className="text-gray-700">{t("teaser.feat4")}</span>
             </div>
+            <div className="flex items-center gap-3">
+              <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
+              <span className="text-gray-700">{t("teaser.feat5")}</span>
+            </div>
           </div>
 
           <a

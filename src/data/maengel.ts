@@ -687,9 +687,9 @@ export const eligibilityQuestions: EligibilityQuestion[] = [
     description:
       "Die Mängelanzeige ist Voraussetzung für die Mietminderung (§ 536c BGB). Wir helfen Ihnen dabei, diese zu erstellen.",
     options: [
-      { value: "ja", label: "Ja, bereits schriftlich gemeldet", eligible: true },
-      { value: "muendlich", label: "Ja, aber nur mündlich", eligible: true },
       { value: "nein", label: "Nein, noch nicht gemeldet", eligible: true },
+      { value: "muendlich", label: "Ja, aber nur mündlich", eligible: true },
+      { value: "ja", label: "Ja, bereits schriftlich gemeldet", eligible: true },
     ],
   },
 ];
