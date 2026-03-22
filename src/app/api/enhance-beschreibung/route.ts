@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 interface MangelInput {
   label: string;
@@ -24,8 +25,22 @@ Regeln:
 - Gib NUR die umformulierten Beschreibungen zurück, als JSON-Array von Strings
 - Die Reihenfolge muss der Eingabe entsprechen`;
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    // Rate limiting: max 10 enhancement requests per IP per hour
+    const clientIp = getClientIp(request);
+    const rateCheck = checkRateLimit(`enhance:${clientIp}`, {
+      windowMs: 60 * 60 * 1000,
+      maxRequests: 10,
+    });
+
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        { error: "Zu viele Anfragen. Bitte versuchen Sie es später erneut." },
+        { status: 429 }
+      );
+    }
+
     const { maengel } = (await request.json()) as { maengel: MangelInput[] };
 
     if (!maengel || !Array.isArray(maengel) || maengel.length === 0) {
@@ -42,7 +57,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const client = new Anthropic({ apiKey });
+    const client = new Anthropic({ apiKey, timeout: 30000 });
 
     const userMessage = maengel
       .map(
