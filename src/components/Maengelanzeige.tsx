@@ -104,11 +104,28 @@ export default function Maengelanzeige({
   }, [step]);
 
   useEffect(() => {
-    if (step === 3 && canvasRef.current && !signaturePadRef.current) {
-      signaturePadRef.current = new SignaturePad(canvasRef.current, {
-        backgroundColor: "rgb(255, 255, 255)",
-        penColor: "rgb(0, 0, 0)",
-      });
+    if (step === 3 && canvasRef.current) {
+      const canvas = canvasRef.current;
+      const resizeCanvas = () => {
+        const rect = canvas.getBoundingClientRect();
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = rect.width * ratio;
+        canvas.height = rect.height * ratio;
+        const ctx = canvas.getContext("2d");
+        if (ctx) ctx.scale(ratio, ratio);
+        if (signaturePadRef.current) {
+          signaturePadRef.current.clear();
+        }
+      };
+      if (!signaturePadRef.current) {
+        signaturePadRef.current = new SignaturePad(canvas, {
+          backgroundColor: "rgb(255, 255, 255)",
+          penColor: "rgb(0, 0, 0)",
+        });
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+      return () => window.removeEventListener("resize", resizeCanvas);
     }
   }, [step]);
 
@@ -392,7 +409,7 @@ ${mieter.name}`;
                     className={inputClasses}
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       {t("letter.zip")} *
@@ -538,7 +555,7 @@ ${mieter.name}`;
                     className={inputClasses}
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       {t("letter.zip")} *
@@ -729,7 +746,7 @@ ${mieter.name}`;
               <textarea
                 value={editedBriefText}
                 onChange={(e) => setEditedBriefText(e.target.value)}
-                className="w-full bg-white rounded-xl p-6 sm:p-8 mb-6 border-2 border-gray-200 focus:border-blue-500 focus:outline-none font-mono text-sm leading-relaxed text-gray-800 resize-y min-h-[400px]"
+                className="w-full bg-white rounded-xl p-4 sm:p-8 mb-6 border-2 border-gray-200 focus:border-blue-500 focus:outline-none font-mono text-sm leading-relaxed text-gray-800 resize-y min-h-[250px] sm:min-h-[400px]"
                 rows={22}
               />
 
@@ -742,9 +759,7 @@ ${mieter.name}`;
                 <div className="border-2 border-gray-300 rounded-xl overflow-hidden bg-white">
                   <canvas
                     ref={canvasRef}
-                    width={600}
-                    height={200}
-                    className="signature-canvas w-full h-[150px]"
+                    className="signature-canvas w-full h-[150px] touch-none"
                   />
                 </div>
                 <div className="flex items-center gap-3 mt-2">

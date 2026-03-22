@@ -31,7 +31,7 @@ export default function Header() {
               <button
                 key={l.code}
                 onClick={() => setLocale(l.code)}
-                className={`px-2.5 py-0.5 rounded text-xs font-medium transition-all ${
+                className={`px-3 py-1.5 rounded text-xs font-medium transition-all min-h-[36px] flex items-center ${
                   locale === l.code
                     ? "bg-white/25 text-white"
                     : "text-blue-200 hover:text-white hover:bg-white/10"
