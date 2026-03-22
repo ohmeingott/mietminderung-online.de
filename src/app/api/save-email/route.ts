@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchWithTimeout } from "@/lib/retry";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { prisma } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,14 +18,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const sheetUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL;
-    if (!sheetUrl) {
-      return NextResponse.json(
-        { error: "Google Sheet webhook not configured." },
-        { status: 500 }
-      );
-    }
-
     const { email, name } = await request.json();
 
     if (!email) {
@@ -35,16 +27,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await fetchWithTimeout(sheetUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        name,
-        timestamp: new Date().toISOString(),
-      }),
-      timeoutMs: 10000,
+    // Save to database (upsert to avoid duplicates)
+    await prisma.emailSubscriber.upsert({
+      where: { email },
+      update: { name: name || undefined },
+      create: { email, name: name || null },
     });
+
+    // Also forward to Google Sheets if configured (optional, for backwards compatibility)
+    const sheetUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL;
+    if (sheetUrl) {
+      fetch(sheetUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          name,
+          timestamp: new Date().toISOString(),
+        }),
+      }).catch((err) => {
+        console.error("Google Sheets sync error (non-critical):", err);
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (err) {

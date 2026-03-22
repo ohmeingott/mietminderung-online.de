@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
         .update(pdfBase64.slice(0, 1000) + (notificationEmail || ""))
         .digest("hex");
 
-    const cachedResult = getIdempotentResult(dedupKey);
+    const cachedResult = await getIdempotentResult(dedupKey);
     if (cachedResult) {
       return NextResponse.json(cachedResult);
     }
@@ -216,7 +216,7 @@ export async function POST(request: NextRequest) {
     };
 
     // Cache result for idempotency
-    setIdempotentResult(dedupKey, result);
+    await setIdempotentResult(dedupKey, result);
 
     return NextResponse.json(result);
   } catch (err) {

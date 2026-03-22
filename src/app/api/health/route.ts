@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { fetchWithTimeout } from "@/lib/retry";
+import { prisma } from "@/lib/db";
 
 interface ServiceStatus {
   name: string;
@@ -96,12 +97,12 @@ export async function GET() {
     services.push({ name: "ebrief", status: "unconfigured" });
   }
 
-  // Check Google Sheets webhook
-  if (process.env.GOOGLE_SHEET_WEBHOOK_URL) {
-    services.push({ name: "google-sheets", status: "ok" });
-  } else {
-    services.push({ name: "google-sheets", status: "unconfigured" });
-  }
+  // Check PostgreSQL database
+  services.push(
+    await checkService("database", async () => {
+      await prisma.$queryRaw`SELECT 1`;
+    })
+  );
 
   const allOk = services.every((s) => s.status !== "error");
 

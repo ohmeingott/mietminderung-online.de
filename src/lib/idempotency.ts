@@ -1,37 +1,26 @@
 /**
- * In-memory idempotency store to prevent duplicate operations.
- * In production, replace with Redis or a database-backed store.
+ * Database-backed idempotency store to prevent duplicate operations.
+ * Uses PostgreSQL via Prisma for persistence across server restarts
+ * and multiple serverless instances.
  */
 
-interface IdempotencyEntry {
-  result: unknown;
-  createdAt: number;
-}
-
-const store = new Map<string, IdempotencyEntry>();
+import { prisma } from "./db";
 
 const TTL_MS = 60 * 60 * 1000; // 1 hour
-
-// Cleanup expired entries every 10 minutes
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, entry] of store.entries()) {
-    if (now - entry.createdAt > TTL_MS) {
-      store.delete(key);
-    }
-  }
-}, 10 * 60 * 1000);
 
 /**
  * Check if a request with this key was already processed.
  * Returns the cached result if found, or null.
  */
-export function getIdempotentResult(key: string): unknown | null {
-  const entry = store.get(key);
+export async function getIdempotentResult(key: string): Promise<unknown | null> {
+  const entry = await prisma.idempotencyKey.findUnique({
+    where: { key },
+  });
+
   if (!entry) return null;
 
-  if (Date.now() - entry.createdAt > TTL_MS) {
-    store.delete(key);
+  if (new Date() > entry.expiresAt) {
+    await prisma.idempotencyKey.delete({ where: { key } }).catch(() => {});
     return null;
   }
 
@@ -41,6 +30,24 @@ export function getIdempotentResult(key: string): unknown | null {
 /**
  * Store the result of a processed request for deduplication.
  */
-export function setIdempotentResult(key: string, result: unknown): void {
-  store.set(key, { result, createdAt: Date.now() });
+export async function setIdempotentResult(key: string, result: unknown): Promise<void> {
+  await prisma.idempotencyKey.upsert({
+    where: { key },
+    update: { result: result as object, expiresAt: new Date(Date.now() + TTL_MS) },
+    create: {
+      key,
+      result: result as object,
+      expiresAt: new Date(Date.now() + TTL_MS),
+    },
+  });
+}
+
+/**
+ * Remove expired idempotency keys. Call periodically (e.g. via cron).
+ */
+export async function cleanupExpiredKeys(): Promise<number> {
+  const { count } = await prisma.idempotencyKey.deleteMany({
+    where: { expiresAt: { lt: new Date() } },
+  });
+  return count;
 }
