@@ -59,6 +59,16 @@ export default function FAQSection() {
           ))}
         </div>
 
+        <div className="mt-10 text-center">
+          <a
+            href="/faq"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-700 text-white text-sm font-semibold rounded-xl hover:bg-blue-800 transition-colors"
+          >
+            Alle Fragen & Antworten anzeigen
+            <ChevronDown className="w-4 h-4 -rotate-90" />
+          </a>
+        </div>
+
         {/* Legal disclaimer */}
         <div className="mt-12 bg-gray-50 rounded-2xl p-8 border border-gray-200">
           <h3 className="text-lg font-bold text-gray-900 mb-3">
