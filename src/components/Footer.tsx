@@ -59,6 +59,14 @@ export default function Footer() {
                   {t("nav.faq")}
                 </a>
               </li>
+              <li>
+                <a
+                  href="/faq"
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  Alle Fragen & Antworten
+                </a>
+              </li>
             </ul>
           </div>
 

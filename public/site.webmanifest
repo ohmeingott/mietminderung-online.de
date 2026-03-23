@@ -1,0 +1,16 @@
+{
+  "name": "Mietminderung Online",
+  "short_name": "Mietminderung",
+  "description": "Kostenlos prüfen ob Sie Anspruch auf Mietminderung haben",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

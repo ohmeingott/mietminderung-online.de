@@ -1,0 +1,8 @@
+# https://mietminderung.online robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://mietminderung.online/sitemap.xml
