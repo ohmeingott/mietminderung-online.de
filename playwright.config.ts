@@ -46,9 +46,12 @@ export default defineConfig({
   ],
 
   webServer: {
-    // Always build fresh and start our own server. Reusing a leftover server
-    // silently tests a stale build, which is worse than the few seconds saved.
-    command: `npm run build && npm run start -- --port ${PORT}`,
+    // Always start our own server. Reusing a leftover one silently tests a
+    // stale build, which is worse than the few seconds saved. CI builds in its
+    // own step so failures are attributed correctly; locally we build here.
+    command: process.env.CI
+      ? `npm run start -- --port ${PORT}`
+      : `npm run build && npm run start -- --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: false,
     timeout: 180_000,
