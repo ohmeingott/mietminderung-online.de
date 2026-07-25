@@ -1,54 +1,57 @@
 "use client";
 
-import { FileText, ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, FileText } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function MaengelanzeigeTeaser() {
   const { t } = useTranslation();
 
+  const features = [
+    t("teaser.feat1"),
+    t("teaser.feat2"),
+    t("teaser.feat3"),
+    t("teaser.feat4"),
+    t("teaser.feat5"),
+  ];
+
   return (
-    <section id="maengelanzeige" className="py-20 bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-12 text-center">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-100 mb-6">
-            <FileText className="w-10 h-10 text-emerald-600" />
+    <section
+      id="maengelanzeige"
+      className="border-y border-ink-200 bg-paper-sunken py-16 sm:py-24"
+    >
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-6 text-center shadow-[var(--shadow-raise)] sm:p-10">
+          <div className="mx-auto mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-signal-50">
+            <FileText className="h-8 w-8 text-signal-600" aria-hidden />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
             {t("teaser.title")}
           </h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-xl mx-auto">
+          <p className="mx-auto mt-3 max-w-xl text-base text-ink-600 sm:text-lg">
             {t("teaser.desc")}
           </p>
 
-          <div className="space-y-4 text-left max-w-md mx-auto mb-8">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-gray-700">{t("teaser.feat1")}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-gray-700">{t("teaser.feat2")}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-gray-700">{t("teaser.feat3")}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-gray-700">{t("teaser.feat4")}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-gray-700">{t("teaser.feat5")}</span>
-            </div>
-          </div>
+          <ul className="mx-auto mt-7 max-w-sm space-y-3 text-start">
+            {features.map((feature) => (
+              <li key={feature} className="flex items-start gap-3">
+                <CheckCircle2
+                  className="mt-0.5 h-5 w-5 shrink-0 text-signal-600"
+                  aria-hidden
+                />
+                <span className="text-sm text-ink-700 sm:text-base">{feature}</span>
+              </li>
+            ))}
+          </ul>
 
           <a
             href="#pruefung"
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-blue-700 text-white text-lg font-semibold rounded-xl hover:bg-blue-800 transition-all shadow-lg shadow-blue-700/25"
+            className="group mt-8 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2.5 rounded-full bg-brand-700 px-7 text-base font-semibold text-white shadow-[var(--shadow-raise)] transition-colors hover:bg-brand-800 sm:w-auto"
           >
             {t("teaser.cta")}
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight
+              className="h-4.5 w-4.5 transition-transform group-hover:translate-x-0.5 rtl:rotate-180"
+              aria-hidden
+            />
           </a>
         </div>
       </div>

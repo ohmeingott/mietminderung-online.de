@@ -27,33 +27,37 @@ export default function Home() {
 
   const handleCheckComplete = (result: CheckResult) => {
     setCheckResult(result);
-    // Scroll to Mängelanzeige section
+    // Wait a tick so the letter wizard is mounted before scrolling to it.
     setTimeout(() => {
-      maengelanzeigeRef.current?.scrollIntoView({ behavior: "smooth" });
+      maengelanzeigeRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
   };
 
   return (
     <div className="min-h-screen">
       <Header />
-      <Hero />
-      <HowItWorks />
-      <MietminderungCheck onComplete={handleCheckComplete} />
 
-      <div ref={maengelanzeigeRef} style={{ scrollMarginTop: "6rem" }}>
-        {checkResult && checkResult.eligible ? (
-          <Maengelanzeige
-            selectedMaengel={checkResult.selectedMaengel}
-            bruttowarmmiete={checkResult.bruttowarmmiete}
-            minderungsquote={checkResult.totalMinderungTypical}
-          />
-        ) : (
-          <MaengelanzeigeTeaser />
-        )}
-      </div>
+      <main>
+        <Hero />
+        <HowItWorks />
+        <MietminderungCheck onComplete={handleCheckComplete} />
 
-      <InfoSection />
-      <FAQSection />
+        <div ref={maengelanzeigeRef} className="scroll-mt-20">
+          {checkResult?.eligible ? (
+            <Maengelanzeige
+              selectedMaengel={checkResult.selectedMaengel}
+              bruttowarmmiete={checkResult.bruttowarmmiete}
+              minderungsquote={checkResult.totalMinderungTypical}
+            />
+          ) : (
+            <MaengelanzeigeTeaser />
+          )}
+        </div>
+
+        <InfoSection />
+        <FAQSection />
+      </main>
+
       <Footer />
     </div>
   );

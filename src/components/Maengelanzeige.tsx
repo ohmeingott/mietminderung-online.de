@@ -1,27 +1,32 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
-  FileText,
-  ArrowRight,
-  ArrowLeft,
-  Download,
-  Send,
-  CheckCircle,
-  Pen,
-  Trash2,
   AlertTriangle,
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  CheckCircle2,
   Copy,
+  Download,
+  FileText,
   Info,
+  Pen,
+  Send,
+  Trash2,
 } from "lucide-react";
 import SignaturePad from "signature_pad";
 import type { Mangel } from "@/data/maengel";
-import {
-  generatePdf,
-  generatePdfBase64,
-  type BriefData,
-} from "@/lib/generatePdf";
+import { generatePdf, generatePdfBase64 } from "@/lib/generatePdf";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { mangelDescKey, mangelLabelKey } from "@/i18n/content";
+
+/**
+ * Paid postal dispatch is opt-in. It stays hidden until a checkout flow and the
+ * Widerrufsbelehrung for paid services exist — see LAUNCH_CHECKLIST.md.
+ */
+const POST_VERSAND_ENABLED =
+  process.env.NEXT_PUBLIC_ENABLE_POST_VERSAND === "true";
 
 interface MaengelanzeigeProps {
   selectedMaengel: Mangel[];
@@ -53,12 +58,18 @@ interface MangelDetails {
   raum: string;
 }
 
+const TOTAL_STEPS = 5;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+const inputClasses =
+  "w-full min-h-[3rem] rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 py-3 text-ink-900 transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:outline-none";
+
 export default function Maengelanzeige({
   selectedMaengel,
   bruttowarmmiete,
   minderungsquote,
 }: MaengelanzeigeProps) {
-  const [step, setStep] = useState(0); // 0=mieter, 1=vermieter, 2=details, 3=preview, 4=delivery
+  const [step, setStep] = useState(0); // 0=mieter 1=vermieter 2=details 3=preview 4=delivery
   const [mieter, setMieter] = useState<MieterDaten>({
     name: "",
     strasse: "",
@@ -82,8 +93,10 @@ export default function Maengelanzeige({
       raum: "",
     }))
   );
-  const [signatureData, setSignatureData] = useState<string>("");
-  const [deliveryMethod, setDeliveryMethod] = useState<"download" | "post" | null>(null);
+  const [signatureData, setSignatureData] = useState("");
+  const [deliveryMethod, setDeliveryMethod] = useState<"download" | "post" | null>(
+    POST_VERSAND_ENABLED ? null : "download"
+  );
   const [copied, setCopied] = useState(false);
   const [postSending, setPostSending] = useState(false);
   const [postSent, setPostSent] = useState(false);
@@ -94,69 +107,40 @@ export default function Maengelanzeige({
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const signaturePadRef = useRef<SignaturePad | null>(null);
-  const { t, locale } = useTranslation();
+  const { t, tc, locale } = useTranslation();
 
-  useEffect(() => {
-    if (step === 3) {
-      setEditedBriefText(generateBriefText());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
+  const mangelLabel = (m: Mangel) => tc(mangelLabelKey(m.id), m.label);
 
-  useEffect(() => {
-    if (step === 3 && canvasRef.current && !signaturePadRef.current) {
-      signaturePadRef.current = new SignaturePad(canvasRef.current, {
-        backgroundColor: "rgb(255, 255, 255)",
-        penColor: "rgb(0, 0, 0)",
-      });
-    }
-  }, [step]);
+  const formatDate = (d: Date) =>
+    d.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
 
-  const clearSignature = () => {
-    signaturePadRef.current?.clear();
-    setSignatureData("");
-  };
-
-  const saveSignature = () => {
-    if (signaturePadRef.current && !signaturePadRef.current.isEmpty()) {
-      setSignatureData(signaturePadRef.current.toDataURL());
-    }
-  };
+  const heuteDatum = () => formatDate(new Date());
 
   const fristDatum = () => {
     const d = new Date();
     d.setDate(d.getDate() + 14);
-    return d.toLocaleDateString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
+    return formatDate(d);
   };
 
-  const heuteDatum = () => {
-    return new Date().toLocaleDateString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };
+  const aktuellerMonat = () =>
+    new Date().toLocaleDateString("de-DE", { month: "long", year: "numeric" });
 
-  const aktuellerMonat = () => {
-    return new Date().toLocaleDateString("de-DE", {
-      month: "long",
-      year: "numeric",
-    });
-  };
-
-  const generateBriefText = () => {
+  /**
+   * The letter itself is always German — it is addressed to a German landlord
+   * and quotes the BGB. Only the surrounding UI is translated.
+   */
+  const generateBriefText = useCallback(() => {
     const mangelTexte = selectedMaengel
       .map((m, i) => {
         const details = mangelDetails[i];
         let text = `${i + 1}. ${m.label}`;
         if (details?.raum) text += ` (Raum: ${details.raum})`;
         if (details?.seit) text += ` — besteht seit ${details.seit}`;
-        if (details?.beschreibung)
-          text += `\n   ${details.beschreibung}`;
+        if (details?.beschreibung) text += `\n   ${details.beschreibung}`;
         return text;
       })
       .join("\n\n");
@@ -171,7 +155,9 @@ ${vermieter.plz} ${vermieter.ort}
 
 ${mieter.ort}, den ${heuteDatum()}
 
-Betreff: Mängelanzeige — Wohnung ${mieter.strasse}, ${mieter.plz} ${mieter.ort}${mieter.wohnungNr ? `, Wohnung ${mieter.wohnungNr}` : ""}
+Betreff: Mängelanzeige — Wohnung ${mieter.strasse}, ${mieter.plz} ${mieter.ort}${
+      mieter.wohnungNr ? `, Wohnung ${mieter.wohnungNr}` : ""
+    }
 
 Sehr geehrte/r ${vermieter.name},
 
@@ -190,6 +176,76 @@ Termine zur Mängelbeseitigung können Sie gerne mit mir telefonisch vereinbaren
 Mit freundlichen Grüßen
 
 ${mieter.name}`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedMaengel, mangelDetails, mieter, vermieter]);
+
+  useEffect(() => {
+    if (step === 3) setEditedBriefText(generateBriefText());
+    // Regenerating on every keystroke would discard the user's manual edits,
+    // so this intentionally only runs when the preview step is entered.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
+  // Signature pad: size the backing store to the device pixel ratio, otherwise
+  // strokes are blurry and land in the wrong place on phones.
+  useEffect(() => {
+    if (step !== 3) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const pad = new SignaturePad(canvas, {
+      backgroundColor: "rgb(255, 255, 255)",
+      penColor: "rgb(17, 17, 17)",
+      minWidth: 0.8,
+      maxWidth: 2.2,
+    });
+    signaturePadRef.current = pad;
+
+    // Resizing the canvas wipes it, so only do it when the size really changed.
+    // Mobile browsers fire resize events when the URL bar collapses — without
+    // this guard a finished signature would vanish mid-scroll.
+    let lastWidth = 0;
+    let lastHeight = 0;
+
+    const resize = () => {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      const { width, height } = canvas.getBoundingClientRect();
+      if (!width || !height) return;
+      if (
+        Math.abs(width - lastWidth) < 1 &&
+        Math.abs(height - lastHeight) < 1
+      ) {
+        return;
+      }
+      lastWidth = width;
+      lastHeight = height;
+
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      canvas.getContext("2d")?.scale(ratio, ratio);
+      pad.clear();
+      setSignatureData("");
+    };
+
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(canvas);
+
+    return () => {
+      observer.disconnect();
+      pad.off();
+      signaturePadRef.current = null;
+    };
+  }, [step]);
+
+  const clearSignature = () => {
+    signaturePadRef.current?.clear();
+    setSignatureData("");
+  };
+
+  const saveSignature = () => {
+    const pad = signaturePadRef.current;
+    if (pad && !pad.isEmpty()) setSignatureData(pad.toDataURL());
   };
 
   const enhanceBeschreibungen = async () => {
@@ -208,62 +264,54 @@ ${mieter.name}`;
         }),
       });
       const data = await res.json();
-      if (data.beschreibungen && Array.isArray(data.beschreibungen) && data.beschreibungen.length === mangelDetails.length) {
-        const updated = mangelDetails.map((d, i) => ({
-          ...d,
-          beschreibung: data.beschreibungen[i] || d.beschreibung,
-        }));
-        setMangelDetails(updated);
+      if (
+        Array.isArray(data.beschreibungen) &&
+        data.beschreibungen.length === mangelDetails.length
+      ) {
+        setMangelDetails(
+          mangelDetails.map((d, i) => ({
+            ...d,
+            beschreibung: data.beschreibungen[i] || d.beschreibung,
+          }))
+        );
       }
     } catch {
-      // Silently fall back to original descriptions
+      // Never block the letter on an AI failure — keep the user's own wording.
     } finally {
       setEnhancing(false);
       setStep(3);
     }
   };
 
-  const getBriefData = (): BriefData => ({
-    mieterName: mieter.name,
-    mieterStrasse: mieter.strasse,
-    mieterPlz: mieter.plz,
-    mieterOrt: mieter.ort,
-    mieterTelefon: mieter.telefon,
-    mieterEmail: mieter.email,
-    mieterWohnungNr: mieter.wohnungNr,
-    vermieterName: vermieter.name,
-    vermieterStrasse: vermieter.strasse,
-    vermieterPlz: vermieter.plz,
-    vermieterOrt: vermieter.ort,
-    maengel: selectedMaengel.map((m, i) => ({
-      label: m.label,
-      raum: mangelDetails[i]?.raum || "",
-      seit: mangelDetails[i]?.seit || "",
-      beschreibung: mangelDetails[i]?.beschreibung || "",
-    })),
+  /** What the user reviewed, plus their signature — nothing rebuilt. */
+  const letterPdfOptions = () => ({
+    text: editedBriefText,
     signatureDataUrl: signatureData || undefined,
   });
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(editedBriefText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const fileBase = `Maengelanzeige_${mieter.name.replace(/\s+/g, "_") || "Mieter"}_${heuteDatum().replace(/\./g, "-")}`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(editedBriefText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard blocked (insecure context / permission) — the textarea above
+      // is still selectable, so there is nothing to recover from.
+    }
   };
 
   const handleDownloadPdf = () => {
-    const doc = generatePdf(getBriefData());
-    doc.save(
-      `Maengelanzeige_${mieter.name.replace(/\s+/g, "_")}_${heuteDatum().replace(/\./g, "-")}.pdf`
-    );
+    generatePdf(letterPdfOptions()).save(`${fileBase}.pdf`);
   };
 
   const handleDownloadTxt = () => {
-    const text = editedBriefText;
-    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([editedBriefText], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Maengelanzeige_${mieter.name.replace(/\s+/g, "_")}_${heuteDatum().replace(/\./g, "-")}.txt`;
+    a.download = `${fileBase}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -274,30 +322,23 @@ ${mieter.name}`;
     setPostSending(true);
     setPostError("");
     try {
-      const pdfBase64 = generatePdfBase64(getBriefData());
       const res = await fetch("/api/send-letter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          pdfBase64,
+          pdfBase64: generatePdfBase64(letterPdfOptions()),
           notificationEmail: mieter.email || "",
         }),
       });
       const data = await res.json();
-      if (!res.ok) {
-        setPostError(data.error || "Brief konnte nicht versendet werden.");
-      } else {
-        setPostSent(true);
-      }
+      if (!res.ok) setPostError(data.error || t("letter.postFailed"));
+      else setPostSent(true);
     } catch {
-      setPostError("Netzwerkfehler. Bitte versuchen Sie es erneut.");
+      setPostError(t("letter.networkError"));
     } finally {
       setPostSending(false);
     }
   };
-
-  const inputClasses =
-    "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none text-gray-900 placeholder:text-gray-400";
 
   const stepLabels = [
     t("letter.step.data"),
@@ -307,182 +348,198 @@ ${mieter.name}`;
     t("letter.step.send"),
   ];
 
+  const mieterValid =
+    Boolean(mieter.name && mieter.strasse && mieter.plz && mieter.ort) &&
+    EMAIL_PATTERN.test(mieter.email);
+  const vermieterValid = Boolean(
+    vermieter.name && vermieter.strasse && vermieter.plz && vermieter.ort
+  );
+
+  const backButton = (target: number, label = t("check.back")) => (
+    <button
+      type="button"
+      data-testid="letter-back"
+      onClick={() => setStep(target)}
+      className="inline-flex min-h-[3rem] items-center gap-2 text-sm text-ink-500 transition-colors hover:text-ink-800"
+    >
+      <ArrowLeft className="h-4 w-4 rtl:rotate-180" aria-hidden />
+      {label}
+    </button>
+  );
+
+  /**
+   * `name` is a stable, language-independent identifier used for the DOM id and
+   * the test id, so selectors keep working when the labels are translated.
+   */
+  const field = (
+    name: string,
+    label: string,
+    value: string,
+    onChange: (v: string) => void,
+    opts: {
+      required?: boolean;
+      placeholder?: string;
+      type?: string;
+      inputMode?: "text" | "numeric" | "tel" | "email";
+      maxLength?: number;
+      autoComplete?: string;
+    } = {}
+  ) => {
+    return (
+      <div>
+        <label htmlFor={name} className="mb-1.5 block text-sm font-medium text-ink-700">
+          {label}
+          {opts.required && <span className="text-alert-600"> *</span>}
+        </label>
+        <input
+          id={name}
+          data-testid={name}
+          type={opts.type || "text"}
+          inputMode={opts.inputMode}
+          maxLength={opts.maxLength}
+          autoComplete={opts.autoComplete}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={opts.placeholder}
+          required={opts.required}
+          className={inputClasses}
+        />
+      </div>
+    );
+  };
+
   return (
-    <section id="maengelanzeige" className="py-20 bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+    <section id="maengelanzeige" className="border-y border-ink-200 bg-paper-sunken py-16 sm:py-24">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-ink-900 sm:text-4xl">
             {t("letter.title")}
           </h2>
-          <p className="mt-4 text-lg text-gray-600">
-            {t("letter.subtitle")}
-          </p>
+          <p className="mt-3 text-base text-ink-600 sm:text-lg">{t("letter.subtitle")}</p>
         </div>
 
-        {/* Step indicator */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          {stepLabels.map(
-            (label, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                    i <= step
-                      ? "bg-blue-700 text-white"
-                      : "bg-gray-200 text-gray-500"
+        {/* Step indicator — dots + current label on mobile, full rail from sm up */}
+        <div className="mt-8 sm:mt-10">
+          <div className="flex items-center justify-center gap-1.5 sm:hidden">
+            {stepLabels.map((label, i) => (
+              <span
+                key={label}
+                className={`h-1.5 rounded-full transition-all ${
+                  i === step
+                    ? "w-6 bg-brand-600"
+                    : i < step
+                      ? "w-1.5 bg-brand-400"
+                      : "w-1.5 bg-ink-200"
+                }`}
+              />
+            ))}
+          </div>
+          <p className="mt-2.5 text-center text-sm font-medium text-ink-600 sm:hidden">
+            {t("check.step")} {step + 1} {t("check.of")} {TOTAL_STEPS} — {stepLabels[step]}
+          </p>
+
+          <ol className="hidden items-center justify-center sm:flex">
+            {stepLabels.map((label, i) => (
+              <li key={label} className="flex items-center">
+                <span
+                  className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
+                    i <= step ? "bg-brand-700 text-white" : "bg-ink-200 text-ink-500"
                   }`}
                 >
-                  {i < step ? (
-                    <CheckCircle className="w-4 h-4" />
-                  ) : (
-                    i + 1
-                  )}
-                </div>
+                  {i < step ? <Check className="h-4 w-4" aria-hidden /> : i + 1}
+                </span>
                 <span
-                  className={`hidden sm:inline text-xs font-medium ${
-                    i <= step ? "text-blue-700" : "text-gray-400"
+                  className={`ms-2 text-xs font-medium ${
+                    i <= step ? "text-brand-700" : "text-ink-400"
                   }`}
                 >
                   {label}
                 </span>
-                {i < 4 && (
-                  <div
-                    className={`w-6 sm:w-10 h-0.5 ${
-                      i < step ? "bg-blue-600" : "bg-gray-200"
-                    }`}
+                {i < TOTAL_STEPS - 1 && (
+                  <span
+                    className={`mx-3 h-px w-6 ${i < step ? "bg-brand-500" : "bg-ink-200"}`}
+                    aria-hidden
                   />
                 )}
-              </div>
-            )
-          )}
+              </li>
+            ))}
+          </ol>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-12">
-          {/* Step 0: Mieter data */}
+        <div className="mt-6 rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-5 shadow-[var(--shadow-raise)] sm:p-10">
+          {/* ------------------------------------------------ step 0: tenant */}
           {step === 0 && (
-            <div className="animate-fade-in-up max-w-lg mx-auto">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">
+            <div className="animate-fade-in-up mx-auto max-w-md">
+              <h3 className="mb-6 text-lg font-bold text-ink-900 sm:text-xl">
                 {t("letter.yourData")}
               </h3>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("letter.name")} *
-                  </label>
-                  <input
-                    type="text"
-                    value={mieter.name}
-                    onChange={(e) =>
-                      setMieter({ ...mieter, name: e.target.value })
-                    }
-                    placeholder="Max Mustermann"
-                    className={inputClasses}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("letter.street")} *
-                  </label>
-                  <input
-                    type="text"
-                    value={mieter.strasse}
-                    onChange={(e) =>
-                      setMieter({ ...mieter, strasse: e.target.value })
-                    }
-                    placeholder="Musterstraße 10"
-                    className={inputClasses}
-                  />
-                </div>
+                {field("mieter-name", t("letter.name"), mieter.name, (v) => setMieter({ ...mieter, name: v }), {
+                  required: true,
+                  placeholder: "Max Mustermann",
+                  autoComplete: "name",
+                })}
+                {field(
+                  "mieter-strasse",
+                  t("letter.street"),
+                  mieter.strasse,
+                  (v) => setMieter({ ...mieter, strasse: v }),
+                  { required: true, placeholder: "Musterstraße 10", autoComplete: "street-address" }
+                )}
                 <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {t("letter.zip")} *
-                    </label>
-                    <input
-                      type="text"
-                      value={mieter.plz}
-                      onChange={(e) =>
-                        setMieter({ ...mieter, plz: e.target.value })
-                      }
-                      placeholder="12345"
-                      maxLength={5}
-                      className={inputClasses}
-                    />
+                  <div className="col-span-1">
+                    {field("mieter-plz", t("letter.zip"), mieter.plz, (v) => setMieter({ ...mieter, plz: v }), {
+                      required: true,
+                      placeholder: "12345",
+                      inputMode: "numeric",
+                      maxLength: 5,
+                      autoComplete: "postal-code",
+                    })}
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {t("letter.city")} *
-                    </label>
-                    <input
-                      type="text"
-                      value={mieter.ort}
-                      onChange={(e) =>
-                        setMieter({ ...mieter, ort: e.target.value })
-                      }
-                      placeholder="Berlin"
-                      className={inputClasses}
-                    />
+                    {field("mieter-ort", t("letter.city"), mieter.ort, (v) => setMieter({ ...mieter, ort: v }), {
+                      required: true,
+                      placeholder: "Berlin",
+                      autoComplete: "address-level2",
+                    })}
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("letter.aptNr")}
-                  </label>
-                  <input
-                    type="text"
-                    value={mieter.wohnungNr}
-                    onChange={(e) =>
-                      setMieter({ ...mieter, wohnungNr: e.target.value })
-                    }
-                    placeholder="z.B. 3. OG links"
-                    className={inputClasses}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("letter.phone")}
-                  </label>
-                  <input
-                    type="tel"
-                    value={mieter.telefon}
-                    onChange={(e) =>
-                      setMieter({ ...mieter, telefon: e.target.value })
-                    }
-                    placeholder="0176 12345678"
-                    className={inputClasses}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("letter.email")} *
-                  </label>
-                  <input
-                    type="email"
-                    value={mieter.email}
-                    onChange={(e) =>
-                      setMieter({ ...mieter, email: e.target.value })
-                    }
-                    placeholder="max@beispiel.de"
-                    className={inputClasses}
-                  />
-                </div>
+                {field(
+                  "mieter-wohnung",
+                  t("letter.aptNr"),
+                  mieter.wohnungNr,
+                  (v) => setMieter({ ...mieter, wohnungNr: v }),
+                  { placeholder: "z.B. 3. OG links" }
+                )}
+                {field(
+                  "mieter-telefon",
+                  t("letter.phone"),
+                  mieter.telefon,
+                  (v) => setMieter({ ...mieter, telefon: v }),
+                  { type: "tel", inputMode: "tel", placeholder: "0176 12345678", autoComplete: "tel" }
+                )}
+                {field("mieter-email", t("letter.email"), mieter.email, (v) => setMieter({ ...mieter, email: v }), {
+                  required: true,
+                  type: "email",
+                  inputMode: "email",
+                  placeholder: "max@beispiel.de",
+                  autoComplete: "email",
+                })}
               </div>
 
-              <div className="mt-6">
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={emailOptIn}
-                    onChange={(e) => setEmailOptIn(e.target.checked)}
-                    className="mt-1 w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
-                  <span className="text-sm text-gray-600">
-                    {t("letter.emailOptIn")}
-                  </span>
-                </label>
-              </div>
+              <label className="mt-6 flex cursor-pointer items-start gap-3">
+                <input
+                  type="checkbox"
+                  checked={emailOptIn}
+                  onChange={(e) => setEmailOptIn(e.target.checked)}
+                  className="mt-0.5 h-5 w-5 shrink-0 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
+                />
+                <span className="text-sm text-ink-600">{t("letter.emailOptIn")}</span>
+              </label>
 
-              <div className="mt-6 flex justify-end">
+              <div className="mt-7 flex justify-end">
                 <button
+                  type="button"
                   onClick={() => {
                     if (emailOptIn) {
                       fetch("/api/save-email", {
@@ -493,192 +550,145 @@ ${mieter.name}`;
                     }
                     setStep(1);
                   }}
-                  disabled={!mieter.name || !mieter.strasse || !mieter.plz || !mieter.ort || !mieter.email}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  data-testid="letter-next"
+                  disabled={!mieterValid}
+                  className="inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
                 >
                   {t("check.next")}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
                 </button>
               </div>
             </div>
           )}
 
-          {/* Step 1: Vermieter data */}
+          {/* ---------------------------------------------- step 1: landlord */}
           {step === 1 && (
-            <div className="animate-fade-in-up max-w-lg mx-auto">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">
+            <div className="animate-fade-in-up mx-auto max-w-md">
+              <h3 className="mb-6 text-lg font-bold text-ink-900 sm:text-xl">
                 {t("letter.landlordData")}
               </h3>
               <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("letter.landlordName")} *
-                  </label>
-                  <input
-                    type="text"
-                    value={vermieter.name}
-                    onChange={(e) =>
-                      setVermieter({ ...vermieter, name: e.target.value })
-                    }
-                    placeholder="Frau/Herr Vermieter oder Hausverwaltung GmbH"
-                    className={inputClasses}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t("letter.street")} *
-                  </label>
-                  <input
-                    type="text"
-                    value={vermieter.strasse}
-                    onChange={(e) =>
-                      setVermieter({ ...vermieter, strasse: e.target.value })
-                    }
-                    placeholder="Vermieterstraße 5"
-                    className={inputClasses}
-                  />
-                </div>
+                {field(
+                  "vermieter-name",
+                  t("letter.landlordName"),
+                  vermieter.name,
+                  (v) => setVermieter({ ...vermieter, name: v }),
+                  { required: true, placeholder: "Hausverwaltung GmbH" }
+                )}
+                {field(
+                  "vermieter-strasse",
+                  t("letter.street"),
+                  vermieter.strasse,
+                  (v) => setVermieter({ ...vermieter, strasse: v }),
+                  { required: true, placeholder: "Vermieterstraße 5" }
+                )}
                 <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {t("letter.zip")} *
-                    </label>
-                    <input
-                      type="text"
-                      value={vermieter.plz}
-                      onChange={(e) =>
-                        setVermieter({ ...vermieter, plz: e.target.value })
-                      }
-                      placeholder="12345"
-                      maxLength={5}
-                      className={inputClasses}
-                    />
+                  <div className="col-span-1">
+                    {field(
+                      "vermieter-plz",
+                      t("letter.zip"),
+                      vermieter.plz,
+                      (v) => setVermieter({ ...vermieter, plz: v }),
+                      { required: true, placeholder: "12345", inputMode: "numeric", maxLength: 5 }
+                    )}
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {t("letter.city")} *
-                    </label>
-                    <input
-                      type="text"
-                      value={vermieter.ort}
-                      onChange={(e) =>
-                        setVermieter({ ...vermieter, ort: e.target.value })
-                      }
-                      placeholder="Berlin"
-                      className={inputClasses}
-                    />
+                    {field(
+                      "vermieter-ort",
+                      t("letter.city"),
+                      vermieter.ort,
+                      (v) => setVermieter({ ...vermieter, ort: v }),
+                      { required: true, placeholder: "Berlin" }
+                    )}
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 flex items-center justify-between">
+              <div className="mt-7 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+                {backButton(0)}
                 <button
-                  onClick={() => setStep(0)}
-                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  {t("check.back")}
-                </button>
-                <button
+                  type="button"
+                  data-testid="letter-next"
                   onClick={() => setStep(2)}
-                  disabled={
-                    !vermieter.name ||
-                    !vermieter.strasse ||
-                    !vermieter.plz ||
-                    !vermieter.ort
-                  }
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  disabled={!vermieterValid}
+                  className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   {t("check.next")}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
                 </button>
               </div>
             </div>
           )}
 
-          {/* Step 2: Mangel details */}
+          {/* ----------------------------------------------- step 2: details */}
           {step === 2 && (
             <div className="animate-fade-in-up">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
                 {t("letter.describeDefects")}
               </h3>
-              <p className="text-gray-500 mb-2">
-                {t("letter.describeHint")}
-              </p>
+              <p className="mt-1.5 text-sm text-ink-500">{t("letter.describeHint")}</p>
+
               {locale !== "de" && (
-                <div className="mb-6 flex items-start gap-2 bg-blue-50 border border-blue-200 rounded-lg p-3">
-                  <Info className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-                  <p className="text-sm text-blue-800">
-                    {t("letter.nativeHint")}
-                  </p>
+                <div className="mt-4 flex items-start gap-2.5 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-3.5">
+                  <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden />
+                  <p className="text-sm text-brand-800">{t("letter.nativeHint")}</p>
                 </div>
               )}
 
-              <div className="space-y-6">
+              <div className="mt-6 space-y-4">
                 {selectedMaengel.map((mangel, i) => (
                   <div
                     key={mangel.id}
-                    className="p-6 border-2 border-gray-200 rounded-xl"
+                    className="rounded-[var(--radius-field)] border border-ink-200 p-4 sm:p-5"
                   >
-                    <h4 className="font-semibold text-gray-800 mb-4">
-                      {i + 1}. {mangel.label}
+                    <h4 className="font-semibold text-ink-900">
+                      {i + 1}. {mangelLabel(mangel)}
                     </h4>
-                    <div className="space-y-3">
+                    {locale !== "de" && (
+                      <p className="mt-0.5 text-xs text-ink-400">{mangel.label}</p>
+                    )}
+                    <div className="mt-4 space-y-3">
+                      {field(
+                        `detail-raum-${i}`,
+                        t("letter.whichRoom"),
+                        mangelDetails[i]?.raum || "",
+                        (v) => {
+                          const updated = [...mangelDetails];
+                          updated[i] = { ...updated[i], raum: v };
+                          setMangelDetails(updated);
+                        },
+                        { placeholder: "z.B. Schlafzimmer, Küche, Badezimmer" }
+                      )}
+                      {field(
+                        `detail-seit-${i}`,
+                        t("letter.sincewhen"),
+                        mangelDetails[i]?.seit || "",
+                        (v) => {
+                          const updated = [...mangelDetails];
+                          updated[i] = { ...updated[i], seit: v };
+                          setMangelDetails(updated);
+                        },
+                        { placeholder: "z.B. seit dem 15.01.2026" }
+                      )}
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          {t("letter.whichRoom")}
-                        </label>
-                        <input
-                          type="text"
-                          value={mangelDetails[i]?.raum || ""}
-                          onChange={(e) => {
-                            const updated = [...mangelDetails];
-                            updated[i] = {
-                              ...updated[i],
-                              raum: e.target.value,
-                            };
-                            setMangelDetails(updated);
-                          }}
-                          placeholder="z.B. Schlafzimmer, Küche, Badezimmer"
-                          className={inputClasses}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          {t("letter.sincewhen")}
-                        </label>
-                        <input
-                          type="text"
-                          value={mangelDetails[i]?.seit || ""}
-                          onChange={(e) => {
-                            const updated = [...mangelDetails];
-                            updated[i] = {
-                              ...updated[i],
-                              seit: e.target.value,
-                            };
-                            setMangelDetails(updated);
-                          }}
-                          placeholder="z.B. seit dem 15.01.2026"
-                          className={inputClasses}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label
+                          htmlFor={`desc-${mangel.id}`}
+                          className="mb-1.5 block text-sm font-medium text-ink-700"
+                        >
                           {t("letter.detailDesc")}
                         </label>
                         <textarea
+                          id={`desc-${mangel.id}`}
+                          data-testid={`detail-beschreibung-${i}`}
                           value={mangelDetails[i]?.beschreibung || ""}
                           onChange={(e) => {
                             const updated = [...mangelDetails];
-                            updated[i] = {
-                              ...updated[i],
-                              beschreibung: e.target.value,
-                            };
+                            updated[i] = { ...updated[i], beschreibung: e.target.value };
                             setMangelDetails(updated);
                           }}
-                          placeholder={`${mangel.description}`}
+                          placeholder={tc(mangelDescKey(mangel.id), mangel.description)}
                           rows={4}
-                          className={inputClasses}
+                          className={`${inputClasses} resize-y`}
                         />
                       </div>
                     </div>
@@ -686,28 +696,27 @@ ${mieter.name}`;
                 ))}
               </div>
 
-              <div className="mt-8 flex items-center justify-between">
+              <div className="mt-7 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+                {backButton(1)}
                 <button
-                  onClick={() => setStep(1)}
-                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  {t("check.back")}
-                </button>
-                <button
+                  type="button"
+                  data-testid="letter-preview"
                   onClick={enhanceBeschreibungen}
                   disabled={enhancing}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors disabled:opacity-60"
+                  className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800 disabled:opacity-60"
                 >
                   {enhancing ? (
                     <>
-                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span
+                        className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+                        aria-hidden
+                      />
                       {t("letter.creating")}
                     </>
                   ) : (
                     <>
                       {t("letter.showPreview")}
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
                     </>
                   )}
                 </button>
@@ -715,224 +724,242 @@ ${mieter.name}`;
             </div>
           )}
 
-          {/* Step 3: Preview & Signature */}
+          {/* --------------------------------------- step 3: preview + signature */}
           {step === 3 && (
             <div className="animate-fade-in-up">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
                 {t("letter.previewTitle")}
               </h3>
-              <p className="text-sm text-gray-500 mb-6">
-                {t("letter.editHint")}
-              </p>
+              <p className="mt-1.5 text-sm text-ink-500">{t("letter.editHint")}</p>
 
-              {/* Letter preview — editable */}
+              <label htmlFor="brieftext" className="sr-only">
+                {t("letter.previewTitle")}
+              </label>
               <textarea
+                id="brieftext"
+                data-testid="brieftext"
+                dir="ltr"
                 value={editedBriefText}
                 onChange={(e) => setEditedBriefText(e.target.value)}
-                className="w-full bg-white rounded-xl p-6 sm:p-8 mb-6 border-2 border-gray-200 focus:border-blue-500 focus:outline-none font-mono text-sm leading-relaxed text-gray-800 resize-y min-h-[400px]"
+                className="mt-5 min-h-[24rem] w-full resize-y rounded-[var(--radius-field)] border border-ink-200 bg-paper-raised p-4 text-start font-mono text-[0.8125rem] leading-relaxed text-ink-800 transition-colors focus:border-brand-500 focus:outline-none sm:p-6 sm:text-sm"
                 rows={22}
               />
 
-              {/* Signature */}
-              <div className="mb-6">
-                <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                  <Pen className="w-4 h-4" />
+              <div className="mt-6">
+                <h4 className="mb-3 flex items-center gap-2 font-semibold text-ink-800">
+                  <Pen className="h-4 w-4" aria-hidden />
                   {t("letter.signature")}
                 </h4>
-                <div className="border-2 border-gray-300 rounded-xl overflow-hidden bg-white">
+                <div className="overflow-hidden rounded-[var(--radius-field)] border border-ink-300 bg-white">
                   <canvas
                     ref={canvasRef}
-                    width={600}
-                    height={200}
-                    className="signature-canvas w-full h-[150px]"
+                    className="signature-canvas h-[150px] w-full touch-none"
+                    aria-label={t("letter.signature")}
                   />
                 </div>
-                <div className="flex items-center gap-3 mt-2">
+                <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-2">
                   <button
+                    type="button"
+                    data-testid="signature-clear"
                     onClick={clearSignature}
-                    className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-500"
+                    className="inline-flex min-h-[2.75rem] items-center gap-1.5 text-sm text-ink-500 transition-colors hover:text-alert-600"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="h-4 w-4" aria-hidden />
                     {t("letter.clearSig")}
                   </button>
                   <button
+                    type="button"
+                    data-testid="signature-save"
                     onClick={saveSignature}
-                    className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700"
+                    className="inline-flex min-h-[2.75rem] items-center gap-1.5 text-sm font-medium text-brand-600 transition-colors hover:text-brand-800"
                   >
-                    <CheckCircle className="w-3.5 h-3.5" />
+                    <CheckCircle2 className="h-4 w-4" aria-hidden />
                     {t("letter.saveSig")}
                   </button>
                   {signatureData && (
-                    <span className="text-sm text-emerald-600 flex items-center gap-1">
-                      <CheckCircle className="w-3.5 h-3.5" />
+                    <span
+                      data-testid="signature-saved"
+                      className="inline-flex items-center gap-1.5 text-sm text-signal-600"
+                    >
+                      <CheckCircle2 className="h-4 w-4" aria-hidden />
                       {t("letter.sigSaved")}
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="mt-7 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+                {backButton(2)}
                 <button
-                  onClick={() => setStep(2)}
-                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  {t("check.back")}
-                </button>
-                <button
+                  type="button"
+                  data-testid="letter-delivery"
                   onClick={() => setStep(4)}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors"
+                  className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
                 >
                   {t("letter.deliveryOptions")}
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
                 </button>
               </div>
             </div>
           )}
 
-          {/* Step 4: Delivery options */}
+          {/* ---------------------------------------------- step 4: delivery */}
           {step === 4 && (
             <div className="animate-fade-in-up">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
                 {t("letter.howReceive")}
               </h3>
-              <p className="text-gray-500 mb-8">
-                {t("letter.chooseOption")}
+              <p className="mt-1.5 text-sm text-ink-500">
+                {POST_VERSAND_ENABLED ? t("letter.chooseOption") : t("letter.downloadDesc")}
               </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                {/* Download */}
-                <button
-                  onClick={() => setDeliveryMethod("download")}
-                  className={`card-hover p-6 rounded-xl border-2 text-left transition-all ${
-                    deliveryMethod === "download"
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-200 hover:border-blue-300"
-                  }`}
-                >
-                  <Download className="w-8 h-8 text-blue-600 mb-3" />
-                  <h4 className="font-bold text-gray-900 mb-1">
-                    {t("letter.download")}
-                  </h4>
-                  <p className="text-sm text-gray-500">
-                    {t("letter.downloadDesc")}
-                  </p>
-                  <div className="mt-3 text-sm font-bold text-emerald-600">
-                    {t("letter.free")}
-                  </div>
-                </button>
+              {POST_VERSAND_ENABLED && (
+                <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+                  <button
+                    type="button"
+                    data-testid="delivery-download"
+                    onClick={() => setDeliveryMethod("download")}
+                    aria-pressed={deliveryMethod === "download"}
+                    className={`card-hover rounded-[var(--radius-field)] border p-5 text-start transition-colors ${
+                      deliveryMethod === "download"
+                        ? "border-brand-500 bg-brand-50"
+                        : "border-ink-200 hover:border-brand-300"
+                    }`}
+                  >
+                    <Download className="mb-3 h-7 w-7 text-brand-600" aria-hidden />
+                    <h4 className="font-bold text-ink-900">{t("letter.download")}</h4>
+                    <p className="mt-1 text-sm text-ink-500">{t("letter.downloadDesc")}</p>
+                    <p className="mt-3 text-sm font-bold text-signal-600">{t("letter.free")}</p>
+                  </button>
 
-                {/* Post */}
-                <button
-                  onClick={() => setDeliveryMethod("post")}
-                  className={`card-hover p-6 rounded-xl border-2 text-left transition-all relative ${
-                    deliveryMethod === "post"
-                      ? "border-emerald-500 bg-emerald-50"
-                      : "border-gray-200 hover:border-emerald-300"
-                  }`}
-                >
-                  <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-emerald-600 text-white text-xs font-bold rounded-full">
-                    {t("letter.recommended")}
-                  </div>
-                  <Send className="w-8 h-8 text-emerald-600 mb-3" />
-                  <h4 className="font-bold text-gray-900 mb-1">
-                    {t("letter.postOption")}
-                  </h4>
-                  <p className="text-sm text-gray-500">
-                    {t("letter.postDesc")}
-                  </p>
-                  <div className="mt-3 text-sm font-bold text-amber-600">
-                    {t("letter.from")} 4,99 €
-                  </div>
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    data-testid="delivery-post"
+                    onClick={() => setDeliveryMethod("post")}
+                    aria-pressed={deliveryMethod === "post"}
+                    className={`card-hover relative rounded-[var(--radius-field)] border p-5 text-start transition-colors ${
+                      deliveryMethod === "post"
+                        ? "border-signal-600 bg-signal-50"
+                        : "border-ink-200 hover:border-signal-600/40"
+                    }`}
+                  >
+                    <span className="absolute end-4 top-4 rounded-full bg-signal-600 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wide text-white">
+                      {t("letter.recommended")}
+                    </span>
+                    <Send className="mb-3 h-7 w-7 text-signal-600" aria-hidden />
+                    <h4 className="font-bold text-ink-900">{t("letter.postOption")}</h4>
+                    <p className="mt-1 text-sm text-ink-500">{t("letter.postDesc")}</p>
+                    <p className="mt-3 text-sm font-bold text-caution-600">
+                      {t("letter.from")} 4,99 € {t("letter.inclVat")}
+                    </p>
+                  </button>
+                </div>
+              )}
 
-              {/* Delivery action area */}
               {deliveryMethod === "download" && (
-                <div className="bg-blue-50 rounded-xl p-6 border border-blue-200 text-center">
-                  <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="mt-6 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-5">
+                  <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center">
                     <button
+                      type="button"
+                      data-testid="download-pdf"
                       onClick={handleDownloadPdf}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors"
+                      className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
                     >
-                      <Download className="w-5 h-5" />
+                      <Download className="h-4.5 w-4.5" aria-hidden />
                       {t("letter.downloadPdf")}
                     </button>
                     <button
+                      type="button"
+                      data-testid="download-txt"
                       onClick={handleDownloadTxt}
-                      className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-300 text-blue-700 font-semibold rounded-xl hover:bg-blue-100 transition-colors"
+                      className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full border border-brand-300 bg-paper-raised px-6 font-semibold text-brand-700 transition-colors hover:bg-brand-100"
                     >
-                      <FileText className="w-5 h-5" />
+                      <FileText className="h-4.5 w-4.5" aria-hidden />
                       {t("letter.downloadTxt")}
                     </button>
                     <button
+                      type="button"
+                      data-testid="copy-text"
                       onClick={handleCopy}
-                      className="inline-flex items-center gap-2 px-6 py-3 border-2 border-blue-300 text-blue-700 font-semibold rounded-xl hover:bg-blue-100 transition-colors"
+                      className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full border border-brand-300 bg-paper-raised px-6 font-semibold text-brand-700 transition-colors hover:bg-brand-100"
                     >
-                      <Copy className="w-5 h-5" />
+                      <Copy className="h-4.5 w-4.5" aria-hidden />
                       {copied ? t("letter.copied") : t("letter.copyText")}
                     </button>
                   </div>
                 </div>
               )}
 
-              {deliveryMethod === "post" && (
-                <div className="bg-emerald-50 rounded-xl p-6 border border-emerald-200">
+              {POST_VERSAND_ENABLED && deliveryMethod === "post" && (
+                <div className="mt-6 rounded-[var(--radius-field)] border border-signal-600/25 bg-signal-50 p-5">
                   {!postSent ? (
                     <>
-                      <div className="flex items-start gap-3 mb-4">
-                        <Info className="w-5 h-5 text-emerald-600 mt-0.5 shrink-0" />
-                        <div className="text-sm text-emerald-800">
-                          <strong>{t("letter.postVia")}</strong> {t("letter.postInfo")} ({vermieter.name}, {vermieter.strasse}, {vermieter.plz} {vermieter.ort}).
+                      <div className="mb-4 flex items-start gap-3">
+                        <Info className="mt-0.5 h-5 w-5 shrink-0 text-signal-600" aria-hidden />
+                        <div className="text-sm text-signal-700">
+                          <strong>{t("letter.postVia")}</strong> {t("letter.postInfo")} (
+                          {vermieter.name}, {vermieter.strasse}, {vermieter.plz} {vermieter.ort}).
                           {!signatureData && (
-                            <span className="block mt-2 text-amber-700">
-                              <AlertTriangle className="w-4 h-4 inline mr-1" />
+                            <span className="mt-2 flex items-start gap-1.5 text-caution-600">
+                              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
                               {t("letter.addSignature")}
                             </span>
                           )}
                         </div>
                       </div>
                       {postError && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                        <p
+                          role="alert"
+                          className="mb-4 rounded-[var(--radius-field)] border border-alert-600/25 bg-alert-50 p-3 text-sm text-alert-600"
+                        >
                           {postError}
-                        </div>
+                        </p>
                       )}
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900 mb-1">
-                          4,99 €
-                        </div>
-                        <div className="text-sm text-gray-500 mb-4">
-                          {t("letter.inclShipping")}
-                        </div>
+                        <p className="text-2xl font-bold text-ink-900">4,99 €</p>
+                        <p className="mt-1 text-sm text-ink-500">
+                          {t("letter.inclVat")} · {t("letter.inclShipping")}
+                        </p>
                         <button
+                          type="button"
+                          data-testid="order-post"
                           onClick={handlePostSend}
                           disabled={postSending}
-                          className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-60"
+                          className="mt-4 inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full bg-signal-600 px-6 font-semibold text-white transition-colors hover:bg-signal-700 disabled:opacity-60 sm:w-auto"
                         >
                           {postSending ? (
                             <>
-                              <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              <span
+                                className="h-4.5 w-4.5 animate-spin rounded-full border-2 border-white border-t-transparent"
+                                aria-hidden
+                              />
                               {t("letter.postSending")}
                             </>
                           ) : (
                             <>
-                              <Send className="w-5 h-5" />
-                              {t("letter.sendPost")}
+                              <Send className="h-4.5 w-4.5" aria-hidden />
+                              {t("letter.orderWithPayment")}
                             </>
                           )}
                         </button>
-                        <p className="text-xs text-gray-400 mt-3">
-                          {t("letter.postSecure")}
+                        <p className="mt-3 text-xs text-ink-400">{t("letter.postSecure")}</p>
+                        <p className="mt-2 text-xs text-ink-500">
+                          {t("letter.orderTermsHint")}{" "}
+                          <a href="/nutzungsbedingungen" className="underline hover:text-brand-700">
+                            {t("footer.terms")}
+                          </a>{" "}
+                          ·{" "}
+                          <a href="/widerruf" className="underline hover:text-brand-700">
+                            {t("footer.withdrawal")}
+                          </a>
                         </p>
                       </div>
                     </>
                   ) : (
                     <div className="text-center">
-                      <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-                      <p className="font-semibold text-gray-900 text-lg">
-                        {t("letter.postSent")}
-                      </p>
-                      <p className="text-sm text-gray-600 mt-2 max-w-md mx-auto">
+                      <CheckCircle2 className="mx-auto mb-3 h-12 w-12 text-signal-600" aria-hidden />
+                      <p className="text-lg font-semibold text-ink-900">{t("letter.postSent")}</p>
+                      <p className="mx-auto mt-2 max-w-md text-sm text-ink-600">
                         {t("letter.postSentDesc").replace("{name}", vermieter.name)}{" "}
                         {t("letter.postConfirm").replace("{email}", mieter.email || "")}
                       </p>
@@ -941,28 +968,24 @@ ${mieter.name}`;
                 </div>
               )}
 
-              {/* Warning */}
-              <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
-                <div className="flex items-start gap-3">
-                  <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
-                  <div className="text-sm text-amber-800">
-                    <strong>Hinweis:</strong> {t("letter.warning")}
-                  </div>
-                </div>
+              <div className="mt-6 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4">
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-caution-600" aria-hidden />
+                <p className="text-sm text-caution-600">
+                  <strong>{t("common.note")}:</strong> {t("letter.warning")}
+                </p>
               </div>
 
-              <div className="mt-6">
-                <button
-                  onClick={() => setStep(3)}
-                  className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  {t("letter.backPreview")}
-                </button>
-              </div>
+              <div className="mt-6">{backButton(3, t("letter.backPreview"))}</div>
             </div>
           )}
         </div>
+
+        {/* Calculation reminder — keeps the numbers from the check visible */}
+        <p className="mt-5 text-center text-sm text-ink-500">
+          {t("letter.basedOn")
+            .replace("{quote}", String(minderungsquote))
+            .replace("{rent}", bruttowarmmiete.toFixed(0))}
+        </p>
       </div>
     </section>
   );

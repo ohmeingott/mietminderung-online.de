@@ -2,28 +2,26 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full text-center">
-        <div className="mb-8">
-          <span className="text-8xl font-extrabold text-blue-700">404</span>
-        </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+    <div className="flex min-h-screen items-center justify-center px-4 py-16">
+      <div className="w-full max-w-md text-center">
+        <p className="text-7xl font-bold tracking-tight text-brand-600 sm:text-8xl">404</p>
+        <h1 className="mt-6 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
           Seite nicht gefunden
         </h1>
-        <p className="text-gray-600 mb-8 leading-relaxed">
-          Die angeforderte Seite existiert leider nicht. Möglicherweise wurde
-          sie verschoben oder die URL ist fehlerhaft.
+        <p className="mt-3 leading-relaxed text-ink-600">
+          Die angeforderte Seite existiert leider nicht. Möglicherweise wurde sie
+          verschoben oder die URL ist fehlerhaft.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/"
-            className="inline-flex justify-center px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors"
+            className="inline-flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
           >
             Zur Startseite
           </Link>
           <Link
             href="/#pruefung"
-            className="inline-flex justify-center px-6 py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-colors"
+            className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
           >
             Mietminderung prüfen
           </Link>

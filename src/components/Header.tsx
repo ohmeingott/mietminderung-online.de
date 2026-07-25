@@ -1,179 +1,139 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Menu, X, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
+
+const navLinks = [
+  { href: "/#pruefung", key: "nav.check" },
+  { href: "/#maengelanzeige", key: "nav.letter" },
+  { href: "/#so-funktionierts", key: "nav.how" },
+  { href: "/faq", key: "nav.faq" },
+] as const;
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
-  const { t, locale, setLocale, locales, localeInfo } = useTranslation();
-  const langRef = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) {
-        setLangOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll while the mobile drawer is open.
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
-      {/* Language bar — prominent at the top */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center gap-1 py-1.5">
-            {locales.map((l) => (
-              <button
-                key={l.code}
-                onClick={() => setLocale(l.code)}
-                className={`px-2.5 py-0.5 rounded text-xs font-medium transition-all ${
-                  locale === l.code
-                    ? "bg-white/25 text-white"
-                    : "text-blue-200 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                <span className="mr-1">{l.flag}</span>
-                <span className="hidden sm:inline">{l.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <a href="#" className="flex items-center gap-2">
-            <Image src="/logo.png" alt="Mietminderung-online Logo" width={44} height={44} className="w-11 h-11" />
-            <span className="text-2xl font-extrabold tracking-tight text-gray-900">
-              Mietminderung<span className="text-blue-600">-online</span>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${
+        scrolled || mobileOpen
+          ? "border-b border-ink-200/70 bg-paper/90 backdrop-blur-md"
+          : "border-b border-transparent bg-paper/70 backdrop-blur-sm"
+      }`}
+    >
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-3">
+          <Link
+            href="/"
+            className="flex shrink-0 items-center gap-2"
+            aria-label="Mietminderung-online"
+          >
+            <Image
+              src="/logo.png"
+              alt=""
+              width={36}
+              height={36}
+              // The logo ships with a white background; multiply blends it into
+              // the warm paper surface instead of showing a white tile.
+              className="h-9 w-9 mix-blend-multiply"
+              priority
+            />
+            <span className="text-lg font-bold tracking-tight text-ink-900 sm:text-xl">
+              Mietminderung
+              <span className="text-brand-500">-online</span>
             </span>
-          </a>
+          </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
-            <a
-              href="#pruefung"
-              className="text-sm font-medium text-gray-600 hover:text-blue-700 transition-colors"
-            >
-              {t("nav.check")}
-            </a>
-            <a
-              href="#maengelanzeige"
-              className="text-sm font-medium text-gray-600 hover:text-blue-700 transition-colors"
-            >
-              {t("nav.letter")}
-            </a>
-            <a
-              href="#so-funktionierts"
-              className="text-sm font-medium text-gray-600 hover:text-blue-700 transition-colors"
-            >
-              {t("nav.how")}
-            </a>
-            <a
-              href="#faq"
-              className="text-sm font-medium text-gray-600 hover:text-blue-700 transition-colors"
-            >
-              {t("nav.faq")}
-            </a>
+          <nav className="hidden items-center gap-7 md:flex" aria-label="Hauptnavigation">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-ink-600 transition-colors hover:text-brand-700"
+              >
+                {t(link.key)}
+              </Link>
+            ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
-            {/* Compact language dropdown for desktop nav area */}
-            <div ref={langRef} className="relative">
-              <button
-                onClick={() => setLangOpen(!langOpen)}
-                className="flex items-center gap-1.5 px-3 py-2 text-sm text-gray-600 hover:text-blue-700 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <span>{localeInfo.flag}</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${langOpen ? "rotate-180" : ""}`} />
-              </button>
-              {langOpen && (
-                <div className="absolute right-0 top-full mt-1 bg-white rounded-xl shadow-lg border border-gray-200 py-2 min-w-[160px] z-50">
-                  {locales.map((l) => (
-                    <button
-                      key={l.code}
-                      onClick={() => {
-                        setLocale(l.code);
-                        setLangOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 hover:bg-gray-50 ${
-                        locale === l.code ? "text-blue-700 font-semibold bg-blue-50" : "text-gray-700"
-                      }`}
-                    >
-                      <span>{l.flag}</span>
-                      {l.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
 
-            <a
-              href="#pruefung"
-              className="px-5 py-2.5 bg-blue-700 text-white text-sm font-semibold rounded-lg hover:bg-blue-800 transition-colors"
+            <Link
+              href="/#pruefung"
+              className="hidden h-11 items-center rounded-full bg-brand-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-800 md:inline-flex"
             >
               {t("nav.cta")}
-            </a>
-          </div>
+            </Link>
 
-          <button
-            className="md:hidden p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+            <button
+              type="button"
+              className="-me-2 inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-700 transition-colors hover:bg-ink-100 md:hidden"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
+              aria-label={mobileOpen ? "Menü schließen" : "Menü öffnen"}
+            >
+              {mobileOpen ? (
+                <X className="h-5 w-5" aria-hidden />
+              ) : (
+                <Menu className="h-5 w-5" aria-hidden />
+              )}
+            </button>
+          </div>
         </div>
-
-        {mobileOpen && (
-          <div className="md:hidden pb-4 border-t border-gray-100">
-            <nav className="flex flex-col gap-2 pt-4">
-              <a
-                href="#pruefung"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileOpen(false)}
-              >
-                {t("nav.check")}
-              </a>
-              <a
-                href="#maengelanzeige"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileOpen(false)}
-              >
-                {t("nav.letter")}
-              </a>
-              <a
-                href="#so-funktionierts"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileOpen(false)}
-              >
-                {t("nav.how")}
-              </a>
-              <a
-                href="#faq"
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
-                onClick={() => setMobileOpen(false)}
-              >
-                {t("nav.faq")}
-              </a>
-              <a
-                href="#pruefung"
-                className="mx-4 mt-2 px-5 py-2.5 bg-blue-700 text-white text-sm font-semibold rounded-lg text-center hover:bg-blue-800"
-                onClick={() => setMobileOpen(false)}
-              >
-                {t("nav.cta")}
-              </a>
-            </nav>
-          </div>
-        )}
       </div>
+
+      {mobileOpen && (
+        <div
+          id="mobile-nav"
+          className="animate-fade-in border-t border-ink-200/70 bg-paper md:hidden"
+        >
+          <nav className="mx-auto max-w-6xl px-4 py-3 sm:px-6" aria-label="Hauptnavigation mobil">
+            <ul className="flex flex-col">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="flex min-h-[3rem] items-center rounded-xl px-3 text-base font-medium text-ink-700 transition-colors hover:bg-ink-100"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {t(link.key)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/#pruefung"
+              className="mt-3 flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-5 text-base font-semibold text-white transition-colors hover:bg-brand-800"
+              onClick={() => setMobileOpen(false)}
+            >
+              {t("nav.cta")}
+            </Link>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

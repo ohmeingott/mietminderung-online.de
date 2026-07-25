@@ -1,132 +1,146 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import LegalPage, { LegalSection } from "@/components/LegalPage";
+import { site, postVersandEnabled } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Impressum — Mietminderung Online",
-  description: "Impressum von mietminderung.online",
+  description: "Anbieterkennzeichnung nach § 5 DDG für mietminderung.online.",
+  alternates: { canonical: "/impressum" },
+  robots: { index: true, follow: true },
 };
 
 export default function Impressum() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-blue-700 hover:text-blue-800 mb-8"
-        >
-          &larr; Zurück zur Startseite
-        </Link>
+    <LegalPage
+      title="Impressum"
+      intro="Anbieterkennzeichnung nach § 5 DDG und § 18 Abs. 2 MStV."
+      updated={site.legalVersion}
+    >
+      <LegalSection heading="Diensteanbieter">
+        <address>
+          {site.operator.name}
+          <br />
+          {site.operator.street}
+          <br />
+          {site.operator.zip} {site.operator.city}
+          <br />
+          {site.operator.country}
+        </address>
+      </LegalSection>
 
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-10">
-          Impressum
-        </h1>
+      <LegalSection heading="Kontakt">
+        <p>
+          E-Mail:{" "}
+          <a href={`mailto:${site.operator.email}`}>{site.operator.email}</a>
+        </p>
+        <p>
+          Anfragen beantworten wir in der Regel innerhalb von zwei Werktagen.
+          Eine Telefonnummer halten wir nicht vor; die Kontaktaufnahme per
+          E-Mail ermöglicht eine unmittelbare und effiziente Kommunikation im
+          Sinne des § 5 Abs. 1 Nr. 2 DDG.
+        </p>
+      </LegalSection>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-12 space-y-8">
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              Angaben gemäß § 5 DDG
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Paul Ohm
-              <br />
-              Holzgasse 8
-              <br />
-              50676 Köln
-            </p>
-          </section>
+      <LegalSection heading="Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV">
+        <address>
+          {site.operator.name}
+          <br />
+          {site.operator.street}
+          <br />
+          {site.operator.zip} {site.operator.city}
+        </address>
+      </LegalSection>
 
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              Kontakt
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              E-Mail:{" "}
-              <a
-                href="mailto:pjhohm@gmail.com"
-                className="text-blue-700 hover:underline"
-              >
-                pjhohm@gmail.com
-              </a>
-            </p>
-          </section>
+      {postVersandEnabled && (
+        <LegalSection heading="Umsatzsteuer">
+          <p>
+            Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und daher in
+            Rechnungen nicht ausgewiesen (Kleinunternehmerregelung).
+          </p>
+        </LegalSection>
+      )}
 
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              Haftung für Inhalte
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene
-              Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
-              verantwortlich. Nach §§ 8 bis 10 DDG sind wir als
-              Diensteanbieter jedoch nicht verpflichtet, übermittelte oder
-              gespeicherte fremde Informationen zu überwachen oder nach
-              Umständen zu forschen, die auf eine rechtswidrige Tätigkeit
-              hinweisen.
-            </p>
-            <p className="text-gray-700 leading-relaxed mt-3">
-              Verpflichtungen zur Entfernung oder Sperrung der Nutzung von
-              Informationen nach den allgemeinen Gesetzen bleiben hiervon
-              unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem
-              Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich.
-              Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden
-              wir diese Inhalte umgehend entfernen.
-            </p>
-          </section>
+      <LegalSection heading="Verbraucherstreitbeilegung">
+        <p>
+          Wir sind nicht bereit und nicht verpflichtet, an
+          Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+          teilzunehmen (§ 36 Abs. 1 Nr. 1 VSBG).
+        </p>
+        <p>
+          Die frühere Online-Streitbeilegungsplattform (OS-Plattform) der
+          Europäischen Kommission wurde zum 20. Juli 2025 eingestellt; ein Link
+          dorthin ist daher nicht mehr vorgesehen.
+        </p>
+      </LegalSection>
 
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              Haftung für Links
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Unser Angebot enthält Links zu externen Websites Dritter, auf
-              deren Inhalte wir keinen Einfluss haben. Deshalb können wir für
-              diese fremden Inhalte auch keine Gewähr übernehmen. Für die
-              Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter
-              oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten
-              wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße
-              überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der
-              Verlinkung nicht erkennbar.
-            </p>
-            <p className="text-gray-700 leading-relaxed mt-3">
-              Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist
-              jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht
-              zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir
-              derartige Links umgehend entfernen.
-            </p>
-          </section>
+      <LegalSection heading="Haftung für Inhalte">
+        <p>
+          Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte
+          auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach
+          §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht
+          verpflichtet, übermittelte oder gespeicherte fremde Informationen zu
+          überwachen oder nach Umständen zu forschen, die auf eine
+          rechtswidrige Tätigkeit hinweisen.
+        </p>
+        <p>
+          Verpflichtungen zur Entfernung oder Sperrung der Nutzung von
+          Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.
+          Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der
+          Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden
+          von entsprechenden Rechtsverletzungen werden wir diese Inhalte
+          umgehend entfernen.
+        </p>
+      </LegalSection>
 
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              Urheberrecht
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Die durch die Seitenbetreiber erstellten Inhalte und Werke auf
-              diesen Seiten unterliegen dem deutschen Urheberrecht. Die
-              Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
-              Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der
-              schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
-              Downloads und Kopien dieser Seite sind nur für den privaten,
-              nicht kommerziellen Gebrauch gestattet.
-            </p>
-          </section>
+      <LegalSection heading="Haftung für Links">
+        <p>
+          Unser Angebot enthält Links zu externen Websites Dritter, auf deren
+          Inhalte wir keinen Einfluss haben. Deshalb können wir für diese
+          fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der
+          verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der
+          Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der
+          Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige
+          Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.
+        </p>
+        <p>
+          Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist ohne
+          konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei
+          Bekanntwerden von Rechtsverletzungen werden wir derartige Links
+          umgehend entfernen.
+        </p>
+      </LegalSection>
 
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              Keine Rechtsberatung
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Die auf dieser Webseite bereitgestellten Informationen dienen
-              ausschließlich der allgemeinen Information und stellen keine
-              Rechtsberatung dar. Trotz sorgfältiger Recherche können wir keine
-              Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der
-              Inhalte übernehmen. Die Minderungsquoten basieren auf
-              Gerichtsurteilen und dienen lediglich als Orientierungswerte. Bei
-              konkreten rechtlichen Fragen empfehlen wir die Beratung durch
-              einen Mieterverein oder Rechtsanwalt.
-            </p>
-          </section>
-        </div>
-      </div>
-    </div>
+      <LegalSection heading="Urheberrecht">
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen
+          Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung,
+          Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
+          Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des
+          jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite
+          sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+        </p>
+        <p>
+          Die mit diesem Dienst erzeugte Mängelanzeige dürfen Sie uneingeschränkt
+          für eigene Zwecke verwenden, weitergeben und verändern.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Keine Rechtsberatung">
+        <p>
+          Die auf dieser Webseite bereitgestellten Informationen dienen
+          ausschließlich der allgemeinen Information und stellen{" "}
+          <strong>keine Rechtsberatung</strong> im Sinne des
+          Rechtsdienstleistungsgesetzes (RDG) dar. Es werden keine
+          Rechtsdienstleistungen im Einzelfall erbracht; die Erstellung der
+          Mängelanzeige erfolgt vollautomatisiert anhand Ihrer eigenen Angaben.
+        </p>
+        <p>
+          Die Minderungsquoten beruhen auf veröffentlichten Gerichtsurteilen und
+          sind reine Orientierungswerte. Bei konkreten rechtlichen Fragen
+          empfehlen wir die Beratung durch einen Mieterverein oder eine
+          Rechtsanwältin bzw. einen Rechtsanwalt.
+        </p>
+      </LegalSection>
+    </LegalPage>
   );
 }

@@ -259,6 +259,28 @@ export const translations: Record<Locale, Record<string, string>> = {
     "footer.rights": "Alle Rechte vorbehalten.",
     "footer.noLegal":
       "Keine Rechtsberatung. Angaben ohne Gewähr. Bei Fragen wenden Sie sich an einen Mieterverein oder Rechtsanwalt.",
+    "footer.withdrawal": "Widerrufsrecht",
+
+    // Shared
+    "common.note": "Hinweis",
+    "common.backHome": "Zur Startseite",
+
+    // FAQ page
+    "faq.showAll": "Alle Fragen & Antworten anzeigen",
+    "faqpage.allTitle": "Alle Fragen & Antworten",
+    "faqpage.cta.title": "Ihre Frage war nicht dabei?",
+    "faqpage.cta.desc":
+      "Nutzen Sie unseren kostenlosen Mietminderungs-Check. In wenigen Schritten erfahren Sie, ob und wie viel Sie mindern können.",
+
+    // Letter — delivery
+    "letter.postFailed":
+      "Der Brief konnte nicht versendet werden. Bitte versuchen Sie es später erneut.",
+    "letter.networkError": "Netzwerkfehler. Bitte versuchen Sie es erneut.",
+    "letter.inclVat": "Gesamtpreis inkl. aller Kosten",
+    "letter.orderWithPayment": "Zahlungspflichtig bestellen",
+    "letter.orderTermsHint": "Mit der Bestellung akzeptieren Sie:",
+    "letter.basedOn":
+      "Basiert auf Ihrer Prüfung: ca. {quote} % Minderung bei {rent} € Bruttowarmmiete.",
   },
 
   tr: {
@@ -463,6 +485,28 @@ export const translations: Record<Locale, Record<string, string>> = {
     "footer.terms": "Koşullar",
     "footer.rights": "Tüm hakları saklıdır.",
     "footer.noLegal": "Hukuki danışmanlık değildir. Bilgiler garanti edilmez.",
+    "footer.withdrawal": "Cayma hakkı",
+
+    // Shared
+    "common.note": "Not",
+    "common.backHome": "Ana sayfaya",
+
+    // FAQ page
+    "faq.showAll": "Tüm soru ve cevapları göster",
+    "faqpage.allTitle": "Tüm sorular ve cevaplar",
+    "faqpage.cta.title": "Sorunuz burada yok muydu?",
+    "faqpage.cta.desc":
+      "Ücretsiz kira indirimi kontrolümüzü kullanın. Birkaç adımda indirim yapıp yapamayacağınızı ve ne kadar indirebileceğinizi öğrenin.",
+
+    // Letter — delivery
+    "letter.postFailed":
+      "Mektup gönderilemedi. Lütfen daha sonra tekrar deneyin.",
+    "letter.networkError": "Ağ hatası. Lütfen tekrar deneyin.",
+    "letter.inclVat": "Tüm masraflar dâhil toplam fiyat",
+    "letter.orderWithPayment": "Ödemeli olarak sipariş ver",
+    "letter.orderTermsHint": "Sipariş vererek şunları kabul edersiniz:",
+    "letter.basedOn":
+      "Kontrolünüze dayanmaktadır: {rent} € brüt sıcak kirada yaklaşık %{quote} indirim.",
   },
 
   uk: {
@@ -665,6 +709,28 @@ export const translations: Record<Locale, Record<string, string>> = {
     "footer.terms": "Умови",
     "footer.rights": "Усі права захищені.",
     "footer.noLegal": "Не є юридичною консультацією. Інформація без гарантії.",
+    "footer.withdrawal": "Право на відмову",
+
+    // Shared
+    "common.note": "Примітка",
+    "common.backHome": "На головну",
+
+    // FAQ page
+    "faq.showAll": "Показати всі запитання та відповіді",
+    "faqpage.allTitle": "Усі запитання та відповіді",
+    "faqpage.cta.title": "Не знайшли своє запитання?",
+    "faqpage.cta.desc":
+      "Скористайтеся нашою безкоштовною перевіркою. За кілька кроків ви дізнаєтесь, чи можете зменшити оренду і на скільки.",
+
+    // Letter — delivery
+    "letter.postFailed":
+      "Лист не вдалося надіслати. Спробуйте, будь ласка, пізніше.",
+    "letter.networkError": "Помилка мережі. Спробуйте ще раз.",
+    "letter.inclVat": "Загальна ціна з усіма витратами",
+    "letter.orderWithPayment": "Замовити платно",
+    "letter.orderTermsHint": "Оформлюючи замовлення, ви приймаєте:",
+    "letter.basedOn":
+      "На основі вашої перевірки: близько {quote} % зменшення при оренді {rent} €.",
   },
 
   ru: {
@@ -865,6 +931,28 @@ export const translations: Record<Locale, Record<string, string>> = {
     "footer.terms": "Условия",
     "footer.rights": "Все права защищены.",
     "footer.noLegal": "Не является юридической консультацией. Информация без гарантии.",
+    "footer.withdrawal": "Право на отказ",
+
+    // Shared
+    "common.note": "Примечание",
+    "common.backHome": "На главную",
+
+    // FAQ page
+    "faq.showAll": "Показать все вопросы и ответы",
+    "faqpage.allTitle": "Все вопросы и ответы",
+    "faqpage.cta.title": "Не нашли свой вопрос?",
+    "faqpage.cta.desc":
+      "Воспользуйтесь нашей бесплатной проверкой. За несколько шагов вы узнаете, можете ли вы снизить аренду и насколько.",
+
+    // Letter — delivery
+    "letter.postFailed":
+      "Письмо не удалось отправить. Пожалуйста, попробуйте позже.",
+    "letter.networkError": "Ошибка сети. Пожалуйста, попробуйте ещё раз.",
+    "letter.inclVat": "Общая цена со всеми расходами",
+    "letter.orderWithPayment": "Заказать платно",
+    "letter.orderTermsHint": "Оформляя заказ, вы принимаете:",
+    "letter.basedOn":
+      "На основе вашей проверки: около {quote} % снижения при аренде {rent} €.",
   },
 
   ar: {
@@ -1065,6 +1153,27 @@ export const translations: Record<Locale, Record<string, string>> = {
     "footer.terms": "الشروط",
     "footer.rights": "جميع الحقوق محفوظة.",
     "footer.noLegal": "ليست استشارة قانونية. المعلومات بدون ضمان.",
+    "footer.withdrawal": "حق الانسحاب",
+
+    // Shared
+    "common.note": "ملاحظة",
+    "common.backHome": "إلى الصفحة الرئيسية",
+
+    // FAQ page
+    "faq.showAll": "عرض جميع الأسئلة والأجوبة",
+    "faqpage.allTitle": "جميع الأسئلة والأجوبة",
+    "faqpage.cta.title": "لم تجد سؤالك؟",
+    "faqpage.cta.desc":
+      "استخدم فحصنا المجاني لتخفيض الإيجار. في خطوات قليلة ستعرف ما إذا كان يحق لك التخفيض وبأي نسبة.",
+
+    // Letter — delivery
+    "letter.postFailed": "تعذّر إرسال الخطاب. يرجى المحاولة لاحقاً.",
+    "letter.networkError": "خطأ في الشبكة. يرجى المحاولة مرة أخرى.",
+    "letter.inclVat": "السعر الإجمالي شامل جميع التكاليف",
+    "letter.orderWithPayment": "اطلب بمقابل مدفوع",
+    "letter.orderTermsHint": "بإتمام الطلب فإنك توافق على:",
+    "letter.basedOn":
+      "بناءً على فحصك: نحو {quote} ٪ تخفيض عند إيجار إجمالي قدره {rent} €.",
   },
 
   pl: {
@@ -1265,5 +1374,27 @@ export const translations: Record<Locale, Record<string, string>> = {
     "footer.terms": "Regulamin",
     "footer.rights": "Wszelkie prawa zastrzeżone.",
     "footer.noLegal": "Nie stanowi porady prawnej. Informacje bez gwarancji.",
+    "footer.withdrawal": "Prawo odstąpienia",
+
+    // Shared
+    "common.note": "Wskazówka",
+    "common.backHome": "Na stronę główną",
+
+    // FAQ page
+    "faq.showAll": "Pokaż wszystkie pytania i odpowiedzi",
+    "faqpage.allTitle": "Wszystkie pytania i odpowiedzi",
+    "faqpage.cta.title": "Nie znalazłeś swojego pytania?",
+    "faqpage.cta.desc":
+      "Skorzystaj z naszego bezpłatnego sprawdzenia. W kilku krokach dowiesz się, czy i o ile możesz obniżyć czynsz.",
+
+    // Letter — delivery
+    "letter.postFailed":
+      "Nie udało się wysłać listu. Prosimy spróbować później.",
+    "letter.networkError": "Błąd sieci. Prosimy spróbować ponownie.",
+    "letter.inclVat": "Cena całkowita ze wszystkimi kosztami",
+    "letter.orderWithPayment": "Zamawiam z obowiązkiem zapłaty",
+    "letter.orderTermsHint": "Składając zamówienie, akceptujesz:",
+    "letter.basedOn":
+      "Na podstawie twojego sprawdzenia: ok. {quote} % obniżki przy czynszu {rent} €.",
   },
 };

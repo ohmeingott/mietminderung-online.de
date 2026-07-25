@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
-  subsets: ["latin", "cyrillic"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  variable: "--font-inter",
 });
 
 const siteUrl = "https://mietminderung.online";
@@ -41,9 +42,13 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
-  other: {
-    "theme-color": "#1e40af",
-  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#122741",
 };
 
 export default function RootLayout({
@@ -51,9 +56,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // `lang`/`dir` are the server-rendered defaults; LanguageProvider updates
+  // them on the client once a stored language preference is read.
   return (
-    <html lang="de" className={inter.className}>
-      <body className="antialiased">
+    <html lang="de" dir="ltr" className={inter.variable}>
+      <body className="font-sans antialiased">
         <LanguageProvider>{children}</LanguageProvider>
         <Analytics />
       </body>

@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { AlertTriangle } from "lucide-react";
+
 export default function Error({
   reset,
 }: {
@@ -7,45 +10,32 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full text-center">
-        <div className="mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-100 mb-4">
-            <svg
-              className="w-10 h-10 text-red-600"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
-              />
-            </svg>
-          </div>
+    <div className="flex min-h-screen items-center justify-center px-4 py-16">
+      <div className="w-full max-w-md text-center">
+        <div className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full bg-alert-50">
+          <AlertTriangle className="h-8 w-8 text-alert-600" aria-hidden />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+        <h1 className="mt-6 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
           Etwas ist schiefgelaufen
         </h1>
-        <p className="text-gray-600 mb-8 leading-relaxed">
+        <p className="mt-3 leading-relaxed text-ink-600">
           Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut
           oder kehren Sie zur Startseite zurück.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
           <button
+            type="button"
             onClick={reset}
-            className="inline-flex justify-center px-6 py-3 bg-blue-700 text-white font-semibold rounded-xl hover:bg-blue-800 transition-colors"
+            className="inline-flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
           >
             Erneut versuchen
           </button>
-          <a
+          <Link
             href="/"
-            className="inline-flex justify-center px-6 py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-colors"
+            className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
           >
             Zur Startseite
-          </a>
+          </Link>
         </div>
       </div>
     </div>

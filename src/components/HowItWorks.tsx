@@ -1,17 +1,9 @@
 "use client";
 
-import { ClipboardCheck, Calculator, FileText, Send } from "lucide-react";
+import { Calculator, ClipboardCheck, FileText, Send } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
-const colorClasses: Record<string, { bg: string; text: string; ring: string }> = {
-  blue: { bg: "bg-blue-100", text: "text-blue-700", ring: "ring-blue-200" },
-  emerald: { bg: "bg-emerald-100", text: "text-emerald-700", ring: "ring-emerald-200" },
-  violet: { bg: "bg-violet-100", text: "text-violet-700", ring: "ring-violet-200" },
-  amber: { bg: "bg-amber-100", text: "text-amber-700", ring: "ring-amber-200" },
-};
-
 const stepIcons = [ClipboardCheck, Calculator, FileText, Send];
-const stepColors = ["blue", "emerald", "violet", "amber"];
 
 export default function HowItWorks() {
   const { t } = useTranslation();
@@ -24,46 +16,43 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="so-funktionierts" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+    <section id="so-funktionierts" className="border-y border-ink-200 bg-paper-sunken py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-ink-900 sm:text-4xl">
             {t("how.title")}
           </h2>
-          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-3 text-base text-ink-600 sm:mt-4 sm:text-lg">
             {t("how.subtitle")}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <ol className="mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {steps.map((step, index) => {
-            const colors = colorClasses[stepColors[index]];
             const Icon = stepIcons[index];
             return (
-              <div key={index} className="relative">
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] border-t-2 border-dashed border-gray-300" />
-                )}
-                <div className="card-hover relative bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center h-full">
-                  <div className="text-xs font-bold text-gray-400 mb-4">
+              <li
+                key={step.title}
+                className="card-hover relative flex gap-4 rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-5 sm:flex-col sm:gap-0 sm:p-6"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 sm:mb-5">
+                  <Icon className="h-5.5 w-5.5" aria-hidden />
+                </div>
+                <div>
+                  <p className="text-[0.6875rem] font-semibold uppercase tracking-wider text-ink-400">
                     {t("how.step")} {index + 1}
-                  </div>
-                  <div
-                    className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl ${colors.bg} ring-4 ${colors.ring} mb-5`}
-                  >
-                    <Icon className={`w-7 h-7 ${colors.text}`} />
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">
+                  </p>
+                  <h3 className="mt-1 text-base font-bold text-ink-900 sm:text-lg">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="mt-1.5 text-sm leading-relaxed text-ink-600">
                     {step.description}
                   </p>
                 </div>
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ol>
       </div>
     </section>
   );

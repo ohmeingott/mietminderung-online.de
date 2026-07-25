@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI, Type } from "@google/genai";
 
 interface MangelInput {
   label: string;
@@ -7,6 +7,8 @@ interface MangelInput {
   seit: string;
   beschreibung: string;
 }
+
+const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 const SYSTEM_PROMPT = `Du bist ein juristischer Textassistent für Mängelanzeigen im deutschen Mietrecht.
 
@@ -21,65 +23,101 @@ Regeln:
 - Keine Rechtsberatung, keine Paragraphen-Verweise (die stehen bereits im Brief-Template)
 - Keine Erfindungen — nur was der Mieter beschrieben hat, sachlich umformulieren
 - Falls die Beschreibung leer ist, erstelle anhand des Mangel-Typs eine kurze, allgemeine Beschreibung
-- Gib NUR die umformulierten Beschreibungen zurück, als JSON-Array von Strings
-- Die Reihenfolge muss der Eingabe entsprechen`;
+- Gib genau eine umformulierte Beschreibung pro Mangel zurück, in der Reihenfolge der Eingabe`;
+
+/** Longest a single defect description may be, to bound prompt size. */
+const MAX_DESCRIPTION_LENGTH = 2000;
+const MAX_MAENGEL = 30;
 
 export async function POST(request: Request) {
-  try {
-    const { maengel } = (await request.json()) as { maengel: MangelInput[] };
+  let maengel: MangelInput[] = [];
 
-    if (!maengel || !Array.isArray(maengel) || maengel.length === 0) {
+  try {
+    const body = (await request.json()) as { maengel?: MangelInput[] };
+    maengel = Array.isArray(body.maengel) ? body.maengel : [];
+
+    if (maengel.length === 0) {
       return NextResponse.json(
         { error: "Keine Mängel angegeben." },
         { status: 400 }
       );
     }
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (maengel.length > MAX_MAENGEL) {
+      return NextResponse.json(
+        { error: "Zu viele Mängel angegeben." },
+        { status: 400 }
+      );
+    }
+
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
+      // No key configured — hand the user's own text back unchanged.
       return NextResponse.json({
         beschreibungen: maengel.map((m) => m.beschreibung),
+        fallback: true,
       });
     }
 
-    const client = new Anthropic({ apiKey });
+    const ai = new GoogleGenAI({ apiKey });
 
     const userMessage = maengel
-      .map(
-        (m, i) =>
-          `Mangel ${i + 1}: "${m.label}"${m.raum ? ` (Raum: ${m.raum})` : ""}${m.seit ? ` (seit: ${m.seit})` : ""}\nBeschreibung: ${m.beschreibung || "(keine Beschreibung)"}`
-      )
+      .map((m, i) => {
+        const raum = m.raum ? ` (Raum: ${m.raum})` : "";
+        const seit = m.seit ? ` (seit: ${m.seit})` : "";
+        const text = (m.beschreibung || "").slice(0, MAX_DESCRIPTION_LENGTH);
+        return `Mangel ${i + 1}: "${m.label}"${raum}${seit}\nBeschreibung: ${
+          text || "(keine Beschreibung)"
+        }`;
+      })
       .join("\n\n");
 
-    const response = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: [{ role: "user", content: userMessage }],
+    const response = await ai.models.generateContent({
+      model: MODEL,
+      contents: userMessage,
+      config: {
+        systemInstruction: SYSTEM_PROMPT,
+        temperature: 0.3,
+        maxOutputTokens: 2048,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            beschreibungen: {
+              type: Type.ARRAY,
+              items: { type: Type.STRING },
+              description:
+                "Eine umformulierte Beschreibung pro Mangel, in der Reihenfolge der Eingabe.",
+            },
+          },
+          required: ["beschreibungen"],
+        },
+      },
     });
 
-    const text =
-      response.content[0].type === "text" ? response.content[0].text : "";
+    const parsed = JSON.parse(response.text ?? "{}") as {
+      beschreibungen?: unknown;
+    };
+    const beschreibungen = parsed.beschreibungen;
 
-    const jsonMatch = text.match(/\[[\s\S]*\]/);
-    if (!jsonMatch) {
+    const isValid =
+      Array.isArray(beschreibungen) &&
+      beschreibungen.length === maengel.length &&
+      beschreibungen.every((b) => typeof b === "string");
+
+    if (!isValid) {
       return NextResponse.json({
         beschreibungen: maengel.map((m) => m.beschreibung),
-      });
-    }
-
-    const beschreibungen = JSON.parse(jsonMatch[0]) as string[];
-
-    if (beschreibungen.length !== maengel.length) {
-      return NextResponse.json({
-        beschreibungen: maengel.map((m) => m.beschreibung),
+        fallback: true,
       });
     }
 
     return NextResponse.json({ beschreibungen });
-  } catch {
+  } catch (err) {
+    console.error("Gemini enhance error:", err);
+    // Never block the user's letter on an AI failure — return their own text.
     return NextResponse.json({
-      beschreibungen: [],
+      beschreibungen: maengel.map((m) => m.beschreibung),
       fallback: true,
     });
   }

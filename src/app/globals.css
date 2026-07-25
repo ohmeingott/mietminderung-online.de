@@ -1,29 +1,127 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-primary: #1e40af;
-  --color-primary-light: #3b82f6;
-  --color-primary-dark: #1e3a8a;
-  --color-accent: #059669;
-  --color-accent-light: #10b981;
-  --color-warning: #d97706;
-  --color-danger: #dc2626;
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Warm paper neutrals + a deep steel blue taken from the logo, so the site
+   reads as an editorial legal product rather than a default Tailwind template.
+--------------------------------------------------------------------------- */
+@theme {
+  /* Brand — deep steel blue, matched to the shield in the logo */
+  --color-brand-50: #eef4fb;
+  --color-brand-100: #d9e6f5;
+  --color-brand-200: #b3cbe9;
+  --color-brand-300: #82a8d6;
+  --color-brand-400: #5183bd;
+  --color-brand-500: #33639f;
+  --color-brand-600: #275083;
+  --color-brand-700: #1e3f69;
+  --color-brand-800: #183253;
+  --color-brand-900: #122741;
+  --color-brand-950: #0b1a2d;
+
+  /* Ink — warm near-black for text and dark surfaces */
+  --color-ink-50: #f7f6f4;
+  --color-ink-100: #eceae6;
+  --color-ink-200: #d9d5cf;
+  --color-ink-300: #b8b2a9;
+  --color-ink-400: #8e877d;
+  --color-ink-500: #6b655c;
+  --color-ink-600: #524d46;
+  --color-ink-700: #3d3934;
+  --color-ink-800: #2a2724;
+  --color-ink-900: #1a1816;
+  --color-ink-950: #0f0e0d;
+
+  /* Paper — warm off-white page and card surfaces */
+  --color-paper: #fbfaf8;
+  --color-paper-raised: #ffffff;
+  --color-paper-sunken: #f4f2ee;
+
+  /* Signal colours */
+  --color-signal-600: #0f6b4f; /* positive / money saved */
+  --color-signal-700: #0b5340;
+  --color-signal-50: #eaf5f0;
+  --color-caution-600: #a86216; /* warnings, "Hinweis" boxes */
+  --color-caution-50: #fdf5e9;
+  --color-alert-600: #b3261e;
+  --color-alert-50: #fdedec;
+
+  /* Typography */
+  --font-sans:
+    var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  /* Shape — deliberately varied so cards don't all read as one blob */
+  --radius-card: 1.25rem;
+  --radius-field: 0.75rem;
+
+  /* Layered, low-opacity shadows instead of one big blur */
+  --shadow-raise:
+    0 1px 2px rgba(15, 26, 45, 0.04), 0 4px 12px -4px rgba(15, 26, 45, 0.08);
+  --shadow-float:
+    0 2px 4px rgba(15, 26, 45, 0.05), 0 12px 32px -12px rgba(15, 26, 45, 0.16);
 }
 
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
 html {
   scroll-behavior: smooth;
+  /* Never let a wide child scroll the whole page sideways on mobile. */
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  color: #1f2937;
-  background: #ffffff;
+  color: var(--color-ink-900);
+  background: var(--color-paper);
+  overflow-x: hidden;
+  font-feature-settings: "cv05" 1, "ss01" 1;
+  text-rendering: optimizeLegibility;
 }
 
+/* Headings get tighter tracking than Tailwind's default at large sizes. */
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Anchor targets clear the fixed header. */
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Keyboard focus that is visible on both light and dark surfaces. */
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove the number-input spinners — the rent field uses a numeric keypad. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+--------------------------------------------------------------------------- */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -31,39 +129,139 @@ body {
   }
 }
 
-@keyframes slideIn {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(-20px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
   }
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.animate-slide-in {
-  animation: slideIn 0.5s ease-out forwards;
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out both;
 }
 
 .progress-fill {
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease;
 }
 
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+/* Hover lift only where a pointer can actually hover — not on touch. */
+@media (hover: hover) and (pointer: fine) {
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-float);
+  }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Components
+--------------------------------------------------------------------------- */
 .signature-canvas {
   touch-action: none;
   cursor: crosshair;
+  display: block;
+  width: 100%;
+}
+
+/* Fine hairline used to separate sections without a heavy border. */
+.hairline {
+  border-color: color-mix(in srgb, var(--color-ink-900) 10%, transparent);
+}
+
+/* Subtle paper texture behind the hero — cheap, no image request. */
+.paper-grid {
+  background-image:
+    radial-gradient(
+      circle at 1px 1px,
+      color-mix(in srgb, var(--color-brand-900) 8%, transparent) 1px,
+      transparent 0
+    );
+  background-size: 28px 28px;
+}
+
+/* Respect the iOS home indicator on sticky bottom bars. */
+.safe-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+/* Typography for the legal documents, which are authored as plain markup. */
+.legal-prose h3 {
+  margin-top: 1.25rem;
+  font-weight: 600;
+  color: var(--color-ink-800);
+}
+
+.legal-prose ul,
+.legal-prose ol {
+  margin-inline-start: 1.25rem;
+  list-style-position: outside;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.legal-prose ul {
+  list-style-type: disc;
+}
+
+.legal-prose ol {
+  list-style-type: decimal;
+}
+
+.legal-prose a {
+  color: var(--color-brand-700);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-prose a:hover {
+  color: var(--color-brand-900);
+}
+
+.legal-prose address {
+  font-style: normal;
+}
+
+.legal-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.legal-prose th,
+.legal-prose td {
+  border: 1px solid var(--color-ink-200);
+  padding: 0.5rem 0.75rem;
+  text-align: start;
+  vertical-align: top;
+}
+
+.legal-prose th {
+  background: var(--color-paper-sunken);
+  font-weight: 600;
 }

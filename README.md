@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# mietminderung.online
 
-## Getting Started
+Ein kostenloser Online-Dienst, mit dem Mieterinnen und Mieter in Deutschland
+prüfen können, ob ihnen eine Mietminderung zusteht, die Höhe berechnen und eine
+rechtssichere Mängelanzeige nach § 536c BGB erzeugen — in sechs Sprachen.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router) · React 19 · TypeScript 5 · Tailwind CSS 4
+- `@google/genai` — Gemini Flash für die Textverbesserung
+- `jspdf` · `signature_pad` · `lucide-react`
+- Playwright für End-to-End-Tests
+
+## Setup
 
 ```bash
+npm install
+cp .env.example .env.local   # Werte eintragen (alle optional für die Basisfunktion)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Die App läuft auf <http://localhost:3000>. Ohne konfigurierte Keys funktioniert
+alles bis auf die KI-Textverbesserung (fällt auf den Originaltext zurück) und
+den optionalen Postversand (standardmäßig ausgeblendet).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Befehl                | Zweck                                                 |
+| --------------------- | ----------------------------------------------------- |
+| `npm run dev`         | Entwicklungsserver                                    |
+| `npm run build`       | Produktions-Build                                     |
+| `npm start`           | Produktionsserver                                     |
+| `npm run lint`        | ESLint                                                |
+| `npm run check:i18n`  | Prüft alle Locales auf fehlende UI- und Content-Keys  |
+| `npm run test:e2e`    | Playwright-Suite (Desktop + Mobile)                   |
+| `npm run test:e2e:ui` | Playwright im UI-Modus                                |
+| `npm run verify`      | lint → i18n → build → e2e                             |
 
-## Learn More
+## Projektstruktur
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/
+    page.tsx                    Startseite (Check + Mängelanzeige)
+    faq/                        Alle Fragen & Antworten
+    impressum/ datenschutz/     Rechtstexte
+    nutzungsbedingungen/ widerruf/
+    api/
+      enhance-beschreibung/     Gemini-Textverbesserung
+      save-email/               Newsletter-Opt-in
+      send-letter/              Postversand über eBrief (Feature-Flag)
+  components/                   UI-Komponenten
+  data/maengel.ts               Mängelkatalog, Prüffragen, FAQ (deutsche Quelle)
+  i18n/
+    translations.ts             UI-Strings, 6 Sprachen
+    content/                    Übersetzungen für Mängelkatalog und FAQ
+    LanguageContext.tsx         Sprachwahl, RTL, localStorage
+  lib/
+    generatePdf.ts              PDF-Erzeugung
+    site.ts                     Betreiberdaten und Feature-Flags
+e2e/                            Playwright-Tests
+scripts/check-i18n.ts           Locale-Vollständigkeitsprüfung
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Sprachen
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deutsch, Türkisch, Ukrainisch, Russisch, Arabisch (RTL) und Polnisch.
 
-## Deploy on Vercel
+Deutsche Texte sind die Quelle: UI-Strings in `src/i18n/translations.ts`,
+Mängelkatalog und FAQ in `src/data/maengel.ts`. Übersetzungen des Katalogs
+liegen in `src/i18n/content/<locale>.ts` und werden über `tc(key, fallback)`
+aufgelöst, das bei fehlender Übersetzung auf den deutschen Quelltext zurückfällt.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Nach jeder Änderung an den Daten `npm run check:i18n` ausführen — das Skript
+meldet fehlende und verwaiste Keys.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Der erzeugte Brief bleibt immer deutsch**, unabhängig von der gewählten
+Sprache: Empfänger ist ein deutscher Vermieter. Fremdsprachige Eingaben werden
+von Gemini ins Deutsche übersetzt.
+
+## Rechtstexte
+
+Impressum, Datenschutzerklärung, AGB und Widerrufsbelehrung sind bewusst nur
+auf Deutsch verfügbar — nur diese Fassung ist rechtsverbindlich. Betreiberdaten
+stehen zentral in `src/lib/site.ts`.
+
+Der kostenpflichtige Postversand ist über `NEXT_PUBLIC_ENABLE_POST_VERSAND`
+abschaltbar und standardmäßig **aus**. Die Rechtstexte lesen dasselbe Flag,
+sodass ihre Aussagen zu Preisen, Vertragsschluss und Widerrufsrecht immer zum
+tatsächlichen Angebot passen.
+
+Vor dem Livegang: **[LAUNCH_CHECKLIST.md](./LAUNCH_CHECKLIST.md)** lesen.
+
+## Deployment
+
+Vercel, Region `fra1`. Sicherheits-Header und Cache-Regeln stehen in
+`vercel.json`. Umgebungsvariablen siehe `.env.example`.
