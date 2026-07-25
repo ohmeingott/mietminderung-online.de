@@ -27,6 +27,8 @@ Status of the go-live preparation, plus the decisions that still need a human.
 
 - [ ] Submit `https://mietminderung.online/sitemap.xml` in Google Search Console.
 - [ ] Run `npm run verify` (lint → i18n check → build → E2E) one last time.
+      The same steps run automatically on every pull request via
+      `.github/workflows/ci.yml`.
 
 ---
 
