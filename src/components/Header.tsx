@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -47,14 +48,21 @@ export default function Header() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <a href="#" className="flex items-center gap-2">
-            <Image src="/logo.png" alt="Mietminderung-online Logo" width={44} height={44} className="w-11 h-11" />
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="Mietminderung Online"
+              width={44}
+              height={44}
+              priority
+              className="w-11 h-11"
+            />
             <span className="text-2xl font-extrabold tracking-tight text-gray-900">
               Mietminderung<span className="text-blue-600">-online</span>
             </span>
-          </a>
+          </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav aria-label="Hauptnavigation" className="hidden md:flex items-center gap-8">
             <a
               href="#pruefung"
               className="text-sm font-medium text-gray-600 hover:text-blue-700 transition-colors"
@@ -79,6 +87,18 @@ export default function Header() {
             >
               {t("nav.faq")}
             </a>
+            <Link
+              href="/mietminderungstabelle"
+              className="text-sm font-medium text-gray-600 hover:text-blue-700 transition-colors"
+            >
+              Tabelle
+            </Link>
+            <Link
+              href="/ratgeber"
+              className="text-sm font-medium text-gray-600 hover:text-blue-700 transition-colors"
+            >
+              Ratgeber
+            </Link>
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
@@ -134,7 +154,7 @@ export default function Header() {
 
         {mobileOpen && (
           <div className="md:hidden pb-4 border-t border-gray-100">
-            <nav className="flex flex-col gap-2 pt-4">
+            <nav aria-label="Mobile Navigation" className="flex flex-col gap-2 pt-4">
               <a
                 href="#pruefung"
                 className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
@@ -163,6 +183,20 @@ export default function Header() {
               >
                 {t("nav.faq")}
               </a>
+              <Link
+                href="/mietminderungstabelle"
+                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileOpen(false)}
+              >
+                Mietminderungstabelle
+              </Link>
+              <Link
+                href="/ratgeber"
+                className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
+                onClick={() => setMobileOpen(false)}
+              >
+                Ratgeber
+              </Link>
               <a
                 href="#pruefung"
                 className="mx-4 mt-2 px-5 py-2.5 bg-blue-700 text-white text-sm font-semibold rounded-lg text-center hover:bg-blue-800"

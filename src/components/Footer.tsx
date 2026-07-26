@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { kategorieIndex } from "@/lib/mangelIndex";
+import { ratgeberArtikel } from "@/data/ratgeber";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function Footer() {
@@ -60,47 +63,97 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a
+                <Link
                   href="/faq"
                   className="text-sm hover:text-white transition-colors"
                 >
-                  Alle Fragen & Antworten
-                </a>
+                  Alle Fragen &amp; Antworten
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/mietminderungstabelle"
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  Mietminderungstabelle
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/mietminderung"
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  Mängel A–Z
+                </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">
-              {t("footer.legal")}
-            </h4>
+            <h4 className="text-sm font-semibold text-white mb-4">Ratgeber</h4>
             <ul className="space-y-2">
-              <li>
-                <a
-                  href="/impressum"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("footer.imprint")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/datenschutz"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("footer.privacy")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/nutzungsbedingungen"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("footer.terms")}
-                </a>
-              </li>
+              {ratgeberArtikel.map((artikel) => (
+                <li key={artikel.slug}>
+                  <Link
+                    href={`/ratgeber/${artikel.slug}`}
+                    className="text-sm hover:text-white transition-colors"
+                  >
+                    {artikel.navLabel}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
+        </div>
+
+        <div className="mb-12">
+          <h4 className="text-sm font-semibold text-white mb-4">
+            Mietminderung nach Mangelart
+          </h4>
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            {kategorieIndex.map(({ kategorie, seo }) => (
+              <li key={seo.slug}>
+                <Link
+                  href={`/mietminderung/${seo.slug}`}
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  {kategorie.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mb-12">
+          <h4 className="text-sm font-semibold text-white mb-4">
+            {t("footer.legal")}
+          </h4>
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            <li>
+              <Link
+                href="/impressum"
+                className="text-sm hover:text-white transition-colors"
+              >
+                {t("footer.imprint")}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/datenschutz"
+                className="text-sm hover:text-white transition-colors"
+              >
+                {t("footer.privacy")}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/nutzungsbedingungen"
+                className="text-sm hover:text-white transition-colors"
+              >
+                {t("footer.terms")}
+              </Link>
+            </li>
+          </ul>
         </div>
 
         <div className="border-t border-gray-800 pt-8">
