@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
-import { site, postVersandEnabled } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung — Mietminderung Online",
@@ -227,42 +227,6 @@ export default function Datenschutz() {
         </>
       ),
     },
-    ...(postVersandEnabled
-      ? [
-          {
-            heading: "Postversand — eBrief",
-            body: (
-              <>
-                <p>
-                  Wenn Sie den kostenpflichtigen Postversand beauftragen,
-                  übermitteln wir die fertige Mängelanzeige als PDF sowie die
-                  Empfängeranschrift an unseren Dienstleister{" "}
-                  <strong>eBrief</strong>, der den Brief druckt, kuvertiert und
-                  über die Deutsche Post versendet. Übermittelt werden damit alle
-                  im Brief enthaltenen Angaben, einschließlich Ihres Namens,
-                  Ihrer Anschrift, der Mangelbeschreibung und — falls von Ihnen
-                  erzeugt — Ihrer Unterschrift. Optional übermitteln wir Ihre
-                  E-Mail-Adresse für die Versandbestätigung.
-                </p>
-                <ul>
-                  <li>
-                    <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO
-                    (Erfüllung des mit Ihnen geschlossenen Vertrags über den
-                    Briefversand)
-                  </li>
-                  <li>
-                    <strong>Speicherdauer:</strong> Wir selbst speichern den
-                    Brief nicht. Beim Dienstleister und bei uns entstehende
-                    Belege unterliegen den handels- und steuerrechtlichen
-                    Aufbewahrungsfristen (§ 147 AO, § 257 HGB — sechs bzw. zehn
-                    Jahre).
-                  </li>
-                </ul>
-              </>
-            ),
-          },
-        ]
-      : []),
     {
       heading: "Lokale Speicherung im Browser",
       body: (
@@ -302,13 +266,6 @@ export default function Datenschutz() {
                   <td>KI-Textverbesserung, E-Mail-Verteiler</td>
                   <td>Irland (EU)</td>
                 </tr>
-                {postVersandEnabled && (
-                  <tr>
-                    <td>eBrief</td>
-                    <td>Druck und Postversand</td>
-                    <td>Deutschland</td>
-                  </tr>
-                )}
               </tbody>
             </table>
           </div>

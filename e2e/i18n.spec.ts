@@ -120,7 +120,12 @@ test.describe("Language switching", () => {
     await page.getByTestId("letter-next").click();
     await page.getByTestId("letter-preview").click();
 
-    const text = await page.getByTestId("brieftext").inputValue();
+    // The textarea is filled on the step transition — wait for it before reading,
+    // otherwise a slow mobile render hands back an empty string.
+    const preview = page.getByTestId("brieftext");
+    await expect(preview).not.toHaveValue("");
+
+    const text = await preview.inputValue();
     // The recipient is a German landlord — the letter must not be translated.
     expect(text).toContain("Sehr geehrte/r");
     expect(text).toContain("Betreff: Mängelanzeige");

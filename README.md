@@ -20,8 +20,8 @@ npm run dev
 ```
 
 Die App läuft auf <http://localhost:3000>. Ohne konfigurierte Keys funktioniert
-alles bis auf die KI-Textverbesserung (fällt auf den Originaltext zurück) und
-den optionalen Postversand (standardmäßig ausgeblendet).
+alles bis auf die KI-Textverbesserung — die fällt dann auf den Originaltext
+zurück, der Brief wird trotzdem erzeugt.
 
 ## Scripts
 
@@ -48,7 +48,6 @@ src/
     api/
       enhance-beschreibung/     Gemini-Textverbesserung
       save-email/               Newsletter-Opt-in
-      send-letter/              Postversand über eBrief (Feature-Flag)
   components/                   UI-Komponenten
   data/maengel.ts               Mängelkatalog, Prüffragen, FAQ (deutsche Quelle)
   i18n/
@@ -84,10 +83,10 @@ Impressum, Datenschutzerklärung, AGB und Widerrufsbelehrung sind bewusst nur
 auf Deutsch verfügbar — nur diese Fassung ist rechtsverbindlich. Betreiberdaten
 stehen zentral in `src/lib/site.ts`.
 
-Der kostenpflichtige Postversand ist über `NEXT_PUBLIC_ENABLE_POST_VERSAND`
-abschaltbar und standardmäßig **aus**. Die Rechtstexte lesen dasselbe Flag,
-sodass ihre Aussagen zu Preisen, Vertragsschluss und Widerrufsrecht immer zum
-tatsächlichen Angebot passen.
+Die Seite ist **vollständig kostenlos**: Prüfung, Berechnung und die erzeugte
+Mängelanzeige zum Herunterladen. Es gibt kein kostenpflichtiges Angebot, keinen
+Bestellvorgang und keine Zahlungsdaten — die Rechtstexte sagen genau das. Den
+Brief versendet der Mieter selbst.
 
 Vor dem Livegang: **[LAUNCH_CHECKLIST.md](./LAUNCH_CHECKLIST.md)** lesen.
 

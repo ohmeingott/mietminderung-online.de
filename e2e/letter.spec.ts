@@ -182,14 +182,21 @@ test.describe("Mängelanzeige wizard", () => {
     expect(Math.abs(backingWidth - cssWidth * ratio)).toBeLessThanOrEqual(2);
   });
 
-  test("paid postal dispatch is hidden while the feature flag is off", async ({ page }) => {
+  test("the final step offers downloads only — nothing is sold", async ({ page }) => {
     await reachPreview(page);
     await page.getByTestId("letter-delivery").click();
 
-    await expect(page.getByTestId("delivery-post")).toBeHidden();
-    await expect(page.getByTestId("order-post")).toBeHidden();
-    await expect(page.locator("#maengelanzeige").getByText("4,99 €")).toBeHidden();
+    // The three things a tenant can actually do with the finished letter.
     await expect(page.getByTestId("download-pdf")).toBeVisible();
+    await expect(page.getByTestId("download-txt")).toBeVisible();
+    await expect(page.getByTestId("copy-text")).toBeVisible();
+
+    // No price and no order button. The rent figure legitimately carries a €,
+    // so match on the decimal price shape rather than the symbol alone.
+    const section = await page.locator("#maengelanzeige").innerText();
+    expect(section).not.toMatch(/\d[.,]\d{2}\s*€/);
+    expect(section.toLowerCase()).not.toContain("zahlungspflichtig");
+    expect(section.toLowerCase()).not.toContain("postversand");
   });
 
   test("the back button walks the wizard in reverse", async ({ page }) => {

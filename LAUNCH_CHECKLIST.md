@@ -16,8 +16,6 @@ Status of the go-live preparation, plus the decisions that still need a human.
       `Paul Ohm, Holzgasse 8, 50676 Köln, pjhohm@gmail.com`. A private Gmail
       address is legally sufficient but looks less trustworthy than
       `kontakt@mietminderung.online` — consider a domain mailbox.
-- [ ] **Decide the legal form** (see §3 below). This is the one open question
-      that changes the legal texts.
 - [ ] **Verify the domain.** The code assumes `https://mietminderung.online`
       (`src/lib/site.ts`, `sitemap.ts`, `layout.tsx`). The repository is named
       `mietminderung-online.de` — if the live domain is the `.de` one, update
@@ -32,67 +30,47 @@ Status of the go-live preparation, plus the decisions that still need a human.
 
 ---
 
-## 2. Paid postal dispatch is switched OFF
+## 2. The site is free and download-only
 
-The 4,99 € "send by post" option is hidden behind
-`NEXT_PUBLIC_ENABLE_POST_VERSAND`, which defaults to off.
+There is no paid service, no checkout and no payment data. A tenant answers the
+eligibility questions, gets a reduction estimate, writes the Mängelanzeige and
+downloads it as PDF or `.txt` — or copies the text. Sending the letter is up to
+them.
 
-**Why it was disabled.** The flow as written displayed a price and called the
-eBrief API directly. There was no checkout, no payment provider, no order
-confirmation, and no Widerrufsbelehrung. Shipping that would have been a
-`§ 312j Abs. 3 BGB` violation (the "Button-Lösung" requires a button labelled
-*Zahlungspflichtig bestellen*) and an open invitation for an Abmahnung — while
-also never actually collecting the 4,99 €.
+**Postal dispatch was removed.** The earlier build showed a 4,99 € "send by
+post" option that called the eBrief API directly: no checkout, no payment
+provider, no order confirmation and no Widerrufsbelehrung — and the money was
+never actually collected. That is a `§ 312j Abs. 3 BGB` violation (the
+"Button-Lösung" requires a *Zahlungspflichtig bestellen* button backed by a real
+order flow) and an open invitation for an Abmahnung. The feature, its API route,
+its feature flag, its eBrief credentials and all of its copy are gone; the legal
+texts now simply state that no paid service is offered.
 
-**What is already in place for when you turn it on:**
+The implementation is preserved in git history and in the pull request, so it can
+be recovered when it is rebuilt. To bring it back you will need, at minimum:
 
-- The order button is labelled *Zahlungspflichtig bestellen*.
-- `/widerruf` carries a full Widerrufsbelehrung plus the statutory
-  Muster-Widerrufsformular.
-- The AGB gain sections on contract formation, prices and withdrawal
-  automatically (they read the same flag).
-- The privacy policy gains the eBrief disclosure automatically.
-
-**Still missing before you may enable it:**
-
-- [ ] A payment provider (Stripe, Mollie, PayPal) — money is currently never charged.
+- [ ] A payment provider (Stripe, Mollie, PayPal).
 - [ ] An order confirmation email (`§ 312i Abs. 1 Nr. 3 BGB`).
 - [ ] The explicit consent checkbox for starting the service before the
-      withdrawal period ends (`§ 356 Abs. 4 BGB`) — the text is written, the
-      checkbox is not.
+      withdrawal period ends (`§ 356 Abs. 4 BGB`).
+- [ ] A full Widerrufsbelehrung with Muster-Widerrufsformular back on `/widerruf`,
+      which currently states that there is nothing to withdraw.
 - [ ] `EBRIEF_USERNAME` / `EBRIEF_PASSWORD` in the environment.
-- [ ] If you are VAT-liable, change `letter.inclVat` in
-      `src/i18n/translations.ts` from "Gesamtpreis inkl. aller Kosten" to
-      "inkl. 19 % MwSt.".
-
-To enable: set `NEXT_PUBLIC_ENABLE_POST_VERSAND=true`.
-
----
-
-## 3. Open question: your legal form
-
-The Impressum and AGB branch on this. Right now the texts assume the
-**Kleinunternehmer** case and only mention § 19 UStG when the paid option is
-switched on — which is correct while everything is free.
-
-| If you are…                       | Do this                                                                              |
-| --------------------------------- | ------------------------------------------------------------------------------------ |
-| Purely private, no paid services  | Nothing. The current texts are correct.                                                |
-| Kleinunternehmer (§ 19 UStG)      | Nothing, unless you enable paid dispatch — then the § 19 note appears automatically.   |
-| VAT-liable business               | Add `USt-IdNr.` to the Impressum and switch the price line to show 19 % MwSt.          |
-
-Everything lives in `src/lib/site.ts` and the two page files.
+- [ ] Your VAT position: as a Kleinunternehmer you add the `§ 19 UStG` note, as a
+      VAT-liable business a `USt-IdNr.` in the Impressum and a 19 % MwSt. line on
+      the price. Both live in `src/lib/site.ts` and the legal page files. While
+      everything is free this question has no subject.
 
 ---
 
-## 4. What was fixed
+## 3. What was fixed
 
 ### Legal
 
 | Problem                                                                                             | Fix                                                                                  |
 | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | Privacy policy claimed "keine Cookies, kein Tracking" while `@vercel/analytics` was loaded on every page | Vercel Web Analytics is now disclosed with purpose, legal basis (Art. 6 (1)(f)) and why no consent banner is required (§ 25 Abs. 2 TDDDG) |
-| Terms said "Sämtliche Dienste sind kostenlos" while a 4,99 € option was live                       | Paid dispatch disabled; terms describe exactly what is offered                       |
+| Terms said "Sämtliche Dienste sind kostenlos" while a 4,99 € option was live                       | Postal dispatch removed entirely; the terms now describe a free, download-only service |
 | Privacy policy named Anthropic as the AI processor                                                   | Replaced with Google Ireland Ltd. (Gemini), incl. what is and is not transmitted      |
 | Privacy policy named Resend for email delivery that no longer existed                                | Removed, along with the dead `/api/send-email` route and the `resend` dependency      |
 | No Widerrufsbelehrung despite a paid service                                                         | New `/widerruf` page with the statutory text and Muster-Widerrufsformular             |
@@ -150,7 +128,7 @@ Everything lives in `src/lib/site.ts` and the two page files.
 
 ---
 
-## 5. Test coverage
+## 4. Test coverage
 
 `npm run test:e2e` runs the suite on desktop Chrome and Pixel 5 viewports:
 
@@ -165,7 +143,7 @@ Everything lives in `src/lib/site.ts` and the two page files.
 
 ---
 
-## 6. Known limitations
+## 5. Known limitations
 
 - **The Minderungsquoten are additive and uncapped per defect.** Selecting many
   defects can produce implausibly high totals (capped only at 100 %). German

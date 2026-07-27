@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
-import { site, postVersandEnabled } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Impressum — Mietminderung Online",
@@ -50,15 +50,6 @@ export default function Impressum() {
           {site.operator.zip} {site.operator.city}
         </address>
       </LegalSection>
-
-      {postVersandEnabled && (
-        <LegalSection heading="Umsatzsteuer">
-          <p>
-            Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und daher in
-            Rechnungen nicht ausgewiesen (Kleinunternehmerregelung).
-          </p>
-        </LegalSection>
-      )}
 
       <LegalSection heading="Verbraucherstreitbeilegung">
         <p>

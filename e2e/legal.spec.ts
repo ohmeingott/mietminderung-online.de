@@ -38,8 +38,12 @@ const LEGAL_PAGES = [
   {
     path: "/widerruf",
     footerLink: "Widerrufsrecht",
-    heading: "Widerrufsbelehrung",
-    mustContain: ["vierzehn Tagen", "Muster-Widerrufsformular", "§ 356 Abs. 4 BGB"],
+    heading: "Widerrufsrecht",
+    mustContain: [
+      "Keine kostenpflichtigen Leistungen",
+      "kein entgeltlicher Vertrag",
+      "§§ 312g, 355 BGB",
+    ],
   },
 ] as const;
 
@@ -83,14 +87,29 @@ test.describe("Legal pages", () => {
     expect(body).toContain("Vercel Web Analytics");
   });
 
-  test("the terms no longer claim every service is free while a paid one exists", async ({
+  test("the terms describe a free, download-only service and name no price", async ({
     page,
   }) => {
     await page.goto("/nutzungsbedingungen");
     const body = await page.locator("article").innerText();
-    const claimsAllFree = body.includes("Sämtliche Dienste der Webseite sind kostenlos");
-    const mentionsPrice = body.includes("4,99 €");
-    expect(claimsAllFree && mentionsPrice).toBe(false);
+
+    expect(body).toContain("kostenlos");
+    expect(body).toContain("nicht angeboten");
+    // Nothing is sold, so no price, no VAT clause, no order button may appear.
+    expect(body).not.toMatch(/\d[.,]\d{2}\s*€/);
+    expect(body).not.toContain("Zahlungspflichtig bestellen");
+    expect(body).not.toContain("§ 19 UStG");
+  });
+
+  test("no legal page advertises postal dispatch or the eBrief processor", async ({
+    page,
+  }) => {
+    for (const legal of LEGAL_PAGES) {
+      await page.goto(legal.path);
+      const body = await page.locator("article").innerText();
+      expect(body, `${legal.path} still mentions Postversand`).not.toContain("Postversand");
+      expect(body, `${legal.path} still mentions eBrief`).not.toContain("eBrief");
+    }
   });
 
   test("the sitemap lists every legal page", async ({ page }) => {

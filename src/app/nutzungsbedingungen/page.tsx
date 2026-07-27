@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
-import { site, postVersandEnabled, POST_VERSAND_PREIS } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Nutzungsbedingungen & AGB — Mietminderung Online",
@@ -61,85 +61,14 @@ export default function Nutzungsbedingungen() {
               Registrierung.
             </strong>
           </p>
-          {postVersandEnabled ? (
-            <p>
-              Zusätzlich bieten wir gegen Entgelt an, die von Ihnen erstellte
-              Mängelanzeige drucken und per Post an Ihren Vermieter versenden zu
-              lassen (nachfolgend „Postversand“).
-            </p>
-          ) : (
-            <p>
-              Ein kostenpflichtiger Postversand wird derzeit nicht angeboten. Der
-              Versand der Mängelanzeige an Ihren Vermieter erfolgt durch Sie
-              selbst.
-            </p>
-          )}
+          <p>
+            Ein kostenpflichtiger Versand der Mängelanzeige wird derzeit nicht
+            angeboten. Sie laden das Dokument herunter und versenden es selbst an
+            Ihren Vermieter.
+          </p>
         </>
       ),
     },
-    ...(postVersandEnabled
-      ? [
-          {
-            heading: "Vertragsschluss über den Postversand",
-            body: (
-              <>
-                <p>
-                  Die Darstellung des Postversands auf der Webseite ist kein
-                  bindendes Angebot, sondern eine Aufforderung zur Abgabe eines
-                  Angebots. Durch Klick auf die Schaltfläche{" "}
-                  <strong>„Zahlungspflichtig bestellen“</strong> geben Sie ein
-                  verbindliches Angebot zum Abschluss eines Vertrags über den
-                  Postversand ab. Vor Absenden der Bestellung werden Ihnen die
-                  wesentlichen Merkmale der Leistung, der Gesamtpreis und die
-                  Empfängeranschrift angezeigt; Eingabefehler können Sie bis
-                  dahin jederzeit über die Zurück-Schaltflächen korrigieren.
-                </p>
-                <p>
-                  Der Vertrag kommt zustande, wenn wir Ihre Bestellung annehmen.
-                  Der Vertragstext wird von uns nicht gespeichert; die
-                  Vertragssprache ist Deutsch.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: "Preise und Zahlung",
-            body: (
-              <>
-                <p>
-                  Der Postversand kostet <strong>{POST_VERSAND_PREIS}</strong> je
-                  Sendung. Es handelt sich um den Gesamtpreis einschließlich
-                  Druck, Kuvertierung und Porto. Weitere Kosten fallen nicht an.
-                </p>
-                <p>
-                  Aufgrund der Kleinunternehmerregelung nach § 19 UStG wird keine
-                  Umsatzsteuer ausgewiesen.
-                </p>
-              </>
-            ),
-          },
-          {
-            heading: "Widerrufsrecht",
-            body: (
-              <>
-                <p>
-                  Verbrauchern steht beim Postversand ein gesetzliches
-                  Widerrufsrecht zu. Die Einzelheiten und das
-                  Muster-Widerrufsformular finden Sie in unserer{" "}
-                  <a href="/widerruf">Widerrufsbelehrung</a>.
-                </p>
-                <p>
-                  Bitte beachten Sie: Da der Brief unmittelbar nach Ihrer
-                  Bestellung gedruckt und versendet wird, erlischt Ihr
-                  Widerrufsrecht mit vollständiger Erbringung der Leistung, wenn
-                  Sie dem vorzeitigen Beginn ausdrücklich zugestimmt und Ihre
-                  Kenntnis vom Erlöschen bestätigt haben (§ 356 Abs. 4 BGB).
-                </p>
-              </>
-            ),
-          },
-        ]
-      : []),
     {
       heading: "Keine Rechtsberatung",
       body: (

@@ -65,8 +65,3 @@ export function generatePdf({ text, signatureDataUrl }: LetterPdfOptions): jsPDF
 
   return doc;
 }
-
-/** Base64 payload without the `data:` prefix, for the postal dispatch API. */
-export function generatePdfBase64(options: LetterPdfOptions): string {
-  return generatePdf(options).output("datauristring").split(",")[1];
-}

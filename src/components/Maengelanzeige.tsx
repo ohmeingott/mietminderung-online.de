@@ -12,21 +12,13 @@ import {
   FileText,
   Info,
   Pen,
-  Send,
   Trash2,
 } from "lucide-react";
 import SignaturePad from "signature_pad";
 import type { Mangel } from "@/data/maengel";
-import { generatePdf, generatePdfBase64 } from "@/lib/generatePdf";
+import { generatePdf } from "@/lib/generatePdf";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { mangelDescKey, mangelLabelKey } from "@/i18n/content";
-
-/**
- * Paid postal dispatch is opt-in. It stays hidden until a checkout flow and the
- * Widerrufsbelehrung for paid services exist — see LAUNCH_CHECKLIST.md.
- */
-const POST_VERSAND_ENABLED =
-  process.env.NEXT_PUBLIC_ENABLE_POST_VERSAND === "true";
 
 interface MaengelanzeigeProps {
   selectedMaengel: Mangel[];
@@ -94,13 +86,7 @@ export default function Maengelanzeige({
     }))
   );
   const [signatureData, setSignatureData] = useState("");
-  const [deliveryMethod, setDeliveryMethod] = useState<"download" | "post" | null>(
-    POST_VERSAND_ENABLED ? null : "download"
-  );
   const [copied, setCopied] = useState(false);
-  const [postSending, setPostSending] = useState(false);
-  const [postSent, setPostSent] = useState(false);
-  const [postError, setPostError] = useState("");
   const [enhancing, setEnhancing] = useState(false);
   const [editedBriefText, setEditedBriefText] = useState("");
   const [emailOptIn, setEmailOptIn] = useState(false);
@@ -316,28 +302,6 @@ ${mieter.name}`;
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  };
-
-  const handlePostSend = async () => {
-    setPostSending(true);
-    setPostError("");
-    try {
-      const res = await fetch("/api/send-letter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          pdfBase64: generatePdfBase64(letterPdfOptions()),
-          notificationEmail: mieter.email || "",
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) setPostError(data.error || t("letter.postFailed"));
-      else setPostSent(true);
-    } catch {
-      setPostError(t("letter.networkError"));
-    } finally {
-      setPostSending(false);
-    }
   };
 
   const stepLabels = [
@@ -803,170 +767,48 @@ ${mieter.name}`;
             </div>
           )}
 
-          {/* ---------------------------------------------- step 4: delivery */}
+          {/* ---------------------------------------------- step 4: download */}
           {step === 4 && (
             <div className="animate-fade-in-up">
               <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
                 {t("letter.howReceive")}
               </h3>
-              <p className="mt-1.5 text-sm text-ink-500">
-                {POST_VERSAND_ENABLED ? t("letter.chooseOption") : t("letter.downloadDesc")}
-              </p>
+              <p className="mt-1.5 text-sm text-ink-500">{t("letter.downloadDesc")}</p>
 
-              {POST_VERSAND_ENABLED && (
-                <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+              <div className="mt-6 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-5">
+                <p className="mb-4 text-center text-sm font-bold text-signal-600">
+                  {t("letter.free")}
+                </p>
+                <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center">
                   <button
                     type="button"
-                    data-testid="delivery-download"
-                    onClick={() => setDeliveryMethod("download")}
-                    aria-pressed={deliveryMethod === "download"}
-                    className={`card-hover rounded-[var(--radius-field)] border p-5 text-start transition-colors ${
-                      deliveryMethod === "download"
-                        ? "border-brand-500 bg-brand-50"
-                        : "border-ink-200 hover:border-brand-300"
-                    }`}
+                    data-testid="download-pdf"
+                    onClick={handleDownloadPdf}
+                    className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
                   >
-                    <Download className="mb-3 h-7 w-7 text-brand-600" aria-hidden />
-                    <h4 className="font-bold text-ink-900">{t("letter.download")}</h4>
-                    <p className="mt-1 text-sm text-ink-500">{t("letter.downloadDesc")}</p>
-                    <p className="mt-3 text-sm font-bold text-signal-600">{t("letter.free")}</p>
+                    <Download className="h-4.5 w-4.5" aria-hidden />
+                    {t("letter.downloadPdf")}
                   </button>
-
                   <button
                     type="button"
-                    data-testid="delivery-post"
-                    onClick={() => setDeliveryMethod("post")}
-                    aria-pressed={deliveryMethod === "post"}
-                    className={`card-hover relative rounded-[var(--radius-field)] border p-5 text-start transition-colors ${
-                      deliveryMethod === "post"
-                        ? "border-signal-600 bg-signal-50"
-                        : "border-ink-200 hover:border-signal-600/40"
-                    }`}
+                    data-testid="download-txt"
+                    onClick={handleDownloadTxt}
+                    className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full border border-brand-300 bg-paper-raised px-6 font-semibold text-brand-700 transition-colors hover:bg-brand-100"
                   >
-                    <span className="absolute end-4 top-4 rounded-full bg-signal-600 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wide text-white">
-                      {t("letter.recommended")}
-                    </span>
-                    <Send className="mb-3 h-7 w-7 text-signal-600" aria-hidden />
-                    <h4 className="font-bold text-ink-900">{t("letter.postOption")}</h4>
-                    <p className="mt-1 text-sm text-ink-500">{t("letter.postDesc")}</p>
-                    <p className="mt-3 text-sm font-bold text-caution-600">
-                      {t("letter.from")} 4,99 € {t("letter.inclVat")}
-                    </p>
+                    <FileText className="h-4.5 w-4.5" aria-hidden />
+                    {t("letter.downloadTxt")}
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="copy-text"
+                    onClick={handleCopy}
+                    className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full border border-brand-300 bg-paper-raised px-6 font-semibold text-brand-700 transition-colors hover:bg-brand-100"
+                  >
+                    <Copy className="h-4.5 w-4.5" aria-hidden />
+                    {copied ? t("letter.copied") : t("letter.copyText")}
                   </button>
                 </div>
-              )}
-
-              {deliveryMethod === "download" && (
-                <div className="mt-6 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-5">
-                  <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center">
-                    <button
-                      type="button"
-                      data-testid="download-pdf"
-                      onClick={handleDownloadPdf}
-                      className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-                    >
-                      <Download className="h-4.5 w-4.5" aria-hidden />
-                      {t("letter.downloadPdf")}
-                    </button>
-                    <button
-                      type="button"
-                      data-testid="download-txt"
-                      onClick={handleDownloadTxt}
-                      className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full border border-brand-300 bg-paper-raised px-6 font-semibold text-brand-700 transition-colors hover:bg-brand-100"
-                    >
-                      <FileText className="h-4.5 w-4.5" aria-hidden />
-                      {t("letter.downloadTxt")}
-                    </button>
-                    <button
-                      type="button"
-                      data-testid="copy-text"
-                      onClick={handleCopy}
-                      className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full border border-brand-300 bg-paper-raised px-6 font-semibold text-brand-700 transition-colors hover:bg-brand-100"
-                    >
-                      <Copy className="h-4.5 w-4.5" aria-hidden />
-                      {copied ? t("letter.copied") : t("letter.copyText")}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {POST_VERSAND_ENABLED && deliveryMethod === "post" && (
-                <div className="mt-6 rounded-[var(--radius-field)] border border-signal-600/25 bg-signal-50 p-5">
-                  {!postSent ? (
-                    <>
-                      <div className="mb-4 flex items-start gap-3">
-                        <Info className="mt-0.5 h-5 w-5 shrink-0 text-signal-600" aria-hidden />
-                        <div className="text-sm text-signal-700">
-                          <strong>{t("letter.postVia")}</strong> {t("letter.postInfo")} (
-                          {vermieter.name}, {vermieter.strasse}, {vermieter.plz} {vermieter.ort}).
-                          {!signatureData && (
-                            <span className="mt-2 flex items-start gap-1.5 text-caution-600">
-                              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                              {t("letter.addSignature")}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      {postError && (
-                        <p
-                          role="alert"
-                          className="mb-4 rounded-[var(--radius-field)] border border-alert-600/25 bg-alert-50 p-3 text-sm text-alert-600"
-                        >
-                          {postError}
-                        </p>
-                      )}
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-ink-900">4,99 €</p>
-                        <p className="mt-1 text-sm text-ink-500">
-                          {t("letter.inclVat")} · {t("letter.inclShipping")}
-                        </p>
-                        <button
-                          type="button"
-                          data-testid="order-post"
-                          onClick={handlePostSend}
-                          disabled={postSending}
-                          className="mt-4 inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full bg-signal-600 px-6 font-semibold text-white transition-colors hover:bg-signal-700 disabled:opacity-60 sm:w-auto"
-                        >
-                          {postSending ? (
-                            <>
-                              <span
-                                className="h-4.5 w-4.5 animate-spin rounded-full border-2 border-white border-t-transparent"
-                                aria-hidden
-                              />
-                              {t("letter.postSending")}
-                            </>
-                          ) : (
-                            <>
-                              <Send className="h-4.5 w-4.5" aria-hidden />
-                              {t("letter.orderWithPayment")}
-                            </>
-                          )}
-                        </button>
-                        <p className="mt-3 text-xs text-ink-400">{t("letter.postSecure")}</p>
-                        <p className="mt-2 text-xs text-ink-500">
-                          {t("letter.orderTermsHint")}{" "}
-                          <a href="/nutzungsbedingungen" className="underline hover:text-brand-700">
-                            {t("footer.terms")}
-                          </a>{" "}
-                          ·{" "}
-                          <a href="/widerruf" className="underline hover:text-brand-700">
-                            {t("footer.withdrawal")}
-                          </a>
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="text-center">
-                      <CheckCircle2 className="mx-auto mb-3 h-12 w-12 text-signal-600" aria-hidden />
-                      <p className="text-lg font-semibold text-ink-900">{t("letter.postSent")}</p>
-                      <p className="mx-auto mt-2 max-w-md text-sm text-ink-600">
-                        {t("letter.postSentDesc").replace("{name}", vermieter.name)}{" "}
-                        {t("letter.postConfirm").replace("{email}", mieter.email || "")}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              )}
+              </div>
 
               <div className="mt-6 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4">
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-caution-600" aria-hidden />

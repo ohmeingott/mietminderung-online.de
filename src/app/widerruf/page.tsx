@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
-import { site, postVersandEnabled } from "@/lib/site";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Widerrufsbelehrung — Mietminderung Online",
+  title: "Widerrufsrecht — Mietminderung Online",
   description:
-    "Widerrufsrecht und Muster-Widerrufsformular für kostenpflichtige Leistungen von mietminderung.online.",
+    "Alle Funktionen von mietminderung.online sind kostenlos. Mangels entgeltlichem Vertrag besteht derzeit kein Widerrufsrecht.",
   alternates: { canonical: "/widerruf" },
   robots: { index: true, follow: true },
 };
@@ -13,134 +13,44 @@ export const metadata: Metadata = {
 export default function Widerruf() {
   return (
     <LegalPage
-      title="Widerrufsbelehrung"
-      intro="Ihr gesetzliches Widerrufsrecht als Verbraucher."
+      title="Widerrufsrecht"
+      intro="Warum es hier derzeit nichts zu widerrufen gibt."
       updated={site.legalVersion}
     >
-      {!postVersandEnabled && (
-        <LegalSection heading="Derzeit keine kostenpflichtigen Leistungen">
-          <p>
-            Alle Funktionen von {site.name} sind aktuell kostenlos. Da kein
-            entgeltlicher Vertrag zustande kommt, besteht derzeit kein
-            gesetzliches Widerrufsrecht — es gibt nichts zu widerrufen.
-          </p>
-          <p>
-            Sobald wir eine kostenpflichtige Leistung anbieten, gilt die
-            nachfolgende Belehrung. Sie ist hier bereits einsehbar, damit Sie
-            die Bedingungen vorab kennen.
-          </p>
-        </LegalSection>
-      )}
-
-      <LegalSection heading="Widerrufsrecht">
+      <LegalSection heading="Keine kostenpflichtigen Leistungen">
         <p>
-          Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen
-          diesen Vertrag zu widerrufen. Die Widerrufsfrist beträgt vierzehn Tage
-          ab dem Tag des Vertragsabschlusses.
+          Sämtliche Funktionen von {site.name} sind kostenlos: die Prüfung, die
+          Berechnung der Minderungsquote und die Erstellung der Mängelanzeige,
+          die Sie als PDF oder Textdatei herunterladen. Es gibt kein
+          kostenpflichtiges Angebot, keinen Bestellvorgang und keine
+          Zahlungsdaten.
         </p>
         <p>
-          Um Ihr Widerrufsrecht auszuüben, müssen Sie uns
-        </p>
-        <address>
-          {site.operator.name}
-          <br />
-          {site.operator.street}
-          <br />
-          {site.operator.zip} {site.operator.city}
-          <br />
-          E-Mail:{" "}
-          <a href={`mailto:${site.operator.email}`}>{site.operator.email}</a>
-        </address>
-        <p>
-          mittels einer eindeutigen Erklärung (z. B. ein mit der Post versandter
-          Brief oder eine E-Mail) über Ihren Entschluss, diesen Vertrag zu
-          widerrufen, informieren. Sie können dafür das beigefügte
-          Muster-Widerrufsformular verwenden, das jedoch nicht vorgeschrieben
-          ist.
-        </p>
-        <p>
-          Zur Wahrung der Widerrufsfrist reicht es aus, dass Sie die Mitteilung
-          über die Ausübung des Widerrufsrechts vor Ablauf der Widerrufsfrist
-          absenden.
+          Da zwischen Ihnen und uns <strong>kein entgeltlicher Vertrag</strong>{" "}
+          zustande kommt, entsteht auch kein gesetzliches Widerrufsrecht nach
+          §§ 312g, 355 BGB — es gibt schlicht nichts zu widerrufen.
         </p>
       </LegalSection>
 
-      <LegalSection heading="Folgen des Widerrufs">
+      <LegalSection heading="Versand erfolgt durch Sie selbst">
         <p>
-          Wenn Sie diesen Vertrag widerrufen, haben wir Ihnen alle Zahlungen,
-          die wir von Ihnen erhalten haben, einschließlich der Lieferkosten (mit
-          Ausnahme der zusätzlichen Kosten, die sich daraus ergeben, dass Sie
-          eine andere Art der Lieferung als die von uns angebotene, günstigste
-          Standardlieferung gewählt haben), unverzüglich und spätestens binnen
-          vierzehn Tagen ab dem Tag zurückzuzahlen, an dem die Mitteilung über
-          Ihren Widerruf dieses Vertrags bei uns eingegangen ist.
-        </p>
-        <p>
-          Für diese Rückzahlung verwenden wir dasselbe Zahlungsmittel, das Sie
-          bei der ursprünglichen Transaktion eingesetzt haben, es sei denn, mit
-          Ihnen wurde ausdrücklich etwas anderes vereinbart; in keinem Fall
-          werden Ihnen wegen dieser Rückzahlung Entgelte berechnet.
-        </p>
-        <p>
-          Haben Sie verlangt, dass die Dienstleistung während der Widerrufsfrist
-          beginnen soll, so haben Sie uns einen angemessenen Betrag zu zahlen,
-          der dem Anteil der bis zu dem Zeitpunkt, zu dem Sie uns von der
-          Ausübung des Widerrufsrechts hinsichtlich dieses Vertrags
-          unterrichten, bereits erbrachten Dienstleistungen im Vergleich zum
-          Gesamtumfang der im Vertrag vorgesehenen Dienstleistungen entspricht.
+          Wir versenden keine Briefe. Die fertige Mängelanzeige laden Sie herunter
+          und schicken sie selbst an Ihren Vermieter — am besten nachweisbar per
+          Einwurf-Einschreiben.
         </p>
       </LegalSection>
 
-      <LegalSection heading="Vorzeitiges Erlöschen des Widerrufsrechts">
+      <LegalSection heading="Sollten wir später etwas kostenpflichtig anbieten">
         <p>
-          Ihr Widerrufsrecht erlischt bei einem Vertrag über die Erbringung von
-          Dienstleistungen vorzeitig, wenn wir die Dienstleistung vollständig
-          erbracht haben und Sie
+          Falls wir künftig eine kostenpflichtige Leistung einführen, erhalten Sie
+          vor jeder Bestellung eine vollständige Widerrufsbelehrung samt
+          Muster-Widerrufsformular, und diese Seite wird entsprechend ersetzt. Bis
+          dahin gilt: alles kostenlos, nichts zu widerrufen.
         </p>
-        <ul>
-          <li>
-            vor Beginn der Ausführung ausdrücklich zugestimmt haben, dass wir mit
-            der Ausführung vor Ablauf der Widerrufsfrist beginnen, und
-          </li>
-          <li>
-            Ihre Kenntnis davon bestätigt haben, dass Sie durch Ihre Zustimmung
-            mit Beginn der Ausführung des Vertrags Ihr Widerrufsrecht verlieren
-            (§ 356 Abs. 4 BGB).
-          </li>
-        </ul>
         <p>
-          Beim Postversand bedeutet das: Sobald der Brief gedruckt und der
-          Deutschen Post übergeben wurde, ist die Leistung vollständig erbracht
-          und ein Widerruf nicht mehr möglich. Wir holen diese Zustimmung und
-          Bestätigung deshalb ausdrücklich im Bestellvorgang ein.
+          Fragen dazu beantworten wir gern unter{" "}
+          <a href={`mailto:${site.operator.email}`}>{site.operator.email}</a>.
         </p>
-      </LegalSection>
-
-      <LegalSection heading="Muster-Widerrufsformular">
-        <p>
-          (Wenn Sie den Vertrag widerrufen wollen, füllen Sie bitte dieses
-          Formular aus und senden Sie es zurück.)
-        </p>
-        <div className="rounded-[var(--radius-field)] border border-ink-200 bg-paper-sunken p-5 text-sm leading-relaxed">
-          <p>
-            An {site.operator.name}, {site.operator.street}, {site.operator.zip}{" "}
-            {site.operator.city}, E-Mail:{" "}
-            <a href={`mailto:${site.operator.email}`}>{site.operator.email}</a>
-          </p>
-          <p className="mt-3">
-            Hiermit widerrufe(n) ich/wir (*) den von mir/uns (*) abgeschlossenen
-            Vertrag über den Kauf der folgenden Waren (*) / die Erbringung der
-            folgenden Dienstleistung (*)
-          </p>
-          <p className="mt-3">— Bestellt am (*) / erhalten am (*)</p>
-          <p className="mt-3">— Name des/der Verbraucher(s)</p>
-          <p className="mt-3">— Anschrift des/der Verbraucher(s)</p>
-          <p className="mt-3">
-            — Unterschrift des/der Verbraucher(s) (nur bei Mitteilung auf Papier)
-          </p>
-          <p className="mt-3">— Datum</p>
-          <p className="mt-4 text-ink-500">(*) Unzutreffendes streichen.</p>
-        </div>
       </LegalSection>
     </LegalPage>
   );
