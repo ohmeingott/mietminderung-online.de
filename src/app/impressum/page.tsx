@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Impressum — Mietminderung Online",
-  description: "Anbieterkennzeichnung nach § 5 DDG für mietminderung.online.",
-  alternates: { canonical: "/impressum" },
-  robots: { index: true, follow: true },
-};
+  description:
+    "Impressum und Anbieterkennzeichnung von mietminderung.online gemäß § 5 DDG: Betreiber, Anschrift, Kontakt und Haftungshinweise.",
+  path: "/impressum",
+});
 
 export default function Impressum() {
   return (

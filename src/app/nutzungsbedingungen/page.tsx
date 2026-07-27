@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Nutzungsbedingungen & AGB — Mietminderung Online",
   description:
-    "Nutzungsbedingungen und Allgemeine Geschäftsbedingungen für die Nutzung von mietminderung.online.",
-  alternates: { canonical: "/nutzungsbedingungen" },
-  robots: { index: true, follow: true },
-};
+    "Nutzungsbedingungen und AGB von mietminderung.online: kostenloser Mietminderungs-Check, Mängelanzeige-Generator, Haftung und Gerichtsstand.",
+  path: "/nutzungsbedingungen",
+});
 
 export default function Nutzungsbedingungen() {
   const sections = [

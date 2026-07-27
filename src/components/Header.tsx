@@ -12,6 +12,8 @@ const navLinks = [
   { href: "/#maengelanzeige", key: "nav.letter" },
   { href: "/#so-funktionierts", key: "nav.how" },
   { href: "/faq", key: "nav.faq" },
+  { href: "/mietminderungstabelle", key: "nav.table" },
+  { href: "/ratgeber", key: "nav.guide" },
 ] as const;
 
 export default function Header() {

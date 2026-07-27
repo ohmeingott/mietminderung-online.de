@@ -1,64 +1,53 @@
-"use client";
-
-import { useState, useRef } from "react";
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
-import MietminderungCheck from "@/components/MietminderungCheck";
-import Maengelanzeige from "@/components/Maengelanzeige";
-import MaengelanzeigeTeaser from "@/components/MaengelanzeigeTeaser";
+import HomeCheckFlow from "@/components/HomeCheckFlow";
 import InfoSection from "@/components/InfoSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
-import type { Mangel } from "@/data/maengel";
+import JsonLd from "@/components/JsonLd";
+import PopularLinks from "@/components/content/PopularLinks";
+import { faqs } from "@/data/maengel";
+import { alleMaengel } from "@/lib/mangelIndex";
+import {
+  buildMetadata,
+  faqSchema,
+  jsonLdGraph,
+  webApplicationSchema,
+} from "@/lib/seo";
 
-interface CheckResult {
-  eligible: boolean | null;
-  selectedMaengel: Mangel[];
-  totalMinderungMin: number;
-  totalMinderungMax: number;
-  totalMinderungTypical: number;
-  bruttowarmmiete: number;
-}
+export const metadata: Metadata = buildMetadata({
+  title: "Mietminderung berechnen & Mängelanzeige erstellen — kostenlos",
+  description: `Kostenlos prüfen, ob Sie die Miete mindern dürfen: Quote für ${alleMaengel.length} Wohnungsmängel berechnen und in 3 Minuten eine Mängelanzeige nach § 536c BGB erstellen.`,
+  path: "/",
+  keywords: [
+    "Mietminderung",
+    "Mietminderung berechnen",
+    "Mietminderung prüfen",
+    "Mängelanzeige erstellen",
+    "Miete mindern",
+    "Mietminderungstabelle",
+  ],
+});
 
 export default function Home() {
-  const [checkResult, setCheckResult] = useState<CheckResult | null>(null);
-  const maengelanzeigeRef = useRef<HTMLDivElement>(null);
-
-  const handleCheckComplete = (result: CheckResult) => {
-    setCheckResult(result);
-    // Wait a tick so the letter wizard is mounted before scrolling to it.
-    setTimeout(() => {
-      maengelanzeigeRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
-  };
-
   return (
-    <div className="min-h-screen">
-      <Header />
+    <>
+      <JsonLd data={jsonLdGraph(webApplicationSchema(), faqSchema(faqs))} />
 
-      <main>
-        <Hero />
-        <HowItWorks />
-        <MietminderungCheck onComplete={handleCheckComplete} />
-
-        <div ref={maengelanzeigeRef} className="scroll-mt-20">
-          {checkResult?.eligible ? (
-            <Maengelanzeige
-              selectedMaengel={checkResult.selectedMaengel}
-              bruttowarmmiete={checkResult.bruttowarmmiete}
-              minderungsquote={checkResult.totalMinderungTypical}
-            />
-          ) : (
-            <MaengelanzeigeTeaser />
-          )}
-        </div>
-
-        <InfoSection />
-        <FAQSection />
-      </main>
-
-      <Footer />
-    </div>
+      <div className="min-h-screen">
+        <Header />
+        <main>
+          <Hero />
+          <HowItWorks />
+          <HomeCheckFlow />
+          <InfoSection />
+          <PopularLinks />
+          <FAQSection />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }

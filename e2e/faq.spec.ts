@@ -56,10 +56,22 @@ test.describe("FAQ", () => {
 
   test("exposes FAQPage structured data for search engines", async ({ page }) => {
     await page.goto("/faq");
-    const jsonLd = await page.locator('script[type="application/ld+json"]').innerText();
-    const parsed = JSON.parse(jsonLd);
-    expect(parsed["@type"]).toBe("FAQPage");
-    expect(parsed.mainEntity.length).toBe(12);
-    expect(parsed.mainEntity[0].name).toBe("Was ist eine Mietminderung?");
+
+    // The layout emits Organization/WebSite and the page adds FAQPage plus
+    // BreadcrumbList, so collect every block and flatten the @graph wrappers.
+    const blocks = await page.locator('script[type="application/ld+json"]').allInnerTexts();
+    expect(blocks.length).toBeGreaterThan(0);
+
+    const nodes = blocks
+      .map((raw) => JSON.parse(raw))
+      .flatMap((doc) => (Array.isArray(doc["@graph"]) ? doc["@graph"] : [doc]));
+
+    const faqPage = nodes.find((node) => node["@type"] === "FAQPage");
+    expect(faqPage, "no FAQPage node in the structured data").toBeTruthy();
+    expect(faqPage.mainEntity.length).toBe(12);
+    expect(faqPage.mainEntity[0].name).toBe("Was ist eine Mietminderung?");
+
+    // The breadcrumb trail main added must survive too.
+    expect(nodes.some((node) => node["@type"] === "BreadcrumbList")).toBe(true);
   });
 });

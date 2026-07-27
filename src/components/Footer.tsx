@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { ratgeberArtikel } from "@/data/ratgeber";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 const serviceLinks = [
@@ -8,6 +10,20 @@ const serviceLinks = [
   { href: "/#maengelanzeige", key: "nav.letter" },
   { href: "/#so-funktionierts", key: "nav.how" },
   { href: "/faq", key: "nav.faq" },
+] as const;
+
+/**
+ * German-only content routes, like the legal pages. They carry the site's
+ * internal linking, so they stay in the footer on every page.
+ */
+const contentLinks = [
+  { href: "/mietminderungstabelle", label: "Mietminderungstabelle" },
+  { href: "/mietminderung", label: "Mängel A–Z" },
+  { href: "/ratgeber", label: "Ratgeber" },
+  ...ratgeberArtikel.map((artikel) => ({
+    href: `/ratgeber/${artikel.slug}`,
+    label: artikel.navLabel,
+  })),
 ] as const;
 
 const legalLinks = [
@@ -23,7 +39,7 @@ export default function Footer() {
   return (
     <footer className="bg-brand-950 text-brand-200">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-5">
           <div className="col-span-2">
             <div className="mb-4 flex items-center gap-2">
               <Image
@@ -47,12 +63,30 @@ export default function Footer() {
             <ul className="space-y-1">
               {serviceLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="inline-flex min-h-[2.25rem] items-center text-sm transition-colors hover:text-white"
                   >
                     {t(link.key)}
-                  </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-labelledby="footer-content">
+            <h2 id="footer-content" className="mb-4 text-sm font-semibold text-white">
+              Ratgeber &amp; Tabellen
+            </h2>
+            <ul className="space-y-1">
+              {contentLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="inline-flex min-h-[2.25rem] items-center text-sm transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -65,12 +99,12 @@ export default function Footer() {
             <ul className="space-y-1">
               {legalLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="inline-flex min-h-[2.25rem] items-center text-sm transition-colors hover:text-white"
                   >
                     {t(link.key)}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

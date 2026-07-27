@@ -50,18 +50,25 @@ export default function FAQAccordion({
                 />
               </button>
             </h3>
-            {isOpen && (
-              <div
-                id={panelId}
-                role="region"
-                aria-labelledby={buttonId}
-                className="animate-fade-in px-5 pb-5 sm:px-6"
-              >
-                <p className="border-t border-ink-200 pt-4 leading-relaxed text-ink-600">
+            {/*
+              The answer stays mounted while collapsed — these are the exact
+              phrases the page is meant to rank for, and unmounting them keeps
+              them out of the served HTML entirely. Only the height animates.
+            */}
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={buttonId}
+              className={`grid transition-[grid-template-rows] duration-200 motion-reduce:transition-none ${
+                isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <p className="mx-5 border-t border-ink-200 pt-4 pb-5 leading-relaxed text-ink-600 sm:mx-6">
                   {tc(faqAnswerKey(key), faq.answer)}
                 </p>
               </div>
-            )}
+            </div>
           </li>
         );
       })}

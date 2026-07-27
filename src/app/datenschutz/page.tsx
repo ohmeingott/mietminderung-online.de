@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Datenschutzerklärung — Mietminderung Online",
   description:
-    "Informationen nach Art. 13 und 14 DSGVO zur Verarbeitung personenbezogener Daten auf mietminderung.online.",
-  alternates: { canonical: "/datenschutz" },
-  robots: { index: true, follow: true },
-};
+    "Datenschutzerklärung von mietminderung.online: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.",
+  path: "/datenschutz",
+});
 
 const mailto = `mailto:${site.operator.email}`;
 
