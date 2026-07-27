@@ -1,57 +1,51 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { faqs } from "@/data/maengel";
+import { ratgeberArtikel } from "@/data/ratgeber";
+import JsonLd from "@/components/JsonLd";
+import Breadcrumbs from "@/components/content/Breadcrumbs";
+import ContentFooter from "@/components/content/ContentFooter";
+import {
+  breadcrumbSchema,
+  buildMetadata,
+  faqSchema,
+  jsonLdGraph,
+  type Crumb,
+} from "@/lib/seo";
 import FAQPageClient from "./FAQPageClient";
 
-export const metadata: Metadata = {
-  title:
-    "Häufige Fragen zur Mietminderung — Mietminderung Online",
+const crumbs: Crumb[] = [
+  { name: "Startseite", path: "/" },
+  { name: "Häufige Fragen", path: "/faq" },
+];
+
+export const metadata: Metadata = buildMetadata({
+  title: "Mietminderung FAQ: Die wichtigsten Fragen & Antworten",
   description:
-    "Antworten auf die wichtigsten Fragen rund um Mietminderung, Mängelanzeige und Ihre Rechte als Mieter. Kostenlos, verständlich und rechtssicher erklärt.",
-  openGraph: {
-    title: "Häufige Fragen zur Mietminderung — Mietminderung Online",
-    description:
-      "Antworten auf die wichtigsten Fragen rund um Mietminderung, Mängelanzeige und Ihre Rechte als Mieter.",
-    url: "https://mietminderung.online/faq",
-    siteName: "Mietminderung Online",
-    locale: "de_DE",
-    type: "website",
-  },
-};
+    "Antworten auf die wichtigsten Fragen zur Mietminderung: Wie hoch darf sie sein, ab wann gilt sie und muss der Vermieter zustimmen? Erklärt auf Basis des BGB.",
+  path: "/faq",
+  keywords: [
+    "Mietminderung FAQ",
+    "Mietminderung Fragen",
+    "Mietminderung wie hoch",
+    "Mietminderung Vermieter zustimmen",
+    "Mietminderung ab wann",
+  ],
+});
 
 export default function FAQPage() {
-  // JSON-LD structured data for Google rich results
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
+      <JsonLd data={jsonLdGraph(faqSchema(faqs), breadcrumbSchema(crumbs))} />
 
       {/* Hero */}
       <div className="bg-gradient-to-br from-blue-800 via-blue-700 to-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-blue-200 hover:text-white mb-8 transition-colors"
-          >
-            &larr; Zurück zur Startseite
-          </Link>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16">
+          <div className="[&_a]:text-blue-200 [&_a:hover]:text-white [&_span]:text-blue-100">
+            <Breadcrumbs crumbs={crumbs} />
+          </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
-            Häufige Fragen
+            Häufige Fragen zur Mietminderung
           </h1>
           <p className="text-lg sm:text-xl text-blue-100 max-w-2xl">
             Alles, was Sie über Mietminderung wissen müssen — verständlich
@@ -61,7 +55,7 @@ export default function FAQPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 pb-20">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 pb-20">
         {/* What is this website / why it's great */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
@@ -252,14 +246,43 @@ export default function FAQPage() {
               Zum Mietminderungs-Check
             </Link>
             <Link
-              href="/"
+              href="/mietminderungstabelle"
               className="inline-flex justify-center px-8 py-3.5 border-2 border-white/30 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors"
             >
-              Zur Startseite
+              Zur Mietminderungstabelle
             </Link>
           </div>
         </div>
-      </div>
+
+        {/* Weiterführende Themen */}
+        <div className="mt-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 text-center">
+            Weiterführende Ratgeber
+          </h2>
+          <p className="text-gray-600 text-center mb-8">
+            Detaillierte Anleitungen zu den wichtigsten Schritten
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ratgeberArtikel.map((artikel) => (
+              <li key={artikel.slug}>
+                <Link
+                  href={`/ratgeber/${artikel.slug}`}
+                  className="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 hover:border-blue-400 hover:shadow-sm transition-all"
+                >
+                  <span className="font-semibold text-gray-900">
+                    {artikel.title}
+                  </span>
+                  <span className="mt-2 text-sm text-gray-600 leading-relaxed">
+                    {artikel.description}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </main>
+
+      <ContentFooter />
     </div>
   );
 }

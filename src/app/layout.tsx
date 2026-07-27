@@ -1,37 +1,78 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { Analytics } from "@vercel/analytics/react";
+import JsonLd from "@/components/JsonLd";
+import { absoluteUrl, siteConfig } from "@/lib/site";
+import { jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
   display: "swap",
 });
 
-const siteUrl = "https://mietminderung.online";
+const defaultTitle =
+  "Mietminderung Online — Prüfen Sie Ihr Recht auf Mietminderung";
+
+export const viewport: Viewport = {
+  themeColor: siteConfig.themeColor,
+  colorScheme: "light",
+};
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Mietminderung Online — Prüfen Sie Ihr Recht auf Mietminderung",
-  description:
-    "Kostenlos prüfen ob Sie Anspruch auf Mietminderung haben. Berechnen Sie die Höhe und erstellen Sie eine rechtssichere Mängelanzeige für Ihren Vermieter.",
-  keywords:
-    "Mietminderung, Mängelanzeige, Mietrecht, Miete mindern, Wohnungsmangel, Mietminderung berechnen",
+  metadataBase: new URL(siteConfig.url),
+  // Every page supplies its own complete, SERP-width-optimised title via
+  // buildMetadata(), so no title template is applied here.
+  title: defaultTitle,
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  keywords: [
+    "Mietminderung",
+    "Mietminderung berechnen",
+    "Mietminderungstabelle",
+    "Mängelanzeige",
+    "Mietmangel",
+    "Miete mindern",
+    "Mietrecht",
+    "Wohnungsmangel",
+    "§ 536 BGB",
+  ],
+  authors: [{ name: siteConfig.publisher.name }],
+  creator: siteConfig.publisher.name,
+  publisher: siteConfig.publisher.name,
+  category: "Mietrecht",
+  alternates: {
+    canonical: absoluteUrl("/"),
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
-    title: "Mietminderung Online — Prüfen Sie Ihr Recht auf Mietminderung",
-    description:
-      "Kostenlos prüfen ob Sie Anspruch auf Mietminderung haben. Berechnen Sie die Höhe und erstellen Sie eine rechtssichere Mängelanzeige.",
-    url: siteUrl,
-    siteName: "Mietminderung Online",
-    locale: "de_DE",
+    title: defaultTitle,
+    description: siteConfig.description,
+    url: absoluteUrl("/"),
+    siteName: siteConfig.name,
+    locale: siteConfig.locale,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mietminderung Online — Prüfen Sie Ihr Recht auf Mietminderung",
-    description:
-      "Kostenlos prüfen ob Sie Anspruch auf Mietminderung haben. Berechnen Sie die Höhe und erstellen Sie eine rechtssichere Mängelanzeige.",
+    title: defaultTitle,
+    description: siteConfig.description,
   },
   icons: {
     icon: [
@@ -41,9 +82,6 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
-  other: {
-    "theme-color": "#1e40af",
-  },
 };
 
 export default function RootLayout({
@@ -52,8 +90,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={inter.className}>
+    <html lang={siteConfig.lang} className={inter.className}>
       <body className="antialiased">
+        <JsonLd data={jsonLdGraph(organizationSchema(), websiteSchema())} />
         <LanguageProvider>{children}</LanguageProvider>
         <Analytics />
       </body>

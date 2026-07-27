@@ -1,10 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Datenschutzerklärung — Mietminderung Online",
-  description: "Datenschutzerklärung von mietminderung.online",
-};
+  description:
+    "Datenschutzerklärung von mietminderung.online: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.",
+  path: "/datenschutz",
+});
 
 export default function Datenschutz() {
   return (
@@ -183,7 +186,8 @@ export default function Datenschutz() {
               6. Lokale Speicherung (localStorage)
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              Wir speichern Ihre Spracheinstellung (z.B. „de", „tr") im
+              Wir speichern Ihre Spracheinstellung (z.B. &bdquo;de&ldquo;,
+              &bdquo;tr&ldquo;) im
               localStorage Ihres Browsers. Dies ist technisch notwendig, damit
               die Webseite in Ihrer bevorzugten Sprache angezeigt wird. Es
               werden keine Cookies gesetzt und keine Tracking-Daten erhoben.

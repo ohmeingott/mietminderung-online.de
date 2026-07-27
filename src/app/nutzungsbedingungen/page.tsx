@@ -1,10 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Nutzungsbedingungen — Mietminderung Online",
-  description: "Nutzungsbedingungen von mietminderung.online",
-};
+  description:
+    "Nutzungsbedingungen für den kostenlosen Mietminderungs-Check und den Mängelanzeige-Generator von mietminderung.online.",
+  path: "/nutzungsbedingungen",
+});
 
 export default function Nutzungsbedingungen() {
   return (
@@ -28,7 +31,7 @@ export default function Nutzungsbedingungen() {
             </h2>
             <p className="text-gray-700 leading-relaxed">
               Diese Nutzungsbedingungen gelten für die Nutzung der Webseite
-              mietminderung.online (nachfolgend „Webseite"), betrieben von Paul
+              mietminderung.online (nachfolgend &bdquo;Webseite&ldquo;), betrieben von Paul
               Ohm, Holzgasse 8, 50676 Köln. Mit der Nutzung der Webseite
               erklären Sie sich mit diesen Bedingungen einverstanden.
             </p>
