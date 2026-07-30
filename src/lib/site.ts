@@ -11,11 +11,54 @@
  * Falls back to the production domain.
  */
 
-const rawSiteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://mietminderung.online";
+/**
+ * The live production origin. Everything else - canonical tags, the sitemap,
+ * robots.txt, the JSON-LD and the brand name shown in the footer and the legal
+ * pages - is derived from this one value, so the site can never advertise a
+ * host it is not actually served from.
+ */
+const PRODUCTION_URL = "https://mietminderung-online.de";
+
+/**
+ * Reject anything that is not a bare origin. A silently wrong value here is the
+ * worst kind of bug: the site keeps building and serving, but every canonical
+ * points somewhere else and Google drops the domain from its index. Failing the
+ * build is the cheaper outcome.
+ */
+function toOrigin(value: string): string {
+  let parsed: URL;
+  try {
+    parsed = new URL(value);
+  } catch {
+    throw new Error(
+      `NEXT_PUBLIC_SITE_URL must be an absolute URL like "${PRODUCTION_URL}", got "${value}".`,
+    );
+  }
+
+  const isLocal =
+    parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1";
+  if (parsed.protocol !== "https:" && !isLocal) {
+    throw new Error(
+      `NEXT_PUBLIC_SITE_URL must use https, got "${value}". Only localhost may use http.`,
+    );
+  }
+  if (parsed.pathname !== "/" || parsed.search || parsed.hash) {
+    throw new Error(
+      `NEXT_PUBLIC_SITE_URL must be an origin without a path, query or hash, got "${value}".`,
+    );
+  }
+
+  // `origin` is normalised and never carries a trailing slash.
+  return parsed.origin;
+}
+
+const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || PRODUCTION_URL;
 
 /** Canonical origin, never with a trailing slash. */
-const siteUrl = rawSiteUrl.replace(/\/+$/, "");
+const siteUrl = toOrigin(rawSiteUrl);
+
+/** Host only - the brand is the domain, so it follows the canonical origin. */
+const siteHost = new URL(siteUrl).host;
 
 const operator = {
   name: "Paul Ohm",
@@ -31,7 +74,7 @@ const operator = {
 /** Operator details and legal metadata used across the legal pages. */
 export const site = {
   url: siteUrl,
-  name: "mietminderung.online",
+  name: siteHost,
   operator,
   /** Court venue for merchant disputes. */
   venue: "Köln",
@@ -42,7 +85,7 @@ export const site = {
 export const siteConfig = {
   url: siteUrl,
   name: "Mietminderung Online",
-  brand: "mietminderung.online",
+  brand: siteHost,
   lang: "de",
   locale: "de_DE",
   /** brand-700, the fill of the brand mark's tile. */

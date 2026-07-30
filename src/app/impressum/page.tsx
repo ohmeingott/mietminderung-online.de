@@ -5,8 +5,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
   title: "Impressum | Mietminderung Online",
-  description:
-    "Impressum und Anbieterkennzeichnung von mietminderung.online gemäß § 5 DDG: Betreiber, Anschrift, Kontakt und Haftungshinweise.",
+  description: `Impressum und Anbieterkennzeichnung von ${site.name} gemäß § 5 DDG: Betreiber, Anschrift, Kontakt und Haftungshinweise.`,
   path: "/impressum",
 });
 
