@@ -45,7 +45,8 @@ export const siteConfig = {
   brand: "mietminderung.online",
   lang: "de",
   locale: "de_DE",
-  themeColor: "#1e40af",
+  /** brand-700, the fill of the brand mark's tile. */
+  themeColor: "#1d4ed8",
   description:
     "Kostenlos prüfen, ob Sie Anspruch auf Mietminderung haben. Minderungsquote berechnen und rechtssichere Mängelanzeige für den Vermieter erstellen, in wenigen Minuten und ohne Anwalt.",
   /** The same operator record, under the schema.org names the JSON-LD needs. */

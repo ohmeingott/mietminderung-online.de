@@ -105,8 +105,10 @@ export function organizationSchema() {
     logo: {
       "@type": "ImageObject",
       url: absoluteUrl("/logo.png"),
-      width: 512,
-      height: 512,
+      // The real dimensions of the generated lock-up. These were previously
+      // declared as 512x512 for a file that was 1024x1024.
+      width: 2060,
+      height: 248,
     },
     description: siteConfig.description,
     email: siteConfig.publisher.email,
