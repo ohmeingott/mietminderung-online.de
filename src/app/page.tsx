@@ -40,8 +40,8 @@ export default function Home() {
         <Header />
         <main>
           <Hero />
-          <HowItWorks />
           <HomeCheckFlow />
+          <HowItWorks />
           <InfoSection />
           <PopularLinks />
           <FAQSection />
