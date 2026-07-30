@@ -339,7 +339,7 @@ export default async function MangelPage({ params }: { params: Params }) {
                 </div>
               </section>
 
-              {/* FAQ — answers always in the DOM for indexing */}
+              {/* FAQ - answers always in the DOM for indexing */}
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
                   Häufige Fragen zu {mangel.label}

@@ -276,7 +276,7 @@ export const mangelKategorien: MangelKategorie[] = [
         minderung_max: 15,
         minderung_typical: 10,
         description:
-          "Fenster können nicht geschlossen werden — Sicherheitsrisiko und Wärmeverlust.",
+          "Fenster können nicht geschlossen werden: Sicherheitsrisiko und Wärmeverlust.",
       },
       {
         id: "tuer_abschliessbar",
@@ -285,7 +285,7 @@ export const mangelKategorien: MangelKategorie[] = [
         minderung_max: 25,
         minderung_typical: 10,
         description:
-          "Wohnungstür kann nicht abgeschlossen werden — Sicherheitsmangel.",
+          "Wohnungstür kann nicht abgeschlossen werden: Sicherheitsmangel.",
       },
       {
         id: "klingel_defekt",
@@ -407,7 +407,7 @@ export const mangelKategorien: MangelKategorie[] = [
       },
       {
         id: "aufzug_hoch",
-        label: "Aufzug defekt — hohes Stockwerk",
+        label: "Aufzug defekt (hohes Stockwerk)",
         minderung_min: 15,
         minderung_max: 50,
         minderung_typical: 20,
@@ -666,17 +666,17 @@ export const eligibilityQuestions: EligibilityQuestion[] = [
     options: [
       {
         value: "stark",
-        label: "Stark — Wohnqualität deutlich eingeschränkt",
+        label: "Stark: Wohnqualität deutlich eingeschränkt",
         eligible: true,
       },
       {
         value: "mittel",
-        label: "Mittel — spürbare Beeinträchtigung",
+        label: "Mittel: spürbare Beeinträchtigung",
         eligible: true,
       },
       {
         value: "gering",
-        label: "Gering — nur leichte Unannehmlichkeit",
+        label: "Gering: nur leichte Unannehmlichkeit",
         eligible: false,
       },
     ],
@@ -703,7 +703,7 @@ export const faqs: FAQ[] = [
   {
     question: "Was ist eine Mietminderung?",
     answer:
-      "Eine Mietminderung bedeutet, dass Sie als Mieter weniger Miete zahlen dürfen, wenn Ihre Wohnung Mängel hat, die die Wohnqualität beeinträchtigen. Dieses Recht ergibt sich automatisch aus § 536 BGB — Sie müssen keine Genehmigung beantragen. Die Miete ist von Gesetzes wegen gemindert, solange der Mangel besteht.",
+      "Eine Mietminderung bedeutet, dass Sie als Mieter weniger Miete zahlen dürfen, wenn Ihre Wohnung Mängel hat, die die Wohnqualität beeinträchtigen. Dieses Recht ergibt sich automatisch aus § 536 BGB. Sie müssen keine Genehmigung beantragen. Die Miete ist von Gesetzes wegen gemindert, solange der Mangel besteht.",
   },
   {
     question: "Muss der Vermieter die Mietminderung genehmigen?",
@@ -713,7 +713,7 @@ export const faqs: FAQ[] = [
   {
     question: "Wie berechne ich die Höhe der Mietminderung?",
     answer:
-      "Die Mietminderung wird von der Bruttowarmmiete berechnet — also Kaltmiete plus alle Nebenkosten. Die Höhe richtet sich nach Art und Schwere des Mangels. Beispiel: Bei einer Bruttowarmmiete von 1.000 € und einer Minderungsquote von 20% zahlen Sie nur 800 €. Die Quote ergibt sich aus Gerichtsurteilen zu vergleichbaren Fällen.",
+      "Die Mietminderung wird von der Bruttowarmmiete berechnet, also Kaltmiete plus alle Nebenkosten. Die Höhe richtet sich nach Art und Schwere des Mangels. Beispiel: Bei einer Bruttowarmmiete von 1.000 € und einer Minderungsquote von 20% zahlen Sie nur 800 €. Die Quote ergibt sich aus Gerichtsurteilen zu vergleichbaren Fällen.",
   },
   {
     question: "Was ist eine Mängelanzeige und warum brauche ich sie?",
@@ -733,12 +733,12 @@ export const faqs: FAQ[] = [
   {
     question: "Ab wann kann ich die Miete mindern?",
     answer:
-      "Die Mietminderung gilt ab dem Zeitpunkt, zu dem der Vermieter den Mangel kennt — in der Regel also ab Zugang der Mängelanzeige. Für die Zeit davor können Sie in der Regel nicht mindern, es sei denn, Sie haben unter Vorbehalt gezahlt.",
+      "Die Mietminderung gilt ab dem Zeitpunkt, zu dem der Vermieter den Mangel kennt, in der Regel also ab Zugang der Mängelanzeige. Für die Zeit davor können Sie in der Regel nicht mindern, es sei denn, Sie haben unter Vorbehalt gezahlt.",
   },
   {
     question: "Muss ich bei Schimmel immer mindern dürfen?",
     answer:
-      "Nicht unbedingt. Wenn der Schimmel durch Ihr eigenes Verhalten verursacht wurde (falsches Lüften/Heizen), entfällt das Minderungsrecht. Allerdings liegt die Beweislast beim Vermieter — er muss nachweisen, dass Sie den Schimmel verursacht haben. Oft liegt die Ursache aber an baulichen Mängeln.",
+      "Nicht unbedingt. Wenn der Schimmel durch Ihr eigenes Verhalten verursacht wurde (falsches Lüften/Heizen), entfällt das Minderungsrecht. Allerdings liegt die Beweislast beim Vermieter: Er muss nachweisen, dass Sie den Schimmel verursacht haben. Oft liegt die Ursache aber an baulichen Mängeln.",
   },
   {
     question: "Wie lange gilt die Mietminderung?",

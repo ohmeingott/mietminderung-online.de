@@ -6,7 +6,7 @@ import ar from "./ar";
 import pl from "./pl";
 
 /**
- * Translations for content that lives in `src/data/maengel.ts` — defect
+ * Translations for content that lives in `src/data/maengel.ts` - defect
  * categories, defect labels/descriptions and FAQ entries.
  *
  * German is intentionally absent: the data file already holds the German

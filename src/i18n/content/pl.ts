@@ -80,7 +80,7 @@ const pl: Record<string, string> = {
   "m.bettwanzen.d": "Występowanie pluskiew w mieszkaniu.",
   "m.silberfische.l": "Rybiki cukrowe (silne występowanie)",
   "m.silberfische.d":
-    "Liczne rybiki cukrowe — często sygnał problemów z wilgocią.",
+    "Liczne rybiki cukrowe, często sygnał problemów z wilgocią.",
   "m.wespen.l": "Gniazdo os / pszczół",
   "m.wespen.d":
     "Gniazdo os lub pszczół na budynku, które ogranicza korzystanie z lokalu.",
@@ -92,10 +92,10 @@ const pl: Record<string, string> = {
   "m.fenster_oeffnen.d": "Okien nie można otworzyć, wietrzenie jest niemożliwe.",
   "m.fenster_schliessen.l": "Okien nie da się zamknąć",
   "m.fenster_schliessen.d":
-    "Okien nie można zamknąć — zagrożenie bezpieczeństwa i utrata ciepła.",
+    "Okien nie można zamknąć: zagrożenie bezpieczeństwa i utrata ciepła.",
   "m.tuer_abschliessbar.l": "Drzwi mieszkania nie dają się zamknąć na klucz",
   "m.tuer_abschliessbar.d":
-    "Drzwi wejściowych do mieszkania nie można zamknąć na klucz — wada bezpieczeństwa.",
+    "Drzwi wejściowych do mieszkania nie można zamknąć na klucz: wada bezpieczeństwa.",
   "m.klingel_defekt.l": "Dzwonek / domofon uszkodzony",
   "m.klingel_defekt.d": "Dzwonek do drzwi lub domofon nie działa.",
 
@@ -130,7 +130,7 @@ const pl: Record<string, string> = {
   // --- Lift ------------------------------------------------------------------
   "m.aufzug_defekt.l": "Winda uszkodzona",
   "m.aufzug_defekt.d": "Uzgodniona w umowie winda nie działa.",
-  "m.aufzug_hoch.l": "Winda uszkodzona — wysokie piętro",
+  "m.aufzug_hoch.l": "Winda uszkodzona (wysokie piętro)",
   "m.aufzug_hoch.d":
     "Awaria windy przy mieszkaniu na wysokim piętrze lub przy ograniczonej sprawności ruchowej.",
 
@@ -195,13 +195,13 @@ const pl: Record<string, string> = {
   // --- FAQ -------------------------------------------------------------------
   "faq.q0": "Czym jest obniżka czynszu (Mietminderung)?",
   "faq.a0":
-    "Obniżka czynszu oznacza, że jako najemca możesz płacić mniej, jeśli twoje mieszkanie ma wady pogarszające jakość zamieszkiwania. Prawo to wynika automatycznie z § 536 niemieckiego kodeksu cywilnego (BGB) — nie musisz występować o żadną zgodę. Czynsz jest obniżony z mocy prawa tak długo, jak długo trwa wada.",
+    "Obniżka czynszu oznacza, że jako najemca możesz płacić mniej, jeśli twoje mieszkanie ma wady pogarszające jakość zamieszkiwania. Prawo to wynika automatycznie z § 536 niemieckiego kodeksu cywilnego (BGB). Nie musisz występować o żadną zgodę. Czynsz jest obniżony z mocy prawa tak długo, jak długo trwa wada.",
   "faq.q1": "Czy wynajmujący musi zatwierdzić obniżkę czynszu?",
   "faq.a1":
     "Nie! Obniżka następuje z mocy prawa (automatycznie), gdy tylko wystąpi istotna wada i zgłosisz ją wynajmującemu. Zgoda nie jest potrzebna. Musisz jednak wcześniej powiadomić wynajmującego o wadzie (zgłoszenie wady).",
   "faq.q2": "Jak obliczyć wysokość obniżki czynszu?",
   "faq.a2":
-    "Obniżkę oblicza się od czynszu brutto z ogrzewaniem (Bruttowarmmiete) — czyli czynszu podstawowego wraz ze wszystkimi kosztami dodatkowymi. Wysokość zależy od rodzaju i ciężkości wady. Przykład: przy czynszu brutto 1000 € i stawce obniżki 20 % płacisz tylko 800 €. Stawka wynika z orzeczeń sądowych w porównywalnych sprawach.",
+    "Obniżkę oblicza się od czynszu brutto z ogrzewaniem (Bruttowarmmiete), czyli czynszu podstawowego wraz ze wszystkimi kosztami dodatkowymi. Wysokość zależy od rodzaju i ciężkości wady. Przykład: przy czynszu brutto 1000 € i stawce obniżki 20 % płacisz tylko 800 €. Stawka wynika z orzeczeń sądowych w porównywalnych sprawach.",
   "faq.q3": "Czym jest zgłoszenie wady i dlaczego go potrzebuję?",
   "faq.a3":
     "Zgłoszenie wady to pisemne zawiadomienie wynajmującego, w którym opisujesz wadę i wzywasz do jej usunięcia. Jest ono wymagane ustawowo (§ 536c BGB). Bez zgłoszenia wady nie możesz obniżyć czynszu, a nawet ryzykujesz roszczeniami odszkodowawczymi. Pomożemy ci sporządzić je w sposób zgodny z prawem.",
@@ -213,10 +213,10 @@ const pl: Record<string, string> = {
     "Nie. W najmie lokali mieszkalnych prawo do obniżki czynszu jest niezbywalne (§ 536 ust. 4 BGB). Klauzule umowne wyłączające to prawo są nieważne.",
   "faq.q6": "Od kiedy mogę obniżyć czynsz?",
   "faq.a6":
-    "Obniżka obowiązuje od momentu, w którym wynajmujący dowiedział się o wadzie — czyli z reguły od dnia doręczenia zgłoszenia wady. Za okres wcześniejszy zwykle nie można obniżyć czynszu, chyba że płaciłeś z zastrzeżeniem.",
+    "Obniżka obowiązuje od momentu, w którym wynajmujący dowiedział się o wadzie, czyli z reguły od dnia doręczenia zgłoszenia wady. Za okres wcześniejszy zwykle nie można obniżyć czynszu, chyba że płaciłeś z zastrzeżeniem.",
   "faq.q7": "Czy przy pleśni zawsze mogę obniżyć czynsz?",
   "faq.a7":
-    "Niekoniecznie. Jeśli pleśń powstała wskutek twojego zachowania (nieprawidłowe wietrzenie/ogrzewanie), prawo do obniżki odpada. Ciężar dowodu spoczywa jednak na wynajmującym — musi wykazać, że to ty spowodowałeś pleśń. Często przyczyną są jednak wady budowlane.",
+    "Niekoniecznie. Jeśli pleśń powstała wskutek twojego zachowania (nieprawidłowe wietrzenie/ogrzewanie), prawo do obniżki odpada. Ciężar dowodu spoczywa jednak na wynajmującym: musi wykazać, że to ty spowodowałeś pleśń. Często przyczyną są jednak wady budowlane.",
   "faq.q8": "Jak długo obowiązuje obniżka czynszu?",
   "faq.a8":
     "Obniżka obowiązuje przez cały okres istnienia wady. Gdy tylko wada zostanie usunięta, musisz ponownie płacić pełny czynsz. Nie ma górnej granicy czasowej.",
