@@ -81,7 +81,7 @@ const tr: Record<string, string> = {
   "m.bettwanzen.d": "Dairede tahta kurusu istilası.",
   "m.silberfische.l": "Gümüşçün böceği (yoğun istila)",
   "m.silberfische.d":
-    "Yoğun gümüşçün istilası — çoğu zaman nem sorununun işaretidir.",
+    "Yoğun gümüşçün istilası, çoğu zaman nem sorununun işaretidir.",
   "m.wespen.l": "Eşek arısı / arı yuvası",
   "m.wespen.d": "Binada kullanımı kısıtlayan eşek arısı veya arı yuvası.",
 
@@ -92,9 +92,9 @@ const tr: Record<string, string> = {
   "m.fenster_oeffnen.d": "Pencereler açılamıyor, havalandırma mümkün değil.",
   "m.fenster_schliessen.l": "Pencereler kapanmıyor",
   "m.fenster_schliessen.d":
-    "Pencereler kapatılamıyor — güvenlik riski ve ısı kaybı.",
+    "Pencereler kapatılamıyor: güvenlik riski ve ısı kaybı.",
   "m.tuer_abschliessbar.l": "Daire kapısı kilitlenmiyor",
-  "m.tuer_abschliessbar.d": "Daire kapısı kilitlenemiyor — güvenlik eksikliği.",
+  "m.tuer_abschliessbar.d": "Daire kapısı kilitlenemiyor: güvenlik eksikliği.",
   "m.klingel_defekt.l": "Kapı zili / diyafon arızalı",
   "m.klingel_defekt.d": "Kapı zili veya diyafon çalışmıyor.",
 
@@ -124,7 +124,7 @@ const tr: Record<string, string> = {
   // --- Lift ------------------------------------------------------------------
   "m.aufzug_defekt.l": "Asansör arızalı",
   "m.aufzug_defekt.d": "Sözleşmede yer alan asansör çalışmıyor.",
-  "m.aufzug_hoch.l": "Asansör arızalı — yüksek kat",
+  "m.aufzug_hoch.l": "Asansör arızalı (yüksek kat)",
   "m.aufzug_hoch.d":
     "Yüksek katta oturuluyorsa veya yürüme engeli varsa asansörün arızalı olması.",
 
@@ -186,13 +186,13 @@ const tr: Record<string, string> = {
   // --- FAQ -------------------------------------------------------------------
   "faq.q0": "Kira indirimi (Mietminderung) nedir?",
   "faq.a0":
-    "Kira indirimi, dairenizde yaşam kalitesini olumsuz etkileyen kusurlar varsa kiracı olarak daha az kira ödeyebilmeniz anlamına gelir. Bu hak doğrudan Alman Medeni Kanunu'nun § 536 maddesinden doğar — ayrıca bir izin almanız gerekmez. Kusur devam ettiği sürece kira, kanun gereği kendiliğinden azalmış sayılır.",
+    "Kira indirimi, dairenizde yaşam kalitesini olumsuz etkileyen kusurlar varsa kiracı olarak daha az kira ödeyebilmeniz anlamına gelir. Bu hak doğrudan Alman Medeni Kanunu'nun § 536 maddesinden doğar; ayrıca bir izin almanız gerekmez. Kusur devam ettiği sürece kira, kanun gereği kendiliğinden azalmış sayılır.",
   "faq.q1": "Ev sahibinin kira indirimini onaylaması gerekir mi?",
   "faq.a1":
     "Hayır! Önemli bir kusur mevcutsa ve bunu ev sahibine bildirdiyseniz kira indirimi kanun gereği kendiliğinden devreye girer. Onaya ihtiyacınız yoktur. Ancak kusuru önceden ev sahibine bildirmeniz gerekir (kusur bildirimi).",
   "faq.q2": "Kira indiriminin tutarını nasıl hesaplarım?",
   "faq.a2":
-    "Kira indirimi brüt sıcak kira üzerinden hesaplanır — yani soğuk kira artı tüm yan giderler. Tutar, kusurun türüne ve ağırlığına göre belirlenir. Örnek: 1.000 € brüt sıcak kira ve %20 indirim oranında yalnızca 800 € ödersiniz. Oran, benzer davalardaki mahkeme kararlarından çıkar.",
+    "Kira indirimi brüt sıcak kira üzerinden hesaplanır, yani soğuk kira artı tüm yan giderler. Tutar, kusurun türüne ve ağırlığına göre belirlenir. Örnek: 1.000 € brüt sıcak kira ve %20 indirim oranında yalnızca 800 € ödersiniz. Oran, benzer davalardaki mahkeme kararlarından çıkar.",
   "faq.q3": "Kusur bildirimi nedir ve neden gereklidir?",
   "faq.a3":
     "Kusur bildirimi, kusuru tarif ettiğiniz ve giderilmesini talep ettiğiniz, ev sahibinize yazılı olarak yaptığınız bildirimdir. Kanunen zorunludur (§ 536c BGB). Kusur bildirimi olmadan kira indirimi yapamazsınız ve hatta tazminat riski altına girersiniz. Bu bildirimi hukuka uygun şekilde hazırlamanıza yardımcı oluyoruz.",
@@ -204,10 +204,10 @@ const tr: Record<string, string> = {
     "Hayır. Konut kiralarında kira indirimi hakkından sözleşmeyle vazgeçilemez (§ 536 Abs. 4 BGB). Kira sözleşmesinde indirim hakkını ortadan kaldıran maddeler geçersizdir.",
   "faq.q6": "Kirayı ne zamandan itibaren indirebilirim?",
   "faq.a6":
-    "Kira indirimi, ev sahibinin kusuru öğrendiği andan itibaren geçerlidir — yani kural olarak kusur bildiriminin ulaştığı tarihten itibaren. Öncesindeki dönem için genellikle indirim yapılamaz; çekince koyarak ödeme yapmış olmanız hâli istisnadır.",
+    "Kira indirimi, ev sahibinin kusuru öğrendiği andan itibaren geçerlidir, yani kural olarak kusur bildiriminin ulaştığı tarihten itibaren. Öncesindeki dönem için genellikle indirim yapılamaz; çekince koyarak ödeme yapmış olmanız hâli istisnadır.",
   "faq.q7": "Küf durumunda her zaman indirim yapabilir miyim?",
   "faq.a7":
-    "Her zaman değil. Küf sizin davranışınızdan kaynaklanıyorsa (yanlış havalandırma/ısıtma), indirim hakkı ortadan kalkar. Ancak ispat yükü ev sahibindedir — küfe sizin sebep olduğunuzu kanıtlaması gerekir. Çoğu durumda nedeni yapısal kusurlardır.",
+    "Her zaman değil. Küf sizin davranışınızdan kaynaklanıyorsa (yanlış havalandırma/ısıtma), indirim hakkı ortadan kalkar. Ancak ispat yükü ev sahibindedir: küfe sizin sebep olduğunuzu kanıtlaması gerekir. Çoğu durumda nedeni yapısal kusurlardır.",
   "faq.q8": "Kira indirimi ne kadar süre geçerlidir?",
   "faq.a8":
     "Kira indirimi, kusurun devam ettiği tüm süre boyunca geçerlidir. Kusur giderildiğinde yeniden kiranın tamamını ödemeniz gerekir. Süre bakımından bir üst sınır yoktur.",

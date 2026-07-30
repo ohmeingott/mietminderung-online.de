@@ -15,7 +15,7 @@ export interface KategorieSeo {
   titel: string;
   keywords: string[];
   intro: string;
-  /** Second paragraph — category-specific legal framing. */
+  /** Second paragraph - category-specific legal framing. */
   rechtliches: string;
 }
 
@@ -293,7 +293,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
     ],
     dokumentation: [
       "Über mindestens zwei Wochen morgens, mittags und abends messen und protokollieren",
-      "Außentemperatur mitnotieren — sie ist für die Bewertung relevant",
+      "Außentemperatur mitnotieren, denn sie ist für die Bewertung relevant",
       "Thermostatstellung fotografieren, um Bedienfehler auszuschließen",
       "Bei Nachtabsenkung: prüfen und dokumentieren, ab wann die Temperatur wieder steigt",
     ],
@@ -320,7 +320,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Wassertemperatur mit einem Küchenthermometer am Hahn messen und protokollieren",
       "Ausfallzeiten mit Datum und Uhrzeit notieren",
       "Foto vom Thermometer im laufenden Wasserstrahl machen",
-      "Ausfall sofort schriftlich melden — die Minderung wirkt erst ab Kenntnis des Vermieters",
+      "Ausfall sofort schriftlich melden, denn die Minderung wirkt erst ab Kenntnis des Vermieters",
     ],
     hinweis:
       "Bei der Höhe kommt es vor allem auf die Dauer an. Ein paar Stunden ohne warmes Wasser müssen Sie aushalten. Zieht sich der Ausfall über Tage oder gar Wochen, landen die anerkannten Quoten am oberen Ende der Spanne.",
@@ -398,7 +398,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Befall vor der Entfernung fotografieren, mit Zollstock oder Lineal als Größenreferenz",
       "Betroffene Fläche in Quadratzentimetern angeben",
       "Luftfeuchtigkeit mit einem Hygrometer messen und über mehrere Tage protokollieren",
-      "Lüftungsverhalten dokumentieren — Stoßlüften morgens und abends notieren",
+      "Lüftungsverhalten dokumentieren: Stoßlüften morgens und abends notieren",
     ],
     hinweis:
       "So verständlich der Impuls ist: Wischen Sie den Schimmel nicht restlos weg, bevor der Vermieter ihn gesehen hat oder Fotos existieren. Sonst steht am Ende Ihr Wort gegen seins. Und zur Ursache gilt: Der Vermieter muss beweisen, dass Ihr Lüften schuld war, nicht Sie das Gegenteil.",
@@ -423,7 +423,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Alle betroffenen Stellen einzeln und mit Raumzuordnung fotografieren",
       "Gesamte befallene Fläche je Raum abschätzen und auflisten",
       "Ärztliche Atteste sammeln, wenn gesundheitliche Beschwerden aufgetreten sind",
-      "Ein Sachverständigengutachten zur Ursache erwägen — es ist im Streitfall das stärkste Beweismittel",
+      "Ein Sachverständigengutachten zur Ursache erwägen, denn im Streitfall ist es das stärkste Beweismittel",
     ],
     hinweis:
       "Bei massivem Befall kommt über die Minderung hinaus eine fristlose Kündigung wegen Gesundheitsgefährdung in Betracht (§ 569 Abs. 1 BGB). Dieser Schritt hat allerdings Folgen, die gut überlegt sein wollen. Sprechen Sie vorher mit dem Mieterverein oder einem Anwalt.",
@@ -446,7 +446,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Erhöhte Luftfeuchtigkeit trotz regelmäßigem Lüften",
     ],
     dokumentation: [
-      "Feuchtigkeit mit einem Baufeuchtemessgerät messen — einfache Geräte sind günstig",
+      "Feuchtigkeit mit einem Baufeuchtemessgerät messen, einfache Geräte sind günstig",
       "Betroffene Flächen fotografieren und die Ausdehnung über Wochen dokumentieren",
       "Raumluftfeuchtigkeit mit einem Hygrometer protokollieren",
       "Datum des ersten Auftretens und die Entwicklung schriftlich festhalten",
@@ -550,7 +550,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Homeoffice, Schlaf oder Erholung sind erheblich beeinträchtigt",
     ],
     dokumentation: [
-      "Lärmprotokoll führen: Datum, Uhrzeit von/bis, Art des Lärms, Intensität — täglich und lückenlos",
+      "Lärmprotokoll führen: Datum, Uhrzeit von/bis, Art des Lärms, Intensität, und das täglich und lückenlos",
       "Lautstärke mit einer Schallpegel-App messen und die Werte im Protokoll festhalten",
       "Video- und Tonaufnahmen mit sichtbarem Datum anfertigen",
       "Bauschild, Aushänge und Ankündigungsschreiben des Vermieters fotografieren",
@@ -1582,7 +1582,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Wiederholte Befunde trotz angeblicher Sanierung",
     ],
     dokumentation: [
-      "Untersuchungsergebnis beim Vermieter anfordern — Sie haben ein Auskunftsrecht",
+      "Untersuchungsergebnis beim Vermieter anfordern (Sie haben ein Auskunftsrecht)",
       "Behördliche Anordnungen und Aushänge sichern",
       "Zeitraum der Nutzungseinschränkung protokollieren",
       "Ärztliche Befunde aufbewahren, falls gesundheitliche Beschwerden auftreten",
@@ -1664,7 +1664,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
     dokumentation: [
       "Geruchsprotokoll mit Datum, Uhrzeit, Ort und Intensität führen",
       "Besucher als Zeugen benennen und schriftlich bestätigen lassen",
-      "Dokumentieren, dass alle Siphons gefüllt sind — das schließt die naheliegendste eigene Ursache aus",
+      "Dokumentieren, dass alle Siphons gefüllt sind. Das schließt die naheliegendste eigene Ursache aus",
       "Handwerkerberichte und Kamerabefahrungen aufbewahren",
     ],
     hinweis:

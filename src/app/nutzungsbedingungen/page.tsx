@@ -4,7 +4,7 @@ import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Nutzungsbedingungen & AGB — Mietminderung Online",
+  title: "Nutzungsbedingungen & AGB | Mietminderung Online",
   description:
     "Nutzungsbedingungen und AGB von mietminderung.online: kostenloser Mietminderungs-Check, Mängelanzeige-Generator, Haftung und Gerichtsstand.",
   path: "/nutzungsbedingungen",
@@ -103,7 +103,7 @@ export default function Nutzungsbedingungen() {
           <p>
             Sie sind für die Richtigkeit und Vollständigkeit Ihrer Angaben
             verantwortlich. Prüfen Sie die erzeugte Mängelanzeige vor dem Versand
-            sorgfältig — Sie können den Text vor dem Herunterladen vollständig
+            sorgfältig. Sie können den Text vor dem Herunterladen vollständig
             bearbeiten. Sie tragen die Entscheidung, ob, in welcher Höhe und ab
             wann Sie die Miete mindern.
           </p>
@@ -130,9 +130,9 @@ export default function Nutzungsbedingungen() {
           </p>
           <p>
             Bei der leicht fahrlässigen Verletzung wesentlicher Vertragspflichten
-            — also solcher Pflichten, deren Erfüllung die ordnungsgemäße
+            (also solcher Pflichten, deren Erfüllung die ordnungsgemäße
             Durchführung des Vertrags überhaupt erst ermöglicht und auf deren
-            Einhaltung Sie regelmäßig vertrauen dürfen — ist unsere Haftung auf
+            Einhaltung Sie regelmäßig vertrauen dürfen) ist unsere Haftung auf
             den bei Vertragsschluss vorhersehbaren, vertragstypischen Schaden
             begrenzt. Im Übrigen ist die Haftung für leichte Fahrlässigkeit
             ausgeschlossen.

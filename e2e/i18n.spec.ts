@@ -21,7 +21,7 @@ test.describe("Language switching", () => {
       "Daha az kira ödemek"
     );
 
-    // The defect catalogue lives in the data file and is translated separately —
+    // The defect catalogue lives in the data file and is translated separately -
     // this guards against it staying German while the rest of the UI switches.
     await expect(page.getByTestId("eq-mietvertrag-ja")).toContainText("Evet");
     await answerEligibility(page);
@@ -120,13 +120,13 @@ test.describe("Language switching", () => {
     await page.getByTestId("letter-next").click();
     await page.getByTestId("letter-preview").click();
 
-    // The textarea is filled on the step transition — wait for it before reading,
+    // The textarea is filled on the step transition - wait for it before reading,
     // otherwise a slow mobile render hands back an empty string.
     const preview = page.getByTestId("brieftext");
     await expect(preview).not.toHaveValue("");
 
     const text = await preview.inputValue();
-    // The recipient is a German landlord — the letter must not be translated.
+    // The recipient is a German landlord - the letter must not be translated.
     expect(text).toContain("Sehr geehrte/r");
     expect(text).toContain("Betreff: Mängelanzeige");
     expect(text).toContain("§ 536 Abs. 1 BGB");

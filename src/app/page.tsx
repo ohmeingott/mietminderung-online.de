@@ -18,7 +18,7 @@ import {
 } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Mietminderung berechnen & Mängelanzeige erstellen — kostenlos",
+  title: "Mietminderung berechnen & Mängelanzeige erstellen (kostenlos)",
   description: `Kostenlos prüfen, ob Sie die Miete mindern dürfen: Quote für ${alleMaengel.length} Wohnungsmängel berechnen und in 3 Minuten eine Mängelanzeige nach § 536c BGB erstellen.`,
   path: "/",
   keywords: [

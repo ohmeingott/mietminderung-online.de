@@ -112,7 +112,7 @@ export default async function KategoriePage({ params }: { params: Params }) {
               itemListElement: sortiert.map((m, i) => ({
                 "@type": "ListItem",
                 position: i + 1,
-                name: `${m.mangel.label} — ${m.mangel.minderung_min}–${m.mangel.minderung_max} % Mietminderung`,
+                name: `${m.mangel.label}: ${m.mangel.minderung_min}–${m.mangel.minderung_max} % Mietminderung`,
                 url: absoluteUrl(m.path),
               })),
             },

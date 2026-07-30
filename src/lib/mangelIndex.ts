@@ -86,7 +86,7 @@ export function verwandteMaengel(entry: MangelEntry, limit = 6): MangelEntry[] {
   return [...others, ...filler].slice(0, limit);
 }
 
-/** Defects with the highest typical quota — used on hub pages. */
+/** Defects with the highest typical quota - used on hub pages. */
 export function topMaengel(limit = 12): MangelEntry[] {
   return [...alleMaengel]
     .sort((a, b) => b.mangel.minderung_typical - a.mangel.minderung_typical)
