@@ -49,7 +49,7 @@ export const ratgeberArtikel: RatgeberArtikel[] = [
       "Mangel Vermieter melden",
     ],
     lead:
-      "Die Mängelanzeige ist der wichtigste Schritt auf dem Weg zur Mietminderung. Ohne sie können Sie in der Regel nicht mindern — und riskieren sogar Schadensersatzansprüche des Vermieters. Diese Anleitung zeigt Ihnen Schritt für Schritt, was hineingehört.",
+      "Ohne Mängelanzeige läuft bei der Mietminderung nichts. Wer sie weglässt, kann in aller Regel nicht mindern und schuldet dem Vermieter im schlimmsten Fall am Ende selbst Schadensersatz. Hier lesen Sie, was in das Schreiben gehört, welche Frist Sie setzen und wie Sie es nachweisbar zustellen.",
     readingMinutes: 7,
     published: "2026-03-06",
     updated: "2026-07-26",
@@ -57,12 +57,12 @@ export const ratgeberArtikel: RatgeberArtikel[] = [
       {
         heading: "Warum die Mängelanzeige unverzichtbar ist",
         paragraphs: [
-          "§ 536c BGB verpflichtet Mieter, einen während der Mietzeit auftretenden Mangel unverzüglich anzuzeigen. „Unverzüglich“ bedeutet: ohne schuldhaftes Zögern, in der Praxis also innerhalb weniger Tage nach Entdeckung.",
-          "Unterlassen Sie die Anzeige, treffen Sie gleich zwei Nachteile: Sie verlieren das Recht, die Miete zu mindern, und Sie können dem Vermieter gegenüber schadensersatzpflichtig werden, wenn sich der Schaden dadurch vergrößert — etwa wenn aus einer feuchten Wand ein Sanierungsfall wird.",
-          "Die Mietminderung selbst tritt zwar kraft Gesetzes ein, praktisch aber erst ab dem Zeitpunkt, zu dem der Vermieter vom Mangel weiß. Das Datum Ihrer Mängelanzeige ist daher zugleich der Stichtag Ihres Anspruchs.",
+          "§ 536c BGB verlangt von Mietern, einen Mangel unverzüglich anzuzeigen, sobald er während der Mietzeit auftritt. „Unverzüglich“ heißt ohne schuldhaftes Zögern. Zwischen Entdeckung und Anzeige sollten also nicht mehr als ein paar Tage liegen.",
+          "Wer die Anzeige unterlässt, verliert gleich doppelt. Erstens das Recht, die Miete zu mindern. Zweitens kann er dem Vermieter schadensersatzpflichtig werden, wenn der Schaden mangels Meldung wächst, etwa weil aus einer feuchten Wand mit der Zeit ein Sanierungsfall wird.",
+          "Zwar tritt die Minderung von Gesetzes wegen ein. Durchsetzen lässt sie sich aber erst ab dem Tag, an dem der Vermieter vom Mangel weiß. Das Datum Ihrer Mängelanzeige ist deshalb zugleich der Stichtag für Ihren Anspruch.",
         ],
         note:
-          "Ausnahme: Kennt der Vermieter den Mangel bereits — etwa weil der Hausmeister ihn gesehen hat oder das ganze Haus betroffen ist — entfällt die Anzeigepflicht. Verlassen Sie sich darauf aber nicht, sondern melden Sie schriftlich.",
+          "Eine Ausnahme gibt es: Kennt der Vermieter den Mangel ohnehin schon, weil der Hausmeister ihn gesehen hat oder das ganze Haus betroffen ist, entfällt die Anzeigepflicht. Verlassen sollten Sie sich darauf trotzdem nicht. Ein kurzes Schreiben kostet wenig und erspart später jede Beweisfrage.",
       },
       {
         heading: "Diese neun Angaben muss die Mängelanzeige enthalten",
@@ -110,7 +110,7 @@ export const ratgeberArtikel: RatgeberArtikel[] = [
           ],
         },
         paragraphs: [
-          "Setzen Sie die Frist immer mit konkretem Datum („bis zum 20. August 2026“), nicht als Zeitraum. Nur so ist der Fristablauf eindeutig und Sie können darauf weitere Schritte stützen.",
+          "Schreiben Sie ein konkretes Datum in die Frist („bis zum 20. August 2026“), keinen Zeitraum wie „binnen zwei Wochen“. Nur mit Datum steht der Fristablauf zweifelsfrei fest, und auf diesem Datum bauen alle weiteren Schritte auf.",
         ],
       },
       {
@@ -159,26 +159,26 @@ Anlagen:
       {
         heading: "So stellen Sie die Mängelanzeige nachweisbar zu",
         paragraphs: [
-          "Gesetzlich ist die Mängelanzeige formfrei — sie wäre sogar mündlich wirksam. Im Streitfall müssen aber Sie beweisen, dass und wann der Vermieter sie erhalten hat. Deshalb ist die Zustellungsart entscheidend.",
+          "Das Gesetz schreibt für die Mängelanzeige keine Form vor, mündlich würde theoretisch genügen. Nur hilft Ihnen das wenig, wenn Sie im Streitfall beweisen müssen, dass und wann der Vermieter sie bekommen hat. Deshalb kommt es auf den Zustellweg an.",
         ],
         bullets: [
           "Einwurf-Einschreiben: guter Kompromiss aus Nachweis und Kosten, der Auslieferungsbeleg ist online abrufbar",
-          "Bote mit Zeuge: eine Person, die den Inhalt gelesen und den Einwurf beobachtet hat, kann beides bezeugen — kostenlos und sehr belastbar",
+          "Bote mit Zeuge: Eine Person liest das Schreiben, wirft es ein und kann später beides bezeugen. Kostet nichts und hält vor Gericht.",
           "Persönliche Übergabe mit schriftlicher Empfangsbestätigung: der sicherste Weg, wenn der Vermieter kooperiert",
           "Übergabe-Einschreiben: riskant, weil der Empfänger die Annahme verweigern kann und der Brief dann als nicht zugegangen gilt",
-          "Nur E-Mail: nicht ausreichend als alleiniger Nachweis — der Zugang lässt sich kaum belegen",
+          "Nur E-Mail: als alleiniger Nachweis zu wenig, weil sich der Zugang kaum belegen lässt",
         ],
         note:
-          "Praxistipp: Senden Sie die Anzeige zusätzlich per E-Mail, damit der Vermieter sie sofort sieht — aber verlassen Sie sich für den Nachweis auf den Postweg.",
+          "Aus der Praxis: Schicken Sie die Anzeige ruhig zusätzlich per E-Mail, dann liegt sie sofort auf dem Tisch. Für den Nachweis zählt aber der Postweg.",
       },
       {
         heading: "Was nach der Mängelanzeige passiert",
         ordered: [
-          "Der Vermieter prüft den Mangel und beauftragt die Beseitigung — er hat ein Recht darauf, sich den Mangel anzusehen.",
+          "Der Vermieter prüft den Mangel und beauftragt die Beseitigung. Sich den Mangel vorher anzusehen, ist dabei sein gutes Recht.",
           "Sie müssen den Zutritt zur Besichtigung und Reparatur nach Ankündigung ermöglichen. Eine Verweigerung kann Ihr Minderungsrecht kosten.",
           "Ab Zugang der Anzeige ist die Miete kraft Gesetzes gemindert. Zahlen Sie im Zweifel zunächst unter Vorbehalt weiter.",
           "Verstreicht die Frist fruchtlos, kommen Schadensersatz nach § 536a Abs. 1 BGB und die Selbstvornahme nach § 536a Abs. 2 BGB in Betracht.",
-          "Ist der Mangel beseitigt, endet die Minderung — ab dann ist wieder die volle Miete geschuldet.",
+          "Ist der Mangel beseitigt, endet die Minderung. Ab diesem Tag ist wieder die volle Miete fällig.",
         ],
       },
     ],
@@ -186,12 +186,12 @@ Anlagen:
       {
         question: "Muss die Mängelanzeige schriftlich erfolgen?",
         answer:
-          "Gesetzlich nicht — sie ist formfrei und wäre auch mündlich wirksam. Im Streitfall müssen Sie den Zugang beim Vermieter aber beweisen. Deshalb ist die Schriftform mit nachweisbarer Zustellung, etwa per Einwurf-Einschreiben oder Bote mit Zeuge, dringend zu empfehlen.",
+          "Vorgeschrieben ist die Schriftform nicht, die Anzeige wäre sogar mündlich wirksam. Im Streitfall müssen Sie aber beweisen, dass sie beim Vermieter angekommen ist. Praktisch führt deshalb kein Weg an einem Schreiben vorbei, zugestellt per Einwurf-Einschreiben oder durch einen Boten mit Zeugen.",
       },
       {
         question: "Wie schnell muss ich einen Mangel melden?",
         answer:
-          "Unverzüglich, also ohne schuldhaftes Zögern (§ 536c BGB). In der Praxis heißt das innerhalb weniger Tage nach Entdeckung. Bei offensichtlichen und dringenden Mängeln wie einem Wasserschaden sollten Sie noch am selben Tag melden.",
+          "Unverzüglich, sagt § 536c BGB, also ohne schuldhaftes Zögern. Praktisch heißt das: innerhalb weniger Tage nach der Entdeckung. Einen Wasserschaden und ähnlich dringende Fälle melden Sie am besten noch am selben Tag.",
       },
       {
         question: "Kann ich mehrere Mängel in einer Mängelanzeige melden?",
@@ -201,7 +201,7 @@ Anlagen:
       {
         question: "Was passiert, wenn ich den Mangel nicht anzeige?",
         answer:
-          "Sie verlieren in der Regel das Recht auf Mietminderung für die Zeit vor der Anzeige. Vergrößert sich der Schaden, weil der Vermieter nichts von ihm wusste, können Sie ihm gegenüber sogar schadensersatzpflichtig werden (§ 536c Abs. 2 BGB).",
+          "In der Regel verlieren Sie das Minderungsrecht für die Zeit vor der Anzeige. Es kann sogar noch schlimmer kommen: Wächst der Schaden, weil der Vermieter nichts wusste, haften unter Umständen Sie dafür (§ 536c Abs. 2 BGB).",
       },
     ],
   },
@@ -212,7 +212,7 @@ Anlagen:
     title: "Mietminderung berechnen: Formel, Beispiele und Berechnungsgrundlage",
     metaTitle: "Mietminderung berechnen — Formel, Beispiele & Bruttowarmmiete",
     description:
-      "Mietminderung berechnen: warum die Bruttowarmmiete die Grundlage ist, wie die Formel lautet und was bei mehreren Mängeln gilt — mit Rechenbeispielen.",
+      "Mietminderung berechnen: warum die Bruttowarmmiete die Grundlage ist, wie die Formel lautet und was bei mehreren Mängeln gilt. Mit Rechenbeispielen.",
     keywords: [
       "Mietminderung berechnen",
       "Mietminderung Bruttowarmmiete",
@@ -221,7 +221,7 @@ Anlagen:
       "Minderungsquote berechnen",
     ],
     lead:
-      "Die häufigste Fehlerquelle bei der Mietminderung ist nicht die Quote, sondern die Bezugsgröße. Wer von der Kaltmiete statt der Bruttowarmmiete rechnet, verschenkt bares Geld. So rechnen Sie korrekt.",
+      "Beim Berechnen der Mietminderung geht am häufigsten nicht die Quote schief, sondern die Zahl, auf die sie angewendet wird. Wer von der Kaltmiete statt von der Bruttowarmmiete ausgeht, verschenkt Monat für Monat Geld. So rechnen Sie richtig.",
     readingMinutes: 6,
     published: "2026-03-06",
     updated: "2026-07-26",
@@ -229,8 +229,8 @@ Anlagen:
       {
         heading: "Berechnungsgrundlage ist immer die Bruttowarmmiete",
         paragraphs: [
-          "Nach der Rechtsprechung des Bundesgerichtshofs (Urteil vom 6. April 2005, Az. XII ZR 225/03) ist die Bruttowarmmiete die Bemessungsgrundlage der Mietminderung — nicht die Nettokaltmiete.",
-          "Bruttowarmmiete bedeutet: Nettokaltmiete zuzüglich sämtlicher Betriebskostenvorauszahlungen oder -pauschalen. Der Grund ist einleuchtend: Sie zahlen für die Wohnung insgesamt, also mindert ein Mangel auch den Gesamtwert dieser Leistung.",
+          "Der Bundesgerichtshof hat diese Frage 2005 geklärt (Urteil vom 6. April 2005, Az. XII ZR 225/03): Bemessungsgrundlage der Minderung ist die Bruttowarmmiete, nicht die Nettokaltmiete.",
+          "Gemeint ist die Nettokaltmiete plus sämtliche Betriebskostenvorauszahlungen oder -pauschalen. Die Logik dahinter: Sie bezahlen die Wohnung als Gesamtpaket, also schmälert ein Mangel auch den Wert des Gesamtpakets.",
         ],
         table: {
           caption: "Zusammensetzung der Bruttowarmmiete",
@@ -243,7 +243,7 @@ Anlagen:
           ],
         },
         note:
-          "Bei einer Minderungsquote von 20 % macht der Unterschied zwischen Kalt- und Warmmiete in diesem Beispiel 40 € pro Monat aus — 480 € im Jahr.",
+          "Im Beispiel macht der Unterschied zwischen Kalt- und Warmmiete bei 20 % Minderung 40 € im Monat aus. Aufs Jahr gerechnet sind das 480 €.",
       },
       {
         heading: "Die Formel",
@@ -265,13 +265,13 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
 = 33,33 € × 12 × 0,80
 = 320,00 €`,
         note:
-          "Führen Sie deshalb ein taggenaues Protokoll: Beginn und Ende des Mangels bestimmen unmittelbar die Höhe Ihres Anspruchs.",
+          "Notieren Sie Beginn und Ende des Mangels taggenau. Aus genau diesen beiden Daten ergibt sich später die Höhe Ihres Anspruchs.",
       },
       {
         heading: "Mehrere Mängel gleichzeitig",
         paragraphs: [
           "Treten mehrere Mängel gleichzeitig auf, werden die Quoten grundsätzlich addiert. Die Gesamtminderung kann jedoch nie mehr als 100 % betragen.",
-          "Beachten Sie dabei: Betreffen zwei Mängel dieselbe Beeinträchtigung — etwa ein defekter Heizkörper und eine deshalb zu kalte Wohnung —, ist eine schlichte Addition nicht sachgerecht. Gerichte nehmen dann eine Gesamtbetrachtung vor.",
+          "Eine Einschränkung gibt es. Beschreiben zwei Mängel im Kern dieselbe Beeinträchtigung, etwa der defekte Heizkörper und die deshalb zu kalte Wohnung, lassen sich die Quoten nicht einfach aufaddieren. Gerichte bewerten solche Fälle in einer Gesamtschau.",
         ],
         table: {
           caption: "Beispiel: Addition mehrerer Mängel",
@@ -295,19 +295,19 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
         heading: "Wie Sie die richtige Quote finden",
         bullets: [
           "Orientieren Sie sich an veröffentlichten Mietminderungstabellen, die Gerichtsentscheidungen zu vergleichbaren Fällen zusammenfassen",
-          "Berücksichtigen Sie Dauer, Intensität und Ausmaß der Beeinträchtigung — die Tabellenwerte sind Spannen, keine festen Größen",
+          "Berücksichtigen Sie Dauer, Intensität und Ausmaß der Beeinträchtigung, denn die Tabellenwerte sind Spannen und keine festen Größen",
           "Schätzen Sie im Zweifel konservativ: Eine zu niedrige Minderung kostet Geld, eine zu hohe kann die Wohnung kosten",
           "Lassen Sie die Quote bei größeren Beträgen vom Mieterverein oder einem Fachanwalt prüfen",
         ],
         note:
-          "Wichtig: Alle Prozentwerte in Tabellen sind Orientierungswerte aus Einzelfallentscheidungen. Kein Gericht ist daran gebunden — jeder Fall wird individuell bewertet.",
+          "Alle Prozentwerte in solchen Tabellen stammen aus Einzelfallentscheidungen und sind reine Orientierung. Kein Gericht ist daran gebunden; bewertet wird immer der konkrete Fall.",
       },
     ],
     faqs: [
       {
         question: "Wird die Mietminderung von der Kalt- oder Warmmiete berechnet?",
         answer:
-          "Von der Bruttowarmmiete, also der Nettokaltmiete plus aller Betriebs- und Heizkostenvorauszahlungen. Das hat der Bundesgerichtshof mit Urteil vom 6. April 2005 (Az. XII ZR 225/03) entschieden.",
+          "Von der Bruttowarmmiete, also der Nettokaltmiete plus aller Betriebs- und Heizkostenvorauszahlungen. So hat es der Bundesgerichtshof mit Urteil vom 6. April 2005 entschieden (Az. XII ZR 225/03).",
       },
       {
         question: "Wie rechne ich, wenn der Mangel nur zwei Wochen bestand?",
@@ -341,7 +341,7 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
       "Verwendungszweck Vorbehalt",
     ],
     lead:
-      "Wer die Miete sofort kürzt, riskiert im Streitfall die fristlose Kündigung. Die Zahlung unter Vorbehalt bietet denselben wirtschaftlichen Vorteil — ohne dieses Risiko.",
+      "Wer die Miete auf eigene Faust kürzt und sich dabei verschätzt, riskiert im schlimmsten Fall die fristlose Kündigung. Es geht auch anders: voll weiterzahlen, den Vorbehalt erklären, das Geld später zurückholen. Wirtschaftlich kommt dasselbe heraus, nur ohne das Risiko.",
     readingMinutes: 5,
     published: "2026-03-06",
     updated: "2026-07-26",
@@ -349,8 +349,8 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
       {
         heading: "Das Risiko der direkten Kürzung",
         paragraphs: [
-          "Setzen Sie die Minderungsquote zu hoch an und entsteht dadurch ein Rückstand von zwei Monatsmieten, darf der Vermieter das Mietverhältnis fristlos kündigen (§ 543 Abs. 2 Nr. 3 BGB). Dass Sie die Quote in gutem Glauben geschätzt haben, hilft Ihnen dann nur begrenzt.",
-          "Der Rückstand entsteht schneller als gedacht: Schon eine über mehrere Monate um 40 % gekürzte Miete summiert sich rasch auf zwei volle Monatsmieten.",
+          "Wer die Quote zu hoch ansetzt, baut einen Rückstand auf. Erreicht der zwei Monatsmieten, darf der Vermieter fristlos kündigen (§ 543 Abs. 2 Nr. 3 BGB). Dass Sie in gutem Glauben geschätzt haben, hilft Ihnen dann nur noch begrenzt.",
+          "Und so ein Rückstand entsteht schneller als gedacht. Wer fünf Monate lang 40 % einbehält, hat rechnerisch bereits zwei volle Monatsmieten offen.",
         ],
         note:
           "Genau hier setzt die Zahlung unter Vorbehalt an: Sie zahlen weiter in voller Höhe, verlieren aber Ihren Rückforderungsanspruch nicht.",
@@ -362,7 +362,7 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
           "Sie erklären in der Mängelanzeige ausdrücklich, dass Sie die Miete ab sofort nur noch unter Vorbehalt zahlen.",
           "Sie überweisen weiterhin die volle Miete und vermerken den Vorbehalt im Verwendungszweck.",
           "Sie dokumentieren den Mangel lückenlos, solange er besteht.",
-          "Nach Beseitigung des Mangels fordern Sie den zu viel gezahlten Betrag zurück — notfalls gerichtlich.",
+          "Nach Beseitigung des Mangels fordern Sie den zu viel gezahlten Betrag zurück, notfalls vor Gericht.",
         ],
       },
       {
@@ -382,7 +382,7 @@ Im Schreiben an den Vermieter:
   Ein Verzicht auf mein Minderungsrecht nach § 536 BGB ist damit
   nicht verbunden.`,
         note:
-          "Der Verwendungszweck ist begrenzt — nutzen Sie eine Kurzform und beziehen Sie sich auf das Datum Ihrer Mängelanzeige.",
+          "Im Verwendungszweck ist der Platz knapp. Eine Kurzform genügt, solange sie das Datum Ihrer Mängelanzeige nennt.",
       },
       {
         heading: "Rückforderung: Fristen und Vorgehen",
@@ -422,7 +422,7 @@ Im Schreiben an den Vermieter:
       {
         question: "Verliere ich mein Minderungsrecht, wenn ich voll zahle?",
         answer:
-          "Nur wenn Sie über längere Zeit vorbehaltlos zahlen — nach etwa sechs Monaten kann das Minderungsrecht verwirkt sein. Genau das verhindert der ausdrückliche Vorbehalt bei jeder Zahlung.",
+          "Nur wenn Sie über längere Zeit vorbehaltlos zahlen. Nach etwa sechs Monaten kann das Minderungsrecht verwirkt sein. Genau davor schützt der ausdrückliche Vorbehalt bei jeder Zahlung.",
       },
     ],
   },
@@ -433,7 +433,7 @@ Im Schreiben an den Vermieter:
     title: "Rückwirkende Mietminderung: Wann Sie Geld zurückfordern können",
     metaTitle: "Rückwirkende Mietminderung — wann Rückforderung möglich ist",
     description:
-      "Rückwirkend mindern geht nur in vier Fällen. Welche das sind — plus Verjährungsfristen, Verwirkung und das Vorgehen bei der Rückforderung.",
+      "Rückwirkend mindern geht nur in vier Fällen. Welche das sind, welche Verjährungsfristen gelten und wie Sie bei der Rückforderung vorgehen.",
     keywords: [
       "rückwirkende Mietminderung",
       "Miete rückwirkend mindern",
@@ -441,7 +441,7 @@ Im Schreiben an den Vermieter:
       "zu viel Miete gezahlt zurückfordern",
     ],
     lead:
-      "Die Mietminderung tritt zwar kraft Gesetzes ein — praktisch aber erst, wenn der Vermieter vom Mangel weiß. Für die Zeit davor gibt es nur wenige, dafür klar umrissene Ausnahmen.",
+      "„Kann ich für die vergangenen Monate Geld zurückverlangen?“ gehört zu den häufigsten Fragen rund um die Mietminderung. Die ehrliche Antwort lautet: meistens nicht. Es gibt aber vier klar umrissene Ausnahmen, und die sollten Sie kennen.",
     readingMinutes: 5,
     published: "2026-03-06",
     updated: "2026-07-26",
@@ -449,26 +449,26 @@ Im Schreiben an den Vermieter:
       {
         heading: "Der Grundsatz: ab Kenntnis des Vermieters",
         paragraphs: [
-          "Nach § 536 BGB ist die Miete kraft Gesetzes gemindert, sobald ein erheblicher Mangel vorliegt. Praktisch durchsetzbar ist der Anspruch aber erst ab dem Zeitpunkt, zu dem der Vermieter von dem Mangel Kenntnis erlangt — in der Regel also ab Zugang Ihrer Mängelanzeige.",
+          "Nach § 536 BGB mindert sich die Miete automatisch, sobald ein erheblicher Mangel vorliegt. Durchsetzen lässt sich der Anspruch aber erst, wenn der Vermieter von dem Mangel weiß, im Normalfall also ab dem Zugang Ihrer Mängelanzeige.",
           "Für die Zeit davor gilt: Wer den Mangel kannte und die Miete trotzdem vorbehaltlos in voller Höhe gezahlt hat, kann das Geld regelmäßig nicht zurückfordern.",
         ],
       },
       {
         heading: "Diese vier Fälle erlauben eine Rückforderung",
         bullets: [
-          "Sie haben die Miete unter Vorbehalt gezahlt — dann bleibt der Rückforderungsanspruch in vollem Umfang erhalten",
+          "Sie haben die Miete unter Vorbehalt gezahlt; der Rückforderungsanspruch bleibt dann in vollem Umfang erhalten",
           "Der Vermieter kannte den Mangel bereits, etwa weil er ihn selbst gesehen hat oder das gesamte Haus betroffen war",
-          "Der Vermieter hat eine falsche Wohnflächenangabe gemacht — hier besteht der Anspruch ab Mietbeginn",
+          "Der Vermieter hat eine falsche Wohnflächenangabe gemacht; in diesem Fall besteht der Anspruch ab Mietbeginn",
           "Der Mietvertrag enthält eine unwirksame Klausel, die Sie von der Minderung abgehalten hat",
         ],
         note:
-          "Der letzte Punkt ist praktisch relevanter, als er klingt: Klauseln, die das Minderungsrecht bei Wohnraum ausschließen, sind nach § 536 Abs. 4 BGB unwirksam — und kommen in älteren Verträgen häufig vor.",
+          "Unterschätzen Sie den letzten Punkt nicht. Gerade ältere Mietverträge enthalten oft Klauseln, die das Minderungsrecht ausschließen sollen. Bei Wohnraum sind solche Klauseln nach § 536 Abs. 4 BGB unwirksam, gezahlt wurde ihretwegen trotzdem oft jahrelang zu viel.",
       },
       {
         heading: "Verwirkung: Wenn zu langes Warten den Anspruch kostet",
         paragraphs: [
           "Zahlen Sie über längere Zeit vorbehaltlos die volle Miete, obwohl Sie den Mangel kennen, kann das Minderungsrecht verwirken. Als Richtwert nennt die Rechtsprechung etwa sechs Monate.",
-          "Die Verwirkung setzt zwei Elemente voraus: das Zeitmoment — es ist längere Zeit vergangen — und das Umstandsmoment — der Vermieter durfte aufgrund Ihres Verhaltens darauf vertrauen, dass Sie nicht mehr mindern werden. Beides muss zusammenkommen.",
+          "Juristisch braucht die Verwirkung zwei Zutaten. Das Zeitmoment: Es ist längere Zeit vergangen. Und das Umstandsmoment: Der Vermieter durfte aus Ihrem Verhalten schließen, dass Sie nicht mehr mindern werden. Erst beides zusammen kostet den Anspruch.",
         ],
       },
       {
@@ -500,7 +500,7 @@ Im Schreiben an den Vermieter:
           "Zeitraum und Quote bestimmen und die Berechnung nachvollziehbar aufstellen.",
           "Nachweise zusammenstellen: Mängelanzeige, Fotos, Protokolle, Korrespondenz, Kontoauszüge.",
           "Den Vermieter schriftlich zur Rückzahlung auffordern, mit konkreter Frist von etwa 14 Tagen.",
-          "Bei Ablehnung Mieterverein oder Fachanwalt einschalten — häufig genügt ein anwaltliches Schreiben.",
+          "Bei Ablehnung Mieterverein oder Fachanwalt einschalten; häufig genügt schon ein anwaltliches Schreiben.",
           "Vor Ablauf der Verjährung gerichtliche Schritte prüfen, notfalls über einen Mahnbescheid, der die Verjährung hemmt.",
         ],
       },
@@ -524,7 +524,7 @@ Im Schreiben an den Vermieter:
       {
         question: "Gilt bei falscher Wohnflächenangabe etwas anderes?",
         answer:
-          "Ja. Weicht die tatsächliche Wohnfläche um mehr als zehn Prozent nach unten ab, besteht der Anspruch nach der Rechtsprechung des BGH ab Mietbeginn — auch ohne vorherige Mängelanzeige, weil der Vermieter die Abweichung selbst zu vertreten hat.",
+          "Ja. Weicht die tatsächliche Wohnfläche um mehr als zehn Prozent nach unten ab, besteht der Anspruch nach der Rechtsprechung des BGH ab Mietbeginn, und zwar auch ohne vorherige Mängelanzeige, weil der Vermieter die falsche Angabe selbst zu vertreten hat.",
       },
     ],
   },
@@ -544,7 +544,7 @@ Im Schreiben an den Vermieter:
       "energetische Modernisierung Mietminderung",
     ],
     lead:
-      "Bevor Sie die Miete kürzen, sollten Sie prüfen, ob einer der gesetzlichen Ausschlussgründe greift. Wer irrtümlich mindert, riskiert einen Zahlungsrückstand — und damit die Kündigung.",
+      "Nicht jeder Mangel berechtigt zur Minderung. Das Gesetz kennt eine Reihe von Ausschlussgründen, und wer sie übersieht und trotzdem kürzt, baut einen Zahlungsrückstand auf, an dessen Ende die Kündigung stehen kann. Gehen Sie diese sieben Punkte durch, bevor Sie die Miete anfassen.",
     readingMinutes: 6,
     published: "2026-03-06",
     updated: "2026-07-26",
@@ -552,7 +552,7 @@ Im Schreiben an den Vermieter:
       {
         heading: "1. Kenntnis des Mangels bei Vertragsschluss (§ 536b BGB)",
         paragraphs: [
-          "Wer einen Mangel bei Unterzeichnung des Mietvertrags kennt und trotzdem einzieht, kann deswegen später nicht mindern. Dasselbe gilt bei grob fahrlässiger Unkenntnis — also wenn der Mangel bei der Besichtigung offensichtlich war.",
+          "Wer einen Mangel bei Unterzeichnung des Mietvertrags kennt und trotzdem einzieht, kann deswegen später nicht mindern. Dasselbe gilt, wenn Sie den Mangel nur aus grober Fahrlässigkeit nicht kannten, er also bei der Besichtigung kaum zu übersehen war.",
           "Die Ausnahme: Haben Sie sich bei Annahme der Wohnung Ihre Rechte wegen des Mangels ausdrücklich vorbehalten, bleibt das Minderungsrecht bestehen. Lassen Sie einen solchen Vorbehalt immer ins Übergabeprotokoll aufnehmen.",
         ],
       },
@@ -560,7 +560,7 @@ Im Schreiben an den Vermieter:
         heading: "2. Unterlassene Mängelanzeige (§ 536c BGB)",
         paragraphs: [
           "Zeigen Sie einen Mangel nicht unverzüglich an und kann der Vermieter ihn deshalb nicht beseitigen, verlieren Sie das Minderungsrecht. Zusätzlich können Sie ihm gegenüber schadensersatzpflichtig werden.",
-          "Kennt der Vermieter den Mangel bereits aus anderer Quelle, entfällt die Anzeigepflicht — darauf sollten Sie sich aber nie verlassen.",
+          "Kennt der Vermieter den Mangel bereits aus anderer Quelle, entfällt die Anzeigepflicht. Verlassen sollten Sie sich darauf trotzdem nie.",
         ],
       },
       {
@@ -581,7 +581,7 @@ Im Schreiben an den Vermieter:
         heading: "4. Selbst verursachte Mängel",
         paragraphs: [
           "Haben Sie, Ihre Haushaltsangehörigen oder Ihre Gäste den Mangel verursacht, besteht kein Minderungsrecht. Der Klassiker ist Schimmel durch unzureichendes Lüften und Heizen.",
-          "Wichtig für Ihre Position: Die Beweislast liegt beim Vermieter. Er muss zunächst ausschließen, dass bauliche Ursachen wie Wärmebrücken oder fehlende Dämmung vorliegen — erst dann kommt Ihr Nutzungsverhalten überhaupt in Betracht.",
+          "Für Ihre Position ist die Beweislast entscheidend, und die liegt beim Vermieter. Er muss zuerst ausschließen, dass bauliche Ursachen wie Wärmebrücken oder fehlende Dämmung dahinterstecken. Erst wenn ihm das gelingt, kommt Ihr Nutzungsverhalten überhaupt ins Spiel.",
         ],
       },
       {
@@ -594,7 +594,7 @@ Im Schreiben an den Vermieter:
         heading: "6. Energetische Modernisierung (§ 536 Abs. 1a BGB)",
         paragraphs: [
           "Bei energetischen Modernisierungsmaßnahmen im Sinne des § 555b Nr. 1 BGB ist die Mietminderung für drei Monate ausgeschlossen. Voraussetzung ist, dass der Vermieter die Maßnahme ordnungsgemäß und rechtzeitig angekündigt hat.",
-          "Nach Ablauf der drei Monate dürfen Sie mindern. Der Ausschluss gilt ausschließlich für energetische Maßnahmen — allgemeine Modernisierungen oder reine Instandsetzungen fallen nicht darunter.",
+          "Nach Ablauf der drei Monate dürfen Sie mindern. Und der Ausschluss gilt nur für energetische Maßnahmen; allgemeine Modernisierungen oder reine Instandsetzungen fallen nicht darunter.",
         ],
       },
       {
@@ -606,7 +606,7 @@ Im Schreiben an den Vermieter:
           "Beeinträchtigungen durch eine vertragswidrige eigene Nutzung der Wohnung",
         ],
         paragraphs: [
-          "Maßstab ist stets der Zustand bei Vertragsschluss. Eine Verschlechterung danach kann ein Mangel sein — der von Anfang an bestehende Zustand ist dagegen Vertragsgrundlage.",
+          "Gemessen wird immer am Zustand bei Vertragsschluss. Was sich danach verschlechtert, kann ein Mangel sein. Was von Anfang an so war, haben Sie dagegen mitgemietet.",
         ],
       },
     ],
@@ -619,7 +619,7 @@ Im Schreiben an den Vermieter:
       {
         question: "Was ist ein Bagatellmangel?",
         answer:
-          "Ein Mangel, der die Tauglichkeit der Wohnung nur unerheblich mindert und mit geringem Aufwand zu beheben ist — etwa ein einzelner tropfender Wasserhahn. Nach § 536 Abs. 1 Satz 3 BGB berechtigt er nicht zur Minderung.",
+          "Ein Mangel, der die Tauglichkeit der Wohnung nur unerheblich mindert und sich mit geringem Aufwand beheben lässt, etwa ein einzelner tropfender Wasserhahn. Nach § 536 Abs. 1 Satz 3 BGB berechtigt er nicht zur Minderung.",
       },
       {
         question: "Darf ich bei einer energetischen Sanierung die Miete mindern?",
@@ -640,7 +640,7 @@ Im Schreiben an den Vermieter:
     title: "Die 10 häufigsten Fehler bei der Mietminderung",
     metaTitle: "Mietminderung: 10 häufige Fehler und wie Sie sie vermeiden",
     description:
-      "Von der zu hohen Quote bis zur fehlenden Dokumentation: zehn Fehler, die Mieter regelmäßig ihren Anspruch kosten — und wie Sie sie vermeiden.",
+      "Von der zu hohen Quote bis zur fehlenden Dokumentation: zehn Fehler, die Mieter regelmäßig ihren Anspruch kosten, und wie Sie sie vermeiden.",
     keywords: [
       "Fehler Mietminderung",
       "Mietminderung falsch gemacht",
@@ -648,7 +648,7 @@ Im Schreiben an den Vermieter:
       "Mietminderung Tipps",
     ],
     lead:
-      "Die meisten gescheiterten Minderungsansprüche scheitern nicht am Mangel, sondern am Vorgehen. Diese zehn Fehler sollten Sie kennen, bevor Sie die erste Überweisung kürzen.",
+      "Wenn eine Mietminderung scheitert, liegt es selten am Mangel selbst. Fast immer ist es das Vorgehen: keine Anzeige, falsche Rechengrundlage, zu forsch gekürzt. Diese zehn Fehler sollten Sie kennen, bevor Sie die erste Überweisung anfassen.",
     readingMinutes: 6,
     published: "2026-03-06",
     updated: "2026-07-26",
@@ -656,13 +656,13 @@ Im Schreiben an den Vermieter:
       {
         heading: "Fehler 1: Die Miete kürzen, ohne den Mangel anzuzeigen",
         paragraphs: [
-          "Der mit Abstand häufigste und teuerste Fehler. Ohne Mängelanzeige entsteht kein durchsetzbarer Minderungsanspruch — die gekürzte Miete ist schlicht ein Zahlungsrückstand. Zeigen Sie den Mangel immer zuerst schriftlich an.",
+          "Der mit Abstand häufigste und teuerste Fehler. Ohne Mängelanzeige gibt es keinen durchsetzbaren Anspruch, die einbehaltene Miete ist dann nichts weiter als ein Zahlungsrückstand. Erst schriftlich anzeigen, dann über die Minderung reden.",
         ],
       },
       {
         heading: "Fehler 2: Zu hoch mindern",
         paragraphs: [
-          "Erreicht der Rückstand zwei Monatsmieten, droht die fristlose Kündigung nach § 543 Abs. 2 Nr. 3 BGB. Tabellenwerte sind Spannen aus Einzelfällen, keine Garantien. Bleiben Sie am unteren Ende — oder zahlen Sie unter Vorbehalt.",
+          "Erreicht der Rückstand zwei Monatsmieten, droht die fristlose Kündigung (§ 543 Abs. 2 Nr. 3 BGB). Und Tabellenwerte sind Spannen aus Einzelfällen, keine Garantien. Bleiben Sie am unteren Ende oder zahlen Sie gleich unter Vorbehalt.",
         ],
       },
       {
@@ -674,7 +674,7 @@ Im Schreiben an den Vermieter:
       {
         heading: "Fehler 4: Den Mangel nicht dokumentieren",
         paragraphs: [
-          "Ohne Fotos, Protokolle und Zeugen steht im Prozess Aussage gegen Aussage — und die Beweislast für den Mangel trägt der Mieter. Dokumentieren Sie ab dem ersten Tag, nicht erst, wenn der Streit da ist.",
+          "Ohne Fotos, Protokolle und Zeugen steht im Prozess Aussage gegen Aussage, und die Beweislast für den Mangel trägt der Mieter. Fangen Sie mit der Dokumentation am ersten Tag an, nicht erst, wenn der Streit da ist.",
         ],
         bullets: [
           "Fotos und Videos mit erkennbarem Datum",
@@ -686,19 +686,19 @@ Im Schreiben an den Vermieter:
       {
         heading: "Fehler 5: Nur per E-Mail oder mündlich melden",
         paragraphs: [
-          "Eine E-Mail beweist nicht, dass sie zugegangen ist. Nutzen Sie Einwurf-Einschreiben oder einen Boten mit Zeugen — und ergänzend gern die E-Mail für die schnelle Kenntnisnahme.",
+          "Eine E-Mail beweist nicht, dass sie angekommen ist. Setzen Sie auf Einwurf-Einschreiben oder einen Boten mit Zeugen. Die E-Mail können Sie zusätzlich schicken, damit der Vermieter schnell Bescheid weiß.",
         ],
       },
       {
         heading: "Fehler 6: Keine Frist zur Beseitigung setzen",
         paragraphs: [
-          "Ohne konkret datierte Frist können Sie keine Folgerechte auslösen — weder Schadensersatz noch Selbstvornahme nach § 536a Abs. 2 BGB. Schreiben Sie ein Datum, keinen Zeitraum.",
+          "Ohne konkret datierte Frist lösen Sie keine Folgerechte aus, weder Schadensersatz noch Selbstvornahme nach § 536a Abs. 2 BGB. Also: ein Datum ins Schreiben, keinen vagen Zeitraum.",
         ],
       },
       {
         heading: "Fehler 7: Dem Vermieter den Zutritt verweigern",
         paragraphs: [
-          "Der Vermieter darf den Mangel besichtigen und muss ihn beseitigen dürfen. Wer nach Ankündigung den Zutritt verweigert, riskiert den Verlust des Minderungsrechts — und trägt die Verzögerung dann selbst.",
+          "Der Vermieter darf sich den Mangel ansehen und muss ihn beseitigen dürfen. Wer nach ordentlicher Ankündigung die Tür nicht aufmacht, riskiert sein Minderungsrecht und hat die Verzögerung am Ende selbst zu verantworten.",
         ],
       },
       {
@@ -710,7 +710,7 @@ Im Schreiben an den Vermieter:
       {
         heading: "Fehler 9: Zu lange abwarten",
         paragraphs: [
-          "Nach etwa sechs Monaten vorbehaltloser Zahlung kann das Minderungsrecht verwirkt sein. Handeln Sie zeitnah nach Entdeckung — spätestens innerhalb weniger Tage mit der Mängelanzeige.",
+          "Nach etwa sechs Monaten vorbehaltloser Zahlung kann das Minderungsrecht verwirkt sein. Warten Sie deshalb nicht ab: Die Mängelanzeige sollte innerhalb weniger Tage nach der Entdeckung raus sein.",
         ],
       },
       {
@@ -719,7 +719,7 @@ Im Schreiben an den Vermieter:
           "Eine Selbstvornahme ist nur unter engen Voraussetzungen zulässig: Der Vermieter muss in Verzug sein oder die Beseitigung muss zur Erhaltung der Mietsache dringend erforderlich sein (§ 536a Abs. 2 BGB). Wer vorschnell selbst repariert, bleibt auf den Kosten sitzen.",
         ],
         note:
-          "Setzen Sie also immer erst eine Frist, dokumentieren Sie deren Ablauf — und beauftragen Sie erst danach einen Handwerker, wenn der Vermieter untätig bleibt.",
+          "Auf die Reihenfolge kommt es an: erst Frist setzen, deren fruchtlosen Ablauf dokumentieren, und erst dann einen Handwerker beauftragen, falls der Vermieter weiter untätig bleibt.",
       },
     ],
     faqs: [
@@ -731,7 +731,7 @@ Im Schreiben an den Vermieter:
       {
         question: "Kann mir wegen einer Mietminderung gekündigt werden?",
         answer:
-          "Ja, wenn Sie zu hoch mindern und dadurch ein Rückstand von zwei Monatsmieten entsteht — dann ist eine fristlose Kündigung nach § 543 Abs. 2 Nr. 3 BGB möglich. Die Zahlung unter Vorbehalt schließt dieses Risiko aus.",
+          "Ja, wenn Sie zu hoch mindern und ein Rückstand von zwei Monatsmieten aufläuft. Dann ist eine fristlose Kündigung nach § 543 Abs. 2 Nr. 3 BGB möglich. Wer stattdessen unter Vorbehalt zahlt, schließt dieses Risiko aus.",
       },
       {
         question: "Darf ich einen Mangel selbst beseitigen lassen?",

@@ -48,9 +48,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Heizung kalt Miete mindern",
     ],
     intro:
-      "Eine funktionierende Heizung und warmes Wasser gehören zum vertragsgemäßen Zustand jeder Mietwohnung. Fällt die Heizung in der Heizperiode aus oder bleibt die Wohnung dauerhaft zu kalt, zählt das zu den Mängeln mit den höchsten anerkannten Minderungsquoten überhaupt.",
+      "Ohne funktionierende Heizung und warmes Wasser ist eine Wohnung nicht das, wofür Sie Miete zahlen. Gerichte sehen das genauso: Kaum ein anderer Mangel wird so konsequent und mit so hohen Quoten anerkannt wie eine kalte Wohnung mitten in der Heizperiode.",
     rechtliches:
-      "Als Heizperiode gilt in der Rechtsprechung üblicherweise der Zeitraum vom 1. Oktober bis 30. April. In dieser Zeit schuldet der Vermieter Raumtemperaturen von etwa 20 bis 22 °C in Wohnräumen. Wird dieser Wert unterschritten, liegt ein Mangel im Sinne des § 536 Abs. 1 BGB vor — unabhängig davon, ob den Vermieter ein Verschulden trifft.",
+      "Die Heizperiode dauert nach gängiger Rechtsprechung vom 1. Oktober bis zum 30. April. In dieser Zeit müssen Wohnräume tagsüber auf etwa 20 bis 22 °C kommen. Schafft die Heizung das nicht, liegt ein Mangel nach § 536 Abs. 1 BGB vor. Ob den Vermieter daran eine Schuld trifft, spielt für die Minderung keine Rolle.",
   },
   feuchtigkeit: {
     slug: "feuchtigkeit-schimmel",
@@ -62,9 +62,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Wasserschaden Mietminderung",
     ],
     intro:
-      "Schimmel und Durchfeuchtung sind die am häufigsten gemeldeten Wohnungsmängel in Deutschland. Sie beeinträchtigen nicht nur den Wohnwert, sondern können die Gesundheit gefährden — entsprechend hoch fallen die von Gerichten zugesprochenen Minderungsquoten aus.",
+      "Kein Wohnungsmangel wird in Deutschland häufiger gemeldet als Schimmel und Feuchtigkeit. Und es bleibt selten beim Ärger über fleckige Wände, denn Schimmelsporen können krank machen. Die Gerichte tragen dem mit vergleichsweise hohen Minderungsquoten Rechnung.",
     rechtliches:
-      "Streit entsteht fast immer über die Ursache. Wichtig für Mieter: Beruft sich der Vermieter darauf, der Schimmel sei durch falsches Lüften oder Heizen entstanden, muss er das beweisen. Zunächst muss er ausschließen, dass bauliche Ursachen wie Wärmebrücken, mangelnde Dämmung oder aufsteigende Feuchtigkeit vorliegen.",
+      "Gestritten wird fast nie über den Schimmel selbst, sondern über seine Ursache. Für Sie als Mieter zählt dabei eine Regel: Behauptet der Vermieter, Sie hätten falsch gelüftet oder geheizt, muss er das beweisen. Vorher muss er ausschließen, dass Wärmebrücken, schlechte Dämmung oder aufsteigende Feuchtigkeit dahinterstecken.",
   },
   laerm: {
     slug: "laerm-ruhestoerung",
@@ -76,9 +76,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Lärmprotokoll Mietminderung",
     ],
     intro:
-      "Lärm ist ein sogenannter Umweltmangel: Er betrifft nicht die Bausubstanz, mindert aber die Tauglichkeit der Wohnung zum vertragsgemäßen Gebrauch. Entscheidend ist, ob die Belastung das ortsübliche und sozialadäquate Maß überschreitet.",
+      "Lärm beschädigt keine Wand und hinterlässt keine Flecken, trotzdem kann er eine Wohnung unbrauchbar machen. Juristen sprechen von einem Umweltmangel. Ob Sie mindern dürfen, hängt davon ab, ob die Belastung über das hinausgeht, was an Ihrem Wohnort üblich und sozial hinzunehmen ist.",
     rechtliches:
-      "Normaler Wohnlärm in einem Mehrfamilienhaus, spielende Kinder oder Straßenlärm in einer Innenstadtlage, die dem Mieter bei Vertragsschluss bekannt war, begründen keine Minderung. Erst eine deutliche Verschlechterung gegenüber dem Zustand bei Einzug — etwa eine neue Baustelle oder ein neu eröffneter Gastronomiebetrieb — ist ein Mangel. Ohne lückenloses Lärmprotokoll ist der Anspruch vor Gericht kaum durchsetzbar.",
+      "Wer in die Innenstadt zieht, kann den Straßenlärm, den es beim Einzug schon gab, später nicht als Mangel geltend machen. Auch spielende Kinder und normale Wohngeräusche gehören im Mehrfamilienhaus zum Alltag. Anders liegt der Fall, wenn sich die Lage nach dem Einzug deutlich verschlechtert, etwa weil vor dem Haus eine Baustelle aufmacht oder unter Ihnen ein Lokal einzieht. Dann brauchen Sie vor allem eines: ein lückenloses Lärmprotokoll. Ohne das gehen Lärmklagen vor Gericht regelmäßig verloren.",
   },
   ungeziefer: {
     slug: "ungeziefer-schaedlinge",
@@ -90,9 +90,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Bettwanzen Mietminderung",
     ],
     intro:
-      "Ein Schädlingsbefall in der Mietwohnung ist ein Mangel, sobald er über einzelne Tiere hinausgeht. Die Bekämpfung ist grundsätzlich Sache des Vermieters — er trägt die Kosten für den Kammerjäger, solange der Mieter den Befall nicht selbst verursacht hat.",
+      "Eine einzelne Spinne ist Natur, ein Kakerlakenbefall ist ein Mangel. Sobald sich Schädlinge in der Wohnung festgesetzt haben, muss der Vermieter handeln und auch den Kammerjäger bezahlen. Anders sieht es nur aus, wenn Sie den Befall selbst verursacht haben.",
     rechtliches:
-      "Maßgeblich ist die Befallsstärke, nicht die bloße Sichtung. Eine einzelne Maus im Keller oder eine vereinzelte Spinne reicht nicht aus. Bei nachgewiesenem Befall besteht neben dem Minderungsrecht auch ein Anspruch auf Beseitigung nach § 535 Abs. 1 Satz 2 BGB.",
+      "Es kommt auf das Ausmaß an. Eine Maus, die sich einmal in den Keller verirrt, reicht für eine Minderung nicht aus. Bei einem nachgewiesenen Befall haben Sie dafür gleich zwei Ansprüche nebeneinander: die Minderung und die Beseitigung nach § 535 Abs. 1 Satz 2 BGB.",
   },
   fenster_tueren: {
     slug: "fenster-tueren",
@@ -104,9 +104,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Zugluft Mietminderung",
     ],
     intro:
-      "Undichte oder klemmende Fenster und Türen kosten Wärme, Sicherheit und Wohnqualität. Sie sind zugleich häufig die Ursache weiterer Mängel — etwa Schimmel an den Fensterlaibungen oder dauerhaft zu niedriger Raumtemperatur.",
+      "Durch undichte Fenster entweicht Heizwärme, durch eine defekte Wohnungstür im Zweifel noch mehr. Dazu kommt: Kaputte Fenster ziehen oft weitere Mängel nach sich, vom Schimmel in der Laibung bis zur Wohnung, die einfach nicht mehr warm wird.",
     rechtliches:
-      "Der Vermieter schuldet Fenster und Türen in einem Zustand, der eine normale Nutzung erlaubt. Altersbedingter Verschleiß entlastet ihn nicht: Auch in einem Altbau muss ein Fenster schließen. Sicherheitsrelevante Defekte — etwa eine nicht abschließbare Wohnungstür — rechtfertigen deutlich höhere Quoten als reine Komfortmängel.",
+      "Fenster und Türen müssen sich normal benutzen lassen, das schuldet der Vermieter. Auf das Alter des Hauses kann er sich dabei nicht zurückziehen; auch ein Altbaufenster muss schließen. Geht es um die Sicherheit, etwa bei einer Wohnungstür ohne funktionierendes Schloss, fallen die Quoten deutlich höher aus als bei reinen Komfortproblemen.",
   },
   bad_sanitaer: {
     slug: "bad-sanitaer",
@@ -118,9 +118,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Wasserdruck zu niedrig Mietminderung",
     ],
     intro:
-      "Bad und WC gehören zum Kernbestand einer bewohnbaren Wohnung. Fällt die einzige Toilette oder die Dusche aus, sprechen Gerichte sehr hohe Minderungsquoten zu — kleinere Sanitärmängel bleiben dagegen oft im Bagatellbereich.",
+      "Ohne Bad und WC ist eine Wohnung nicht bewohnbar. Entsprechend streng urteilen Gerichte, wenn die einzige Toilette oder die Dusche ausfällt. Am anderen Ende der Skala stehen Kleinigkeiten wie ein tropfender Hahn, die oft gar keine Minderung rechtfertigen.",
     rechtliches:
-      "Entscheidend ist, ob eine zumutbare Ausweichmöglichkeit besteht. Gibt es ein zweites WC oder eine Badewanne neben der defekten Dusche, fällt die Quote deutlich geringer aus. Ein tropfender Wasserhahn allein ist in der Regel ein unerheblicher Mangel nach § 536 Abs. 1 Satz 3 BGB.",
+      "Die wichtigste Frage lautet meist: Gibt es einen zumutbaren Ersatz? Wer neben der defekten Dusche eine funktionierende Badewanne hat, kann deutlich weniger mindern als jemand, der gar nicht mehr duschen kann. Ein einzelner tropfender Wasserhahn gilt in aller Regel als unerheblicher Mangel im Sinne von § 536 Abs. 1 Satz 3 BGB.",
   },
   kueche: {
     slug: "kueche-geraete",
@@ -132,9 +132,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Kühlschrank defekt Miete mindern",
     ],
     intro:
-      "Für Küchengeräte gilt eine einfache Faustregel: Der Vermieter haftet nur für das, was er mitvermietet hat. Steht die Einbauküche im Mietvertrag oder in der Übergabeliste, muss er sie instand halten — hat der Mieter sie selbst eingebaut, besteht kein Minderungsrecht.",
+      "Bei Küchengeräten entscheidet der Mietvertrag. Der Vermieter muss instand halten, was er mitvermietet hat, und nur das. Steht die Einbauküche im Vertrag oder im Übergabeprotokoll, ist ihr Defekt sein Problem. Haben Sie die Küche selbst eingebaut, gibt es keine Minderung.",
     rechtliches:
-      "Prüfen Sie zuerst Mietvertrag und Übergabeprotokoll. Ist ein Gerät als Teil der Mietsache aufgeführt, schuldet der Vermieter dessen Funktionsfähigkeit nach § 535 Abs. 1 Satz 2 BGB. Kleinreparaturklauseln können den Mieter an den Kosten beteiligen, sie beseitigen aber nicht das Minderungsrecht.",
+      "Werfen Sie also zuerst einen Blick in Mietvertrag und Übergabeprotokoll. Für alles, was dort als Teil der Mietsache auftaucht, schuldet der Vermieter die Funktionsfähigkeit (§ 535 Abs. 1 Satz 2 BGB). Eine Kleinreparaturklausel kann Sie zwar an Reparaturkosten beteiligen, Ihr Minderungsrecht nimmt sie Ihnen nicht.",
   },
   aufzug: {
     slug: "aufzug",
@@ -145,9 +145,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Aufzug Ausfall Miete mindern",
     ],
     intro:
-      "Ein im Mietvertrag zugesagter oder bei Einzug vorhandener Aufzug gehört zur Mietsache. Fällt er länger aus, hängt die Minderungsquote vor allem von der Etage und der persönlichen Situation der Bewohner ab.",
+      "Wer eine Wohnung im fünften Stock mit Aufzug mietet, mietet den Aufzug mit. Steht er länger still, kommt es für die Höhe der Minderung vor allem darauf an, in welcher Etage Sie wohnen und wie gut Sie zu Fuß sind.",
     rechtliches:
-      "Je höher die Wohnung liegt, desto größer die Beeinträchtigung — und desto höher die anerkannte Quote. Bei Gehbehinderung, hohem Alter oder kleinen Kindern kommen Gerichte zu deutlich höheren Werten. Kurze Wartungsausfälle von wenigen Stunden sind dagegen hinzunehmen.",
+      "Die Faustregel der Gerichte: je höher die Wohnung, desto höher die Quote. Wer gehbehindert ist, hochbetagt oder mit kleinen Kindern unterwegs, kann noch einmal deutlich mehr ansetzen. Umgekehrt gilt aber auch: Einen Wartungsstopp von ein paar Stunden müssen Sie hinnehmen.",
   },
   elektrik: {
     slug: "elektrik-technik",
@@ -159,9 +159,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Treppenhausbeleuchtung defekt",
     ],
     intro:
-      "Eine funktionierende Stromversorgung ist Grundvoraussetzung für die Bewohnbarkeit. Bei einem kompletten Ausfall kann die Miete bis auf null sinken, während einzelne defekte Steckdosen im Bagatellbereich bleiben.",
+      "Am Strom hängt in der Wohnung fast alles, vom Licht über den Kühlschrank bis zur Heizungssteuerung. Fällt er komplett aus, kann die Miete bis auf null sinken. Eine einzelne tote Steckdose bleibt dagegen meist unter der Bagatellgrenze.",
     rechtliches:
-      "Bei technischen Anschlüssen wie Internet, Kabel-TV oder Gegensprechanlage kommt es darauf an, ob sie vertraglich Teil der Mietsache sind. Sicherheitsrelevante Mängel wie eine dauerhaft dunkle Treppenhausbeleuchtung wiegen schwerer als reine Komforteinbußen.",
+      "Bei Internet, Kabelfernsehen oder Gegensprechanlage hängt alles davon ab, ob der Anschluss vertraglich zur Mietsache gehört. Und wie so oft im Mietrecht zählt Sicherheit mehr als Komfort: Ein wochenlang dunkles Treppenhaus wiegt schwerer als ein gestörter Fernsehempfang.",
   },
   wohnflaeche: {
     slug: "wohnflaeche-raumqualitaet",
@@ -173,9 +173,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "undichtes Dach Mietminderung",
     ],
     intro:
-      "Weicht die tatsächliche Wohnfläche erheblich von der im Mietvertrag vereinbarten ab, zahlen Sie dauerhaft für Quadratmeter, die es nicht gibt. Das ist einer der wenigen Mängel, bei denen die Minderung rechnerisch exakt bestimmbar ist.",
+      "Steht im Mietvertrag mehr Fläche, als die Wohnung tatsächlich hat, zahlen Sie Monat für Monat für Quadratmeter, die es gar nicht gibt. Immerhin: Kaum ein anderer Mangel lässt sich so exakt beziffern. Hier wird schlicht nachgemessen und umgerechnet.",
     rechtliches:
-      "Nach ständiger Rechtsprechung des BGH gilt eine Wohnflächenabweichung von mehr als zehn Prozent als erheblicher Mangel; die Miete ist dann im Verhältnis der Abweichung gemindert. Bei geringeren Abweichungen muss der Mieter eine konkrete Beeinträchtigung darlegen.",
+      "Der BGH zieht die Grenze in ständiger Rechtsprechung bei zehn Prozent. Fehlt mehr, liegt ein erheblicher Mangel vor, und die Miete mindert sich im Verhältnis der Abweichung. Fehlt weniger, müssen Sie konkret darlegen, wie Sie die kleinere Fläche im Alltag beeinträchtigt.",
   },
   balkon_aussen: {
     slug: "balkon-terrasse-garten",
@@ -187,9 +187,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Stellplatz Mietminderung",
     ],
     intro:
-      "Balkon, Terrasse, Keller und Stellplatz sind mitvermietete Nebenflächen, sobald sie im Mietvertrag genannt oder bei Einzug übergeben wurden. Ihre Unbenutzbarkeit rechtfertigt eine Minderung der Gesamtmiete.",
+      "Balkon, Terrasse, Kellerabteil, Stellplatz: Was im Mietvertrag steht oder bei Einzug übergeben wurde, gehört zur Mietsache dazu. Können Sie diese Flächen nicht nutzen, dürfen Sie die Gesamtmiete mindern.",
     rechtliches:
-      "Die Quote hängt stark von der Jahreszeit ab: Ein unbenutzbarer Balkon wiegt im Sommer deutlich schwerer als im Winter, weshalb Gerichte hier saisonal differenzieren. Wird für einen Stellplatz eine gesonderte Miete gezahlt, bezieht sich die Minderung auf diesen Teilbetrag.",
+      "Bei Außenflächen rechnen Gerichte mit dem Kalender. Ein gesperrter Balkon im Juli wiegt erheblich schwerer als derselbe Balkon im Januar. Beim Stellplatz kommt es auf den Vertrag an: Zahlen Sie dafür eine eigene Miete, mindern Sie diesen Betrag und nicht die Wohnungsmiete.",
   },
   gesundheit: {
     slug: "gesundheitsgefahren",
@@ -201,9 +201,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Bleirohre Trinkwasser Mietminderung",
     ],
     intro:
-      "Schadstoffe in Bausubstanz oder Trinkwasser sind besonders schwerwiegende Mängel. Neben dem Minderungsrecht kommen hier regelmäßig ein Anspruch auf Schadensersatz und im Extremfall die fristlose Kündigung nach § 569 Abs. 1 BGB in Betracht.",
+      "Asbest, Legionellen, Blei im Trinkwasser: Wenn die Wohnung krank machen kann, geht es um mehr als Wohnkomfort. Neben der Minderung stehen dann regelmäßig Schadensersatz und im Ernstfall die fristlose Kündigung nach § 569 Abs. 1 BGB im Raum.",
     rechtliches:
-      "Maßgeblich ist die Überschreitung geltender Grenzwerte — etwa nach Trinkwasserverordnung bei Legionellen und Blei. Eine bloß theoretische Gefährdung genügt nicht; ein Messprotokoll oder Gutachten ist praktisch unverzichtbar. Bei akuter Gesundheitsgefahr sollten Sie umgehend das Gesundheitsamt einschalten.",
+      "Ausschlaggebend ist, ob Grenzwerte überschritten werden, bei Legionellen und Blei etwa die der Trinkwasserverordnung. Eine bloß gefühlte Gefahr genügt nicht, deshalb führt an einem Messprotokoll oder Gutachten praktisch kein Weg vorbei. Bei akuter Gesundheitsgefahr gehört außerdem sofort das Gesundheitsamt ins Boot.",
   },
   gerueche: {
     slug: "geruchsbelaestigung",
@@ -215,9 +215,9 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
       "Gestank Wohnung Miete mindern",
     ],
     intro:
-      "Anhaltende Gerüche machen eine Wohnung unbenutzbar, ohne sichtbare Spuren zu hinterlassen — was die Beweisführung erschwert. Wie bei Lärm gilt: Nur eine Belastung über dem ortsüblichen Maß ist ein Mangel.",
+      "Gestank sieht man nicht, und genau das macht ihn juristisch unbequem: Der Nachweis fällt schwerer als bei einem Schimmelfleck. In der Sache gilt dasselbe wie beim Lärm. Erst wenn die Belastung das ortsübliche Maß übersteigt, liegt ein Mangel vor.",
     rechtliches:
-      "Führen Sie ein Geruchsprotokoll mit Datum, Uhrzeit, Dauer und Intensität und benennen Sie Zeugen. Kurzzeitige Küchengerüche aus Nachbarwohnungen sind sozialadäquat und begründen keine Minderung; dauerhafter Abwasser- oder Müllgeruch dagegen schon.",
+      "Ihr wichtigstes Werkzeug ist ein Geruchsprotokoll mit Datum, Uhrzeit, Dauer und Intensität, dazu Zeugen. Dass es mittags kurz nach dem Essen der Nachbarn riecht, müssen Sie hinnehmen. Dauerhafter Abwasser- oder Müllgeruch dagegen ist ein Mangel.",
   },
 };
 
@@ -232,7 +232,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Heizung fällt aus wie viel Prozent",
     ],
     intro:
-      "Der vollständige Heizungsausfall in der Heizperiode ist der schwerwiegendste Mangel im gesamten Mietrecht. Sinkt die Raumtemperatur unter 18 °C, ist die Wohnung praktisch unbewohnbar — Gerichte haben in solchen Fällen Minderungen bis zu 100 Prozent zugesprochen.",
+      "Es gibt kaum einen schwereren Mangel als eine Heizung, die mitten im Winter komplett ausfällt. Bei Raumtemperaturen unter 18 °C lässt sich in einer Wohnung schlicht nicht mehr leben. Gerichte haben dafür schon die volle Minderung zugesprochen, also 100 Prozent.",
     symptome: [
       "Alle Heizkörper bleiben kalt, auch nach vollständigem Aufdrehen",
       "Raumtemperatur unter 18 °C zwischen Oktober und April",
@@ -246,7 +246,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Nachbarn als Zeugen benennen, wenn das ganze Haus betroffen ist",
     ],
     hinweis:
-      "Ein Heizungsausfall im Winter ist ein Notfall. Setzen Sie eine sehr kurze Frist und weisen Sie ausdrücklich auf die Gesundheitsgefahr hin. Bleibt der Vermieter untätig, dürfen Sie nach § 536a Abs. 2 BGB die Mängelbeseitigung selbst veranlassen und die Kosten ersetzt verlangen — etwa durch die Anmietung von Heizlüftern.",
+      "Ein Heizungsausfall im Winter ist ein Notfall, behandeln Sie ihn auch so. Setzen Sie eine sehr kurze Frist und schreiben Sie den Hinweis auf die Gesundheitsgefahr ausdrücklich dazu. Tut sich dann immer noch nichts, dürfen Sie nach § 536a Abs. 2 BGB selbst handeln, zum Beispiel Heizlüfter anschaffen, und die Kosten vom Vermieter zurückverlangen.",
     fristTage: 3,
     dringend: true,
   },
@@ -258,7 +258,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Schlafzimmer wird nicht warm Mietminderung",
     ],
     intro:
-      "Bleibt nur ein Teil der Wohnung kalt, richtet sich die Minderung nach der Bedeutung des betroffenen Raums. Ein unbeheizbares Wohn- oder Schlafzimmer wiegt deutlich schwerer als ein kalter Abstellraum.",
+      "Wenn nur einzelne Räume kalt bleiben, fragt das Gericht zuerst: Welcher Raum ist es? Ein Schlafzimmer, in dem niemand mehr schlafen mag, zählt erheblich mehr als ein kalter Abstellraum. Danach richtet sich die Höhe der Minderung.",
     symptome: [
       "Einzelne Heizkörper bleiben kalt, während andere warm werden",
       "Gluckernde Geräusche als Hinweis auf Luft im System",
@@ -272,7 +272,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Fotos der Thermostate in geöffneter Stellung machen",
     ],
     hinweis:
-      "Geben Sie in der Mängelanzeige genau an, welche Räume betroffen sind und wie viele Quadratmeter das sind. Diese Angabe ist die Grundlage, an der sich die Minderungsquote im Streitfall bemisst.",
+      "Schreiben Sie in die Mängelanzeige konkret hinein, welche Räume betroffen sind und wie groß sie sind. Kommt es zum Streit über die Quote, wird genau mit diesen Quadratmetern gerechnet.",
     fristTage: 7,
     dringend: true,
   },
@@ -284,7 +284,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Mindesttemperatur Mietwohnung",
     ],
     intro:
-      "Auch eine laufende Heizung kann mangelhaft sein: Der Vermieter schuldet in Wohnräumen tagsüber Temperaturen von etwa 20 bis 22 °C. Wird dieser Wert dauerhaft nicht erreicht, liegt ein Mangel vor — selbst wenn die Heizkörper lauwarm sind.",
+      "Die Heizung läuft, aber richtig warm wird es trotzdem nie? Auch das ist ein Mangel. Der Vermieter schuldet in Wohnräumen tagsüber etwa 20 bis 22 °C. Werden die dauerhaft verfehlt, hilft es ihm nicht, dass die Heizkörper immerhin lauwarm sind.",
     symptome: [
       "Raumtemperatur bleibt trotz voll aufgedrehter Thermostate unter 20 °C",
       "Heizkörper werden nur handwarm statt heiß",
@@ -298,7 +298,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Bei Nachtabsenkung: prüfen und dokumentieren, ab wann die Temperatur wieder steigt",
     ],
     hinweis:
-      "Nachtabsenkungen auf etwa 18 °C zwischen 23 und 6 Uhr sind zulässig und begründen keine Minderung. Messen Sie deshalb bewusst auch tagsüber, sonst entkräftet der Vermieter Ihr Protokoll leicht.",
+      "Ein Hinweis zum Messen: Nachts darf die Anlage auf etwa 18 °C absenken, das ist zwischen 23 und 6 Uhr zulässig und kein Mangel. Wer nur nachts misst, liefert dem Vermieter also selbst das Gegenargument. Messen Sie deshalb vor allem tagsüber.",
     fristTage: 10,
   },
   warmwasser_total: {
@@ -309,7 +309,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "kalt duschen Miete mindern",
     ],
     intro:
-      "Warmes Wasser schuldet der Vermieter ganzjährig und rund um die Uhr — üblicherweise mit mindestens 40 bis 50 °C an der Zapfstelle. Ein vollständiger Ausfall ist immer ein erheblicher Mangel, unabhängig von der Jahreszeit.",
+      "Für warmes Wasser gibt es keine Saison. Der Vermieter schuldet es das ganze Jahr über, rund um die Uhr, und zwar mit mindestens 40 bis 50 °C an der Zapfstelle. Fällt es komplett aus, ist das immer ein erheblicher Mangel, im August genauso wie im Januar.",
     symptome: [
       "An keiner Zapfstelle kommt warmes Wasser an",
       "Wassertemperatur bleibt dauerhaft unter 40 °C",
@@ -323,7 +323,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Ausfall sofort schriftlich melden — die Minderung wirkt erst ab Kenntnis des Vermieters",
     ],
     hinweis:
-      "Die Höhe der Minderung hängt stark von der Dauer ab. Ein Ausfall über wenige Stunden ist hinzunehmen; bei Tagen oder Wochen bewegen sich anerkannte Quoten am oberen Ende der Spanne.",
+      "Bei der Höhe kommt es vor allem auf die Dauer an. Ein paar Stunden ohne warmes Wasser müssen Sie aushalten. Zieht sich der Ausfall über Tage oder gar Wochen, landen die anerkannten Quoten am oberen Ende der Spanne.",
     fristTage: 5,
     dringend: true,
   },
@@ -335,7 +335,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Wasser wird erst nach Minuten warm",
     ],
     intro:
-      "Muss das Wasser minutenlang laufen, bis es warm wird, ist das kein Komfortproblem, sondern ein Mangel — Sie bezahlen das ungenutzt ablaufende Wasser über die Nebenkosten mit. Als zumutbar gilt eine Vorlaufzeit von wenigen Sekunden.",
+      "Minutenlang den Hahn laufen lassen, bis endlich warmes Wasser kommt? Das klingt nach Kleinigkeit, ist aber ein Mangel. Zumutbar sind nur wenige Sekunden Vorlauf. Und das ungenutzt weglaufende Wasser bezahlen Sie über die Nebenkosten auch noch selbst.",
     symptome: [
       "Warmes Wasser kommt erst nach mehreren Minuten Laufzeit",
       "Deutlich erhöhter Wasserverbrauch in der Nebenkostenabrechnung",
@@ -349,7 +349,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Mehrfach zu verschiedenen Tageszeiten messen",
     ],
     hinweis:
-      "Dieser Mangel liegt im unteren Prozentbereich, ist aber gut nachweisbar und dauerhaft. Er lässt sich sinnvoll mit anderen Mängeln in einer gemeinsamen Mängelanzeige kombinieren.",
+      "Viel Prozent bringt dieser Mangel für sich allein nicht. Dafür ist er leicht nachzuweisen und besteht dauerhaft. Am meisten lohnt er sich als Posten in einer Mängelanzeige, die noch weitere Mängel auflistet.",
     fristTage: 21,
   },
   heizung_geraeusche: {
@@ -360,7 +360,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Mietminderung Heizungsgeräusche",
     ],
     intro:
-      "Klopfende, gluckernde oder pfeifende Heizungsrohre stören besonders nachts empfindlich die Nachtruhe. Gerichte werten dauerhafte Heizungsgeräusche als eigenständigen Mangel mit spürbaren Minderungsquoten.",
+      "Eine Heizung, die nachts klopft, gluckert oder pfeift, raubt einem zuverlässig den Schlaf. Solche Dauergeräusche sind kein bloßes Ärgernis: Gerichte behandeln sie als eigenen Mangel und sprechen dafür durchaus spürbare Quoten zu.",
     symptome: [
       "Regelmäßiges Klopfen oder Knacken beim Aufheizen",
       "Gluckern durch Luft im Heizsystem",
@@ -374,7 +374,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Nachbarn fragen und als Zeugen benennen, wenn diese ebenfalls betroffen sind",
     ],
     hinweis:
-      "Bitten Sie zunächst um eine fachgerechte Entlüftung und einen hydraulischen Abgleich der Anlage. Wenn das dokumentiert erfolglos bleibt, ist Ihre Position für eine Minderung deutlich stärker.",
+      "Verlangen Sie als Erstes eine fachgerechte Entlüftung und einen hydraulischen Abgleich. Bringt beides nachweislich nichts, steht Ihre Minderung auf deutlich festerem Boden, weil der einfache Ausweg dann bereits abgehakt ist.",
     fristTage: 14,
   },
 
@@ -387,7 +387,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "leichter Schimmelbefall Miete mindern",
     ],
     intro:
-      "Auch ein kleiner, oberflächlicher Schimmelfleck ist ein Mangel und kein hinzunehmender Schönheitsfehler. Sporen belasten die Raumluft, und unbehandelter Befall breitet sich fast immer weiter aus.",
+      "„Das bisschen Schimmel“ gibt es nicht. Auch ein kleiner Fleck an der Wand ist ein Mangel und kein Schönheitsfehler, den Sie hinnehmen müssten. Die Sporen belasten die Raumluft, und wer einen Befall nicht behandeln lässt, sieht ihn fast immer wachsen.",
     symptome: [
       "Dunkle oder grünliche Flecken an Wand, Decke oder Fensterlaibung",
       "Muffiger, erdiger Geruch besonders in Ecken und hinter Möbeln",
@@ -401,7 +401,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Lüftungsverhalten dokumentieren — Stoßlüften morgens und abends notieren",
     ],
     hinweis:
-      "Entfernen Sie den Schimmel nicht vollständig, bevor der Vermieter ihn gesehen oder Sie ihn fotografiert haben — sonst fehlt Ihnen der Nachweis. Für die Ursachenfrage gilt: Der Vermieter muss beweisen, dass Ihr Lüftungsverhalten die Ursache ist, nicht umgekehrt.",
+      "So verständlich der Impuls ist: Wischen Sie den Schimmel nicht restlos weg, bevor der Vermieter ihn gesehen hat oder Fotos existieren. Sonst steht am Ende Ihr Wort gegen seins. Und zur Ursache gilt: Der Vermieter muss beweisen, dass Ihr Lüften schuld war, nicht Sie das Gegenteil.",
     fristTage: 14,
   },
   schimmel_stark: {
@@ -412,7 +412,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Mietminderung Schimmel 50 Prozent",
     ],
     intro:
-      "Großflächiger Schimmel in mehreren Räumen ist ein schwerer Mangel mit Gesundheitsrelevanz. Die Rechtsprechung erkennt hier Minderungsquoten bis zur Hälfte der Bruttowarmmiete an, in Extremfällen deutlich darüber.",
+      "Wenn der Schimmel sich über mehrere Räume ausgebreitet hat, geht es längst um die Gesundheit. Gerichte haben in solchen Fällen die halbe Bruttowarmmiete als Minderung anerkannt, in Extremfällen auch deutlich mehr.",
     symptome: [
       "Befall an mehreren Wänden oder in mehreren Zimmern",
       "Schimmel hinter Möbeln, in Schränken oder auf Textilien",
@@ -426,7 +426,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Ein Sachverständigengutachten zur Ursache erwägen — es ist im Streitfall das stärkste Beweismittel",
     ],
     hinweis:
-      "Bei massivem Befall kommt neben der Minderung eine fristlose Kündigung wegen Gesundheitsgefährdung nach § 569 Abs. 1 BGB in Betracht. Lassen Sie sich vor diesem Schritt unbedingt vom Mieterverein oder einem Anwalt beraten.",
+      "Bei massivem Befall kommt über die Minderung hinaus eine fristlose Kündigung wegen Gesundheitsgefährdung in Betracht (§ 569 Abs. 1 BGB). Dieser Schritt hat allerdings Folgen, die gut überlegt sein wollen. Sprechen Sie vorher mit dem Mieterverein oder einem Anwalt.",
     fristTage: 7,
     dringend: true,
   },
@@ -438,7 +438,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "nasse Wand Miete mindern",
     ],
     intro:
-      "Feuchte Wände sind die Vorstufe zum Schimmel und ein Mangel für sich. Ursache sind meist bauliche Defekte — aufsteigende Feuchtigkeit, undichte Leitungen oder fehlende Abdichtung — und damit klar der Verantwortungsbereich des Vermieters.",
+      "Eine feuchte Wand ist schon für sich genommen ein Mangel, nicht erst der Schimmel, der daraus wird. Die Ursache liegt meist im Gebäude selbst: aufsteigende Feuchtigkeit, eine undichte Leitung, eine fehlende Abdichtung. Dafür ist der Vermieter zuständig, nicht Sie.",
     symptome: [
       "Dunkle Flecken oder Ränder an Wänden, oft am Sockel",
       "Abplatzender Putz, Salzausblühungen oder sich lösende Tapete",
@@ -452,7 +452,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Datum des ersten Auftretens und die Entwicklung schriftlich festhalten",
     ],
     hinweis:
-      "Handeln Sie früh: Solange nur die Wand feucht ist, bleibt die Quote moderat. Kommt Schimmel hinzu, steigt sie erheblich — Ihre frühzeitige Mängelanzeige sichert Ihnen dann den Anspruch ab dem ersten Tag.",
+      "Warten Sie nicht ab. Solange nur die Wand feucht ist, bleibt die Quote überschaubar, mit dem ersten Schimmel steigt sie deutlich. Wer früh gemeldet hat, hat seinen Anspruch dann vom ersten Tag an gesichert und muss sich keine verspätete Anzeige vorhalten lassen.",
     fristTage: 14,
   },
   wasserschaden: {
@@ -463,7 +463,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Wassereinbruch Wohnung Miete mindern",
     ],
     intro:
-      "Ein Wasserschaden macht Teile der Wohnung von einem Moment auf den anderen unbenutzbar. Für die Minderung ist unerheblich, wer ihn verursacht hat — auch bei einem Rohrbruch im Nachbarhaus oder höherer Gewalt bleibt Ihr Minderungsrecht bestehen.",
+      "Ein Rohrbruch fragt nicht nach einem passenden Zeitpunkt: Eben war die Wohnung noch in Ordnung, jetzt steht das Wasser im Flur. Für Ihr Minderungsrecht ist es übrigens egal, wer den Schaden verursacht hat. Es gilt auch, wenn das Rohr im Nachbarhaus geplatzt ist oder schlicht niemand etwas dafür kann.",
     symptome: [
       "Stehendes Wasser, durchnässte Böden oder Wände",
       "Wasserflecken an Decke oder Wand, tropfendes Wasser",
@@ -477,7 +477,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Alle Handwerker- und Trocknungsberichte aufbewahren",
     ],
     hinweis:
-      "Die Mietminderung ist verschuldensunabhängig — Sie müssen dem Vermieter nichts nachweisen. Für Schäden an Ihrem eigenen Hausrat ist dagegen Ihre Hausratversicherung zuständig, nicht die Minderung.",
+      "Sie müssen dem Vermieter kein Verschulden nachweisen, die Minderung greift unabhängig davon. Nur eine Abgrenzung ist wichtig: Für Ihre eigenen Möbel und Ihren Hausrat kommt nicht die Minderung auf, sondern Ihre Hausratversicherung.",
     fristTage: 3,
     dringend: true,
   },
@@ -489,7 +489,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Trocknung nach Wasserschaden Miete mindern",
     ],
     intro:
-      "Die Trocknung nach einem Wasserschaden ist oft belastender als der Schaden selbst: Bautrockner laufen rund um die Uhr, sind extrem laut und treiben die Stromkosten in die Höhe. Gerichte erkennen dafür hohe Minderungsquoten an, in Einzelfällen bis 100 Prozent.",
+      "Wer schon einmal wochenlang neben einem Bautrockner gelebt hat, weiß: Die Trocknung ist oft schlimmer als der Wasserschaden selbst. Die Geräte dröhnen Tag und Nacht, heizen die Räume auf und laufen über Ihren Stromzähler. Gerichte erkennen dafür hohe Quoten an, im Einzelfall bis zu 100 Prozent.",
     symptome: [
       "Dauerbetrieb lauter Trocknungsgeräte über Tage oder Wochen",
       "Erhebliche Lärm- und Wärmebelastung in den betroffenen Räumen",
@@ -503,7 +503,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Fotos machen, die zeigen, welche Räume und Möbel unbenutzbar sind",
     ],
     hinweis:
-      "Die Stromkosten der Trocknungsgeräte muss der Vermieter erstatten — verlangen Sie diese Erstattung ausdrücklich zusätzlich zur Mietminderung und dokumentieren Sie die Zählerstände.",
+      "Den Strom für die Trockner muss der Vermieter bezahlen, nicht Sie. Verlangen Sie die Erstattung ausdrücklich und zusätzlich zur Minderung. Ohne notierte Zählerstände lässt sich der Mehrverbrauch später allerdings kaum beziffern, also: vorher und nachher ablesen.",
     fristTage: 7,
     dringend: true,
   },
@@ -515,7 +515,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Kellerraum Feuchtigkeit Miete mindern",
     ],
     intro:
-      "Ist ein Kellerabteil im Mietvertrag genannt oder wurde es bei Einzug übergeben, gehört es zur Mietsache. Ein feuchter Keller, in dem nichts gelagert werden kann, mindert daher die Gesamtmiete.",
+      "Das Kellerabteil gehört zur Mietsache, sobald es im Vertrag steht oder bei Einzug mit übergeben wurde. Wird es so feucht, dass Sie dort nichts mehr lagern können, dürfen Sie die Gesamtmiete mindern, nicht nur einen fiktiven Kelleranteil.",
     symptome: [
       "Feuchte oder nasse Kellerwände, Pfützen auf dem Boden",
       "Modriger Geruch im Kellerabteil",
@@ -529,7 +529,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Notieren, seit wann und bei welcher Witterung das Problem auftritt",
     ],
     hinweis:
-      "Ein gewisses Maß an Kellerfeuchte ist in Altbauten üblich und hinzunehmen. Ein Mangel liegt erst vor, wenn eine Lagerung praktisch unmöglich wird — belegen Sie das konkret mit beschädigten Gegenständen.",
+      "Ganz trocken ist kaum ein Altbaukeller, ein gewisses Maß an Feuchte müssen Sie hinnehmen. Zum Mangel wird es erst, wenn Lagern praktisch nicht mehr geht. Am besten belegen Sie das mit dem, was bereits Schaden genommen hat: verschimmelte Kartons, rostige Werkzeuge, feuchte Möbel.",
     fristTage: 21,
   },
 
@@ -542,7 +542,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Sanierung im Haus Miete mindern",
     ],
     intro:
-      "Baulärm im eigenen Haus oder auf dem Nachbargrundstück gehört zu den häufigsten Minderungsgründen. Entscheidend ist die Verschlechterung gegenüber dem Zustand bei Einzug: Eine neue Baustelle ist ein Mangel, eine schon bei Vertragsschluss sichtbare in der Regel nicht.",
+      "Kernsanierung über Ihrer Wohnung, Abrissbagger auf dem Nachbargrundstück: Baulärm zählt zu den häufigsten Gründen für eine Mietminderung. Die Frage ist immer, was sich seit Ihrem Einzug verändert hat. Eine Baustelle, die neu dazugekommen ist, ist ein Mangel. Eine, die bei Vertragsschluss schon sichtbar war, in aller Regel nicht.",
     symptome: [
       "Bohren, Hämmern, Fräsen oder Baumaschinenlärm über Wochen",
       "Erschütterungen, Staub und Schmutz in der Wohnung",
@@ -556,7 +556,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Bauschild, Aushänge und Ankündigungsschreiben des Vermieters fotografieren",
     ],
     hinweis:
-      "Das Lärmprotokoll ist hier alles. Ohne tägliche, lückenlose Aufzeichnungen scheitern Minderungsansprüche wegen Lärm vor Gericht regelmäßig — eine pauschale Beschreibung genügt nicht.",
+      "Beim Lärm steht und fällt alles mit dem Protokoll. „Es war ständig laut“ überzeugt kein Gericht; tägliche Einträge mit Uhrzeiten über Wochen hinweg schon. Machen Sie das Protokoll deshalb zur festen Routine, auch wenn es lästig ist.",
     fristTage: 14,
   },
   strassenlaerm: {
@@ -567,7 +567,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Verkehrslärm Miete mindern",
     ],
     intro:
-      "Straßenlärm begründet nur dann eine Minderung, wenn er sich nach Vertragsschluss deutlich verstärkt hat — etwa durch eine neue Baustelle, eine Umleitung oder eine geänderte Verkehrsführung. Die bei Einzug vorhandene Lärmkulisse ist Vertragsgrundlage.",
+      "Den Verkehrslärm, den es bei Ihrem Einzug schon gab, haben Sie rechtlich gesehen mitgemietet. Mindern können Sie erst, wenn es danach deutlich lauter geworden ist, etwa weil eine Baustelle eingerichtet wurde, eine Umleitung vor Ihrer Tür endet oder die Verkehrsführung geändert wurde.",
     symptome: [
       "Deutlich lauterer Verkehr als bei Einzug, etwa durch Umleitung",
       "Straßenbauarbeiten unmittelbar vor dem Haus",
@@ -581,7 +581,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Falls möglich: Vergleichswerte aus der Zeit vor der Veränderung dokumentieren",
     ],
     hinweis:
-      "Beschreiben Sie in der Mängelanzeige ausdrücklich, wie die Situation bei Einzug war und was sich seitdem verändert hat. Genau diese Gegenüberstellung entscheidet über den Anspruch.",
+      "Bauen Sie Ihre Mängelanzeige als Vorher-Nachher-Vergleich auf: So war es bei Einzug, das hat sich seitdem geändert. An genau dieser Gegenüberstellung wird Ihr Anspruch gemessen, also verwenden Sie darauf die meiste Sorgfalt.",
     fristTage: 14,
   },
   nachbarlaerm: {
@@ -592,7 +592,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Ruhestörung Mietminderung",
     ],
     intro:
-      "Dauerhafter Lärm aus der Nachbarwohnung kann eine Minderung rechtfertigen — allerdings nur, wenn er das sozialadäquate Maß deutlich überschreitet. Normale Wohngeräusche, spielende Kinder und gelegentliche Feiern gehören zum Zusammenleben im Mehrfamilienhaus.",
+      "Nicht jeder laute Nachbar ist ein Mangel. Schritte, spielende Kinder, ab und zu eine Feier: Das gehört zum Leben im Mehrfamilienhaus und muss ertragen werden. Anders sieht es aus, wenn der Lärm zum Dauerzustand wird und deutlich über das hinausgeht, was unter Nachbarn üblich ist.",
     symptome: [
       "Regelmäßiger Lärm während der Ruhezeiten (22–6 Uhr, oft auch mittags)",
       "Laute Musik, Streit oder Partys mehrmals pro Woche",
@@ -606,7 +606,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Andere betroffene Nachbarn als Zeugen benennen",
     ],
     hinweis:
-      "Richten Sie die Mängelanzeige an den Vermieter, nicht an die Nachbarn: Er ist verpflichtet, gegen störende Mieter vorzugehen. Bleibt er untätig, obwohl Sie ihn nachweislich informiert haben, wird der Lärm zu einem Mangel, für den er einsteht.",
+      "Ihr Ansprechpartner ist der Vermieter, nicht der Nachbar. Er muss gegen störende Mieter vorgehen, notfalls mit Abmahnung und Kündigung. Wissen muss er davon allerdings nachweislich: Erst wenn er trotz Ihrer Meldung untätig bleibt, wird der Lärm zu einem Mangel, für den er geradesteht.",
     fristTage: 14,
   },
   gastronomie: {
@@ -617,7 +617,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Restaurant Lärm Miete mindern",
     ],
     intro:
-      "Eine Kneipe, ein Restaurant oder ein Club im selben Haus bringt Lärm bis tief in die Nacht, Gästegespräche vor dem Eingang und oft zusätzliche Geruchsbelästigung. Eröffnet der Betrieb erst nach Ihrem Einzug, ist das ein klarer Mangel.",
+      "Musik bis zwei Uhr nachts, Raucher vor der Tür, morgens die Flaschencontainer: Ein Lokal im Haus verändert das Wohnen gründlich. Hat der Betrieb erst nach Ihrem Einzug eröffnet, müssen Sie das nicht hinnehmen. Es ist ein klarer Mangel.",
     symptome: [
       "Musik- und Gästelärm bis in die Nachtstunden",
       "Lärm von rauchenden Gästen vor dem Haus",
@@ -631,7 +631,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Ton- und Videoaufnahmen mit Zeitstempel sichern",
     ],
     hinweis:
-      "Prüfen Sie zusätzlich, ob der Betrieb die genehmigten Öffnungszeiten oder Immissionsrichtwerte überschreitet. Eine Beschwerde beim Ordnungsamt schafft Aktenlage, die Ihre Position gegenüber dem Vermieter erheblich stärkt.",
+      "Es lohnt sich, zweigleisig zu fahren. Prüfen Sie, ob der Betrieb seine genehmigten Öffnungszeiten oder die Lärmrichtwerte überschreitet, und beschweren Sie sich gegebenenfalls beim Ordnungsamt. Was dort aktenkundig wird, können Sie später dem Vermieter vorlegen.",
     fristTage: 14,
   },
   aufzug_laerm: {
@@ -642,7 +642,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Aufzugsgeräusche Wohnung",
     ],
     intro:
-      "Wohnungen direkt am Aufzugsschacht leiden unter Rattern, Summen und Türgeräuschen — besonders nachts. Überschreiten die Geräusche die technischen Richtwerte für Schallschutz, liegt ein Mangel vor.",
+      "Wer direkt am Aufzugsschacht wohnt, hört jede einzelne Fahrt: das Anfahren, das Rumpeln, die Türen. Tagsüber lässt sich das ausblenden, nachts nicht. Überschreiten die Geräusche die Schallschutzrichtwerte, liegt ein Mangel vor.",
     symptome: [
       "Deutlich hörbares Rattern oder Quietschen bei jeder Fahrt",
       "Brummen des Antriebs oder Vibrationen in der Wand",
@@ -656,7 +656,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Schallpegel im angrenzenden Raum messen",
     ],
     hinweis:
-      "Verlangen Sie eine Wartung und die Prüfung der Körperschallentkopplung. Bleibt der Vermieter untätig, obwohl eine technische Lösung möglich wäre, stärkt das Ihren Minderungsanspruch.",
+      "Fordern Sie eine Wartung und die Überprüfung der Körperschallentkopplung, denn technisch lässt sich hier fast immer etwas machen. Genau das stärkt Ihre Position: Ein Vermieter, der eine machbare Lösung liegen lässt, kann sich schlecht auf Unvermeidbarkeit berufen.",
     fristTage: 21,
   },
 
@@ -669,7 +669,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Kakerlakenbefall Miete mindern",
     ],
     intro:
-      "Kakerlaken gelten als Hygieneschädlinge und sind meldepflichtig. Ein Befall ist immer ein erheblicher Mangel — bei starkem Befall haben Gerichte Minderungen weit über die üblichen Werte hinaus zugesprochen.",
+      "Bei Kakerlaken gibt es keine Diskussion um Bagatellen: Sie gelten als Hygieneschädlinge, der Befall ist meldepflichtig und immer ein erheblicher Mangel. Bei starkem Befall sind Gerichte weit über die üblichen Quoten hinausgegangen.",
     symptome: [
       "Sichtungen vor allem nachts in Küche und Bad",
       "Kotspuren, die wie feiner schwarzer Pfeffer aussehen",
@@ -683,7 +683,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Kammerjägerberichte und Behandlungsprotokolle aufbewahren",
     ],
     hinweis:
-      "Die Kosten der Schädlingsbekämpfung trägt der Vermieter. Sie sind verpflichtet, den Befall unverzüglich zu melden und die Bekämpfung zu dulden — verweigern Sie den Zutritt, riskieren Sie Ihr Minderungsrecht.",
+      "Den Kammerjäger bezahlt der Vermieter. Von Ihnen verlangt das Gesetz zweierlei: den Befall sofort melden und die Bekämpfung in der Wohnung zulassen. Wer dem Kammerjäger die Tür nicht öffnet, setzt sein Minderungsrecht aufs Spiel.",
     fristTage: 5,
     dringend: true,
   },
@@ -695,7 +695,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Rattenbefall Miete mindern",
     ],
     intro:
-      "Ratten übertragen Krankheiten und beschädigen Bausubstanz und Leitungen. Ein nachgewiesener Befall in Wohnung, Keller oder Hof ist ein schwerer Mangel und zugleich ein Fall für das Gesundheitsamt.",
+      "Ratten im Haus sind mehr als ein Ekelthema. Die Tiere übertragen Krankheiten und nagen sich durch Leitungen und Bausubstanz. Ein nachgewiesener Befall in Wohnung, Keller oder Hof ist ein schwerer Mangel, und das Gesundheitsamt gehört von Anfang an mit an den Tisch.",
     symptome: [
       "Sichtungen im Keller, Hof, Müllbereich oder in der Wohnung",
       "Kotspuren von etwa ein bis zwei Zentimetern Länge",
@@ -709,7 +709,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Beschädigte Lebensmittel oder Gegenstände dokumentieren",
     ],
     hinweis:
-      "Rattenbefall ist in den meisten Bundesländern meldepflichtig. Die Meldung beim Gesundheitsamt kostet nichts, erzeugt aber eine amtliche Bestätigung des Befalls — das stärkste Beweismittel, das Sie bekommen können.",
+      "In den meisten Bundesländern müssen Ratten ohnehin gemeldet werden. Nutzen Sie das: Die Meldung beim Gesundheitsamt kostet nichts und verschafft Ihnen eine amtliche Bestätigung des Befalls. Ein besseres Beweismittel werden Sie nicht bekommen.",
     fristTage: 3,
     dringend: true,
   },
@@ -721,7 +721,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Mäuse in der Wohnung Miete mindern",
     ],
     intro:
-      "Ein echter Mäusebefall — nicht eine einzelne verirrte Maus — beeinträchtigt Hygiene und Wohnqualität erheblich. Mäuse verunreinigen Lebensmittel und nagen Kabel an, was zusätzlich Brandgefahr bedeutet.",
+      "Zwischen einer verirrten Maus und einem Mäusebefall liegt rechtlich ein großer Unterschied. Haben sich die Tiere erst eingenistet, leidet die Hygiene erheblich: Sie gehen an Lebensmittel und nagen Kabel an, was im schlimmsten Fall einen Brand auslösen kann.",
     symptome: [
       "Wiederholte Sichtungen in Küche, Vorratsschrank oder Keller",
       "Kleine, reiskorngroße Kotkrümel in Schränken und Schubladen",
@@ -735,7 +735,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Mögliche Zugangswege wie offene Rohrdurchführungen fotografieren",
     ],
     hinweis:
-      "Eine einzelne Maus im Keller reicht für eine Minderung nicht aus. Nachweisbar wiederkehrender Befall in Wohnräumen schon — dokumentieren Sie deshalb über mehrere Wochen, nicht nur ein einzelnes Ereignis.",
+      "Eine einzelne Maus im Keller trägt keine Minderung. Wiederkehrender Befall in den Wohnräumen schon, und genau diesen Unterschied müssen Ihre Aufzeichnungen zeigen. Ein einzelnes Foto genügt dafür nicht, ein über Wochen geführtes Fundprotokoll sehr wohl.",
     fristTage: 10,
   },
   bettwanzen: {
@@ -746,7 +746,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Wanzenbefall Miete mindern",
     ],
     intro:
-      "Bettwanzen machen erholsamen Schlaf unmöglich und sind ohne professionelle Bekämpfung kaum loszuwerden. Der Befall gilt als erheblicher Mangel; die Bekämpfungskosten trägt grundsätzlich der Vermieter.",
+      "Wer morgens mit juckenden Bissreihen aufwacht, hat womöglich Bettwanzen im Haus, und die verschwinden nicht von selbst. Ohne professionelle Bekämpfung wird man sie praktisch nicht los. Der Befall ist ein erheblicher Mangel, die Kosten der Bekämpfung trägt grundsätzlich der Vermieter.",
     symptome: [
       "Juckende Bissreihen auf der Haut, typischerweise morgens",
       "Kleine dunkle Kotpünktchen auf Matratze und Bettwäsche",
@@ -760,7 +760,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Datum der ersten Bisse und den Verlauf protokollieren",
     ],
     hinweis:
-      "Bekämpfen Sie Bettwanzen nicht in Eigenregie mit Hausmitteln — das verschleppt den Befall und kann Ihnen als Mitverschulden ausgelegt werden. Melden Sie sofort und bestehen Sie auf professioneller Bekämpfung.",
+      "Lassen Sie die Finger von Hausmitteln und Sprays aus dem Baumarkt. Sie treiben die Tiere nur in Nachbarräume und Nachbarwohnungen, und am Ende heißt es womöglich noch, Sie hätten den Befall verschleppt. Sofort melden, auf den Profi bestehen.",
     fristTage: 5,
     dringend: true,
   },
@@ -772,7 +772,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "starker Silberfischbefall Miete mindern",
     ],
     intro:
-      "Vereinzelte Silberfische sind normal und kein Mangel. Ein starker Befall dagegen schon — und er ist meist ein Symptom: Silberfische brauchen dauerhaft hohe Luftfeuchtigkeit, was auf ein Feuchtigkeitsproblem im Gebäude hindeutet.",
+      "Ein paar Silberfische hat fast jedes Bad, das ist normal und kein Mangel. Interessant wird es bei massenhaftem Auftreten, denn dann sind die Tiere meist nur der Bote: Silberfische brauchen dauerhaft feuchte Luft. Wo sie sich stark vermehren, stimmt oft etwas mit dem Gebäude nicht.",
     symptome: [
       "Regelmäßig viele Tiere, vor allem nachts in Bad und Küche",
       "Befall trotz gründlicher Reinigung dauerhaft",
@@ -786,7 +786,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Auf Feuchtigkeitsquellen wie undichte Leitungen oder fehlende Lüftung hinweisen",
     ],
     hinweis:
-      "Weisen Sie in der Mängelanzeige auf die wahrscheinliche Ursache hin: Wird nur bekämpft und nicht die Feuchtigkeit beseitigt, kommen die Tiere zurück. Die Feuchtigkeitsursache ist zugleich ein eigenständiger, oft höher zu bewertender Mangel.",
+      "Sprechen Sie in der Mängelanzeige die vermutliche Ursache an, also die Feuchtigkeit. Wird nur gesprüht und nichts abgedichtet, sind die Tiere in ein paar Wochen wieder da. Und das dahinterliegende Feuchtigkeitsproblem ist ein eigener Mangel, der oft höher bewertet wird als die Silberfische selbst.",
     fristTage: 21,
   },
   wespen: {
@@ -797,7 +797,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Bienennest Wohnung Miete mindern",
     ],
     intro:
-      "Ein Wespen- oder Hornissennest am Balkon, unter dem Dach oder direkt am Fenster macht die Nutzung dieser Bereiche unmöglich — bei Allergikern besteht sogar akute Gesundheitsgefahr.",
+      "Mit einem Wespennest direkt am Balkon oder Fenster ist an Frühstück im Freien oder gekippte Fenster nicht mehr zu denken. Die betroffenen Bereiche fallen schlicht aus. Für Allergiker steckt dahinter mehr als Unannehmlichkeit, nämlich eine echte Gesundheitsgefahr.",
     symptome: [
       "Sichtbares Nest an Balkon, Fassade, Rollladenkasten oder Dachüberstand",
       "Ständiger Wespenflug am Fenster oder auf dem Balkon",
@@ -811,7 +811,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Dokumentieren, welche Bereiche dadurch unbenutzbar sind",
     ],
     hinweis:
-      "Wespen, Hornissen und Wildbienen stehen unter Naturschutz — die Entfernung darf nur ein Fachbetrieb mit behördlicher Genehmigung vornehmen. Entfernen Sie ein Nest niemals selbst; das ist gefährlich und kann bußgeldpflichtig sein.",
+      "So verlockend es sein mag: Rühren Sie das Nest nicht selbst an. Wespen, Hornissen und Wildbienen stehen unter Naturschutz, die Umsiedlung ist Sache eines Fachbetriebs mit behördlicher Genehmigung. Eigenmächtiges Entfernen ist gefährlich und kann obendrein ein Bußgeld kosten.",
     fristTage: 7,
     dringend: true,
   },
@@ -825,7 +825,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "zieht durchs Fenster Miete mindern",
     ],
     intro:
-      "Undichte Fenster kosten Wärme, treiben die Heizkosten und begünstigen Schimmel an den Laibungen. Der Vermieter schuldet Fenster, die schließen und dichten — auch im Altbau.",
+      "Wenn es bei geschlossenem Fenster durch die Ritzen zieht, heizen Sie buchstäblich zum Fenster hinaus. Obendrein setzt sich an kalten Laibungen gern Schimmel fest. Der Vermieter schuldet Fenster, die schließen und dicht sind. Das gilt im Altbau genauso wie im Neubau.",
     symptome: [
       "Spürbarer Luftzug bei geschlossenem Fenster",
       "Dichtungen sind spröde, rissig oder fehlen ganz",
@@ -839,7 +839,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Heizkostenabrechnungen mehrerer Jahre gegenüberstellen",
     ],
     hinweis:
-      "Das Kerzentest-Video ist ein einfaches, sehr überzeugendes Beweismittel. Filmen Sie bei geschlossenem Fenster, damit der Vermieter den Einwand des offenen Fensters nicht erheben kann.",
+      "Der alte Kerzentrick funktioniert vor Gericht erstaunlich gut: eine flackernde Flamme vor der geschlossenen Fensterfuge, aufs Video gebannt. Achten Sie darauf, dass im Bild erkennbar ist, dass das Fenster wirklich zu ist. Dann bleibt dem Vermieter kaum ein Einwand.",
     fristTage: 21,
   },
   fenster_oeffnen: {
@@ -850,7 +850,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Mietminderung Fenster defekt",
     ],
     intro:
-      "Ein Fenster, das sich nicht öffnen lässt, verhindert das Stoßlüften — und damit genau das Verhalten, das der Vermieter im Schimmelfall vom Mieter verlangt. Der Mangel wird pro betroffenem Fenster bewertet.",
+      "Ein Fenster, das sich nicht öffnen lässt, hat eine besondere Pointe: Es verhindert genau das Stoßlüften, das Vermieter ihren Mietern bei jedem Schimmelverdacht predigen. Bewertet wird der Mangel für jedes betroffene Fenster einzeln.",
     symptome: [
       "Fenstergriff lässt sich nicht drehen oder dreht durch",
       "Flügel klemmt im Rahmen oder ist verzogen",
@@ -864,7 +864,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Luftfeuchtigkeit im betroffenen Raum messen und protokollieren",
     ],
     hinweis:
-      "Weisen Sie ausdrücklich auf den Zusammenhang mit der Schimmelvorbeugung hin. Falls später Schimmel entsteht, ist bereits aktenkundig, dass ausreichendes Lüften durch einen vom Vermieter zu vertretenden Mangel unmöglich war.",
+      "Schreiben Sie den Zusammenhang mit der Schimmelvorbeugung ausdrücklich in die Mängelanzeige. Sollte später tatsächlich Schimmel auftreten, steht dann schwarz auf weiß fest: Richtig lüften war nicht möglich, und zwar wegen eines Mangels, den der Vermieter zu vertreten hat.",
     fristTage: 14,
   },
   fenster_schliessen: {
@@ -875,7 +875,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "offenes Fenster Sicherheitsrisiko Miete mindern",
     ],
     intro:
-      "Ein Fenster, das nicht mehr schließt, ist gleich doppelt problematisch: Es bedeutet Wärmeverlust und Nässe und zugleich ein offenes Einbruchsrisiko. Diese Kombination rechtfertigt eine spürbare Minderung.",
+      "Ein Fenster, das nicht mehr zugeht, trifft Sie doppelt. Wärme entweicht, Regen kommt herein, und nebenbei steht die Wohnung Einbrechern halb offen. Zusammen ergibt das einen Mangel, der eine spürbare Minderung trägt.",
     symptome: [
       "Fenster lässt sich nicht vollständig schließen oder verriegeln",
       "Regen dringt in die Wohnung ein",
@@ -889,7 +889,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Bei Erdgeschoss oder Souterrain ausdrücklich auf das Einbruchsrisiko hinweisen",
     ],
     hinweis:
-      "Behandeln Sie das als dringenden Mangel und setzen Sie eine kurze Frist. Kommt es zu einem Einbruch, nachdem Sie den Defekt gemeldet haben, kann der Vermieter zusätzlich schadensersatzpflichtig sein.",
+      "Setzen Sie hier eine kurze Frist, das Thema duldet keinen Aufschub. Ihre Meldung hat noch einen zweiten Effekt: Wird nach der Anzeige eingebrochen, kann der Vermieter für den Schaden mit einstehen müssen, weil er den Defekt kannte.",
     fristTage: 7,
     dringend: true,
   },
@@ -901,7 +901,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Haustür defekt Mietminderung",
     ],
     intro:
-      "Eine nicht abschließbare Wohnungs- oder Haustür ist ein Sicherheitsmangel. Die Bandbreite der Gerichtsentscheidungen ist groß und hängt stark davon ab, wie zugänglich das Gebäude ist und wie leicht sich die Tür überwinden lässt.",
+      "Wenn sich die Wohnungstür nicht mehr abschließen lässt, wohnt es sich ungut, und das zu Recht: Es ist ein Sicherheitsmangel. Wie hoch Gerichte ihn bewerten, schwankt stark. Es kommt darauf an, wie leicht Fremde ins Haus kommen und wie schnell die Tür zu überwinden wäre.",
     symptome: [
       "Schloss lässt sich nicht oder nur schwer schließen",
       "Schlüssel dreht durch oder klemmt im Zylinder",
@@ -915,7 +915,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Vorfälle im Haus wie Einbrüche oder unbefugte Personen im Treppenhaus notieren",
     ],
     hinweis:
-      "Melden Sie den Defekt sofort und schriftlich. Wird nach der Meldung eingebrochen, haftet der Vermieter unter Umständen für den Schaden — das setzt aber voraus, dass Sie den Zeitpunkt der Meldung beweisen können.",
+      "Melden Sie den Defekt noch am selben Tag, und zwar schriftlich. Sollte danach eingebrochen werden, kann der Vermieter für den Schaden haften. Das funktioniert aber nur, wenn Sie beweisen können, wann Ihre Meldung bei ihm angekommen ist.",
     fristTage: 3,
     dringend: true,
   },
@@ -927,7 +927,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Türöffner defekt Miete mindern",
     ],
     intro:
-      "Eine defekte Klingel oder Gegensprechanlage ist ein kleiner, aber anerkannter Mangel: Besuch, Post und Lieferungen erreichen Sie nicht mehr zuverlässig. Die Quoten liegen im niedrigen einstelligen Bereich.",
+      "Der Paketbote klingelt vergeblich, der Besuch steht ratlos vor der Tür: Eine kaputte Klingel oder Gegensprechanlage nervt im Alltag mehr, als man denkt. Rechtlich ist sie ein kleiner, aber anerkannter Mangel mit Quoten im niedrigen einstelligen Bereich.",
     symptome: [
       "Klingel ist in der Wohnung nicht hörbar",
       "Gegensprechanlage überträgt keinen Ton oder ist unverständlich",
@@ -941,7 +941,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Prüfen und dokumentieren, ob mehrere Parteien im Haus betroffen sind",
     ],
     hinweis:
-      "Dieser Mangel liegt für sich genommen an der Bagatellgrenze. Er entfaltet Wirkung vor allem als Teil einer Gesamtaufstellung — führen Sie ihn zusammen mit anderen Mängeln in einer Mängelanzeige auf.",
+      "Für sich allein bewegt sich dieser Mangel an der Bagatellgrenze. Seine Stärke spielt er im Verbund aus: Zusammen mit anderen Mängeln in einer gemeinsamen Aufstellung hebt er die Gesamtquote. Führen Sie ihn also mit auf, statt ihn einzeln geltend zu machen.",
     fristTage: 21,
   },
 
@@ -954,7 +954,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "einzige Toilette kaputt Miete mindern",
     ],
     intro:
-      "Ist die einzige Toilette der Wohnung unbenutzbar, fehlt eine elementare Grundfunktion. Gerichte haben in solchen Fällen Minderungen bis zu 80 Prozent zugesprochen — es zählt zu den schwerwiegendsten Sanitärmängeln überhaupt.",
+      "Fällt die einzige Toilette der Wohnung aus, fehlt etwas, das keinen Tag warten kann. Gerichte behandeln das entsprechend ernst und haben Minderungen bis zu 80 Prozent zugesprochen. Unter den Sanitärmängeln ist kaum einer gravierender.",
     symptome: [
       "WC ist verstopft, undicht oder gebrochen",
       "Abfluss läuft nicht ab, Wasser tritt aus",
@@ -968,7 +968,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Kosten für Ausweichlösungen belegen und aufbewahren",
     ],
     hinweis:
-      "Das ist ein Notfall: Der Vermieter muss unverzüglich handeln, notfalls über den Notdienst. Reagiert er nicht binnen Stunden, dürfen Sie nach § 536a Abs. 2 BGB selbst einen Installateur beauftragen und die Kosten erstattet verlangen.",
+      "Hier zählt jede Stunde, und das Gesetz sieht das genauso. Der Vermieter muss sofort reagieren, notfalls über den Notdienst. Rührt er sich nicht, dürfen Sie nach § 536a Abs. 2 BGB selbst einen Installateur rufen und ihm die Rechnung weiterreichen.",
     fristTage: 1,
     dringend: true,
   },
@@ -980,7 +980,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Dusche kaputt Miete mindern",
     ],
     intro:
-      "Eine defekte Dusche beeinträchtigt die tägliche Körperpflege. Wie hoch die Minderung ausfällt, hängt maßgeblich davon ab, ob eine zumutbare Alternative wie eine funktionierende Badewanne vorhanden ist.",
+      "Ohne funktionierende Dusche wird schon der Start in den Tag zum Problem. Für die Höhe der Minderung stellt sich vor allem eine Frage: Gibt es eine zumutbare Alternative, etwa eine intakte Badewanne? Davon hängt ab, wie schwer der Mangel wiegt.",
     symptome: [
       "Duscharmatur oder Brausekopf defekt, kein regulierbarer Wasserstrahl",
       "Duschkabine undicht, Wasser läuft ins Bad",
@@ -994,7 +994,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Datum der Meldung festhalten",
     ],
     hinweis:
-      "Eine undichte Dusche verursacht Folgeschäden an Estrich und Nachbarwohnungen. Melden Sie sofort und schriftlich — sonst kann Ihnen der Vermieter eine Verletzung der Anzeigepflicht nach § 536c BGB vorwerfen und Schadensersatz verlangen.",
+      "Bei einer undichten Dusche läuft die Zeit gegen Sie: Das Wasser arbeitet sich in den Estrich und im Zweifel bis zum Nachbarn durch. Melden Sie den Schaden deshalb sofort und schriftlich. Wer zu lange wartet, verletzt seine Anzeigepflicht aus § 536c BGB und kann am Ende selbst auf Schadensersatz haften.",
     fristTage: 7,
     dringend: true,
   },
@@ -1006,7 +1006,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Dusche tröpfelt nur Mietminderung",
     ],
     intro:
-      "Zu geringer Wasserdruck macht Duschen und Spülen mühsam und kann bei Durchlauferhitzern dazu führen, dass die Warmwasserbereitung gar nicht erst anspringt. Der Mangel liegt im unteren Prozentbereich, ist aber dauerhaft.",
+      "Wenn aus der Dusche nur ein Rinnsal kommt, ist das mehr als lästig. Bei Durchlauferhitzern kann zu wenig Druck sogar dazu führen, dass gar kein warmes Wasser mehr bereitet wird, weil das Gerät nicht anspringt. Die Quoten sind überschaubar, aber der Mangel besteht eben jeden Tag.",
     symptome: [
       "Wasser kommt nur schwach aus Hahn oder Duschkopf",
       "Druck fällt ab, sobald an anderer Stelle Wasser läuft",
@@ -1020,7 +1020,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Perlator reinigen und das dokumentieren, um eigene Ursachen auszuschließen",
     ],
     hinweis:
-      "Reinigen oder tauschen Sie zuerst den Perlator und halten Sie das fest. Bleibt der Druck danach zu niedrig, ist der Einwand entkräftet, es habe an einer verkalkten Armatur in Ihrem Verantwortungsbereich gelegen.",
+      "Ein praktischer Tipp vorab: Schrauben Sie den Perlator ab, entkalken oder ersetzen Sie ihn, und notieren Sie das. Bleibt der Druck trotzdem schwach, kann der Vermieter nicht mehr einwenden, das Problem liege an einer verkalkten Armatur, um die Sie sich selbst hätten kümmern müssen.",
     fristTage: 21,
   },
   bad_belueftung: {
@@ -1031,7 +1031,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Abluft Bad kaputt Miete mindern",
     ],
     intro:
-      "Ein Bad ohne funktionierende Entlüftung führt zwangsläufig zu Feuchtigkeit und Schimmel. Bei innenliegenden Bädern ohne Fenster ist die Abluftanlage die einzige Möglichkeit, Feuchtigkeit abzuführen — ihr Ausfall ist ein klarer Mangel.",
+      "In einem Bad ohne Fenster führt an der Abluftanlage kein Weg vorbei: Sie ist die einzige Möglichkeit, die Feuchtigkeit nach dem Duschen loszuwerden. Fällt sie aus, sammelt sich das Wasser an Decke und Fugen, und der Schimmel ist nur eine Frage der Zeit. Ein klarer Mangel.",
     symptome: [
       "Abluftventilator läuft nicht oder saugt nicht spürbar",
       "Spiegel und Fliesen bleiben nach dem Duschen lange beschlagen",
@@ -1045,7 +1045,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Angeben, ob das Bad ein Fenster hat",
     ],
     hinweis:
-      "Melden Sie diesen Mangel, bevor Schimmel entsteht. Dann können Sie später nicht dafür verantwortlich gemacht werden — die Ursache liegt dokumentiert im Verantwortungsbereich des Vermieters.",
+      "Melden Sie den Defekt, solange das Bad noch schimmelfrei ist. Kommt der Schimmel später doch, liegt die Ursache dann bereits dokumentiert beim Vermieter, und niemand kann Ihnen falsches Lüften vorhalten.",
     fristTage: 14,
   },
   spuelung_defekt: {
@@ -1056,7 +1056,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "WC Spülung läuft Miete mindern",
     ],
     intro:
-      "Eine defekte Spülung macht das WC nicht unbenutzbar, aber unhygienisch und umständlich. Ein dauerhaft nachlaufender Spülkasten verursacht zusätzlich erhebliche Wasserkosten, die über die Nebenkosten bei Ihnen landen.",
+      "Mit einer kaputten Spülung bleibt das WC zwar benutzbar, aber eben nur mit Eimer und Improvisation. Richtig teuer wird ein Spülkasten, der ständig nachläuft: Das Wasser rauscht rund um die Uhr durch, und bezahlt wird es über Ihre Nebenkosten.",
     symptome: [
       "Spülung löst nicht oder nur unzureichend aus",
       "Wasser läuft dauerhaft in die Schüssel nach",
@@ -1070,7 +1070,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Fotos vom geöffneten Spülkasten machen, sofern gefahrlos möglich",
     ],
     hinweis:
-      "Verlangen Sie neben der Reparatur ausdrücklich, dass der durch den Defekt verursachte Mehrverbrauch nicht Ihnen belastet wird. Ihre notierten Zählerstände sind dafür die Grundlage.",
+      "Fordern Sie zweierlei: die Reparatur und die Zusage, dass der Mehrverbrauch nicht auf Ihrer Nebenkostenabrechnung landet. Beziffern lässt sich der Mehrverbrauch nur über Ihre notierten Zählerstände, also fangen Sie mit dem Ablesen gleich an.",
     fristTage: 14,
   },
 
@@ -1083,7 +1083,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Kochfeld defekt Miete mindern",
     ],
     intro:
-      "Ein defekter Herd berechtigt zur Minderung, wenn er vom Vermieter gestellt wurde und Teil der Mietsache ist. Die Quoten liegen im niedrigen einstelligen Bereich, solange nur einzelne Kochstellen ausfallen.",
+      "Beim defekten Herd lautet die erste Frage nicht „Was ist kaputt?“, sondern „Wem gehört er?“. Nur wenn der Vermieter ihn gestellt hat, können Sie mindern. Fallen einzelne Kochstellen aus, bleiben die Quoten im niedrigen einstelligen Bereich.",
     symptome: [
       "Einzelne oder alle Kochstellen heizen nicht",
       "Backofen erreicht die eingestellte Temperatur nicht",
@@ -1097,7 +1097,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Datum der Meldung festhalten",
     ],
     hinweis:
-      "Prüfen Sie den Mietvertrag auf eine Kleinreparaturklausel. Sie kann Sie an den Reparaturkosten beteiligen, wenn die Grenzen wirksam vereinbart sind — Ihr Recht auf Mietminderung berührt sie aber nicht.",
+      "Ein Blick in den Mietvertrag lohnt sich wegen der Kleinreparaturklausel. Ist sie wirksam vereinbart, müssen Sie sich womöglich an den Reparaturkosten beteiligen. Ihr Minderungsrecht bleibt davon aber unberührt, das sind zwei getrennte Dinge.",
     fristTage: 14,
   },
   kuehlschrank_defekt: {
@@ -1108,7 +1108,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Gefrierfach kaputt Miete mindern",
     ],
     intro:
-      "Ein vom Vermieter gestellter Kühlschrank, der nicht mehr kühlt, macht die Lagerung von Lebensmitteln unmöglich. Neben der Minderung können Sie den Ersatz verdorbener Lebensmittel verlangen.",
+      "Wenn der mitvermietete Kühlschrank aufgibt, geht es schnell: Nach ein, zwei Tagen ist der Inhalt hinüber. Neben der Minderung können Sie deshalb auch Ersatz für die verdorbenen Lebensmittel verlangen.",
     symptome: [
       "Innentemperatur bleibt deutlich über 7 °C",
       "Gefrierfach taut auf, Gefriergut verdirbt",
@@ -1122,7 +1122,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Datum und Uhrzeit der Meldung dokumentieren",
     ],
     hinweis:
-      "Verdorbene Lebensmittel sind ein Schaden nach § 536a Abs. 1 BGB und werden zusätzlich zur Minderung ersetzt. Fotografieren Sie deshalb den Inhalt, bevor Sie ihn entsorgen, und heben Sie Belege auf.",
+      "Die verdorbenen Lebensmittel sind ein Schaden im Sinne von § 536a Abs. 1 BGB und kommen zur Minderung noch obendrauf. Bevor Sie den Kühlschrankinhalt wegwerfen: einmal fotografieren, Kassenbons heraussuchen. Ohne Belege wird aus dem Anspruch nichts.",
     fristTage: 7,
     dringend: true,
   },
@@ -1133,7 +1133,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Geschirrspüler kaputt Mietminderung",
     ],
     intro:
-      "Eine mitvermietete Spülmaschine muss der Vermieter instand halten. Ist sie im Mietvertrag aufgeführt, rechtfertigt ihr Ausfall eine Minderung im niedrigen einstelligen Bereich.",
+      "Steht die Spülmaschine im Mietvertrag, muss der Vermieter sie auch am Laufen halten. Fällt sie aus, rechtfertigt das eine Minderung im niedrigen einstelligen Bereich. Klein, aber berechtigt.",
     symptome: [
       "Maschine startet nicht oder bricht das Programm ab",
       "Wasser läuft nicht ab oder tritt aus",
@@ -1147,7 +1147,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Datum der Meldung festhalten",
     ],
     hinweis:
-      "Haben Sie die Maschine selbst angeschafft, besteht kein Minderungsrecht — der Vermieter schuldet nur, was er mitvermietet hat. Klären Sie das zuerst anhand Ihrer Vertragsunterlagen.",
+      "Vorsicht bei selbst gekauften Geräten: Für die haftet der Vermieter nicht, er schuldet nur, was er mitvermietet hat. Klären Sie also zuerst anhand von Mietvertrag und Übergabeprotokoll, wessen Maschine da eigentlich streikt.",
     fristTage: 21,
   },
   kueche_komplett: {
@@ -1158,7 +1158,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Einbauküche komplett defekt Miete mindern",
     ],
     intro:
-      "Ist die gesamte Küche unbenutzbar — etwa nach einem Wasserschaden, bei Umbauarbeiten oder wenn eine zugesagte Einbauküche fehlt —, entfällt eine Kernfunktion der Wohnung. Gerichte erkennen hier Quoten bis 100 Prozent an, wenn der Zustand länger andauert.",
+      "Eine Wohnung, in der man weder kochen noch abwaschen kann, verdient den Namen kaum noch. Ob nach einem Wasserschaden, während eines Umbaus oder weil die zugesagte Einbauküche nie geliefert wurde: Dauert der Zustand länger an, erkennen Gerichte Quoten bis zu 100 Prozent an.",
     symptome: [
       "Weder Kochen noch Spülen ist möglich",
       "Küche ist wegen Bauarbeiten oder Schäden gesperrt",
@@ -1172,7 +1172,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Bauzeitenpläne und Ankündigungen des Vermieters sichern",
     ],
     hinweis:
-      "Bei längerer Unbenutzbarkeit muss der Vermieter eine zumutbare Zwischenlösung anbieten, etwa eine provisorische Kochgelegenheit. Verlangen Sie das ausdrücklich — die Weigerung stärkt Ihre Position bei der Höhe der Minderung.",
+      "Zieht sich die Sache hin, muss der Vermieter für eine Zwischenlösung sorgen, zum Beispiel eine provisorische Kochgelegenheit. Fordern Sie das schriftlich ein. Lehnt er ab, haben Sie ein zusätzliches Argument, wenn es um die Höhe der Minderung geht.",
     fristTage: 7,
     dringend: true,
   },
@@ -1186,7 +1186,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Aufzug außer Betrieb Miete mindern",
     ],
     intro:
-      "Ein längerer Aufzugsausfall ist ein Mangel, sobald der Aufzug bei Einzug vorhanden oder vertraglich zugesagt war. Die anerkannte Quote steigt mit jeder Etage, die Sie ohne ihn überwinden müssen.",
+      "War der Aufzug bei Einzug da oder steht er im Vertrag, gehört er zur Mietsache, und ein längerer Ausfall ist ein Mangel. Wie viel er wert ist, entscheidet vor allem das Treppenhaus: Mit jeder Etage, die Sie zu Fuß bewältigen müssen, steigt die anerkannte Quote.",
     symptome: [
       "Aufzug ist über Tage oder Wochen außer Betrieb",
       "Häufige, wiederkehrende Störungen",
@@ -1200,7 +1200,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Bei eingeschränkter Mobilität ein ärztliches Attest beilegen",
     ],
     hinweis:
-      "Kurze Wartungsausfälle von wenigen Stunden sind hinzunehmen. Führen Sie deshalb die Ausfalltage einzeln auf — eine taggenaue Aufstellung ist die Basis der Berechnung, wenn der Ausfall nicht den ganzen Monat andauerte.",
+      "Ein paar Stunden Wartung muss jeder hinnehmen, darauf lässt sich keine Minderung stützen. Bei längeren oder wiederkehrenden Ausfällen zählt dann jeder einzelne Tag. Führen Sie deshalb Buch, denn gerechnet wird taggenau, wenn der Aufzug nicht den ganzen Monat stillstand.",
     fristTage: 14,
   },
   aufzug_hoch: {
@@ -1211,7 +1211,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Aufzug kaputt Gehbehinderung",
     ],
     intro:
-      "Ab etwa der vierten Etage wiegt ein Aufzugsausfall deutlich schwerer. Kommen eine Gehbehinderung, hohes Alter oder kleine Kinder hinzu, haben Gerichte Minderungsquoten bis 50 Prozent zugesprochen.",
+      "Vier Treppen mit Einkäufen, fünf mit dem Kinderwagen: Ab etwa der vierten Etage ist ein toter Aufzug kein Ärgernis mehr, sondern ein ernstes Problem. Kommen Gehbehinderung, hohes Alter oder kleine Kinder dazu, haben Gerichte bis zu 50 Prozent Minderung zugesprochen.",
     symptome: [
       "Wohnung liegt in der vierten Etage oder höher",
       "Treppensteigen ist gesundheitlich nicht oder kaum zumutbar",
@@ -1225,7 +1225,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Ausfalltage lückenlos protokollieren",
     ],
     hinweis:
-      "Legen Sie Ihre persönliche Situation in der Mängelanzeige ausdrücklich dar. Genau diese individuellen Umstände heben die Quote deutlich über den Standardwert — ohne den Hinweis bleibt es beim allgemeinen Ansatz.",
+      "Verschweigen Sie Ihre persönliche Situation nicht aus Bescheidenheit. Gehbehinderung, Alter, kleine Kinder: Genau diese Umstände heben die Quote über den Standardwert, aber nur, wenn sie in der Mängelanzeige stehen. Was der Vermieter nicht weiß, kann er nicht berücksichtigen, und ein Gericht später auch nicht.",
     fristTage: 7,
     dringend: true,
   },
@@ -1239,7 +1239,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Stromausfall Wohnung unbewohnbar",
     ],
     intro:
-      "Ohne Strom ist eine Wohnung nicht bewohnbar: kein Licht, keine Heizungssteuerung, keine Kühlung, keine Warmwasserbereitung. Bei länger andauerndem Ausfall kann die Miete auf null sinken.",
+      "Ohne Strom geht in einer Wohnung gar nichts mehr. Kein Licht, kein Kühlschrank, oft auch keine Heizung und kein warmes Wasser, weil deren Steuerung mit am Netz hängt. Dauert der Ausfall länger, kann die Miete auf null sinken.",
     symptome: [
       "Kein Strom in der gesamten Wohnung",
       "Sicherungen fliegen sofort wieder heraus",
@@ -1253,7 +1253,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Kosten für Ausweichunterkunft dokumentieren",
     ],
     hinweis:
-      "Ein vollständiger Stromausfall ist ein Notfall: Der Vermieter muss sofort einen Elektro-Notdienst beauftragen. Reagiert er nicht, dürfen Sie das nach § 536a Abs. 2 BGB selbst tun und die Kosten erstattet verlangen.",
+      "Behandeln Sie das als das, was es ist: ein Notfall. Der Vermieter muss sofort einen Elektro-Notdienst schicken. Erreichen Sie niemanden oder passiert nichts, dürfen Sie den Notdienst nach § 536a Abs. 2 BGB selbst rufen und die Rechnung dem Vermieter vorlegen.",
     fristTage: 1,
     dringend: true,
   },
@@ -1265,7 +1265,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "dunkles Treppenhaus Mietminderung",
     ],
     intro:
-      "Ein dauerhaft unbeleuchtetes Treppenhaus ist ein Sicherheitsmangel mit konkreter Sturzgefahr. Der Vermieter ist im Rahmen seiner Verkehrssicherungspflicht zur Instandhaltung verpflichtet.",
+      "Ein dunkles Treppenhaus ist kein Schönheitsproblem, hier stürzen Menschen. Die Beleuchtung gehört zur Verkehrssicherungspflicht des Vermieters, er muss sie instand halten. Bleibt sie über längere Zeit defekt, ist das ein Mangel.",
     symptome: [
       "Beleuchtung im Treppenhaus fällt ganz oder teilweise aus",
       "Zeitschalter schaltet zu früh ab, um sicher hinaufzukommen",
@@ -1279,7 +1279,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Datum der Meldung an Vermieter oder Hausverwaltung dokumentieren",
     ],
     hinweis:
-      "Weisen Sie ausdrücklich auf die Verkehrssicherungspflicht und die Sturzgefahr hin. Kommt es nach Ihrer Meldung zu einem Unfall, haftet der Vermieter — allein dieser Hinweis führt oft zu schneller Abhilfe.",
+      "Nennen Sie in der Meldung die Stichworte Verkehrssicherungspflicht und Sturzgefahr ruhig beim Namen. Stürzt nach Ihrer Meldung jemand, haftet der Vermieter, und das weiß er. Erfahrungsgemäß wird genau deshalb oft erstaunlich schnell repariert.",
     fristTage: 7,
     dringend: true,
   },
@@ -1291,7 +1291,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Glasfaseranschluss defekt Miete mindern",
     ],
     intro:
-      "Ein Internetausfall berechtigt nur dann zur Mietminderung, wenn der Anschluss Teil der Mietsache ist — etwa bei einem Mietvertrag mit inklusivem Anschluss oder bei einer Sammelversorgung im Haus. Ein eigener Vertrag mit einem Provider ist Sache des Mieters.",
+      "Beim Internetausfall müssen Sie zuerst sortieren, wer überhaupt zuständig ist. Gehört der Anschluss zur Mietsache, etwa weil er im Mietvertrag enthalten ist oder das Haus zentral versorgt wird, können Sie die Miete mindern. Haben Sie dagegen selbst einen Vertrag mit einem Provider geschlossen, ist der Ausfall dessen Baustelle, nicht die des Vermieters.",
     symptome: [
       "Anschluss in der Wohnung liefert kein Signal",
       "Störung liegt in der Hausverkabelung, nicht beim Endgerät",
@@ -1305,7 +1305,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Speedtests mit sichtbarem Datum als Screenshots sichern",
     ],
     hinweis:
-      "Klären Sie zuerst die Zuordnung: Ist der Anschluss über Ihren eigenen Provider-Vertrag realisiert, richten sich Ansprüche gegen den Anbieter — dann gilt das Telekommunikationsgesetz mit eigenen Minderungsregeln, nicht das Mietrecht.",
+      "Läuft der Anschluss über Ihren eigenen Provider-Vertrag, sind Sie hier trotzdem nicht rechtlos. Dann greift das Telekommunikationsgesetz, das bei Störungen eigene Entschädigungs- und Minderungsregeln kennt. Nur richtet sich der Anspruch eben gegen den Anbieter und nicht gegen den Vermieter.",
     fristTage: 14,
   },
   kabel_defekt: {
@@ -1316,7 +1316,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Antennenanschluss defekt Miete mindern",
     ],
     intro:
-      "Ist ein Kabel- oder Antennenanschluss im Mietvertrag zugesagt oder werden die Kosten über die Nebenkosten umgelegt, schuldet der Vermieter dessen Funktion. Ein Totalausfall rechtfertigt eine Minderung im niedrigen Prozentbereich.",
+      "Wer über die Nebenkosten für den Kabelanschluss zahlt oder ihn im Mietvertrag zugesagt bekommen hat, darf erwarten, dass er funktioniert. Fällt der Empfang komplett aus, ist das ein Mangel, wenn auch ein kleiner im niedrigen Prozentbereich.",
     symptome: [
       "Kein oder stark gestörter Empfang an der Anschlussdose",
       "Ausfall betrifft mehrere Wohnungen im Haus",
@@ -1330,7 +1330,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Störungsmeldungen an den Netzbetreiber aufbewahren",
     ],
     hinweis:
-      "Wenn die Anschlusskosten weiter über die Nebenkosten abgerechnet werden, verlangen Sie zusätzlich deren Erstattung für den Ausfallzeitraum — das ist ein eigener Anspruch neben der Mietminderung.",
+      "Achten Sie auf die Nebenkosten: Laufen die Anschlussgebühren während des Ausfalls einfach weiter, können Sie deren Erstattung für diesen Zeitraum verlangen. Das ist ein eigener Anspruch, der neben die Mietminderung tritt.",
     fristTage: 21,
   },
 
@@ -1343,7 +1343,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Wohnung kleiner als im Mietvertrag",
     ],
     intro:
-      "Weicht die tatsächliche Wohnfläche um mehr als zehn Prozent nach unten ab, liegt nach ständiger BGH-Rechtsprechung ein erheblicher Mangel vor. Die Miete ist dann im Verhältnis der Abweichung gemindert — und zwar rückwirkend ab Mietbeginn.",
+      "Steht im Vertrag 80 Quadratmeter und das Aufmaß ergibt 70, liegt die Abweichung über der Zehn-Prozent-Grenze des BGH, und damit ist die Sache klar: Es ist ein erheblicher Mangel. Die Miete mindert sich im Verhältnis der fehlenden Fläche, und zwar rückwirkend ab dem ersten Mietmonat.",
     symptome: [
       "Nachmessen ergibt deutlich weniger Fläche als im Mietvertrag angegeben",
       "Dachschrägen wurden voll statt anteilig gerechnet",
@@ -1357,7 +1357,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Bei größeren Abweichungen ein Aufmaß durch einen Sachverständigen erstellen lassen",
     ],
     hinweis:
-      "Das ist einer der wenigen Fälle mit rückwirkendem Anspruch: Zu viel gezahlte Miete können Sie im Rahmen der dreijährigen Verjährungsfrist zurückfordern. Bei einer 15-prozentigen Abweichung sind das schnell mehrere tausend Euro.",
+      "Die Wohnflächenabweichung ist einer der ganz wenigen Fälle, in denen Sie rückwirkend Geld zurückholen können, im Rahmen der dreijährigen Verjährung. Rechnen Sie ruhig einmal nach: Bei 15 Prozent Abweichung kommen über drei Jahre schnell mehrere tausend Euro zusammen.",
     fristTage: 30,
   },
   hitze_dach: {
@@ -1368,7 +1368,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "über 26 Grad Wohnung Miete mindern",
     ],
     intro:
-      "Heizt sich eine Wohnung im Sommer dauerhaft auf über 26 °C auf, kann darin ein Mangel liegen — vor allem in Dachgeschosswohnungen mit unzureichender Dämmung. Der Nachweis ist anspruchsvoll, da normale Sommerhitze hinzunehmen ist.",
+      "Dass es im Dachgeschoss im Sommer warm wird, weiß jeder, der dort wohnt. Ein Mangel wird daraus erst, wenn die Wohnung dauerhaft über 26 °C bleibt und auch nachts nicht mehr abkühlt, typischerweise weil die Dämmung fehlt. Der Nachweis ist allerdings anspruchsvoll, denn normale Sommerhitze müssen Sie hinnehmen.",
     symptome: [
       "Raumtemperatur bleibt auch nachts über 26 °C",
       "Wohnung kühlt trotz nächtlichem Lüften nicht ab",
@@ -1382,7 +1382,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Baujahr und Dämmzustand angeben, soweit bekannt",
     ],
     hinweis:
-      "Entscheidend ist der Vergleich innen zu außen: Bleibt es innen deutlich wärmer als draußen und kühlt die Wohnung nachts nicht ab, spricht das für einen Baumangel und nicht für allgemeine Hitze.",
+      "Messen Sie immer innen und außen. Wenn es draußen längst abgekühlt hat und Ihre Wohnung trotzdem bei 30 °C verharrt, liegt das nicht am Sommer, sondern am Gebäude. Genau dieser Vergleich macht aus „war halt heiß“ einen belegbaren Baumangel.",
     fristTage: 30,
   },
   undichtes_dach: {
@@ -1393,7 +1393,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Dach undicht Miete mindern",
     ],
     intro:
-      "Ein undichtes Dach oder eine durchfeuchtete Decke führt zu wiederkehrenden Wassereintritten und mittelfristig zu Schimmel. Der Mangel ist gravierend, weil er die Bausubstanz angreift.",
+      "Wenn es bei jedem Regen von der Decke tropft, hilft kein Eimer auf Dauer. Ein undichtes Dach ist ein gravierender Mangel, denn das Wasser greift die Bausubstanz an, und der Schimmel folgt meist mit ein paar Wochen Abstand.",
     symptome: [
       "Wasserflecken an der Decke, die nach Regen größer werden",
       "Tropfendes Wasser bei Niederschlag",
@@ -1407,7 +1407,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Beschädigte Einrichtungsgegenstände auflisten",
     ],
     hinweis:
-      "Melden Sie sofort und schriftlich. Verzögert sich die Reparatur und entsteht Schimmel, kommt zur bestehenden Minderung eine weitere hinzu — und der Vermieter kann Ihnen nicht vorhalten, den Mangel zu spät angezeigt zu haben.",
+      "Melden Sie den Wassereintritt sofort und schriftlich. Das schützt Sie doppelt: Verschleppt der Vermieter die Reparatur und kommt Schimmel dazu, mindert der als eigener Mangel zusätzlich. Und den Vorwurf, Sie hätten zu spät Bescheid gegeben, kann Ihnen dann niemand mehr machen.",
     fristTage: 7,
     dringend: true,
   },
@@ -1421,7 +1421,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Gerüst vor Balkon Miete mindern",
     ],
     intro:
-      "Ein mitvermieteter Balkon, der wegen Bauarbeiten, Gerüst oder Baufälligkeit gesperrt ist, mindert den Wohnwert. Die Quote fällt im Sommer deutlich höher aus als im Winter.",
+      "Der Balkon ist mitvermietet, also dürfen Sie ihn auch nutzen. Ist er wegen Bauarbeiten, eines Gerüsts oder maroder Substanz gesperrt, fehlt Ihnen ein Stück Wohnung. Wie viel das wert ist, hängt stark von der Jahreszeit ab: Im Sommer deutlich mehr als im Winter.",
     symptome: [
       "Balkon ist wegen Bauarbeiten oder Gerüst gesperrt",
       "Betonschäden oder marodes Geländer machen die Nutzung unsicher",
@@ -1435,7 +1435,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Balkonfläche im Verhältnis zur Wohnfläche angeben",
     ],
     hinweis:
-      "Weisen Sie ausdrücklich auf die Jahreszeit hin. Eine Sperrung von Mai bis September ist wesentlich gravierender als dieselbe Sperrung im Januar — Gerichte differenzieren hier ausdrücklich.",
+      "Erwähnen Sie in der Mängelanzeige ausdrücklich die Jahreszeit. Gerichte unterscheiden hier sehr genau: Eine Balkonsperre von Mai bis September wiegt um ein Vielfaches schwerer als dieselbe Sperre im Januar. Dieses Argument sollten Sie sich nicht entgehen lassen.",
     fristTage: 14,
   },
   terrasse_nicht_nutzbar: {
@@ -1446,7 +1446,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Garten gesperrt Miete mindern",
     ],
     intro:
-      "Eine mitvermietete Terrasse oder ein Gartenanteil ist Teil der Mietsache. Sind sie in der Hauptnutzungszeit gesperrt, etwa durch gelagertes Baumaterial oder eine Baustelle, rechtfertigt das eine Minderung im mittleren einstelligen bis niedrigen zweistelligen Bereich.",
+      "Terrasse und Gartenanteil gehören zur Mietsache, wenn sie mitvermietet sind. Stapelt dort den ganzen Sommer über Baumaterial oder ist die Fläche wegen einer Baustelle gesperrt, rechtfertigt das eine Minderung, je nach Ausmaß im mittleren einstelligen bis niedrigen zweistelligen Bereich.",
     symptome: [
       "Terrasse oder Garten sind durch Baumaterial oder Container blockiert",
       "Bodenbelag ist beschädigt oder zur Stolperfalle geworden",
@@ -1460,7 +1460,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Ankündigungen und Bauzeitenpläne sichern",
     ],
     hinweis:
-      "Im Winter geht die anerkannte Quote gegen null. Konzentrieren Sie Ihre Minderung deshalb auf die Monate der tatsächlichen Nutzungssaison und rechnen Sie taggenau ab.",
+      "Für die Wintermonate brauchen Sie hier nicht viel zu erwarten, die anerkannte Quote geht dann gegen null. Konzentrieren Sie die Minderung auf die eigentliche Nutzungssaison und rechnen Sie innerhalb dieser Monate taggenau ab.",
     fristTage: 14,
   },
   keller_nicht_nutzbar: {
@@ -1471,7 +1471,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Keller gesperrt Miete mindern",
     ],
     intro:
-      "Ein im Mietvertrag genanntes Kellerabteil gehört zur Mietsache. Ist es gesperrt, überflutet oder wurde es gar nicht erst übergeben, mindert das die Miete für die gesamte Wohnung.",
+      "Steht das Kellerabteil im Mietvertrag, haben Sie Anspruch darauf, und zwar nutzbar. Ist es gesperrt, überflutet, von Fremden belegt oder wurde es Ihnen nie übergeben, mindert das die Miete der gesamten Wohnung, nicht nur einen gedachten Kelleranteil.",
     symptome: [
       "Kellerabteil wurde nie übergeben oder ist verschlossen",
       "Keller ist überflutet oder wegen Bauarbeiten gesperrt",
@@ -1485,7 +1485,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Datum der Meldung festhalten",
     ],
     hinweis:
-      "Wurde das Kellerabteil von Anfang an nicht übergeben, obwohl es im Vertrag steht, besteht der Anspruch ab Mietbeginn. Für die Vergangenheit gilt aber: Ohne vorbehaltlose Zahlung ist eine Rückforderung schwierig — melden Sie es deshalb sofort.",
+      "Fehlt das Abteil schon seit dem Einzug, besteht der Anspruch im Grundsatz ab Mietbeginn. Nur: Wer jahrelang kommentarlos die volle Miete gezahlt hat, holt für die Vergangenheit kaum noch etwas zurück. Melden Sie das Fehlen deshalb, sobald es Ihnen auffällt.",
     fristTage: 14,
   },
   stellplatz_nicht_nutzbar: {
@@ -1496,7 +1496,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Tiefgarage gesperrt Miete mindern",
     ],
     intro:
-      "Ein mitgemieteter Stellplatz oder eine Garage, die nicht nutzbar ist, berechtigt zur Minderung. Wird dafür ein gesonderter Mietzins gezahlt, bezieht sich die Minderung auf diesen Teilbetrag — bis hin zu dessen vollständigem Entfall.",
+      "Für einen Stellplatz, auf dem Sie nicht parken können, müssen Sie nicht voll bezahlen. Ob Tiefgarage gesperrt, Tor defekt oder Platz dauerhaft fremdbelegt: Die Minderung ist berechtigt. Läuft der Stellplatz über eine eigene Miete, wird genau dieser Betrag gekürzt, notfalls komplett.",
     symptome: [
       "Stellplatz ist dauerhaft von Dritten belegt",
       "Tiefgarage ist wegen Bauarbeiten gesperrt",
@@ -1510,7 +1510,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Kosten für einen Ersatzparkplatz belegen",
     ],
     hinweis:
-      "Prüfen Sie, ob ein einheitlicher Mietvertrag oder zwei getrennte Verträge vorliegen. Bei getrennten Verträgen mindern Sie ausschließlich die Stellplatzmiete — eine Kürzung der Wohnungsmiete wäre dann unberechtigt.",
+      "Schauen Sie genau hin, wie die Verträge geschnitten sind. Bei einem einheitlichen Mietvertrag mindern Sie die Gesamtmiete, bei zwei getrennten Verträgen ausschließlich die Stellplatzmiete. Wer im zweiten Fall die Wohnungsmiete kürzt, kürzt an der falschen Stelle und baut einen Rückstand auf.",
     fristTage: 14,
   },
   baugeruest: {
@@ -1521,7 +1521,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Fassadensanierung Mietminderung",
     ],
     intro:
-      "Ein Gerüst vor dem Fenster nimmt Licht, hebt die Privatsphäre auf und erhöht das Einbruchsrisiko erheblich. Diese Kombination begründet auch dann eine Minderung, wenn die Bauarbeiten selbst angekündigt waren.",
+      "Mit einem Gerüst vor dem Fenster wohnt man plötzlich im Halbdunkel, fremde Menschen laufen am Schlafzimmer vorbei, und für Einbrecher ist der Weg nach oben frei. Dafür dürfen Sie mindern, und zwar auch dann, wenn die Bauarbeiten ordnungsgemäß angekündigt waren.",
     symptome: [
       "Deutlich weniger Tageslicht in den betroffenen Räumen",
       "Einblick von außen in Wohn- oder Schlafräume",
@@ -1535,7 +1535,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Sicherungsmaßnahmen des Vermieters oder deren Fehlen dokumentieren",
     ],
     hinweis:
-      "Verlangen Sie ausdrücklich Sicherungsmaßnahmen wie Bauzäune, Alarmanlagen oder Nachtwachen. Wird nicht gesichert und es kommt zum Einbruch, kann der Vermieter zusätzlich haften.",
+      "Fordern Sie schriftlich Sicherungsmaßnahmen ein, etwa Bauzäune, eine Alarmanlage oder nächtliche Kontrollen. Passiert nichts und wird über das Gerüst eingebrochen, steht der Vermieter mit in der Haftung. Ihre dokumentierte Aufforderung ist dann bares Geld wert.",
     fristTage: 14,
   },
 
@@ -1548,7 +1548,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Asbestplatten Miete mindern",
     ],
     intro:
-      "Asbest ist krebserregend und gehört zu den schwerwiegendsten Wohnungsmängeln. Entscheidend ist, ob Fasern freigesetzt werden können — bei beschädigten oder gebrochenen Bauteilen ist das der Fall.",
+      "Asbest ist krebserregend, daran gibt es nichts zu deuteln. Solange das Material fest verbaut und unbeschädigt ist, geht von ihm allerdings meist keine akute Gefahr aus. Kritisch wird es bei gebrochenen oder beschädigten Bauteilen, denn dann können Fasern in die Luft gelangen. Genau daran hängt die rechtliche Bewertung.",
     symptome: [
       "Beschädigte oder gebrochene Asbestzementplatten, etwa an Balkonbrüstungen",
       "Alte Nachtspeicheröfen mit Asbestbauteilen",
@@ -1562,7 +1562,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Sämtliche Korrespondenz mit dem Vermieter dokumentieren",
     ],
     hinweis:
-      "Bearbeiten, bohren oder entfernen Sie asbestverdächtige Materialien niemals selbst — das setzt Fasern frei. Bei bestätigter Faserfreisetzung kommt neben der Minderung eine fristlose Kündigung wegen Gesundheitsgefährdung nach § 569 Abs. 1 BGB in Betracht.",
+      "Die wichtigste Regel: nicht bohren, nicht schleifen, nicht selbst entfernen. Jede Bearbeitung setzt Fasern frei und macht alles schlimmer. Bestätigt ein Labor die Faserfreisetzung, kommt neben der Minderung auch eine fristlose Kündigung wegen Gesundheitsgefährdung in Betracht (§ 569 Abs. 1 BGB).",
     fristTage: 7,
     dringend: true,
   },
@@ -1574,7 +1574,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Duschverbot Legionellen Miete mindern",
     ],
     intro:
-      "Legionellen im Warmwasser können eine schwere Lungenentzündung auslösen. Überschreiten die Messwerte die Grenzwerte der Trinkwasserverordnung, liegt ein erheblicher Mangel vor — insbesondere wenn das Gesundheitsamt ein Duschverbot ausspricht.",
+      "Legionellen sind Bakterien im Warmwasser, die eine schwere Lungenentzündung auslösen können, gefährlich vor allem beim Duschen, wenn der Wassernebel eingeatmet wird. Liegen die Messwerte über den Grenzwerten der Trinkwasserverordnung, ist das ein erheblicher Mangel. Spricht das Gesundheitsamt ein Duschverbot aus, erst recht.",
     symptome: [
       "Positive Legionellenbefunde aus der turnusmäßigen Untersuchung",
       "Duschverbot oder Nutzungseinschränkung durch das Gesundheitsamt",
@@ -1588,7 +1588,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Ärztliche Befunde aufbewahren, falls gesundheitliche Beschwerden auftreten",
     ],
     hinweis:
-      "Vermieter von Mehrfamilienhäusern mit Zentralwarmwasser sind zur regelmäßigen Legionellenprüfung verpflichtet und müssen die Ergebnisse offenlegen. Fordern Sie das Protokoll schriftlich an — die Weigerung ist selbst ein Indiz.",
+      "Bei zentraler Warmwasserversorgung muss der Vermieter regelmäßig auf Legionellen prüfen lassen, und Sie haben ein Recht auf die Ergebnisse. Fordern Sie das Prüfprotokoll schriftlich an. Rückt er es nicht heraus, sagt das für sich genommen schon einiges und lässt sich später auch so verwenden.",
     fristTage: 5,
     dringend: true,
   },
@@ -1600,7 +1600,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "alte Wasserleitungen Blei Miete mindern",
     ],
     intro:
-      "Bleirohre in der Trinkwasserinstallation sind seit 2013 unzulässig, wenn der Grenzwert überschritten wird. Blei ist besonders für Säuglinge und Schwangere gefährlich — ein Grenzwertverstoß ist ein erheblicher Mangel.",
+      "In vielen Altbauten liegen noch Wasserleitungen aus Blei, und das ist ein Problem: Blei reichert sich im Körper an und gefährdet besonders Säuglinge und Schwangere. Seit 2013 gilt ein strenger Grenzwert der Trinkwasserverordnung. Wird er überschritten, liegt ein erheblicher Mangel vor.",
     symptome: [
       "Graue, weiche Wasserleitungen, die sich mit dem Fingernagel ritzen lassen",
       "Gebäude aus der Zeit vor 1973 ohne dokumentierte Leitungssanierung",
@@ -1614,7 +1614,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Vermieter schriftlich zur Auskunft über das Leitungsmaterial auffordern",
     ],
     hinweis:
-      "Der Vermieter ist verpflichtet, über bleihaltige Leitungen zu informieren. Bei Grenzwertüberschreitung schuldet er den Austausch — eine bloße Empfehlung, das Wasser ablaufen zu lassen, ist keine ausreichende Mängelbeseitigung.",
+      "Über bleihaltige Leitungen muss der Vermieter Sie von sich aus informieren. Und geben Sie sich nicht mit dem Ratschlag zufrieden, das Wasser morgens erst einmal laufen zu lassen. Das ist keine Mängelbeseitigung. Bei Grenzwertüberschreitung schuldet er den Austausch der Leitungen.",
     fristTage: 14,
     dringend: true,
   },
@@ -1626,7 +1626,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Ausdünstungen Wohnung Miete mindern",
     ],
     intro:
-      "Formaldehyd aus Spanplatten, Klebstoffen oder Bodenbelägen reizt Augen und Atemwege und gilt als krebserzeugend. Überschreiten die Raumluftwerte die einschlägigen Richtwerte, liegt ein schwerer Mangel vor.",
+      "Brennende Augen und Reizhusten, die draußen sofort besser werden: So macht sich Formaldehyd oft bemerkbar. Es dünstet aus Spanplatten, Klebern und Bodenbelägen aus und gilt als krebserzeugend. Überschreitet die Raumluft die einschlägigen Richtwerte, ist das ein schwerer Mangel.",
     symptome: [
       "Stechender, chemischer Geruch, besonders in geschlossenen Räumen",
       "Augenbrennen, Kopfschmerzen und Reizhusten, die beim Verlassen der Wohnung nachlassen",
@@ -1640,7 +1640,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Symptomtagebuch führen",
     ],
     hinweis:
-      "Die Messung ist entscheidend und kostet je nach Umfang mehrere hundert Euro. Bestätigt sie die Überschreitung, muss der Vermieter diese Kosten als Schadensersatz nach § 536a Abs. 1 BGB erstatten.",
+      "Ohne Raumluftmessung geht hier nichts, und die kostet je nach Umfang mehrere hundert Euro. Lassen Sie sich davon nicht abschrecken: Bestätigt die Messung die Überschreitung, muss der Vermieter Ihnen die Kosten als Schadensersatz nach § 536a Abs. 1 BGB zurückzahlen.",
     fristTage: 10,
     dringend: true,
   },
@@ -1654,7 +1654,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "es stinkt aus dem Abfluss Miete mindern",
     ],
     intro:
-      "Anhaltender Abwasser- oder Kanalgeruch in der Wohnung weist auf einen Defekt der Entlüftung oder eine undichte Leitung hin. Der Geruch belastet dauerhaft und ist ein anerkannter Mangel im mittleren Prozentbereich.",
+      "Wenn es dauerhaft nach Kanal riecht, stimmt etwas mit der Installation nicht. Meist ist die Rohrentlüftung defekt oder eine Leitung undicht. Der Geruch zermürbt auf Dauer, und die Rechtsprechung erkennt ihn als Mangel im mittleren Prozentbereich an.",
     symptome: [
       "Fäkalienartiger Geruch aus Abflüssen in Bad, Küche oder WC",
       "Geruch verstärkt sich bei Wetterwechsel oder Unterdruck",
@@ -1668,7 +1668,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Handwerkerberichte und Kamerabefahrungen aufbewahren",
     ],
     hinweis:
-      "Füllen Sie alle Geruchsverschlüsse, auch selten genutzte wie den Bodenablauf, und halten Sie das fest. Damit entkräften Sie den häufigsten Einwand des Vermieters, die Ursache liege in einem ausgetrockneten Siphon.",
+      "Der Standardeinwand des Vermieters lautet: ausgetrockneter Siphon. Nehmen Sie ihm den vorweg, indem Sie alle Geruchsverschlüsse mit Wasser füllen, auch die vergessenen wie den Bodenablauf hinter der Waschmaschine, und das schriftlich festhalten. Riecht es danach immer noch, liegt die Ursache tiefer im System.",
     fristTage: 10,
   },
   muell_geruch: {
@@ -1679,12 +1679,12 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Müllraum Geruch Miete mindern",
     ],
     intro:
-      "Ein Müllraum oder Tonnenstandplatz direkt am Fenster kann die Wohnung im Sommer unbenutzbar machen. Sorgt der Vermieter nicht für ausreichende Leerung, Reinigung oder eine Verlegung, ist das ein Mangel.",
+      "Mülltonnen direkt unterm Fenster können einem im Sommer die ganze Wohnung verleiden: Fenster auf heißt dann Gestank herein. Kümmert sich der Vermieter nicht um häufigere Leerung, Reinigung oder einen anderen Standplatz, ist das ein Mangel.",
     symptome: [
       "Anhaltender Müllgeruch in der Wohnung",
       "Fenster können im Sommer nicht geöffnet werden",
       "Überfüllte Tonnen, unregelmäßige Abholung",
-      "Müllraum wird nicht gereinigt, Ungezieferanzug",
+      "Müllraum wird nicht gereinigt und zieht Ungeziefer an",
     ],
     dokumentation: [
       "Überfüllte Tonnen und Standplatz mit Datum fotografieren",
@@ -1693,7 +1693,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Entfernung des Standplatzes zum eigenen Fenster angeben",
     ],
     hinweis:
-      "Fordern Sie konkret: häufigere Leerung, regelmäßige Reinigung oder Verlegung des Standplatzes. Eine konkret benannte Abhilfemaßnahme ist deutlich wirksamer als eine allgemeine Beschwerde über Geruch.",
+      "Beschweren Sie sich nicht allgemein über „den Gestank“, sondern benennen Sie die Abhilfe, die Sie erwarten: öfter leeren, regelmäßig reinigen oder den Standplatz verlegen. Eine konkrete Forderung lässt sich schwer aussitzen, eine allgemeine Klage schon.",
     fristTage: 14,
   },
   gewerbe_geruch: {
@@ -1704,7 +1704,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Gewerbegeruch Wohnung Miete mindern",
     ],
     intro:
-      "Küchen-, Fett- oder Betriebsgerüche aus einem Gastronomie- oder Gewerbebetrieb im Haus ziehen häufig über Schächte und Fassade in die Wohnung. Zieht der Betrieb erst nach Ihrem Einzug ein, ist die Belastung ein Mangel.",
+      "Wenn das Sofa nach Frittenfett riecht, obwohl Sie nie frittieren, sitzt darunter vermutlich ein Imbiss oder Restaurant. Betriebsgerüche ziehen über Schächte und die Fassade in die Wohnung, und sie setzen sich fest. Hat der Betrieb erst nach Ihrem Einzug eröffnet, ist die Belastung ein Mangel.",
     symptome: [
       "Frittier-, Grill- oder Fettgeruch in der Wohnung",
       "Geruch tritt zu den Betriebszeiten des Gewerbes auf",
@@ -1718,7 +1718,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Beschwerden beim Ordnungsamt oder der Bauaufsicht dokumentieren",
     ],
     hinweis:
-      "Prüfen Sie, ob die Abluftanlage baurechtlich zulässig ausgeführt ist — häufig muss sie über Dach geführt werden. Ein Verstoß dagegen ist ein starkes Argument gegenüber Vermieter und Behörde.",
+      "Werfen Sie einen Blick auf die Abluftanlage des Betriebs. Baurechtlich muss sie häufig über das Dach geführt werden; endet sie stattdessen neben Ihrem Fenster, ist das womöglich gar nicht zulässig. Mit diesem Argument haben Sie sowohl beim Vermieter als auch bei der Bauaufsicht einen Hebel.",
     fristTage: 14,
   },
 };

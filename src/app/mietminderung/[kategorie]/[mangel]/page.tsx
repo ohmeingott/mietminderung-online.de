@@ -41,7 +41,7 @@ function buildFaqs(entry: MangelEntry) {
   return [
     {
       question: `Wie viel Mietminderung ist bei „${mangel.label}“ möglich?`,
-      answer: `Gerichte haben bei diesem Mangel Minderungsquoten zwischen ${mangel.minderung_min} und ${mangel.minderung_max} Prozent der Bruttowarmmiete anerkannt; ein häufig angesetzter Wert liegt bei etwa ${mangel.minderung_typical} Prozent. Die konkrete Höhe hängt von Dauer, Intensität und Ausmaß der Beeinträchtigung ab — es handelt sich um Orientierungswerte, nicht um feste Größen.`,
+      answer: `Gerichte haben bei diesem Mangel Minderungsquoten zwischen ${mangel.minderung_min} und ${mangel.minderung_max} Prozent der Bruttowarmmiete anerkannt; ein häufig angesetzter Wert liegt bei etwa ${mangel.minderung_typical} Prozent. Das sind Orientierungswerte aus Einzelfällen, keine festen Größen. Die konkrete Höhe hängt von Dauer, Intensität und Ausmaß der Beeinträchtigung ab.`,
     },
     {
       question: `Ab wann kann ich wegen ${mangel.label.toLowerCase()} die Miete mindern?`,
@@ -53,7 +53,7 @@ function buildFaqs(entry: MangelEntry) {
     },
     {
       question: `Wie weise ich den Mangel „${mangel.label}“ nach?`,
-      answer: `${seo.dokumentation[0]}. Ergänzend gilt: ${seo.dokumentation[1]?.toLowerCase() ?? "dokumentieren Sie den Mangel fortlaufend mit Datum"}. Die Beweislast für das Vorliegen des Mangels trägt der Mieter — dokumentieren Sie deshalb ab dem ersten Tag.`,
+      answer: `${seo.dokumentation[0]}. Ergänzend gilt: ${seo.dokumentation[1]?.toLowerCase() ?? "dokumentieren Sie den Mangel fortlaufend mit Datum"}. Denken Sie daran, dass der Mieter das Vorliegen des Mangels beweisen muss. Fangen Sie mit der Dokumentation deshalb am ersten Tag an.`,
     },
     {
       question: `Zählt „${mangel.label}“ zur Kategorie ${kategorie.label}?`,
@@ -112,7 +112,7 @@ export default async function MangelPage({ params }: { params: Params }) {
         data={jsonLdGraph(
           articleSchema({
             headline: `Mietminderung bei ${mangel.label}`,
-            description: `Minderungsquote, Nachweisführung und Vorgehen bei ${mangel.label} — mit Rechner und Muster-Mängelanzeige.`,
+            description: `Minderungsquote, Nachweisführung und Vorgehen bei ${mangel.label}. Mit Rechner und Muster-Mängelanzeige.`,
             path: entry.path,
             datePublished: "2026-03-06",
             dateModified: LAST_UPDATED,
@@ -260,7 +260,7 @@ export default async function MangelPage({ params }: { params: Params }) {
                 </div>
                 <p className="mt-3 text-xs text-gray-500">
                   Beträge gerundet, pro Monat. Besteht der Mangel nicht den
-                  ganzen Monat, wird tagegenau abgerechnet —{" "}
+                  ganzen Monat, wird tagegenau abgerechnet:{" "}
                   <Link
                     href="/ratgeber/mietminderung-berechnen"
                     className="text-blue-700 hover:underline"
@@ -277,9 +277,9 @@ export default async function MangelPage({ params }: { params: Params }) {
                   So dokumentieren Sie den Mangel richtig
                 </h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Die Beweislast für das Vorliegen des Mangels trägt der Mieter.
-                  Beginnen Sie deshalb sofort mit der Dokumentation — nicht erst,
-                  wenn der Streit da ist.
+                  Das Vorliegen des Mangels muss im Streitfall der Mieter
+                  beweisen. Fangen Sie mit der Dokumentation deshalb sofort an,
+                  nicht erst, wenn es Ärger gibt.
                 </p>
                 <ol className="space-y-3">
                   {seo.dokumentation.map((schritt, i) => (
@@ -303,9 +303,9 @@ export default async function MangelPage({ params }: { params: Params }) {
                 <ol className="space-y-4">
                   {[
                     "Mangel dokumentieren: Fotos, Protokolle und Zeugen sichern, bevor sich der Zustand ändert.",
-                    `Mängelanzeige schreiben und dem Vermieter nachweisbar zustellen — mit einer Frist von etwa ${seo.fristTage} ${seo.fristTage === 1 ? "Tag" : "Tagen"} zur Beseitigung.`,
+                    `Mängelanzeige schreiben und dem Vermieter nachweisbar zustellen, mit einer Frist von etwa ${seo.fristTage} ${seo.fristTage === 1 ? "Tag" : "Tagen"} zur Beseitigung.`,
                     "Miete zunächst unter Vorbehalt zahlen, um einen Zahlungsrückstand und damit das Kündigungsrisiko zu vermeiden.",
-                    `Minderungsquote bestimmen — bei diesem Mangel als Ausgangswert etwa ${mangel.minderung_typical} %, im Zweifel eher konservativ.`,
+                    `Minderungsquote bestimmen. Bei diesem Mangel sind etwa ${mangel.minderung_typical} % ein üblicher Ausgangswert; im Zweifel bleiben Sie besser darunter.`,
                     "Nach Beseitigung des Mangels den zu viel gezahlten Betrag zurückfordern und die Minderung einstellen.",
                   ].map((schritt, i) => (
                     <li
@@ -434,7 +434,7 @@ export default async function MangelPage({ params }: { params: Params }) {
                 <p className="mt-2 text-sm text-blue-100 leading-relaxed">
                   Prüfen Sie in wenigen Minuten Ihren Anspruch und erstellen Sie
                   ein fertiges Schreiben mit allen Pflichtangaben nach § 536c
-                  BGB — kostenlos und ohne Registrierung.
+                  BGB. Kostenlos und ohne Registrierung.
                 </p>
                 <Link
                   href="/#pruefung"

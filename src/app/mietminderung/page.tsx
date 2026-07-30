@@ -22,7 +22,7 @@ const crumbs: Crumb[] = [
 const faqs = [
   {
     question: "Bei welchen Mängeln kann ich die Miete mindern?",
-    answer: `Grundsätzlich bei jedem erheblichen Mangel, der die Tauglichkeit der Wohnung zum vertragsgemäßen Gebrauch mindert — von Heizungsausfall über Schimmel und Lärm bis zu Ungeziefer. Diese Übersicht listet ${siteConfig.mangelCount} Mangelarten in ${kategorieIndex.length} Kategorien mit den jeweils anerkannten Minderungsquoten.`,
+    answer: `Grundsätzlich bei jedem erheblichen Mangel, der die Tauglichkeit der Wohnung zum vertragsgemäßen Gebrauch mindert, vom Heizungsausfall über Schimmel und Lärm bis zum Ungeziefer. Diese Übersicht listet ${siteConfig.mangelCount} Mangelarten in ${kategorieIndex.length} Kategorien mit den jeweils anerkannten Minderungsquoten.`,
   },
   {
     question: "Wie finde ich die richtige Minderungsquote für meinen Fall?",
@@ -43,7 +43,7 @@ const faqs = [
 
 export const metadata: Metadata = buildMetadata({
   title: `Mietminderung nach Mangelart: ${siteConfig.mangelCount} Mängel mit Quoten`,
-  description: `Alle Wohnungsmängel mit anerkannten Minderungsquoten: ${siteConfig.mangelCount} Mangelarten in ${kategorieIndex.length} Kategorien — jeweils mit Rechner und Mängelanzeige-Vorlage.`,
+  description: `Alle Wohnungsmängel mit anerkannten Minderungsquoten: ${siteConfig.mangelCount} Mangelarten in ${kategorieIndex.length} Kategorien, jeweils mit Rechner und Mängelanzeige-Vorlage.`,
   path: "/mietminderung",
   keywords: [
     "Mietminderung Mängel",
@@ -98,9 +98,9 @@ export default function MietminderungHub() {
             <p className="mt-5 text-lg text-blue-100 max-w-3xl leading-relaxed">
               Wie viel Prozent Mietminderung stehen Ihnen zu? Diese Übersicht
               führt {alleMaengel.length} Wohnungsmängel in{" "}
-              {kategorieIndex.length} Kategorien auf — jeweils mit der Spanne der
-              von deutschen Gerichten anerkannten Minderungsquoten, einer
-              Nachweis-Checkliste und einem Rechner für Ihre Bruttowarmmiete.
+              {kategorieIndex.length} Kategorien auf. Zu jedem Mangel finden Sie
+              die Spanne der von deutschen Gerichten anerkannten Quoten, eine
+              Nachweis-Checkliste und einen Rechner für Ihre Bruttowarmmiete.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -159,8 +159,8 @@ export default function MietminderungHub() {
               Mängel mit den höchsten Minderungsquoten
             </h2>
             <p className="text-gray-600 mb-6">
-              Diese Mängel beeinträchtigen die Bewohnbarkeit am stärksten — und
-              werden von Gerichten entsprechend hoch bewertet.
+              Diese Mängel treffen die Bewohnbarkeit am härtesten, und die
+              Gerichte bewerten sie entsprechend hoch.
             </p>
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {top.map(({ mangel, path, kategorie }) => (
@@ -198,10 +198,10 @@ export default function MietminderungHub() {
                 weder eine Genehmigung des Vermieters noch einen Gerichtsbeschluss.
               </p>
               <p>
-                Praktisch durchsetzbar ist der Anspruch allerdings erst ab dem
-                Zeitpunkt, zu dem der Vermieter von dem Mangel weiß. Deshalb ist
-                die Mängelanzeige nach § 536c BGB der entscheidende erste
-                Schritt — sie bestimmt zugleich den Stichtag Ihres Anspruchs.
+                Durchsetzen lässt sich der Anspruch allerdings erst, wenn der
+                Vermieter von dem Mangel weiß. Deshalb ist die Mängelanzeige
+                nach § 536c BGB der entscheidende erste Schritt: Ihr Datum ist
+                zugleich der Stichtag Ihres Anspruchs.
               </p>
               <p>
                 Berechnungsgrundlage ist die Bruttowarmmiete, also die Kaltmiete

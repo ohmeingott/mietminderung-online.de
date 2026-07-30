@@ -279,8 +279,8 @@ export default async function RatgeberPage({ params }: { params: Params }) {
               </h2>
               <p className="text-blue-100 mb-8 max-w-xl mx-auto">
                 Anspruch prüfen, Minderungsquote berechnen und ein fertiges
-                Schreiben mit allen Pflichtangaben nach § 536c BGB erhalten —
-                kostenlos und ohne Registrierung.
+                Schreiben mit allen Pflichtangaben nach § 536c BGB erhalten.
+                Kostenlos und ohne Registrierung.
               </p>
               <Link
                 href="/#pruefung"
