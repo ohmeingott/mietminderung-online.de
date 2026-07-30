@@ -36,7 +36,7 @@ export const site = {
   /** Court venue for merchant disputes. */
   venue: "Köln",
   /** Shown as "Stand:" on the legal documents. */
-  legalVersion: "Juli 2026",
+  legalVersion: "August 2026",
 } as const;
 
 export const siteConfig = {

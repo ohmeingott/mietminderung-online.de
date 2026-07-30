@@ -27,6 +27,10 @@ const LEGAL_PAGES = [
       "§ 25 Abs. 2 Nr. 2 TDDDG",
       "Landesbeauftragte für Datenschutz",
       "Art. 22 DSGVO",
+      "Doppel-Opt-in",
+      "Neon",
+      "Resend",
+      "Art. 7 Abs. 3",
     ],
   },
   {
@@ -85,6 +89,36 @@ test.describe("Legal pages", () => {
     expect(body).not.toContain("Keine Cookies, kein Tracking");
     // Vercel Analytics is loaded, so it must be disclosed.
     expect(body).toContain("Vercel Web Analytics");
+  });
+
+  test("the privacy policy discloses opt-in case saving with retention limits", async ({
+    page,
+  }) => {
+    await page.goto("/datenschutz");
+    const body = await page.locator("article").innerText();
+    // The old unconditional no-storage promise must be gone...
+    expect(body).not.toContain("von uns nicht gespeichert");
+    // ...replaced by the conditional browser-first principle + the opt-in section.
+    expect(body).toContain("Ohne Ihr aktives Zutun");
+    expect(body).toContain("Fallspeicherung");
+    expect(body).toContain("nach 7 Tagen");
+    expect(body).toContain("6 Monate");
+    // The legacy Google-Sheets newsletter flow is retired.
+    expect(body).not.toContain("Google-Sheets");
+  });
+
+  test("lawyer referral is disclosed as a separate consent and stays free", async ({
+    page,
+  }) => {
+    await page.goto("/datenschutz");
+    const privacy = await page.locator("article").innerText();
+    expect(privacy).toMatch(/gesonderten? Einwilligung/);
+    expect(privacy).toContain("Partner");
+
+    await page.goto("/nutzungsbedingungen");
+    const terms = await page.locator("article").innerText();
+    expect(terms).toContain("Ersteinschätzung");
+    expect(terms).toContain("kostenlos");
   });
 
   test("the terms describe a free, download-only service and name no price", async ({

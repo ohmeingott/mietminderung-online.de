@@ -4,16 +4,7 @@ import { useRef, useState } from "react";
 import MietminderungCheck from "@/components/MietminderungCheck";
 import Maengelanzeige from "@/components/Maengelanzeige";
 import MaengelanzeigeTeaser from "@/components/MaengelanzeigeTeaser";
-import type { Mangel } from "@/data/maengel";
-
-interface CheckResult {
-  eligible: boolean | null;
-  selectedMaengel: Mangel[];
-  totalMinderungMin: number;
-  totalMinderungMax: number;
-  totalMinderungTypical: number;
-  bruttowarmmiete: number;
-}
+import type { CheckResult } from "@/types/case";
 
 /**
  * The interactive part of the landing page. Isolated in its own client
@@ -41,6 +32,7 @@ export default function HomeCheckFlow() {
             selectedMaengel={checkResult.selectedMaengel}
             bruttowarmmiete={checkResult.bruttowarmmiete}
             minderungsquote={checkResult.totalMinderungTypical}
+            eligibilityAnswers={checkResult.eligibilityAnswers}
           />
         ) : (
           <MaengelanzeigeTeaser />

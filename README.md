@@ -47,7 +47,10 @@ src/
     nutzungsbedingungen/ widerruf/
     api/
       enhance-beschreibung/     Gemini-Textverbesserung
-      save-email/               Newsletter-Opt-in
+      case/                     Fallspeicherung (Opt-in, Doppel-Opt-in, Status, Löschung)
+      cron/                     Täglicher Job: Erinnerungs-Mails + Datenlöschung
+      track/                    Anonyme Funnel-Ereignisse
+    fall/                       Bestätigungs-/Status-/Anwalts-Seiten aus den E-Mails
   components/                   UI-Komponenten
   data/maengel.ts               Mängelkatalog, Prüffragen, FAQ (deutsche Quelle)
   i18n/
