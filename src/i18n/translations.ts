@@ -275,6 +275,16 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.fixAddress": "Anschrift des Vermieters korrigieren",
     "dispatch.freeStays":
       "Der kostenlose Download bleibt Ihnen in jedem Fall erhalten.",
+    // Return from the payment page. "erfolg" means Stripe accepted the
+    // payment; printing and posting happen afterwards in the webhook, so the
+    // wording must stay in the future tense — "wurde versendet" would promise
+    // more than is known at this moment.
+    "dispatch.result.erfolg.title": "Zahlung erfolgreich",
+    "dispatch.result.erfolg.text":
+      "Vielen Dank. Ihre Mängelanzeige wird jetzt gedruckt und per Post an Ihren Vermieter versendet. Die Bestätigung erhalten Sie per E-Mail.",
+    "dispatch.result.abbruch.title": "Zahlung abgebrochen",
+    "dispatch.result.abbruch.text":
+      "Es wurde nichts versendet und nichts berechnet. Sie können den Versand jederzeit erneut starten oder die Mängelanzeige kostenlos herunterladen.",
     "dispatch.hint.kopf":
       "Der Briefkopf wurde nicht erkannt. Die Anschriften erscheinen deshalb möglicherweise zusätzlich im Brieftext.",
     "dispatch.hint.datum":
@@ -530,6 +540,12 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.showMarked": "Algılanan adresi görüntüle (PDF)",
     "dispatch.fixAddress": "Ev sahibinin adresini düzelt",
     "dispatch.freeStays": "Ücretsiz indirme her durumda kullanılabilir kalır.",
+    "dispatch.result.erfolg.title": "Ödeme başarılı",
+    "dispatch.result.erfolg.text":
+      "Teşekkür ederiz. Kusur bildiriminiz şimdi yazdırılıp posta ile ev sahibinize gönderilecek. Onayı e-posta ile alacaksınız.",
+    "dispatch.result.abbruch.title": "Ödeme iptal edildi",
+    "dispatch.result.abbruch.text":
+      "Hiçbir şey gönderilmedi ve hiçbir ücret tahsil edilmedi. Gönderimi istediğiniz zaman yeniden başlatabilir veya kusur bildirimini ücretsiz indirebilirsiniz.",
     "dispatch.hint.kopf":
       "Mektup başlığı tanınamadı. Bu nedenle adresler mektup metninde ikinci kez görünebilir.",
     "dispatch.hint.datum":
@@ -784,6 +800,12 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.fixAddress": "Виправити адресу орендодавця",
     "dispatch.freeStays":
       "Безкоштовне завантаження залишається доступним у будь-якому разі.",
+    "dispatch.result.erfolg.title": "Оплата успішна",
+    "dispatch.result.erfolg.text":
+      "Дякуємо. Ваше повідомлення про дефекти буде надруковано та надіслано поштою вашому орендодавцю. Підтвердження ви отримаєте електронною поштою.",
+    "dispatch.result.abbruch.title": "Оплату скасовано",
+    "dispatch.result.abbruch.text":
+      "Нічого не було надіслано і нічого не було нараховано. Ви можете будь-коли розпочати надсилання знову або безкоштовно завантажити повідомлення про дефекти.",
     "dispatch.hint.kopf":
       "Шапку листа не розпізнано. Тому адреси можуть з’явитися ще раз у тексті листа.",
     "dispatch.hint.datum":
@@ -1036,6 +1058,12 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.fixAddress": "Исправить адрес арендодателя",
     "dispatch.freeStays":
       "Бесплатная загрузка остаётся доступной в любом случае.",
+    "dispatch.result.erfolg.title": "Оплата прошла успешно",
+    "dispatch.result.erfolg.text":
+      "Спасибо. Ваше уведомление о дефектах будет напечатано и отправлено почтой вашему арендодателю. Подтверждение вы получите по электронной почте.",
+    "dispatch.result.abbruch.title": "Оплата отменена",
+    "dispatch.result.abbruch.text":
+      "Ничего не было отправлено и ничего не было списано. Вы можете в любой момент начать отправку заново или бесплатно скачать уведомление о дефектах.",
     "dispatch.hint.kopf":
       "Шапка письма не распознана. Поэтому адреса могут появиться ещё раз в тексте письма.",
     "dispatch.hint.datum":
@@ -1286,6 +1314,12 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.showMarked": "عرض العنوان الذي تم التعرف عليه (PDF)",
     "dispatch.fixAddress": "تصحيح عنوان المؤجر",
     "dispatch.freeStays": "يبقى التنزيل المجاني متاحاً في كل الأحوال.",
+    "dispatch.result.erfolg.title": "تم الدفع بنجاح",
+    "dispatch.result.erfolg.text":
+      "شكراً لك. سيتم الآن طباعة إشعار العيب وإرساله بالبريد إلى مالك العقار. وستصلك رسالة التأكيد عبر البريد الإلكتروني.",
+    "dispatch.result.abbruch.title": "تم إلغاء الدفع",
+    "dispatch.result.abbruch.text":
+      "لم يتم إرسال أي شيء ولم يتم خصم أي مبلغ. يمكنك بدء الإرسال من جديد في أي وقت أو تنزيل إشعار العيب مجاناً.",
     "dispatch.hint.kopf":
       "تعذّر التعرف على ترويسة الخطاب، لذلك قد تظهر العناوين مرة أخرى داخل نص الخطاب.",
     "dispatch.hint.datum":
@@ -1537,6 +1571,12 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.fixAddress": "Popraw adres wynajmującego",
     "dispatch.freeStays":
       "Bezpłatne pobranie pozostaje dostępne w każdym przypadku.",
+    "dispatch.result.erfolg.title": "Płatność zakończona pomyślnie",
+    "dispatch.result.erfolg.text":
+      "Dziękujemy. Twoje zgłoszenie usterki zostanie teraz wydrukowane i wysłane pocztą do wynajmującego. Potwierdzenie otrzymasz e-mailem.",
+    "dispatch.result.abbruch.title": "Płatność anulowana",
+    "dispatch.result.abbruch.text":
+      "Nic nie zostało wysłane i nic nie zostało naliczone. Możesz w każdej chwili rozpocząć wysyłkę ponownie lub bezpłatnie pobrać zgłoszenie usterki.",
     "dispatch.hint.kopf":
       "Nie rozpoznano nagłówka listu. Adresy mogą przez to pojawić się ponownie w treści listu.",
     "dispatch.hint.datum":
