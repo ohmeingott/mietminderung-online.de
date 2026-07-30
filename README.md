@@ -1,4 +1,4 @@
-# mietminderung.online
+# mietminderung-online.de
 
 Ein kostenloser Online-Dienst, mit dem Mieterinnen und Mieter in Deutschland
 prüfen können, ob ihnen eine Mietminderung zusteht, die Höhe berechnen und eine
