@@ -250,6 +250,65 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter — delivery
     "letter.basedOn":
       "Basiert auf Ihrer Prüfung: ca. {quote} % Minderung bei {rent} € Bruttowarmmiete.",
+
+    // Letter — dispatch by post (eBrief). The tax note replaces a VAT
+    // statement and must stay a "no VAT is charged" sentence: the operator is
+    // a small business under § 19 UStG, and an unwarranted tax statement would
+    // be owed under § 14c UStG.
+    "dispatch.title": "Direkt an den Vermieter senden",
+    "dispatch.subtitle":
+      "Wir drucken Ihre Mängelanzeige und geben sie zur Post — Sie brauchen weder Drucker noch Briefmarke.",
+    "dispatch.chooseProduct": "Versandart wählen",
+    "dispatch.brief": "Als Brief",
+    "dispatch.einschreiben": "Als Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "Beim Einwurf-Einschreiben wird der Einwurf in den Briefkasten dokumentiert. Es ist kein Übergabe-Einschreiben mit Unterschrift des Empfängers.",
+    "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
+    "dispatch.send": "Kostenpflichtig versenden",
+    "dispatch.preparing": "Sendung wird vorbereitet...",
+    "dispatch.checkingAddress": "Adresse wird geprüft...",
+    "dispatch.redirecting": "Weiter zur Bezahlung...",
+    "dispatch.confirmSend": "Adresse ist richtig — kostenpflichtig versenden",
+    "dispatch.addressWarning":
+      "Die Anschrift des Vermieters konnte nicht eindeutig geprüft werden. Bitte kontrollieren Sie sie, bevor Sie kostenpflichtig versenden.",
+    "dispatch.showMarked": "Erkannte Adresse ansehen (PDF)",
+    "dispatch.fixAddress": "Anschrift des Vermieters korrigieren",
+    "dispatch.freeStays":
+      "Der kostenlose Download bleibt Ihnen in jedem Fall erhalten.",
+    "dispatch.hint.kopf":
+      "Der Briefkopf wurde nicht erkannt. Die Anschriften erscheinen deshalb möglicherweise zusätzlich im Brieftext.",
+    "dispatch.hint.datum":
+      "Im Brief wurde keine Datumszeile gefunden. Bitte prüfen Sie, ob das Datum im Text steht.",
+    "dispatch.hint.absender":
+      "Ihre Absenderzeile wurde gekürzt, damit sie in das Adressfeld passt.",
+    "dispatch.error.allgemein":
+      "Der Versand ist gerade nicht möglich. Bitte versuchen Sie es später noch einmal.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Der Postversand ist derzeit nicht verfügbar. Bitte laden Sie die Mängelanzeige oben herunter und versenden Sie sie selbst.",
+    "dispatch.error.zu_viele_anfragen":
+      "Es wurden zu viele Versandversuche gestartet. Bitte versuchen Sie es in einer Stunde noch einmal.",
+    "dispatch.error.unvollstaendig":
+      "Es fehlen Angaben. Bitte gehen Sie zurück und ergänzen Sie Ihre Adresse, Ihre E-Mail-Adresse und die Anschrift des Vermieters.",
+    "dispatch.error.anschrift_zu_lang":
+      "Die Anschrift des Vermieters ist zu lang für das Adressfeld. Bitte kürzen Sie Name, Straße oder Ort — etwa Zusätze wie „c/o“ oder die Rechtsform.",
+    "dispatch.error.pdf_fehler":
+      "Der Brief konnte nicht erzeugt werden. Bitte zeichnen Sie Ihre Unterschrift neu oder lassen Sie sie weg und versuchen Sie es noch einmal.",
+    "dispatch.error.ebrief_fehler":
+      "Unser Versanddienstleister antwortet gerade nicht. Bitte versuchen Sie es in einigen Minuten noch einmal — es wurde nichts berechnet.",
+    "dispatch.error.preis_unplausibel":
+      "Dieser Brief lässt sich zum angegebenen Preis nicht versenden, vermutlich weil er zu lang ist. Bitte kürzen Sie den Text und versuchen Sie es noch einmal.",
+    "dispatch.error.token_ungueltig":
+      "Der Versandvorgang ist abgelaufen. Bitte starten Sie den Versand noch einmal.",
+    "dispatch.error.jobId_ungueltig":
+      "Der Versandvorgang konnte nicht zugeordnet werden. Bitte starten Sie den Versand noch einmal.",
+    "dispatch.error.kein_dokument":
+      "Der Brief wird noch verarbeitet. Bitte warten Sie einen Moment und versuchen Sie es dann noch einmal.",
+    "dispatch.error.bereits_versendet":
+      "Diese Mängelanzeige wurde bereits versendet. Es wird nichts erneut berechnet.",
+    "dispatch.error.checkout_fehler":
+      "Die Bezahlseite konnte nicht geöffnet werden. Bitte versuchen Sie es noch einmal — es wurde nichts berechnet.",
+    "dispatch.error.zeitueberschreitung":
+      "Die Prüfung dauert länger als erwartet. Bitte versuchen Sie es in einigen Minuten noch einmal — es wurde nichts berechnet.",
   },
 
   tr: {
@@ -449,6 +508,62 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter — delivery
     "letter.basedOn":
       "Kontrolünüze dayanmaktadır: {rent} € brüt sıcak kirada yaklaşık %{quote} indirim.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "Doğrudan ev sahibine gönderin",
+    "dispatch.subtitle":
+      "Kusur bildiriminizi biz yazdırıp postaya veriyoruz — ne yazıcıya ne de pula ihtiyacınız var.",
+    "dispatch.chooseProduct": "Gönderim türünü seçin",
+    "dispatch.brief": "Normal mektup olarak",
+    "dispatch.einschreiben": "Einwurf-Einschreiben olarak",
+    "dispatch.einschreibenHint":
+      "Einwurf-Einschreiben'de mektubun posta kutusuna atılması belgelenir. Bu, alıcının imzasını gerektiren bir Übergabe-Einschreiben değildir.",
+    "dispatch.taxNote":
+      "§ 19 UStG uyarınca katma değer vergisi hesaplanmaz.",
+    "dispatch.send": "Ücretli olarak gönder",
+    "dispatch.preparing": "Gönderi hazırlanıyor...",
+    "dispatch.checkingAddress": "Adres kontrol ediliyor...",
+    "dispatch.redirecting": "Ödemeye yönlendiriliyorsunuz...",
+    "dispatch.confirmSend": "Adres doğru — ücretli olarak gönder",
+    "dispatch.addressWarning":
+      "Ev sahibinin adresi kesin olarak doğrulanamadı. Ücretli gönderimden önce lütfen adresi kontrol edin.",
+    "dispatch.showMarked": "Algılanan adresi görüntüle (PDF)",
+    "dispatch.fixAddress": "Ev sahibinin adresini düzelt",
+    "dispatch.freeStays": "Ücretsiz indirme her durumda kullanılabilir kalır.",
+    "dispatch.hint.kopf":
+      "Mektup başlığı tanınamadı. Bu nedenle adresler mektup metninde ikinci kez görünebilir.",
+    "dispatch.hint.datum":
+      "Mektupta tarih satırı bulunamadı. Lütfen tarihin metinde yer aldığını kontrol edin.",
+    "dispatch.hint.absender":
+      "Gönderen satırınız adres alanına sığması için kısaltıldı.",
+    "dispatch.error.allgemein":
+      "Gönderim şu anda mümkün değil. Lütfen daha sonra tekrar deneyin.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Posta gönderimi şu anda kullanılamıyor. Lütfen kusur bildirimini yukarıdan indirip kendiniz gönderin.",
+    "dispatch.error.zu_viele_anfragen":
+      "Çok fazla gönderim denemesi yapıldı. Lütfen bir saat sonra tekrar deneyin.",
+    "dispatch.error.unvollstaendig":
+      "Bilgiler eksik. Lütfen geri dönüp adresinizi, e-posta adresinizi ve ev sahibinin adresini tamamlayın.",
+    "dispatch.error.anschrift_zu_lang":
+      "Ev sahibinin adresi adres alanı için çok uzun. Lütfen adı, sokağı veya şehri kısaltın — örneğin „c/o“ gibi ekleri veya şirket türünü çıkarın.",
+    "dispatch.error.pdf_fehler":
+      "Mektup oluşturulamadı. Lütfen imzanızı yeniden çizin ya da imzasız devam edip tekrar deneyin.",
+    "dispatch.error.ebrief_fehler":
+      "Gönderim hizmet sağlayıcımız şu anda yanıt vermiyor. Lütfen birkaç dakika sonra tekrar deneyin — hiçbir ücret alınmadı.",
+    "dispatch.error.preis_unplausibel":
+      "Bu mektup belirtilen fiyata gönderilemiyor, muhtemelen çok uzun olduğu için. Lütfen metni kısaltıp tekrar deneyin.",
+    "dispatch.error.token_ungueltig":
+      "Gönderim işleminin süresi doldu. Lütfen gönderimi yeniden başlatın.",
+    "dispatch.error.jobId_ungueltig":
+      "Gönderim işlemi bulunamadı. Lütfen gönderimi yeniden başlatın.",
+    "dispatch.error.kein_dokument":
+      "Mektup hâlâ işleniyor. Lütfen biraz bekleyip tekrar deneyin.",
+    "dispatch.error.bereits_versendet":
+      "Bu kusur bildirimi zaten gönderildi. Yeniden ücret alınmayacaktır.",
+    "dispatch.error.checkout_fehler":
+      "Ödeme sayfası açılamadı. Lütfen tekrar deneyin — hiçbir ücret alınmadı.",
+    "dispatch.error.zeitueberschreitung":
+      "Kontrol beklenenden uzun sürüyor. Lütfen birkaç dakika sonra tekrar deneyin — hiçbir ücret alınmadı.",
   },
 
   uk: {
@@ -646,6 +761,63 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter — delivery
     "letter.basedOn":
       "На основі вашої перевірки: близько {quote} % зменшення при оренді {rent} €.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "Надіслати безпосередньо орендодавцю",
+    "dispatch.subtitle":
+      "Ми надрукуємо ваше повідомлення про дефекти та відправимо його поштою — вам не потрібні ні принтер, ні марка.",
+    "dispatch.chooseProduct": "Оберіть спосіб надсилання",
+    "dispatch.brief": "Звичайним листом",
+    "dispatch.einschreiben": "Як Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "У разі Einwurf-Einschreiben документується вкидання листа до поштової скриньки. Це не Übergabe-Einschreiben із підписом отримувача.",
+    "dispatch.taxNote":
+      "Згідно з § 19 UStG податок на додану вартість не нараховується.",
+    "dispatch.send": "Надіслати платно",
+    "dispatch.preparing": "Відправлення готується...",
+    "dispatch.checkingAddress": "Перевіряємо адресу...",
+    "dispatch.redirecting": "Переходимо до оплати...",
+    "dispatch.confirmSend": "Адреса правильна — надіслати платно",
+    "dispatch.addressWarning":
+      "Адресу орендодавця не вдалося однозначно перевірити. Будь ласка, перевірте її перед платним надсиланням.",
+    "dispatch.showMarked": "Переглянути розпізнану адресу (PDF)",
+    "dispatch.fixAddress": "Виправити адресу орендодавця",
+    "dispatch.freeStays":
+      "Безкоштовне завантаження залишається доступним у будь-якому разі.",
+    "dispatch.hint.kopf":
+      "Шапку листа не розпізнано. Тому адреси можуть з’явитися ще раз у тексті листа.",
+    "dispatch.hint.datum":
+      "У листі не знайдено рядка з датою. Будь ласка, перевірте, чи вказана дата в тексті.",
+    "dispatch.hint.absender":
+      "Рядок відправника скорочено, щоб він помістився в адресне поле.",
+    "dispatch.error.allgemein":
+      "Надсилання зараз неможливе. Спробуйте, будь ласка, пізніше.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Поштове надсилання наразі недоступне. Завантажте, будь ласка, повідомлення вище та надішліть його самостійно.",
+    "dispatch.error.zu_viele_anfragen":
+      "Забагато спроб надсилання. Спробуйте, будь ласка, за годину.",
+    "dispatch.error.unvollstaendig":
+      "Бракує даних. Поверніться, будь ласка, назад і доповніть свою адресу, електронну пошту та адресу орендодавця.",
+    "dispatch.error.anschrift_zu_lang":
+      "Адреса орендодавця задовга для адресного поля. Скоротіть, будь ласка, ім’я, вулицю або місто — наприклад, приберіть додатки на кшталт «c/o» чи правову форму.",
+    "dispatch.error.pdf_fehler":
+      "Лист не вдалося створити. Намалюйте, будь ласка, підпис ще раз або продовжте без нього та спробуйте знову.",
+    "dispatch.error.ebrief_fehler":
+      "Наш поштовий партнер зараз не відповідає. Спробуйте, будь ласка, за кілька хвилин — нічого не списано.",
+    "dispatch.error.preis_unplausibel":
+      "Цей лист неможливо надіслати за вказаною ціною, імовірно, він задовгий. Скоротіть, будь ласка, текст і спробуйте ще раз.",
+    "dispatch.error.token_ungueltig":
+      "Термін дії цього відправлення минув. Розпочніть, будь ласка, надсилання ще раз.",
+    "dispatch.error.jobId_ungueltig":
+      "Не вдалося знайти це відправлення. Розпочніть, будь ласка, надсилання ще раз.",
+    "dispatch.error.kein_dokument":
+      "Лист ще обробляється. Зачекайте, будь ласка, хвилинку та спробуйте ще раз.",
+    "dispatch.error.bereits_versendet":
+      "Це повідомлення вже надіслано. Повторна оплата не стягується.",
+    "dispatch.error.checkout_fehler":
+      "Не вдалося відкрити сторінку оплати. Спробуйте, будь ласка, ще раз — нічого не списано.",
+    "dispatch.error.zeitueberschreitung":
+      "Перевірка триває довше, ніж очікувалося. Спробуйте, будь ласка, за кілька хвилин — нічого не списано.",
   },
 
   ru: {
@@ -841,6 +1013,63 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter — delivery
     "letter.basedOn":
       "На основе вашей проверки: около {quote} % снижения при аренде {rent} €.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "Отправить напрямую арендодателю",
+    "dispatch.subtitle":
+      "Мы распечатаем ваше уведомление о дефектах и отправим его почтой — вам не нужны ни принтер, ни марка.",
+    "dispatch.chooseProduct": "Выберите способ отправки",
+    "dispatch.brief": "Обычным письмом",
+    "dispatch.einschreiben": "Как Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "При Einwurf-Einschreiben документируется опускание письма в почтовый ящик. Это не Übergabe-Einschreiben с подписью получателя.",
+    "dispatch.taxNote":
+      "Согласно § 19 UStG налог на добавленную стоимость не начисляется.",
+    "dispatch.send": "Отправить платно",
+    "dispatch.preparing": "Отправление готовится...",
+    "dispatch.checkingAddress": "Проверяем адрес...",
+    "dispatch.redirecting": "Переходим к оплате...",
+    "dispatch.confirmSend": "Адрес верный — отправить платно",
+    "dispatch.addressWarning":
+      "Адрес арендодателя не удалось однозначно проверить. Пожалуйста, проверьте его перед платной отправкой.",
+    "dispatch.showMarked": "Посмотреть распознанный адрес (PDF)",
+    "dispatch.fixAddress": "Исправить адрес арендодателя",
+    "dispatch.freeStays":
+      "Бесплатная загрузка остаётся доступной в любом случае.",
+    "dispatch.hint.kopf":
+      "Шапка письма не распознана. Поэтому адреса могут появиться ещё раз в тексте письма.",
+    "dispatch.hint.datum":
+      "В письме не найдена строка с датой. Пожалуйста, проверьте, указана ли дата в тексте.",
+    "dispatch.hint.absender":
+      "Строка отправителя сокращена, чтобы поместиться в адресное поле.",
+    "dispatch.error.allgemein":
+      "Отправка сейчас невозможна. Пожалуйста, попробуйте позже.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Почтовая отправка сейчас недоступна. Пожалуйста, скачайте уведомление выше и отправьте его самостоятельно.",
+    "dispatch.error.zu_viele_anfragen":
+      "Слишком много попыток отправки. Пожалуйста, попробуйте через час.",
+    "dispatch.error.unvollstaendig":
+      "Не хватает данных. Пожалуйста, вернитесь назад и дополните свой адрес, адрес электронной почты и адрес арендодателя.",
+    "dispatch.error.anschrift_zu_lang":
+      "Адрес арендодателя слишком длинный для адресного поля. Пожалуйста, сократите имя, улицу или город — например, уберите добавления вроде «c/o» или организационно-правовую форму.",
+    "dispatch.error.pdf_fehler":
+      "Письмо не удалось создать. Пожалуйста, нарисуйте подпись заново или продолжите без неё и попробуйте ещё раз.",
+    "dispatch.error.ebrief_fehler":
+      "Наш почтовый партнёр сейчас не отвечает. Пожалуйста, попробуйте через несколько минут — ничего не списано.",
+    "dispatch.error.preis_unplausibel":
+      "Это письмо нельзя отправить по указанной цене, вероятно, оно слишком длинное. Пожалуйста, сократите текст и попробуйте ещё раз.",
+    "dispatch.error.token_ungueltig":
+      "Срок действия этой отправки истёк. Пожалуйста, начните отправку заново.",
+    "dispatch.error.jobId_ungueltig":
+      "Не удалось найти эту отправку. Пожалуйста, начните отправку заново.",
+    "dispatch.error.kein_dokument":
+      "Письмо ещё обрабатывается. Пожалуйста, подождите немного и попробуйте ещё раз.",
+    "dispatch.error.bereits_versendet":
+      "Это уведомление уже отправлено. Повторная оплата не взимается.",
+    "dispatch.error.checkout_fehler":
+      "Не удалось открыть страницу оплаты. Пожалуйста, попробуйте ещё раз — ничего не списано.",
+    "dispatch.error.zeitueberschreitung":
+      "Проверка занимает больше времени, чем ожидалось. Пожалуйста, попробуйте через несколько минут — ничего не списано.",
   },
 
   ar: {
@@ -1036,6 +1265,61 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter — delivery
     "letter.basedOn":
       "بناءً على فحصك: نحو {quote} ٪ تخفيض عند إيجار إجمالي قدره {rent} €.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "أرسل الخطاب مباشرة إلى المؤجر",
+    "dispatch.subtitle":
+      "نطبع إشعار العيب ونرسله بالبريد — لا تحتاج إلى طابعة ولا إلى طابع بريد.",
+    "dispatch.chooseProduct": "اختر طريقة الإرسال",
+    "dispatch.brief": "كخطاب عادي",
+    "dispatch.einschreiben": "كـ Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "في Einwurf-Einschreiben يُوثَّق إيداع الخطاب في صندوق البريد. وهو ليس Übergabe-Einschreiben الذي يوقّع عليه المستلم.",
+    "dispatch.taxNote": "وفقاً لـ § 19 UStG لا تُحتسب ضريبة القيمة المضافة.",
+    "dispatch.send": "إرسال مقابل رسوم",
+    "dispatch.preparing": "جارٍ تجهيز الإرسال...",
+    "dispatch.checkingAddress": "جارٍ التحقق من العنوان...",
+    "dispatch.redirecting": "جارٍ الانتقال إلى الدفع...",
+    "dispatch.confirmSend": "العنوان صحيح — إرسال مقابل رسوم",
+    "dispatch.addressWarning":
+      "تعذّر التحقق من عنوان المؤجر بشكل مؤكد. يرجى مراجعته قبل الإرسال المدفوع.",
+    "dispatch.showMarked": "عرض العنوان الذي تم التعرف عليه (PDF)",
+    "dispatch.fixAddress": "تصحيح عنوان المؤجر",
+    "dispatch.freeStays": "يبقى التنزيل المجاني متاحاً في كل الأحوال.",
+    "dispatch.hint.kopf":
+      "تعذّر التعرف على ترويسة الخطاب، لذلك قد تظهر العناوين مرة أخرى داخل نص الخطاب.",
+    "dispatch.hint.datum":
+      "لم يُعثر على سطر التاريخ في الخطاب. يرجى التأكد من وجود التاريخ في النص.",
+    "dispatch.hint.absender":
+      "تم اختصار سطر المرسِل ليتّسع في حقل العنوان.",
+    "dispatch.error.allgemein":
+      "الإرسال غير ممكن حالياً. يرجى المحاولة لاحقاً.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "الإرسال البريدي غير متاح حالياً. يرجى تنزيل إشعار العيب أعلاه وإرساله بنفسك.",
+    "dispatch.error.zu_viele_anfragen":
+      "تم إجراء محاولات إرسال كثيرة. يرجى المحاولة بعد ساعة.",
+    "dispatch.error.unvollstaendig":
+      "هناك بيانات ناقصة. يرجى العودة واستكمال عنوانك وبريدك الإلكتروني وعنوان المؤجر.",
+    "dispatch.error.anschrift_zu_lang":
+      "عنوان المؤجر أطول من حقل العنوان. يرجى اختصار الاسم أو الشارع أو المدينة — مثلاً بحذف إضافات مثل «c/o» أو الشكل القانوني للشركة.",
+    "dispatch.error.pdf_fehler":
+      "تعذّر إنشاء الخطاب. يرجى رسم التوقيع من جديد أو المتابعة بدونه ثم المحاولة مرة أخرى.",
+    "dispatch.error.ebrief_fehler":
+      "مزود خدمة الإرسال لا يستجيب حالياً. يرجى المحاولة بعد بضع دقائق — لم يتم تحصيل أي مبلغ.",
+    "dispatch.error.preis_unplausibel":
+      "لا يمكن إرسال هذا الخطاب بالسعر المذكور، غالباً لأنه طويل جداً. يرجى اختصار النص والمحاولة مرة أخرى.",
+    "dispatch.error.token_ungueltig":
+      "انتهت صلاحية عملية الإرسال. يرجى بدء الإرسال من جديد.",
+    "dispatch.error.jobId_ungueltig":
+      "تعذّر العثور على عملية الإرسال. يرجى بدء الإرسال من جديد.",
+    "dispatch.error.kein_dokument":
+      "لا يزال الخطاب قيد المعالجة. يرجى الانتظار قليلاً ثم المحاولة مرة أخرى.",
+    "dispatch.error.bereits_versendet":
+      "تم إرسال إشعار العيب هذا بالفعل. ولن يتم تحصيل أي مبلغ إضافي.",
+    "dispatch.error.checkout_fehler":
+      "تعذّر فتح صفحة الدفع. يرجى المحاولة مرة أخرى — لم يتم تحصيل أي مبلغ.",
+    "dispatch.error.zeitueberschreitung":
+      "يستغرق التحقق وقتاً أطول من المتوقع. يرجى المحاولة بعد بضع دقائق — لم يتم تحصيل أي مبلغ.",
   },
 
   pl: {
@@ -1231,5 +1515,61 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter — delivery
     "letter.basedOn":
       "Na podstawie twojego sprawdzenia: ok. {quote} % obniżki przy czynszu {rent} €.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "Wyślij bezpośrednio do wynajmującego",
+    "dispatch.subtitle":
+      "Drukujemy Twoje zgłoszenie usterki i nadajemy je na poczcie — nie potrzebujesz ani drukarki, ani znaczka.",
+    "dispatch.chooseProduct": "Wybierz sposób wysyłki",
+    "dispatch.brief": "Jako zwykły list",
+    "dispatch.einschreiben": "Jako Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "Przy Einwurf-Einschreiben dokumentowane jest wrzucenie listu do skrzynki pocztowej. Nie jest to Übergabe-Einschreiben z podpisem odbiorcy.",
+    "dispatch.taxNote": "Zgodnie z § 19 UStG podatek VAT nie jest naliczany.",
+    "dispatch.send": "Wyślij odpłatnie",
+    "dispatch.preparing": "Przesyłka jest przygotowywana...",
+    "dispatch.checkingAddress": "Sprawdzamy adres...",
+    "dispatch.redirecting": "Przechodzimy do płatności...",
+    "dispatch.confirmSend": "Adres jest poprawny — wyślij odpłatnie",
+    "dispatch.addressWarning":
+      "Nie udało się jednoznacznie zweryfikować adresu wynajmującego. Sprawdź go, zanim wyślesz list odpłatnie.",
+    "dispatch.showMarked": "Zobacz rozpoznany adres (PDF)",
+    "dispatch.fixAddress": "Popraw adres wynajmującego",
+    "dispatch.freeStays":
+      "Bezpłatne pobranie pozostaje dostępne w każdym przypadku.",
+    "dispatch.hint.kopf":
+      "Nie rozpoznano nagłówka listu. Adresy mogą przez to pojawić się ponownie w treści listu.",
+    "dispatch.hint.datum":
+      "W liście nie znaleziono wiersza z datą. Sprawdź, czy data znajduje się w tekście.",
+    "dispatch.hint.absender":
+      "Wiersz nadawcy został skrócony, aby zmieścił się w polu adresowym.",
+    "dispatch.error.allgemein":
+      "Wysyłka nie jest teraz możliwa. Spróbuj ponownie później.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Wysyłka pocztowa jest obecnie niedostępna. Pobierz zgłoszenie powyżej i wyślij je samodzielnie.",
+    "dispatch.error.zu_viele_anfragen":
+      "Podjęto zbyt wiele prób wysyłki. Spróbuj ponownie za godzinę.",
+    "dispatch.error.unvollstaendig":
+      "Brakuje danych. Wróć i uzupełnij swój adres, adres e-mail oraz adres wynajmującego.",
+    "dispatch.error.anschrift_zu_lang":
+      "Adres wynajmującego jest za długi na pole adresowe. Skróć nazwę, ulicę lub miejscowość — na przykład usuń dodatki typu „c/o” albo formę prawną.",
+    "dispatch.error.pdf_fehler":
+      "Nie udało się utworzyć listu. Narysuj podpis ponownie lub pomiń go i spróbuj jeszcze raz.",
+    "dispatch.error.ebrief_fehler":
+      "Nasz operator wysyłki chwilowo nie odpowiada. Spróbuj ponownie za kilka minut — nic nie zostało pobrane.",
+    "dispatch.error.preis_unplausibel":
+      "Tego listu nie można wysłać w podanej cenie, prawdopodobnie jest za długi. Skróć tekst i spróbuj ponownie.",
+    "dispatch.error.token_ungueltig":
+      "Ta wysyłka wygasła. Rozpocznij wysyłkę jeszcze raz.",
+    "dispatch.error.jobId_ungueltig":
+      "Nie znaleziono tej wysyłki. Rozpocznij wysyłkę jeszcze raz.",
+    "dispatch.error.kein_dokument":
+      "List jest jeszcze przetwarzany. Odczekaj chwilę i spróbuj ponownie.",
+    "dispatch.error.bereits_versendet":
+      "To zgłoszenie zostało już wysłane. Nie zostanie naliczona kolejna opłata.",
+    "dispatch.error.checkout_fehler":
+      "Nie udało się otworzyć strony płatności. Spróbuj ponownie — nic nie zostało pobrane.",
+    "dispatch.error.zeitueberschreitung":
+      "Sprawdzanie trwa dłużej niż zwykle. Spróbuj ponownie za kilka minut — nic nie zostało pobrane.",
   },
 };

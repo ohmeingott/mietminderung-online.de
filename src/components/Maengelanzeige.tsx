@@ -19,6 +19,7 @@ import type { Mangel } from "@/data/maengel";
 import { generatePdf } from "@/lib/generatePdf";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { mangelDescKey, mangelLabelKey } from "@/i18n/content";
+import VersandKarte from "./VersandKarte";
 
 interface MaengelanzeigeProps {
   selectedMaengel: Mangel[];
@@ -809,6 +810,24 @@ ${mieter.name}`;
                   </button>
                 </div>
               </div>
+
+              {/*
+                The paid alternative, below the free download and never instead
+                of it: if dispatch is unavailable the user still has the letter.
+              */}
+              <VersandKarte
+                text={editedBriefText}
+                signatureDataUrl={signatureData || undefined}
+                mieter={{
+                  name: mieter.name,
+                  strasse: mieter.strasse,
+                  plz: mieter.plz,
+                  ort: mieter.ort,
+                  email: mieter.email,
+                }}
+                vermieter={vermieter}
+                onAdresseKorrigieren={() => setStep(1)}
+              />
 
               <div className="mt-6 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4">
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-caution-600" aria-hidden />
