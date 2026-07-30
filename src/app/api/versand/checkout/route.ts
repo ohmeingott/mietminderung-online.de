@@ -1,5 +1,7 @@
+import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getJob } from "@/lib/ebrief/client";
+import { ebriefKonfiguriert } from "@/lib/ebrief/token";
 import { DISTRIBUTED_STATUSES } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import type { ProduktId } from "@/lib/ebrief/produkte";
@@ -26,6 +28,42 @@ const PRODUKTNAMEN: Record<ProduktId, string> = {
   brief: "Mängelanzeige als Brief",
   einwurfEinschreiben: "Mängelanzeige als Einwurf-Einschreiben",
 };
+
+/**
+ * Two clicks on the payment button must not become two payment pages. The
+ * webhook's only guard is the eBrief job status, so a second session that also
+ * gets paid takes money for a letter that cannot be posted twice, and nothing
+ * in the system would notice. Handing Stripe the same idempotency key returns
+ * the first session instead of creating another; the key lives 24 hours, which
+ * is also about how long a Checkout session is good for.
+ *
+ * Everything that shapes the session goes into the key, because Stripe refuses
+ * a reused key whose parameters differ — the refusal would reach the user as
+ * "checkout_fehler". The origin is in there for exactly that reason: a preview
+ * deployment builds different success and cancel URLs and must get its own key
+ * rather than collide with production's. The price and the tax behaviour are
+ * in there because both can change under a deployment while a key is still
+ * live; a change simply mints a new key.
+ *
+ * Hashed so the key stays well inside Stripe's 255 characters and cannot carry
+ * anything awkward out of an origin.
+ */
+function idempotenzSchluessel(merkmale: {
+  jobId: number;
+  produktId: ProduktId;
+  preisCent: number;
+  taxBehavior: string | undefined;
+  origin: string;
+}): string {
+  const roh = [
+    merkmale.jobId,
+    merkmale.produktId,
+    merkmale.preisCent,
+    merkmale.taxBehavior ?? "ohne",
+    merkmale.origin,
+  ].join("|");
+  return `versand-${createHash("sha256").update(roh).digest("hex")}`;
+}
 
 /** The body is untrusted JSON, so every field arrives as `unknown`. */
 interface CheckoutBody {
@@ -77,9 +115,17 @@ function pruefeZugangAusBody(
  * ships in six languages and the UI translates the slugs via src/i18n.
  */
 export async function POST(request: Request) {
-  // No Stripe key, or no secret to check the job token with, means the site
-  // simply keeps working as a free download.
-  if (!stripeKonfiguriert() || !versandTokenKonfiguriert()) {
+  // No Stripe key, no eBrief credentials, or no secret to check the job token
+  // with, means the site simply keeps working as a free download. eBrief is
+  // part of the gate even though only Stripe is called on the happy path: the
+  // job lookup below needs those credentials, and without them the user would
+  // get a transient-looking "checkout_fehler" for what is a static
+  // misconfiguration the other dispatch routes report as 503.
+  if (
+    !stripeKonfiguriert() ||
+    !ebriefKonfiguriert() ||
+    !versandTokenKonfiguriert()
+  ) {
     return NextResponse.json(
       { fehler: "versand_nicht_konfiguriert" },
       { status: 503 }
@@ -131,30 +177,44 @@ export async function POST(request: Request) {
     }
 
     const origin = new URL(request.url).origin;
-    const session = await stripe().checkout.sessions.create({
-      mode: "payment",
-      line_items: [
-        {
-          quantity: 1,
-          price_data: {
-            currency: "eur",
-            unit_amount: produkt.preisCent,
-            // Under § 19 UStG no tax may be stated, and stripeTaxBehavior()
-            // returns undefined for exactly that case. Passed through as-is:
-            // naming any behaviour here would put a tax statement on the
-            // payment page that § 14c UStG would then oblige us to remit.
-            tax_behavior: stripeTaxBehavior(),
-            product_data: { name: PRODUKTNAMEN[produkt.id] },
+    // Under § 19 UStG this is undefined and must stay undefined — see below.
+    const taxBehavior = stripeTaxBehavior();
+
+    const session = await stripe().checkout.sessions.create(
+      {
+        mode: "payment",
+        line_items: [
+          {
+            quantity: 1,
+            price_data: {
+              currency: "eur",
+              unit_amount: produkt.preisCent,
+              // Under § 19 UStG no tax may be stated, and stripeTaxBehavior()
+              // returns undefined for exactly that case. Passed through as-is:
+              // naming any behaviour here would put a tax statement on the
+              // payment page that § 14c UStG would then oblige us to remit.
+              tax_behavior: taxBehavior,
+              product_data: { name: PRODUKTNAMEN[produkt.id] },
+            },
           },
-        },
-      ],
-      // All the webhook gets. It has no database to look anything up in, so
-      // the jobId travelling with the payment is what connects the money to
-      // the letter; the produktId rides along for logs and support.
-      metadata: { jobId: String(gepruefteJobId), produktId: produkt.id },
-      success_url: `${origin}/mietminderung?versand=erfolg`,
-      cancel_url: `${origin}/mietminderung?versand=abbruch`,
-    });
+        ],
+        // All the webhook gets. It has no database to look anything up in, so
+        // the jobId travelling with the payment is what connects the money to
+        // the letter; the produktId rides along for logs and support.
+        metadata: { jobId: String(gepruefteJobId), produktId: produkt.id },
+        success_url: `${origin}/mietminderung?versand=erfolg`,
+        cancel_url: `${origin}/mietminderung?versand=abbruch`,
+      },
+      {
+        idempotencyKey: idempotenzSchluessel({
+          jobId: gepruefteJobId,
+          produktId: produkt.id,
+          preisCent: produkt.preisCent,
+          taxBehavior,
+          origin,
+        }),
+      }
+    );
 
     if (!session.url) {
       // Only happens for session types we do not create (embedded checkout),
