@@ -275,16 +275,24 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.fixAddress": "Anschrift des Vermieters korrigieren",
     "dispatch.freeStays":
       "Der kostenlose Download bleibt Ihnen in jedem Fall erhalten.",
-    // Return from the payment page. "erfolg" means Stripe accepted the
-    // payment; printing and posting happen afterwards in the webhook, so the
-    // wording must stay in the future tense — "wurde versendet" would promise
-    // more than is known at this moment.
+    // The two pages Stripe returns the payer to (/versand/erfolg and
+    // /versand/abbruch). "erfolg" means Stripe accepted the payment; printing
+    // and posting happen afterwards in the webhook, so the wording must stay
+    // in the future tense — "wurde versendet" would promise more than is known
+    // at this moment. Both pages also say plainly that the draft is gone: the
+    // letter never leaves the browser tab, and the round trip to Stripe ends
+    // that tab's state.
     "dispatch.result.erfolg.title": "Zahlung erfolgreich",
     "dispatch.result.erfolg.text":
-      "Vielen Dank. Ihre Mängelanzeige wird jetzt gedruckt und per Post an Ihren Vermieter versendet. Die Bestätigung erhalten Sie per E-Mail.",
+      "Vielen Dank — Ihre Zahlung ist eingegangen. Ihre Mängelanzeige wird jetzt gedruckt und per Post an Ihren Vermieter versendet.",
+    "dispatch.result.erfolg.note":
+      "Die Bestätigung erhalten Sie per E-Mail an die Adresse, die Sie beim Versand angegeben haben. Sie müssen dafür nichts weiter tun. Ihre Mängelanzeige wird aus Datenschutzgründen nicht in Ihrem Browser gespeichert und lässt sich hier deshalb nicht noch einmal anzeigen.",
     "dispatch.result.abbruch.title": "Zahlung abgebrochen",
     "dispatch.result.abbruch.text":
-      "Es wurde nichts versendet und nichts berechnet. Sie können den Versand jederzeit erneut starten oder die Mängelanzeige kostenlos herunterladen.",
+      "Es wurde nichts versendet und nichts berechnet.",
+    "dispatch.result.abbruch.note":
+      "Ihre Mängelanzeige wird aus Datenschutzgründen nicht in Ihrem Browser gespeichert und steht deshalb nicht mehr zur Verfügung. Wenn Sie sie versenden oder kostenlos herunterladen möchten, füllen Sie das Formular bitte noch einmal aus — das dauert nur wenige Minuten.",
+    "dispatch.result.restartCta": "Mängelanzeige neu erstellen",
     "dispatch.hint.kopf":
       "Der Briefkopf wurde nicht erkannt. Die Anschriften erscheinen deshalb möglicherweise zusätzlich im Brieftext.",
     "dispatch.hint.datum":
@@ -542,10 +550,15 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.freeStays": "Ücretsiz indirme her durumda kullanılabilir kalır.",
     "dispatch.result.erfolg.title": "Ödeme başarılı",
     "dispatch.result.erfolg.text":
-      "Teşekkür ederiz. Kusur bildiriminiz şimdi yazdırılıp posta ile ev sahibinize gönderilecek. Onayı e-posta ile alacaksınız.",
+      "Teşekkür ederiz — ödemeniz alındı. Kusur bildiriminiz şimdi yazdırılıp posta ile ev sahibinize gönderilecek.",
+    "dispatch.result.erfolg.note":
+      "Onayı, gönderim sırasında verdiğiniz e-posta adresine alacaksınız. Bunun için başka bir şey yapmanız gerekmiyor. Kusur bildiriminiz veri koruma nedeniyle tarayıcınızda saklanmaz, bu yüzden burada tekrar gösterilemez.",
     "dispatch.result.abbruch.title": "Ödeme iptal edildi",
     "dispatch.result.abbruch.text":
-      "Hiçbir şey gönderilmedi ve hiçbir ücret tahsil edilmedi. Gönderimi istediğiniz zaman yeniden başlatabilir veya kusur bildirimini ücretsiz indirebilirsiniz.",
+      "Hiçbir şey gönderilmedi ve hiçbir ücret tahsil edilmedi.",
+    "dispatch.result.abbruch.note":
+      "Kusur bildiriminiz veri koruma nedeniyle tarayıcınızda saklanmaz ve bu nedenle artık kullanılamıyor. Göndermek veya ücretsiz indirmek isterseniz lütfen formu yeniden doldurun — bu yalnızca birkaç dakika sürer.",
+    "dispatch.result.restartCta": "Kusur bildirimini yeniden oluştur",
     "dispatch.hint.kopf":
       "Mektup başlığı tanınamadı. Bu nedenle adresler mektup metninde ikinci kez görünebilir.",
     "dispatch.hint.datum":
@@ -802,10 +815,15 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Безкоштовне завантаження залишається доступним у будь-якому разі.",
     "dispatch.result.erfolg.title": "Оплата успішна",
     "dispatch.result.erfolg.text":
-      "Дякуємо. Ваше повідомлення про дефекти буде надруковано та надіслано поштою вашому орендодавцю. Підтвердження ви отримаєте електронною поштою.",
+      "Дякуємо — ваш платіж надійшов. Ваше повідомлення про дефекти буде надруковано та надіслано поштою вашому орендодавцю.",
+    "dispatch.result.erfolg.note":
+      "Підтвердження ви отримаєте електронною поштою на адресу, яку вказали під час надсилання. Більше нічого робити не потрібно. З міркувань захисту даних ваше повідомлення про дефекти не зберігається у браузері, тому показати його тут ще раз неможливо.",
     "dispatch.result.abbruch.title": "Оплату скасовано",
     "dispatch.result.abbruch.text":
-      "Нічого не було надіслано і нічого не було нараховано. Ви можете будь-коли розпочати надсилання знову або безкоштовно завантажити повідомлення про дефекти.",
+      "Нічого не було надіслано і нічого не було нараховано.",
+    "dispatch.result.abbruch.note":
+      "З міркувань захисту даних ваше повідомлення про дефекти не зберігається у браузері й тому більше недоступне. Якщо ви хочете його надіслати або безкоштовно завантажити, будь ласка, заповніть форму ще раз — це займе лише кілька хвилин.",
+    "dispatch.result.restartCta": "Створити повідомлення про дефекти заново",
     "dispatch.hint.kopf":
       "Шапку листа не розпізнано. Тому адреси можуть з’явитися ще раз у тексті листа.",
     "dispatch.hint.datum":
@@ -1060,10 +1078,15 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Бесплатная загрузка остаётся доступной в любом случае.",
     "dispatch.result.erfolg.title": "Оплата прошла успешно",
     "dispatch.result.erfolg.text":
-      "Спасибо. Ваше уведомление о дефектах будет напечатано и отправлено почтой вашему арендодателю. Подтверждение вы получите по электронной почте.",
+      "Спасибо — ваш платёж получен. Ваше уведомление о дефектах будет напечатано и отправлено почтой вашему арендодателю.",
+    "dispatch.result.erfolg.note":
+      "Подтверждение вы получите по электронной почте на адрес, который указали при отправке. Больше ничего делать не нужно. В целях защиты данных ваше уведомление о дефектах не сохраняется в браузере, поэтому показать его здесь ещё раз невозможно.",
     "dispatch.result.abbruch.title": "Оплата отменена",
     "dispatch.result.abbruch.text":
-      "Ничего не было отправлено и ничего не было списано. Вы можете в любой момент начать отправку заново или бесплатно скачать уведомление о дефектах.",
+      "Ничего не было отправлено и ничего не было списано.",
+    "dispatch.result.abbruch.note":
+      "В целях защиты данных ваше уведомление о дефектах не сохраняется в браузере и поэтому больше недоступно. Если вы хотите его отправить или бесплатно скачать, пожалуйста, заполните форму ещё раз — это займёт всего несколько минут.",
+    "dispatch.result.restartCta": "Создать уведомление о дефектах заново",
     "dispatch.hint.kopf":
       "Шапка письма не распознана. Поэтому адреса могут появиться ещё раз в тексте письма.",
     "dispatch.hint.datum":
@@ -1316,10 +1339,14 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.freeStays": "يبقى التنزيل المجاني متاحاً في كل الأحوال.",
     "dispatch.result.erfolg.title": "تم الدفع بنجاح",
     "dispatch.result.erfolg.text":
-      "شكراً لك. سيتم الآن طباعة إشعار العيب وإرساله بالبريد إلى مالك العقار. وستصلك رسالة التأكيد عبر البريد الإلكتروني.",
+      "شكراً لك — تم استلام دفعتك. سيتم الآن طباعة إشعار العيب وإرساله بالبريد إلى مالك العقار.",
+    "dispatch.result.erfolg.note":
+      "ستصلك رسالة التأكيد عبر البريد الإلكتروني على العنوان الذي أدخلته عند الإرسال. لا يلزمك فعل أي شيء آخر. لأسباب تتعلق بحماية البيانات لا يُحفظ إشعار العيب في متصفحك، ولذلك لا يمكن عرضه هنا مرة أخرى.",
     "dispatch.result.abbruch.title": "تم إلغاء الدفع",
-    "dispatch.result.abbruch.text":
-      "لم يتم إرسال أي شيء ولم يتم خصم أي مبلغ. يمكنك بدء الإرسال من جديد في أي وقت أو تنزيل إشعار العيب مجاناً.",
+    "dispatch.result.abbruch.text": "لم يتم إرسال أي شيء ولم يتم خصم أي مبلغ.",
+    "dispatch.result.abbruch.note":
+      "لأسباب تتعلق بحماية البيانات لا يُحفظ إشعار العيب في متصفحك، ولذلك لم يعد متاحاً. إذا كنت تريد إرساله أو تنزيله مجاناً، يرجى تعبئة النموذج من جديد — لن يستغرق ذلك سوى بضع دقائق.",
+    "dispatch.result.restartCta": "إنشاء إشعار العيب من جديد",
     "dispatch.hint.kopf":
       "تعذّر التعرف على ترويسة الخطاب، لذلك قد تظهر العناوين مرة أخرى داخل نص الخطاب.",
     "dispatch.hint.datum":
@@ -1573,10 +1600,15 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Bezpłatne pobranie pozostaje dostępne w każdym przypadku.",
     "dispatch.result.erfolg.title": "Płatność zakończona pomyślnie",
     "dispatch.result.erfolg.text":
-      "Dziękujemy. Twoje zgłoszenie usterki zostanie teraz wydrukowane i wysłane pocztą do wynajmującego. Potwierdzenie otrzymasz e-mailem.",
+      "Dziękujemy — Twoja płatność wpłynęła. Twoje zgłoszenie usterki zostanie teraz wydrukowane i wysłane pocztą do wynajmującego.",
+    "dispatch.result.erfolg.note":
+      "Potwierdzenie otrzymasz e-mailem na adres podany przy wysyłce. Nie musisz robić nic więcej. Ze względu na ochronę danych Twoje zgłoszenie usterki nie jest zapisywane w przeglądarce i dlatego nie można go tu ponownie wyświetlić.",
     "dispatch.result.abbruch.title": "Płatność anulowana",
     "dispatch.result.abbruch.text":
-      "Nic nie zostało wysłane i nic nie zostało naliczone. Możesz w każdej chwili rozpocząć wysyłkę ponownie lub bezpłatnie pobrać zgłoszenie usterki.",
+      "Nic nie zostało wysłane i nic nie zostało naliczone.",
+    "dispatch.result.abbruch.note":
+      "Ze względu na ochronę danych Twoje zgłoszenie usterki nie jest zapisywane w przeglądarce i dlatego nie jest już dostępne. Jeśli chcesz je wysłać lub bezpłatnie pobrać, wypełnij formularz jeszcze raz — zajmie to tylko kilka minut.",
+    "dispatch.result.restartCta": "Utwórz zgłoszenie usterki od nowa",
     "dispatch.hint.kopf":
       "Nie rozpoznano nagłówka listu. Adresy mogą przez to pojawić się ponownie w treści listu.",
     "dispatch.hint.datum":

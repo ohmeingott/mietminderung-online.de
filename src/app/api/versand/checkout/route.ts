@@ -251,8 +251,14 @@ export async function POST(request: Request) {
         // the jobId travelling with the payment is what connects the money to
         // the letter; the produktId rides along for logs and support.
         metadata: { jobId: String(gepruefteJobId), produktId: produkt.id },
-        success_url: `${basis}/mietminderung?versand=erfolg`,
-        cancel_url: `${basis}/mietminderung?versand=abbruch`,
+        // Two pages of their own, not a query parameter on a wizard step: the
+        // letter wizard lives in React state that the full-page trip to Stripe
+        // destroys, so a returning payer cannot be shown their draft again.
+        // See src/app/versand/VersandErgebnis.tsx. Nothing identifying the job
+        // travels in these URLs — Stripe stores them, and the capability token
+        // has no business in a third party's dashboard.
+        success_url: `${basis}/versand/erfolg`,
+        cancel_url: `${basis}/versand/abbruch`,
       },
       {
         idempotencyKey: idempotenzSchluessel({

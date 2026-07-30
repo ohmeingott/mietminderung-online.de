@@ -54,21 +54,12 @@ interface MangelDetails {
 const TOTAL_STEPS = 5;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/**
- * The two outcomes the payment page sends the payer back with, in the
- * `versand` query parameter that src/app/api/versand/checkout/route.ts builds
- * into its success and cancel URLs.
- *
- * Nothing else is accepted. The parameter is whatever the address bar says, so
- * an unchecked value would let any link put a sentence about money in front of
- * the user — "erfolg" in particular claims a payment that may never have
- * happened.
+/*
+ * The return from the payment page is not handled here. Stripe sends the payer
+ * to /versand/erfolg and /versand/abbruch, which are pages of their own — this
+ * wizard's state does not survive a full-page navigation, so there is nothing
+ * for it to return to. See src/app/versand/VersandErgebnis.tsx.
  */
-type VersandErgebnis = "erfolg" | "abbruch";
-
-function istVersandErgebnis(wert: string | null): wert is VersandErgebnis {
-  return wert === "erfolg" || wert === "abbruch";
-}
 
 const inputClasses =
   "w-full min-h-[3rem] rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 py-3 text-ink-900 transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:outline-none";
@@ -107,9 +98,6 @@ export default function Maengelanzeige({
   const [enhancing, setEnhancing] = useState(false);
   const [editedBriefText, setEditedBriefText] = useState("");
   const [emailOptIn, setEmailOptIn] = useState(false);
-  const [versandErgebnis, setVersandErgebnis] = useState<VersandErgebnis | null>(
-    null
-  );
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const signaturePadRef = useRef<SignaturePad | null>(null);
@@ -184,39 +172,6 @@ Mit freundlichen Grüßen
 ${mieter.name}`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMaengel, mangelDetails, mieter, vermieter]);
-
-  /**
-   * The return from the payment page. Stripe sends the payer back to a plain
-   * URL carrying `versand=erfolg` or `versand=abbruch`; without this the user
-   * would land on a page that behaves as though they had never left.
-   *
-   * Runs once, on mount, and jumps to the delivery step so the message appears
-   * where the user pressed the button — not at the top of an empty form.
-   *
-   * The parameter is then dropped from the address bar, because it is the only
-   * thing that decides whether the message shows: left in place, a reload — or
-   * a bookmark, or a shared link — would keep claiming a payment that happened
-   * once, or never. Only our own parameter is removed; anything else the user
-   * arrived with (a campaign parameter, an anchor) is theirs and stays.
-   */
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const wert = url.searchParams.get("versand");
-    if (!istVersandErgebnis(wert)) return;
-
-    setVersandErgebnis(wert);
-    setStep(4);
-
-    url.searchParams.delete("versand");
-    // The router's own history state is passed through untouched: replacing it
-    // with null would leave the App Router unable to restore this entry on a
-    // back navigation.
-    window.history.replaceState(
-      window.history.state,
-      "",
-      `${url.pathname}${url.search}${url.hash}`
-    );
-  }, []);
 
   useEffect(() => {
     if (step === 3) setEditedBriefText(generateBriefText());
@@ -823,55 +778,6 @@ ${mieter.name}`;
           {/* ---------------------------------------------- step 4: download */}
           {step === 4 && (
             <div className="animate-fade-in-up">
-              {/*
-                Above everything else: the user came back from the payment page
-                for this answer. "erfolg" means Stripe accepted the payment —
-                the letter is printed and posted afterwards, by the webhook, so
-                the wording stays in the future tense. Claiming it had already
-                gone out would be a promise nothing here can keep.
-              */}
-              {versandErgebnis === "erfolg" && (
-                <div
-                  data-testid="dispatch-result-erfolg"
-                  role="status"
-                  className="mb-6 flex items-start gap-3 rounded-[var(--radius-field)] border border-signal-600/20 bg-signal-50 p-4"
-                >
-                  <CheckCircle2
-                    className="mt-0.5 h-5 w-5 shrink-0 text-signal-600"
-                    aria-hidden
-                  />
-                  <div>
-                    <p className="font-semibold text-signal-700">
-                      {t("dispatch.result.erfolg.title")}
-                    </p>
-                    <p className="mt-1 text-sm text-signal-700">
-                      {t("dispatch.result.erfolg.text")}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {versandErgebnis === "abbruch" && (
-                <div
-                  data-testid="dispatch-result-abbruch"
-                  role="status"
-                  className="mb-6 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4"
-                >
-                  <Info
-                    className="mt-0.5 h-5 w-5 shrink-0 text-caution-600"
-                    aria-hidden
-                  />
-                  <div>
-                    <p className="font-semibold text-caution-600">
-                      {t("dispatch.result.abbruch.title")}
-                    </p>
-                    <p className="mt-1 text-sm text-caution-600">
-                      {t("dispatch.result.abbruch.text")}
-                    </p>
-                  </div>
-                </div>
-              )}
-
               <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
                 {t("letter.howReceive")}
               </h3>
