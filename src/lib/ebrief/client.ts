@@ -20,12 +20,14 @@ export class EbriefError extends Error {
 /**
  * The single place that talks to eBrief. A 401 can mean the cached token was
  * invalidated server-side, so retry once with a fresh one before giving up.
+ * Returns the raw response text (which may be empty) so the two callers
+ * below can decide separately whether an empty body is acceptable.
  */
-async function call<T>(
+async function request(
   path: string,
   init: { method: string; body?: unknown },
   retryOn401 = true
-): Promise<T> {
+): Promise<{ status: number; text: string }> {
   const token = await getToken();
   const res = await fetch(`${ebriefBaseUrl()}${path}`, {
     method: init.method,
@@ -38,7 +40,7 @@ async function call<T>(
 
   if (res.status === 401 && retryOn401) {
     invalidateToken();
-    return call<T>(path, init, false);
+    return request(path, init, false);
   }
 
   const text = await res.text();
@@ -46,13 +48,74 @@ async function call<T>(
     throw new EbriefError(`eBrief ${init.method} ${path} failed`, res.status, text);
   }
 
-  if (!text) return undefined as T;
+  return { status: res.status, text };
+}
 
-  const parsed = JSON.parse(text) as EbriefEnvelope<T>;
+/**
+ * Parses the envelope, guarding against a 2xx response that isn't actually
+ * JSON (e.g. an HTML proxy error page) — without this, a bad gateway would
+ * surface as a bare "Unexpected token <" with no indication it came from eBrief.
+ */
+function parseEnvelope<T>(
+  text: string,
+  method: string,
+  path: string,
+  status: number
+): EbriefEnvelope<T> {
+  try {
+    return JSON.parse(text) as EbriefEnvelope<T>;
+  } catch {
+    throw new EbriefError(
+      `eBrief ${method} ${path} returned a non-JSON body`,
+      status,
+      text
+    );
+  }
+}
+
+/**
+ * For endpoints whose payload the caller actually needs. An empty body is
+ * treated as a failure — returning `undefined` typed as `T` would let a
+ * blank response masquerade as a real object and blow up later at whatever
+ * property the caller reads first, with no trace back to eBrief.
+ */
+async function call<T>(
+  path: string,
+  init: { method: string; body?: unknown }
+): Promise<T> {
+  const { status, text } = await request(path, init);
+
+  if (!text) {
+    throw new EbriefError(
+      `eBrief ${init.method} ${path} returned an empty body`,
+      status
+    );
+  }
+
+  const parsed = parseEnvelope<T>(text, init.method, path, status);
   if (parsed.ErrorMessage) {
-    throw new EbriefError(parsed.ErrorMessage, res.status, text);
+    throw new EbriefError(parsed.ErrorMessage, status, text);
   }
   return parsed.Result;
+}
+
+/**
+ * For endpoints whose result the caller doesn't need (e.g. "commit this job").
+ * An empty body is fine here, but if the API DOES send one back, it must
+ * still be parsed and checked for `ErrorMessage` — a failure reported in the
+ * envelope must not be swallowed just because the caller ignores the result.
+ */
+async function callVoid(
+  path: string,
+  init: { method: string; body?: unknown }
+): Promise<void> {
+  const { status, text } = await request(path, init);
+  if (!text) return;
+
+  const parsed = parseEnvelope<unknown>(text, init.method, path, status);
+  if (parsed.ErrorMessage) {
+    throw new EbriefError(parsed.ErrorMessage, status, text);
+  }
 }
 
 export interface JobAttributes {
@@ -71,31 +134,31 @@ export function addFile(
   jobId: number,
   fileName: string,
   base64Content: string
-): Promise<unknown> {
-  return call("/jobs/" + jobId + "/singleFiles", {
+): Promise<void> {
+  return callVoid("/jobs/" + jobId + "/singleFiles", {
     method: "POST",
     body: { Document: { FileName: fileName, FileContent: base64Content } },
   });
 }
 
-export function commitJob(jobId: number): Promise<unknown> {
-  return call(`/jobs/${jobId}`, { method: "PUT", body: { IsRollback: false } });
+export function commitJob(jobId: number): Promise<void> {
+  return callVoid(`/jobs/${jobId}`, { method: "PUT", body: { IsRollback: false } });
 }
 
 export function getJob(jobId: number): Promise<EbriefJob> {
   return call<EbriefJob>(`/jobs/${jobId}`, { method: "GET" });
 }
 
-export function distribute(jobId: number): Promise<unknown> {
-  return call("/jobs/distribution", { method: "POST", body: { Ids: [jobId] } });
+export function distribute(jobId: number): Promise<void> {
+  return callVoid("/jobs/distribution", { method: "POST", body: { Ids: [jobId] } });
 }
 
-export function confirmDocs(docIds: number[]): Promise<unknown> {
-  return call("/docs/confirmation", { method: "POST", body: { Ids: docIds } });
+export function confirmDocs(docIds: number[]): Promise<void> {
+  return callVoid("/docs/confirmation", { method: "POST", body: { Ids: docIds } });
 }
 
-export function deleteJob(jobId: number): Promise<unknown> {
-  return call(`/jobs/${jobId}`, { method: "DELETE" });
+export function deleteJob(jobId: number): Promise<void> {
+  return callVoid(`/jobs/${jobId}`, { method: "DELETE" });
 }
 
 /**
@@ -128,12 +191,26 @@ export function getPrice(opts: {
   });
 }
 
-/** Raw PDF bytes with the address zone that eBrief detected marked up. */
-export async function getFileWithMark(docId: number): Promise<ArrayBuffer> {
+/**
+ * Raw PDF bytes with the address zone that eBrief detected marked up.
+ * Shares the same 401-retry tolerance as every other call: the cached token
+ * may have been invalidated server-side, so we refresh and try once more
+ * before giving up (the `retryOn401` flag bounds this to a single retry).
+ */
+export async function getFileWithMark(
+  docId: number,
+  retryOn401 = true
+): Promise<ArrayBuffer> {
   const token = await getToken();
   const res = await fetch(`${ebriefBaseUrl()}/docs/${docId}/fileWithMark`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+
+  if (res.status === 401 && retryOn401) {
+    invalidateToken();
+    return getFileWithMark(docId, false);
+  }
+
   if (!res.ok) {
     throw new EbriefError("fileWithMark failed", res.status);
   }
