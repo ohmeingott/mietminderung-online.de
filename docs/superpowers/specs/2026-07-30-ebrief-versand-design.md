@@ -318,6 +318,25 @@ bestätigen und der Brief ginge an eine Adresse, die die Prüfung beanstandet ha
 Wir zeigen die Warnung stattdessen im UI und lassen den Nutzer entscheiden.
 `AdressCheck` bleibt beim Default `true`.
 
+### Signierte Job-Ids
+
+Die Statusabfrage und die Adressvorschau waren im ursprünglichen Entwurf
+unauthentifiziert und über die von eBrief vergebenen fortlaufenden Ganzzahlen
+adressiert. Das war ein Fehler im Entwurf: `status` hätte für jede Zahl
+verraten, ob ein Job existiert, und eine `docId` mitgeliefert; die
+Adressvorschau hätte daraus das fertige Brief-PDF gerendert — mit Namen und
+Anschriften beider Parteien, der Mangelbeschreibung und der Unterschrift.
+Durchzählen hätte genügt, um das massenhaft abzugreifen.
+
+Deshalb: `POST /api/versand/vorbereiten` gibt neben der `jobId` ein per HMAC
+signiertes, nach einer Stunde ablaufendes Token aus. Beide GET-Routen
+verlangen es und vergleichen zeitkonstant. Die Adressvorschau nimmt **keine
+`docId` mehr entgegen**, sondern löst das Dokument serverseitig aus der
+signierten `jobId` auf — ein Token nur auf der Statusroute hätte die
+PDF-Auslieferung offen gelassen. Fehlt `VERSAND_TOKEN_SECRET`, gilt der
+Versand als nicht konfiguriert; eine Sicherheitsmaßnahme, die sich bei
+fehlender Konfiguration stillschweigend abschaltet, ist schlechter als keine.
+
 ### Missbrauchsschutz
 
 `/api/versand/vorbereiten` legt bei jedem Aufruf einen Job bei eBrief an. Die
@@ -335,6 +354,7 @@ Missbrauch auf API-Rauschen begrenzt, das der Cleanup-Cron abräumt.
 | `STRIPE_SECRET_KEY` | Stripe API-Key |
 | `STRIPE_WEBHOOK_SECRET` | Signaturprüfung des Webhooks |
 | `CRON_SECRET` | schützt die Cleanup-Route |
+| `VERSAND_TOKEN_SECRET` | signiert die Job-Ids für Statusabfrage und Adressvorschau |
 | `STEUERMODUS` | `kleinunternehmer` (Default) oder `regel` — steuert Steuerhinweis und Stripe-`tax_behavior` |
 
 `.env.example` wird entsprechend ergänzt. Der dortige Hinweis „The site is
