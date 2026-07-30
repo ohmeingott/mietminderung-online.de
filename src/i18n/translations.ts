@@ -34,7 +34,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Weniger Miete zahlen",
     "hero.title3": "ist Ihr Recht.",
     "hero.subtitle":
-      "Prüfen Sie in 2 Minuten kostenlos, ob Sie Anspruch auf Mietminderung haben — und erstellen Sie direkt eine rechtssichere Mängelanzeige für Ihren Vermieter.",
+      "In 2 Minuten kostenlos prüfen — inklusive fertiger Mängelanzeige für Ihren Vermieter.",
     "hero.cta1": "Anspruch kostenlos prüfen",
     "hero.cta2": "Mängelanzeige erstellen",
     "hero.trust1": "100% kostenlos — keine versteckten Kosten",
@@ -66,7 +66,6 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Check
     "check.title": "Haben Sie Anspruch auf Mietminderung?",
-    "check.subtitle": "Beantworten Sie ein paar Fragen — wir prüfen Ihren Anspruch kostenlos.",
     "check.question": "Frage",
     "check.of": "von",
     "check.step": "Schritt",
@@ -265,7 +264,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Daha az kira ödemek",
     "hero.title3": "sizin hakkınız.",
     "hero.subtitle":
-      "2 dakikada ücretsiz olarak kira indirimi hakkınız olup olmadığını kontrol edin — ve ev sahibiniz için hemen yasal olarak geçerli bir kusur bildirimi oluşturun.",
+      "2 dakikada ücretsiz kontrol — ev sahibiniz için hazır kusur bildirimi dahil.",
     "hero.cta1": "Hakkınızı ücretsiz kontrol edin",
     "hero.cta2": "Kusur bildirimi oluştur",
     "hero.trust1": "100% ücretsiz — gizli maliyet yok",
@@ -290,7 +289,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.desc":
       "Hazır kusur bildirimini PDF veya metin dosyası olarak indirin — ücretsiz ve kayıt gerektirmez. Ev sahibinize göndermeyi kendiniz yaparsınız.",
     "check.title": "Kira indirimi hakkınız var mı?",
-    "check.subtitle": "Birkaç soruyu yanıtlayın — hakkınızı ücretsiz kontrol edelim.",
     "check.question": "Soru",
     "check.of": "/",
     "check.step": "Adım",
@@ -464,7 +462,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Платити менше оренди",
     "hero.title3": "— ваше право.",
     "hero.subtitle":
-      "Перевірте безкоштовно за 2 хвилини, чи маєте ви право на зниження орендної плати — і одразу створіть юридично обґрунтоване повідомлення про дефект для орендодавця.",
+      "Безкоштовна перевірка за 2 хвилини — з готовим повідомленням про дефект.",
     "hero.cta1": "Безкоштовно перевірити право",
     "hero.cta2": "Створити повідомлення про дефект",
     "hero.trust1": "100% безкоштовно — без прихованих витрат",
@@ -489,7 +487,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.desc":
       "Завантажте готове повідомлення про недоліки у форматі PDF або текстового файлу — безкоштовно й без реєстрації. Надсилання орендодавцю ви виконуєте самостійно.",
     "check.title": "Чи маєте ви право на зниження оренди?",
-    "check.subtitle": "Дайте відповідь на кілька запитань — ми безкоштовно перевіримо ваше право.",
     "check.question": "Питання",
     "check.of": "з",
     "check.step": "Крок",
@@ -661,7 +658,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Платить меньше аренды",
     "hero.title3": "— ваше право.",
     "hero.subtitle":
-      "Проверьте бесплатно за 2 минуты, имеете ли вы право на снижение арендной платы — и сразу создайте юридически обоснованное уведомление о дефекте для арендодателя.",
+      "Бесплатная проверка за 2 минуты — с готовым уведомлением о дефекте.",
     "hero.cta1": "Бесплатно проверить право",
     "hero.cta2": "Создать уведомление о дефекте",
     "hero.trust1": "100% бесплатно — без скрытых расходов",
@@ -686,7 +683,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.desc":
       "Скачайте готовое уведомление о недостатках в формате PDF или текстового файла — бесплатно и без регистрации. Отправку арендодателю вы выполняете сами.",
     "check.title": "Есть ли у вас право на снижение аренды?",
-    "check.subtitle": "Ответьте на несколько вопросов — мы бесплатно проверим ваше право.",
     "check.question": "Вопрос",
     "check.of": "из",
     "check.step": "Шаг",
@@ -856,7 +852,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "دفع إيجار أقل",
     "hero.title3": "هو حقك.",
     "hero.subtitle":
-      "تحقق مجاناً خلال دقيقتين مما إذا كان لديك الحق في تخفيض الإيجار — وأنشئ فوراً إشعاراً قانونياً بالعيب للمؤجر.",
+      "تحقق مجاناً خلال دقيقتين — مع إشعار عيب جاهز للمؤجر.",
     "hero.cta1": "تحقق من حقك مجاناً",
     "hero.cta2": "إنشاء إشعار بالعيب",
     "hero.trust1": "مجاني 100% — بدون تكاليف مخفية",
@@ -881,7 +877,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.desc":
       "حمّل إشعار العيوب الجاهز بصيغة PDF أو ملف نصي — مجاناً ودون تسجيل. أنت من يتولى إرساله إلى المؤجر.",
     "check.title": "هل لديك الحق في تخفيض الإيجار؟",
-    "check.subtitle": "أجب عن بعض الأسئلة — نتحقق من حقك مجاناً.",
     "check.question": "السؤال",
     "check.of": "من",
     "check.step": "الخطوة",
@@ -1051,7 +1046,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Płacić mniej czynszu",
     "hero.title3": "to Twoje prawo.",
     "hero.subtitle":
-      "Sprawdź bezpłatnie w 2 minuty, czy masz prawo do obniżki czynszu — i od razu utwórz prawnie wiążące zgłoszenie usterki dla wynajmującego.",
+      "Bezpłatne sprawdzenie w 2 minuty — z gotowym zgłoszeniem usterki.",
     "hero.cta1": "Bezpłatnie sprawdź prawo",
     "hero.cta2": "Utwórz zgłoszenie usterki",
     "hero.trust1": "100% bezpłatnie — bez ukrytych kosztów",
@@ -1076,7 +1071,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.desc":
       "Pobierz gotowe zgłoszenie wad w formacie PDF lub pliku tekstowego — bezpłatnie i bez rejestracji. Wysyłkę do wynajmującego wykonujesz samodzielnie.",
     "check.title": "Czy masz prawo do obniżki czynszu?",
-    "check.subtitle": "Odpowiedz na kilka pytań — bezpłatnie sprawdzimy Twoje prawo.",
     "check.question": "Pytanie",
     "check.of": "z",
     "check.step": "Krok",

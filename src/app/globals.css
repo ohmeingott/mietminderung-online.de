@@ -151,6 +151,30 @@ input[type="number"] {
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Entry cue on the very first answer the user is meant to give: a slow,
+   low-contrast ring that breathes until the check is touched. Both options
+   share one timing so neither answer is visually favoured. */
+@keyframes startCue {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brand-500) 0%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 5px
+      color-mix(in srgb, var(--color-brand-500) 14%, transparent);
+  }
+}
+
+.start-cue {
+  animation: startCue 2.4s ease-in-out 0.9s infinite;
+}
+
+/* The cue has done its job the moment the pointer or keyboard arrives. */
+.start-cue:hover,
+.start-cue:focus-visible {
+  animation: none;
+}
+
 .card-hover {
   transition:
     transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
@@ -192,6 +216,13 @@ input[type="number"] {
 /* Fine hairline used to separate sections without a heavy border. */
 .hairline {
   border-color: color-mix(in srgb, var(--color-ink-900) 10%, transparent);
+}
+
+/* The hero background bleeds down behind the check that follows it, so the
+   two read as one block; fade it out instead of ending on a hard edge. */
+.hero-bleed {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
 }
 
 /* Subtle paper texture behind the hero — cheap, no image request. */

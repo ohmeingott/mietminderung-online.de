@@ -77,10 +77,12 @@ export default function MietminderungCheck({
   const [bruttowarmmiete, setBruttowarmmiete] = useState("");
   const [isNotEligible, setIsNotEligible] = useState(false);
   const [notEligibleQuestionId, setNotEligibleQuestionId] = useState("");
+  const [hasInteracted, setHasInteracted] = useState(false);
   const { t, tc } = useTranslation();
 
   const handleEligibilityAnswer = useCallback(
     (questionId: string, value: string, eligible: boolean | null) => {
+      setHasInteracted(true);
       setAnswers({ ...answers, [questionId]: value });
 
       if (eligible === false) {
@@ -194,20 +196,20 @@ export default function MietminderungCheck({
 
   const question = eligibilityQuestions[eligibilityStep];
 
+  // First-run cue: pulse both answers of the very first question until the
+  // user has answered something. Both options pulse in sync so neither answer
+  // is nudged over the other.
+  const showStartCue = step === 0 && eligibilityStep === 0 && !hasInteracted;
+
   return (
-    <section id="pruefung" className="scroll-mt-24 pt-6 pb-16 sm:pt-8 sm:pb-24">
+    <section id="pruefung" className="scroll-mt-24 pt-7 pb-16 sm:pt-9 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
-            {t("check.title")}
-          </h2>
-          <p className="mt-3 text-base text-ink-600 sm:text-lg">
-            {t("check.subtitle")}
-          </p>
-        </div>
+        {/* The hero above carries the visible headline; this keeps the section
+            named for screen readers and the document outline. */}
+        <h2 className="sr-only">{t("check.title")}</h2>
 
         {/* Progress */}
-        <div className="mt-8 sm:mt-10">
+        <div>
           <div className="mb-2 flex items-center justify-between gap-3 text-xs text-ink-500 sm:text-sm">
             <span className="truncate">
               {step === 0
@@ -238,7 +240,12 @@ export default function MietminderungCheck({
 
         {/* -------------------------------------------------- step 0: eligibility */}
         {step === 0 && (
-          <div className={`animate-fade-in-up mt-6 ${cardClasses} p-5 sm:p-10`}>
+          // Keyed on the question so each new question replays the entry
+          // animation instead of swapping its text in place.
+          <div
+            key={question.id}
+            className={`animate-fade-in-up mt-6 ${cardClasses} p-5 sm:p-10`}
+          >
             <div className="mx-auto max-w-xl">
               <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
                 {t(`eq.${question.id}.q`)}
@@ -260,10 +267,18 @@ export default function MietminderungCheck({
                         option.eligible,
                       )
                     }
-                    className="group flex w-full items-center gap-3.5 rounded-[var(--radius-field)] border border-ink-200 bg-paper-raised px-4 py-3.5 text-start transition-colors hover:border-brand-400 hover:bg-brand-50 sm:px-5"
+                    onPointerEnter={() => setHasInteracted(true)}
+                    onFocus={() => setHasInteracted(true)}
+                    className={`group flex w-full items-center gap-3.5 rounded-[var(--radius-field)] border bg-paper-raised px-4 py-3.5 text-start transition-colors hover:border-brand-400 hover:bg-brand-50 sm:px-5 ${
+                      showStartCue
+                        ? "start-cue border-brand-200"
+                        : "border-ink-200"
+                    }`}
                   >
                     <span
-                      className="h-5 w-5 shrink-0 rounded-full border-2 border-ink-300 transition-colors group-hover:border-brand-500"
+                      className={`h-5 w-5 shrink-0 rounded-full border-2 transition-colors group-hover:border-brand-500 ${
+                        showStartCue ? "border-brand-300" : "border-ink-300"
+                      }`}
                       aria-hidden
                     />
                     <span className="text-sm font-medium text-ink-800 sm:text-base">
