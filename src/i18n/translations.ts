@@ -192,7 +192,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Falls sich nichts tut: mögliche nächste Schritte — auf Wunsch auch eine kostenlose anwaltliche Ersteinschätzung",
     "case.optinEmailLabel": "Ihre E-Mail-Adresse",
     "case.optinConsent":
-      "Ich willige ein, dass mietminderung.online meinen Namen, meine E-Mail-Adresse, PLZ und Ort sowie meine Falldaten (Mängel mit Beschreibungen, Miete, Minderungsquote, Fristdatum, Antworten der Anspruchsprüfung) speichert, um mir eine Bestätigungs-E-Mail und Erinnerungen zu senden. Straße, Telefonnummer, Unterschrift und Vermieterdaten werden nicht gespeichert. Ich kann diese Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen — dann werden meine Daten gelöscht. Details:",
+      "Ich willige ein, dass mietminderung-online.de meinen Namen, meine E-Mail-Adresse, PLZ und Ort sowie meine Falldaten (Mängel mit Beschreibungen, Miete, Minderungsquote, Fristdatum, Antworten der Anspruchsprüfung) speichert, um mir eine Bestätigungs-E-Mail und Erinnerungen zu senden. Straße, Telefonnummer, Unterschrift und Vermieterdaten werden nicht gespeichert. Ich kann diese Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen — dann werden meine Daten gelöscht. Details:",
     "case.optinPrivacy": "Datenschutzerklärung",
     "case.optinSubmit": "Erinnerung aktivieren",
     "case.optinSubmitting": "Wird gespeichert…",
@@ -252,7 +252,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerIntro":
       "Eine in Deutschland zugelassene Partnerkanzlei prüft Ihren Fall kostenlos und unverbindlich und meldet sich per E-Mail bei Ihnen. Sie gehen damit keine Verpflichtung ein — ob Sie danach ein Mandat erteilen, entscheiden allein Sie.",
     "case.lawyerConsent":
-      "Ich willige ein, dass mietminderung.online meinen Namen, meine E-Mail-Adresse, PLZ und Ort sowie meine Falldaten (Mängel einschließlich Beschreibungen, Miete, Minderungsquote, Fristverlauf und Reaktionsstatus des Vermieters) an eine Partner-Rechtsanwältin / einen Partner-Rechtsanwalt übermittelt, damit diese/dieser mich für eine kostenlose und unverbindliche Ersteinschätzung kontaktieren kann. Diese Einwilligung ist freiwillig und jederzeit mit Wirkung für die Zukunft widerruflich. Details:",
+      "Ich willige ein, dass mietminderung-online.de meinen Namen, meine E-Mail-Adresse, PLZ und Ort sowie meine Falldaten (Mängel einschließlich Beschreibungen, Miete, Minderungsquote, Fristverlauf und Reaktionsstatus des Vermieters) an eine Partner-Rechtsanwältin / einen Partner-Rechtsanwalt übermittelt, damit diese/dieser mich für eine kostenlose und unverbindliche Ersteinschätzung kontaktieren kann. Diese Einwilligung ist freiwillig und jederzeit mit Wirkung für die Zukunft widerruflich. Details:",
     "case.lawyerSubmit": "Ersteinschätzung anfragen",
     "case.lawyerWorking": "Wird übermittelt…",
     "case.lawyerSuccessTitle": "Anfrage erhalten!",
@@ -503,7 +503,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "If nothing happens: possible next steps — including a free initial assessment by a lawyer, if you wish",
     "case.optinEmailLabel": "Your email address",
     "case.optinConsent":
-      "I consent to mietminderung.online storing my name, email address, postcode and city as well as my case data (defects with descriptions, rent, reduction quota, deadline date, answers from the eligibility check) in order to send me a confirmation email and reminders. Street address, phone number, signature and landlord details are not stored. I can withdraw this consent at any time with effect for the future — my data will then be deleted. Details:",
+      "I consent to mietminderung-online.de storing my name, email address, postcode and city as well as my case data (defects with descriptions, rent, reduction quota, deadline date, answers from the eligibility check) in order to send me a confirmation email and reminders. Street address, phone number, signature and landlord details are not stored. I can withdraw this consent at any time with effect for the future — my data will then be deleted. Details:",
     "case.optinPrivacy": "Privacy policy",
     "case.optinSubmit": "Activate reminder",
     "case.optinSubmitting": "Saving…",
@@ -563,7 +563,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerIntro":
       "A partner law firm admitted in Germany will review your case free of charge and without obligation and contact you by email. This does not commit you to anything — whether you engage them afterwards is entirely up to you.",
     "case.lawyerConsent":
-      "I consent to mietminderung.online passing on my name, email address, postcode and city as well as my case data (defects including descriptions, rent, reduction quota, deadline history and the landlord's response status) to a partner attorney so that they can contact me for a free, non-binding initial assessment. This consent is voluntary and can be withdrawn at any time with effect for the future. Details:",
+      "I consent to mietminderung-online.de passing on my name, email address, postcode and city as well as my case data (defects including descriptions, rent, reduction quota, deadline history and the landlord's response status) to a partner attorney so that they can contact me for a free, non-binding initial assessment. This consent is voluntary and can be withdrawn at any time with effect for the future. Details:",
     "case.lawyerSubmit": "Request initial assessment",
     "case.lawyerWorking": "Submitting…",
     "case.lawyerSuccessTitle": "Request received!",
@@ -795,7 +795,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Hiçbir şey olmazsa: olası sonraki adımlar — isteğinize bağlı olarak ücretsiz avukat ön değerlendirmesi",
     "case.optinEmailLabel": "E-posta adresiniz",
     "case.optinConsent":
-      "mietminderung.online'ın adımı, e-posta adresimi, posta kodumu ve şehrimi ile vaka verilerimi (açıklamalarıyla kusurlar, kira, indirim oranı, süre tarihi, hak kontrolü yanıtları) bana onay e-postası ve hatırlatmalar göndermek için kaydetmesine izin veriyorum. Sokak adresi, telefon numarası, imza ve ev sahibi verileri kaydedilmez. Bu onayı istediğim zaman geleceğe dönük olarak geri çekebilirim — verilerim o zaman silinir. Ayrıntılar:",
+      "mietminderung-online.de'nin adımı, e-posta adresimi, posta kodumu ve şehrimi ile vaka verilerimi (açıklamalarıyla kusurlar, kira, indirim oranı, süre tarihi, hak kontrolü yanıtları) bana onay e-postası ve hatırlatmalar göndermek için kaydetmesine izin veriyorum. Sokak adresi, telefon numarası, imza ve ev sahibi verileri kaydedilmez. Bu onayı istediğim zaman geleceğe dönük olarak geri çekebilirim — verilerim o zaman silinir. Ayrıntılar:",
     "case.optinPrivacy": "Gizlilik politikası",
     "case.optinSubmit": "Hatırlatmayı etkinleştir",
     "case.optinSubmitting": "Kaydediliyor…",
@@ -855,7 +855,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerIntro":
       "Almanya'da ruhsatlı bir partner hukuk bürosu vakanızı ücretsiz ve bağlayıcı olmadan inceler ve size e-posta ile ulaşır. Hiçbir yükümlülük altına girmezsiniz — sonrasında vekalet verip vermemek tamamen size kalmış.",
     "case.lawyerConsent":
-      "mietminderung.online'ın adımı, e-posta adresimi, posta kodumu ve şehrimi ile vaka verilerimi (açıklamalar dahil kusurlar, kira, indirim oranı, süre durumu ve ev sahibinin yanıt durumu) bir partner avukata iletmesine izin veriyorum; böylece avukat ücretsiz ve bağlayıcı olmayan bir ön değerlendirme için benimle iletişime geçebilir. Bu onay isteğe bağlıdır ve geleceğe dönük olarak istediğim zaman geri çekilebilir. Ayrıntılar:",
+      "mietminderung-online.de'nin adımı, e-posta adresimi, posta kodumu ve şehrimi ile vaka verilerimi (açıklamalar dahil kusurlar, kira, indirim oranı, süre durumu ve ev sahibinin yanıt durumu) bir partner avukata iletmesine izin veriyorum; böylece avukat ücretsiz ve bağlayıcı olmayan bir ön değerlendirme için benimle iletişime geçebilir. Bu onay isteğe bağlıdır ve geleceğe dönük olarak istediğim zaman geri çekilebilir. Ayrıntılar:",
     "case.lawyerSubmit": "Ön değerlendirme iste",
     "case.lawyerWorking": "İletiliyor…",
     "case.lawyerSuccessTitle": "Talebiniz alındı!",
@@ -1070,7 +1070,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Якщо нічого не змінюється: можливі наступні кроки — за бажанням безкоштовна попередня оцінка юриста",
     "case.optinEmailLabel": "Ваша електронна адреса",
     "case.optinConsent":
-      "Я погоджуюся, що mietminderung.online зберігає моє ім'я, електронну адресу, поштовий індекс і місто, а також дані справи (дефекти з описами, орендну плату, відсоток зниження, дату строку, відповіді перевірки права), щоб надсилати мені лист-підтвердження та нагадування. Вулиця, номер телефону, підпис і дані орендодавця не зберігаються. Я можу відкликати цю згоду в будь-який час на майбутнє — тоді мої дані буде видалено. Деталі:",
+      "Я погоджуюся, що mietminderung-online.de зберігає моє ім'я, електронну адресу, поштовий індекс і місто, а також дані справи (дефекти з описами, орендну плату, відсоток зниження, дату строку, відповіді перевірки права), щоб надсилати мені лист-підтвердження та нагадування. Вулиця, номер телефону, підпис і дані орендодавця не зберігаються. Я можу відкликати цю згоду в будь-який час на майбутнє — тоді мої дані буде видалено. Деталі:",
     "case.optinPrivacy": "Політика конфіденційності",
     "case.optinSubmit": "Увімкнути нагадування",
     "case.optinSubmitting": "Зберігається…",
@@ -1130,7 +1130,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerIntro":
       "Партнерська юридична фірма, допущена до практики в Німеччині, безкоштовно та без зобов'язань перевірить вашу справу і зв'яжеться з вами електронною поштою. Ви нічим не зобов'язані — чи давати доручення далі, вирішуєте лише ви.",
     "case.lawyerConsent":
-      "Я погоджуюся, що mietminderung.online передає моє ім'я, електронну адресу, поштовий індекс і місто, а також дані справи (дефекти з описами, орендну плату, відсоток зниження, перебіг строку та статус реакції орендодавця) партнерському адвокату, щоб він міг зв'язатися зі мною для безкоштовної та незобов'язальної попередньої оцінки. Ця згода добровільна, і я можу відкликати її в будь-який час на майбутнє. Деталі:",
+      "Я погоджуюся, що mietminderung-online.de передає моє ім'я, електронну адресу, поштовий індекс і місто, а також дані справи (дефекти з описами, орендну плату, відсоток зниження, перебіг строку та статус реакції орендодавця) партнерському адвокату, щоб він міг зв'язатися зі мною для безкоштовної та незобов'язальної попередньої оцінки. Ця згода добровільна, і я можу відкликати її в будь-який час на майбутнє. Деталі:",
     "case.lawyerSubmit": "Запросити оцінку",
     "case.lawyerWorking": "Передається…",
     "case.lawyerSuccessTitle": "Запит отримано!",
@@ -1343,7 +1343,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Если ничего не происходит: возможные следующие шаги — по желанию бесплатная предварительная оценка юриста",
     "case.optinEmailLabel": "Ваш адрес электронной почты",
     "case.optinConsent":
-      "Я соглашаюсь, что mietminderung.online сохраняет моё имя, адрес электронной почты, почтовый индекс и город, а также данные дела (дефекты с описаниями, арендную плату, процент снижения, дату срока, ответы проверки права), чтобы отправлять мне письмо-подтверждение и напоминания. Улица, номер телефона, подпись и данные арендодателя не сохраняются. Я могу отозвать это согласие в любое время на будущее — тогда мои данные будут удалены. Подробности:",
+      "Я соглашаюсь, что mietminderung-online.de сохраняет моё имя, адрес электронной почты, почтовый индекс и город, а также данные дела (дефекты с описаниями, арендную плату, процент снижения, дату срока, ответы проверки права), чтобы отправлять мне письмо-подтверждение и напоминания. Улица, номер телефона, подпись и данные арендодателя не сохраняются. Я могу отозвать это согласие в любое время на будущее — тогда мои данные будут удалены. Подробности:",
     "case.optinPrivacy": "Политика конфиденциальности",
     "case.optinSubmit": "Включить напоминание",
     "case.optinSubmitting": "Сохраняется…",
@@ -1403,7 +1403,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerIntro":
       "Партнёрская юридическая фирма, допущенная к практике в Германии, бесплатно и без обязательств проверит ваше дело и свяжется с вами по электронной почте. Вы ни к чему не обязаны — давать ли поручение дальше, решаете только вы.",
     "case.lawyerConsent":
-      "Я соглашаюсь, что mietminderung.online передаёт моё имя, адрес электронной почты, почтовый индекс и город, а также данные дела (дефекты с описаниями, арендную плату, процент снижения, ход срока и статус реакции арендодателя) партнёрскому адвокату, чтобы он мог связаться со мной для бесплатной и необязательной предварительной оценки. Это согласие добровольно, и я могу отозвать его в любое время на будущее. Подробности:",
+      "Я соглашаюсь, что mietminderung-online.de передаёт моё имя, адрес электронной почты, почтовый индекс и город, а также данные дела (дефекты с описаниями, арендную плату, процент снижения, ход срока и статус реакции арендодателя) партнёрскому адвокату, чтобы он мог связаться со мной для бесплатной и необязательной предварительной оценки. Это согласие добровольно, и я могу отозвать его в любое время на будущее. Подробности:",
     "case.lawyerSubmit": "Запросить оценку",
     "case.lawyerWorking": "Передаётся…",
     "case.lawyerSuccessTitle": "Запрос получен!",
@@ -1615,7 +1615,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "إذا لم يحدث شيء: الخطوات التالية الممكنة — وعند الرغبة تقييم أولي مجاني من محامٍ",
     "case.optinEmailLabel": "بريدك الإلكتروني",
     "case.optinConsent":
-      "أوافق على أن يحفظ mietminderung.online اسمي وبريدي الإلكتروني والرمز البريدي والمدينة وبيانات حالتي (العيوب مع الأوصاف، الإيجار، نسبة التخفيض، تاريخ المهلة، إجابات فحص الاستحقاق) لإرسال رسالة تأكيد وتذكيرات لي. لا يتم حفظ الشارع ورقم الهاتف والتوقيع وبيانات المؤجر. يمكنني سحب هذه الموافقة في أي وقت بأثر مستقبلي — وعندها تُحذف بياناتي. التفاصيل:",
+      "أوافق على أن يحفظ mietminderung-online.de اسمي وبريدي الإلكتروني والرمز البريدي والمدينة وبيانات حالتي (العيوب مع الأوصاف، الإيجار، نسبة التخفيض، تاريخ المهلة، إجابات فحص الاستحقاق) لإرسال رسالة تأكيد وتذكيرات لي. لا يتم حفظ الشارع ورقم الهاتف والتوقيع وبيانات المؤجر. يمكنني سحب هذه الموافقة في أي وقت بأثر مستقبلي — وعندها تُحذف بياناتي. التفاصيل:",
     "case.optinPrivacy": "سياسة الخصوصية",
     "case.optinSubmit": "تفعيل التذكير",
     "case.optinSubmitting": "جارٍ الحفظ…",
@@ -1675,7 +1675,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerIntro":
       "يفحص مكتب محاماة شريك مرخّص في ألمانيا حالتك مجاناً ودون التزام ويتواصل معك عبر البريد الإلكتروني. لا يترتب عليك أي التزام — وقرار التوكيل بعد ذلك يعود إليك وحدك.",
     "case.lawyerConsent":
-      "أوافق على أن يرسل mietminderung.online اسمي وبريدي الإلكتروني والرمز البريدي والمدينة وبيانات حالتي (العيوب مع الأوصاف، الإيجار، نسبة التخفيض، مسار المهلة وحالة استجابة المؤجر) إلى محامٍ شريك ليتمكن من التواصل معي لتقييم أولي مجاني وغير ملزم. هذه الموافقة طوعية ويمكن سحبها في أي وقت بأثر مستقبلي. التفاصيل:",
+      "أوافق على أن يرسل mietminderung-online.de اسمي وبريدي الإلكتروني والرمز البريدي والمدينة وبيانات حالتي (العيوب مع الأوصاف، الإيجار، نسبة التخفيض، مسار المهلة وحالة استجابة المؤجر) إلى محامٍ شريك ليتمكن من التواصل معي لتقييم أولي مجاني وغير ملزم. هذه الموافقة طوعية ويمكن سحبها في أي وقت بأثر مستقبلي. التفاصيل:",
     "case.lawyerSubmit": "طلب التقييم الأولي",
     "case.lawyerWorking": "جارٍ الإرسال…",
     "case.lawyerSuccessTitle": "تم استلام طلبك!",
@@ -1887,7 +1887,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Jeśli nic się nie dzieje: możliwe kolejne kroki — na życzenie także bezpłatna wstępna ocena prawnika",
     "case.optinEmailLabel": "Twój adres e-mail",
     "case.optinConsent":
-      "Wyrażam zgodę na zapisanie przez mietminderung.online mojego imienia i nazwiska, adresu e-mail, kodu pocztowego i miejscowości oraz danych sprawy (usterki z opisami, czynsz, stawka obniżki, data terminu, odpowiedzi z weryfikacji uprawnienia) w celu wysłania mi e-maila potwierdzającego i przypomnień. Ulica, numer telefonu, podpis i dane wynajmującego nie są zapisywane. Mogę w każdej chwili wycofać tę zgodę ze skutkiem na przyszłość — moje dane zostaną wtedy usunięte. Szczegóły:",
+      "Wyrażam zgodę na zapisanie przez mietminderung-online.de mojego imienia i nazwiska, adresu e-mail, kodu pocztowego i miejscowości oraz danych sprawy (usterki z opisami, czynsz, stawka obniżki, data terminu, odpowiedzi z weryfikacji uprawnienia) w celu wysłania mi e-maila potwierdzającego i przypomnień. Ulica, numer telefonu, podpis i dane wynajmującego nie są zapisywane. Mogę w każdej chwili wycofać tę zgodę ze skutkiem na przyszłość — moje dane zostaną wtedy usunięte. Szczegóły:",
     "case.optinPrivacy": "Polityka prywatności",
     "case.optinSubmit": "Włącz przypomnienie",
     "case.optinSubmitting": "Zapisywanie…",
@@ -1947,7 +1947,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerIntro":
       "Partnerska kancelaria dopuszczona do wykonywania zawodu w Niemczech bezpłatnie i niewiążąco sprawdzi Twoją sprawę i skontaktuje się z Tobą e-mailem. Nie wiąże się to z żadnym zobowiązaniem — o udzieleniu pełnomocnictwa decydujesz wyłącznie Ty.",
     "case.lawyerConsent":
-      "Wyrażam zgodę na przekazanie przez mietminderung.online mojego imienia i nazwiska, adresu e-mail, kodu pocztowego i miejscowości oraz danych sprawy (usterki z opisami, czynsz, stawka obniżki, przebieg terminu i status reakcji wynajmującego) partnerskiemu adwokatowi, aby mógł skontaktować się ze mną w sprawie bezpłatnej i niewiążącej wstępnej oceny. Zgoda jest dobrowolna i mogę ją w każdej chwili wycofać ze skutkiem na przyszłość. Szczegóły:",
+      "Wyrażam zgodę na przekazanie przez mietminderung-online.de mojego imienia i nazwiska, adresu e-mail, kodu pocztowego i miejscowości oraz danych sprawy (usterki z opisami, czynsz, stawka obniżki, przebieg terminu i status reakcji wynajmującego) partnerskiemu adwokatowi, aby mógł skontaktować się ze mną w sprawie bezpłatnej i niewiążącej wstępnej oceny. Zgoda jest dobrowolna i mogę ją w każdej chwili wycofać ze skutkiem na przyszłość. Szczegóły:",
     "case.lawyerSubmit": "Poproś o ocenę",
     "case.lawyerWorking": "Przekazywanie…",
     "case.lawyerSuccessTitle": "Otrzymaliśmy Twoje zapytanie!",

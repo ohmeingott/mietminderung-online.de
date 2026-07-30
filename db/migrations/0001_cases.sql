@@ -1,4 +1,4 @@
--- Case storage for the opt-in reminder feature (mietminderung.online).
+-- Case storage for the opt-in reminder feature (mietminderung-online.de).
 -- Apply in the Neon SQL editor (or psql) against the project database.
 --
 -- Data-minimization invariants enforced here and in the API layer:

@@ -26,7 +26,7 @@ export async function sendEmail(params: {
   const from =
     process.env.EMAIL_FROM ||
     process.env.RESEND_FROM_EMAIL ||
-    `Mietminderung Online <erinnerung@mietminderung.online>`;
+    `Mietminderung Online <erinnerung@mietminderung-online.de>`;
 
   const headers: Record<string, string> = {};
   if (params.unsubscribeUrl) {
