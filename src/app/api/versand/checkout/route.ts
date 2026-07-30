@@ -30,6 +30,52 @@ const PRODUKTNAMEN: Record<ProduktId, string> = {
 };
 
 /**
+ * Where the payment page sends the payer back to, and the origin that goes
+ * into the idempotency key below.
+ *
+ * Deliberately not `new URL(request.url).origin`: that reflects the inbound
+ * Host header, and Vercel only sanitises the host for Server Actions, not for
+ * a plain route handler. A chosen Host would send the payer off-domain after
+ * they have paid, and would mint a fresh idempotency key for the same job —
+ * defeating the very duplicate-session protection the key provides.
+ *
+ * Read from the environment rather than through `site.url` in src/lib/site.ts:
+ * that helper falls back to the production domain, which would make "unset"
+ * indistinguishable from "set to production" — local development would send
+ * test payers to the live site, and production could never fail closed.
+ *
+ * Note this is a NEXT_PUBLIC_ variable: a value present at build time is
+ * inlined and then cannot be changed at runtime without a rebuild, while with
+ * no value at build the lookup survives and is read from the runtime
+ * environment. Either way the value is server-controlled, which is the point.
+ */
+function konfigurierteBasisUrl(): string | undefined {
+  const wert = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!wert) return undefined;
+  // A trailing slash is cosmetic, but an unnormalised one would give the same
+  // deployment two idempotency keys for one job.
+  return wert.replace(/\/+$/, "");
+}
+
+/**
+ * Outside production the request origin is a fine fallback and keeps local
+ * development and preview deployments working. In production it is not: an
+ * attacker-influenceable value is the one outcome to rule out, so dispatch
+ * refuses to start instead.
+ */
+function basisUrlKonfiguriert(): boolean {
+  return (
+    konfigurierteBasisUrl() !== undefined ||
+    process.env.NODE_ENV !== "production"
+  );
+}
+
+/** Only reachable once basisUrlKonfiguriert() has been checked. */
+function basisUrl(request: Request): string {
+  return konfigurierteBasisUrl() ?? new URL(request.url).origin;
+}
+
+/**
  * Two clicks on the payment button must not become two payment pages. The
  * webhook's only guard is the eBrief job status, so a second session that also
  * gets paid takes money for a letter that cannot be posted twice, and nothing
@@ -39,28 +85,28 @@ const PRODUKTNAMEN: Record<ProduktId, string> = {
  *
  * Everything that shapes the session goes into the key, because Stripe refuses
  * a reused key whose parameters differ — the refusal would reach the user as
- * "checkout_fehler". The origin is in there for exactly that reason: a preview
- * deployment builds different success and cancel URLs and must get its own key
- * rather than collide with production's. The price and the tax behaviour are
- * in there because both can change under a deployment while a key is still
- * live; a change simply mints a new key.
+ * "checkout_fehler". The base URL is in there for exactly that reason: a
+ * preview deployment builds different success and cancel URLs and must get its
+ * own key rather than collide with production's. The price and the tax
+ * behaviour are in there because both can change under a deployment while a
+ * key is still live; a change simply mints a new key.
  *
  * Hashed so the key stays well inside Stripe's 255 characters and cannot carry
- * anything awkward out of an origin.
+ * anything awkward out of a URL.
  */
 function idempotenzSchluessel(merkmale: {
   jobId: number;
   produktId: ProduktId;
   preisCent: number;
   taxBehavior: string | undefined;
-  origin: string;
+  basisUrl: string;
 }): string {
   const roh = [
     merkmale.jobId,
     merkmale.produktId,
     merkmale.preisCent,
     merkmale.taxBehavior ?? "ohne",
-    merkmale.origin,
+    merkmale.basisUrl,
   ].join("|");
   return `versand-${createHash("sha256").update(roh).digest("hex")}`;
 }
@@ -120,11 +166,14 @@ export async function POST(request: Request) {
   // part of the gate even though only Stripe is called on the happy path: the
   // job lookup below needs those credentials, and without them the user would
   // get a transient-looking "checkout_fehler" for what is a static
-  // misconfiguration the other dispatch routes report as 503.
+  // misconfiguration the other dispatch routes report as 503. The base URL is
+  // in the gate for a different reason — in production there is no safe
+  // fallback for it, so refusing is the only correct answer.
   if (
     !stripeKonfiguriert() ||
     !ebriefKonfiguriert() ||
-    !versandTokenKonfiguriert()
+    !versandTokenKonfiguriert() ||
+    !basisUrlKonfiguriert()
   ) {
     return NextResponse.json(
       { fehler: "versand_nicht_konfiguriert" },
@@ -176,7 +225,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ fehler: "bereits_versendet" }, { status: 409 });
     }
 
-    const origin = new URL(request.url).origin;
+    const basis = basisUrl(request);
     // Under § 19 UStG this is undefined and must stay undefined — see below.
     const taxBehavior = stripeTaxBehavior();
 
@@ -202,8 +251,8 @@ export async function POST(request: Request) {
         // the jobId travelling with the payment is what connects the money to
         // the letter; the produktId rides along for logs and support.
         metadata: { jobId: String(gepruefteJobId), produktId: produkt.id },
-        success_url: `${origin}/mietminderung?versand=erfolg`,
-        cancel_url: `${origin}/mietminderung?versand=abbruch`,
+        success_url: `${basis}/mietminderung?versand=erfolg`,
+        cancel_url: `${basis}/mietminderung?versand=abbruch`,
       },
       {
         idempotencyKey: idempotenzSchluessel({
@@ -211,7 +260,7 @@ export async function POST(request: Request) {
           produktId: produkt.id,
           preisCent: produkt.preisCent,
           taxBehavior,
-          origin,
+          basisUrl: basis,
         }),
       }
     );
