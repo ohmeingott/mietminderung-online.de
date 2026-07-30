@@ -77,6 +77,41 @@ export interface Brieftext {
   datum: string | null;
   /** The letter from the subject line onwards. */
   koerper: string;
+  /**
+   * A "Betreff:" anchor was found, so the address header could be stripped.
+   * False means the user rewrote the letter and the body may repeat the
+   * address. That is ugly, not undeliverable — eBrief reads the address
+   * field this layout fills independently — so it is reported, not thrown.
+   */
+  kopfErkannt: boolean;
+}
+
+/**
+ * What the layout had to infer from the freely edited letter text, so the
+ * calling route can decide policy instead of guessing. The address overflow
+ * throws because it makes the letter undeliverable; everything here is
+ * merely worth warning about.
+ */
+export interface VersandBefund {
+  /** See Brieftext.kopfErkannt. */
+  kopfErkannt: boolean;
+  /** A date line was recovered from the header and rendered. */
+  datumErkannt: boolean;
+  /**
+   * The sender line did not fit on one line and was truncated. It is the
+   * return address for undeliverable mail, so silently cutting it is the
+   * same class of mistake as silently dropping the date.
+   */
+  absenderGekuerzt: boolean;
+}
+
+export function leererBefund(): VersandBefund {
+  return { kopfErkannt: false, datumErkannt: false, absenderGekuerzt: false };
+}
+
+export interface VersandPdfErgebnis extends VersandBefund {
+  /** Base64 without the data-URL prefix — what eBrief expects in FileContent. */
+  base64: string;
 }
 
 /**
@@ -110,6 +145,35 @@ export class AnschriftZuLangError extends Error {
 /** Matches the "<Ort>, den DD.MM.YYYY" line the letter generator emits. */
 const DATUMSZEILE = /^\s*\S.*,\s+den\s+\d{1,2}\.\d{1,2}\.\d{4}\s*$/;
 
+/** Longest header line still plausible as a hand-reformatted date. */
+const DATUM_FALLBACK_MAXLAENGE = 60;
+
+/**
+ * Finds the date among the header lines that are about to be discarded.
+ *
+ * The strict pattern above is the primary match. Users edit the letter
+ * freely, though, so a date reformatted as "31. Juli 2026" or
+ * "Düsseldorf, 30.07.2026" would otherwise be thrown away silently. The
+ * fallback therefore keeps the last non-empty header line when it could
+ * plausibly be a date — short and containing a digit.
+ *
+ * Nothing is invented: whatever is rendered is the user's own line, and
+ * only ever a line from before the subject anchor, which is discarded
+ * either way. A body line can never be picked up.
+ */
+function findeDatum(kopfZeilen: string[]): string | null {
+  const streng = [...kopfZeilen].reverse().find((zeile) => DATUMSZEILE.test(zeile));
+  if (streng) return streng.trim();
+
+  const letzte = [...kopfZeilen].reverse().find((zeile) => zeile.trim() !== "");
+  if (!letzte) return null;
+
+  const kandidat = letzte.trim();
+  const plausibel =
+    kandidat.length <= DATUM_FALLBACK_MAXLAENGE && /\d/.test(kandidat);
+  return plausibel ? kandidat : null;
+}
+
 /**
  * The generated letter text carries an address header (tenant, landlord,
  * date). In the dispatch layout the address goes into the address field, so
@@ -123,16 +187,16 @@ const DATUMSZEILE = /^\s*\S.*,\s+den\s+\d{1,2}\.\d{1,2}\.\d{4}\s*$/;
 export function zerlegeBrieftext(text: string): Brieftext {
   const zeilen = text.split("\n");
   const index = zeilen.findIndex((zeile) => /^\s*Betreff:/i.test(zeile));
-  if (index === -1) return { datum: null, koerper: text };
 
-  const datumZeile = zeilen
-    .slice(0, index)
-    .reverse()
-    .find((zeile) => DATUMSZEILE.test(zeile));
+  // No anchor means the user rewrote the letter. Post it as it stands rather
+  // than refusing: a repeated address block is cosmetic, and the address
+  // field is filled from opts.empfaenger regardless.
+  if (index === -1) return { datum: null, koerper: text, kopfErkannt: false };
 
   return {
-    datum: datumZeile ? datumZeile.trim() : null,
+    datum: findeDatum(zeilen.slice(0, index)),
     koerper: zeilen.slice(index).join("\n"),
+    kopfErkannt: true,
   };
 }
 
@@ -150,18 +214,30 @@ function umbrich(doc: jsPDF, text: string, breiteMm: number): string[] {
  * Cuts a string down to a single rendered line. The sender line must not
  * wrap: a second line would run straight into the PIN coding stripe below.
  */
-function kuerzeAufEineZeile(doc: jsPDF, text: string, breiteMm: number): string {
+function kuerzeAufEineZeile(
+  doc: jsPDF,
+  text: string,
+  breiteMm: number
+): { zeile: string; gekuerzt: boolean } {
   const zeilen = umbrich(doc, text, breiteMm);
-  if (zeilen.length <= 1) return text;
+  if (zeilen.length <= 1) return { zeile: text, gekuerzt: false };
 
   let gekuerzt = zeilen[0];
   while (gekuerzt.length > 0 && doc.getTextWidth(`${gekuerzt}…`) > breiteMm) {
     gekuerzt = gekuerzt.slice(0, -1);
   }
-  return `${gekuerzt}…`;
+  return { zeile: `${gekuerzt}…`, gekuerzt: true };
 }
 
-export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
+/**
+ * `befund` is an optional out-parameter rather than a second return value so
+ * that the jsPDF instance stays the return type callers already build on.
+ * Construct it with leererBefund().
+ */
+export function generateVersandPdf(
+  opts: VersandPdfOptions,
+  befund?: VersandBefund
+): jsPDF {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   registriereSchrift(doc);
 
@@ -187,14 +263,22 @@ export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
   }
 
   doc.setFontSize(6);
-  const absenderZeile = kuerzeAufEineZeile(
+  const absender = kuerzeAufEineZeile(
     doc,
     opts.absenderZeile,
     ANSCHRIFT_BREITE_MM
   );
 
+  const { datum, koerper, kopfErkannt } = zerlegeBrieftext(opts.text);
+
+  if (befund) {
+    befund.kopfErkannt = kopfErkannt;
+    befund.datumErkannt = datum !== null;
+    befund.absenderGekuerzt = absender.gekuerzt;
+  }
+
   // Sender line in 6 pt: inside the envelope window, above the coding stripe.
-  doc.text(absenderZeile, LINKER_RAND_MM, ABSENDERZEILE_Y_MM);
+  doc.text(absender.zeile, LINKER_RAND_MM, ABSENDERZEILE_Y_MM);
 
   // Address field, 10 pt, using the lines measured above.
   doc.setFontSize(10);
@@ -211,7 +295,6 @@ export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
     y = FOLGESEITE_START_Y_MM;
   };
 
-  const { datum, koerper } = zerlegeBrieftext(opts.text);
   if (datum) {
     // DIN 5008 puts the date right-aligned above the subject, separated from
     // it by a blank line.
@@ -251,7 +334,16 @@ export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
   return doc;
 }
 
-/** Base64 without the data-URL prefix — exactly what eBrief expects in FileContent. */
-export function versandPdfBase64(opts: VersandPdfOptions): string {
-  return generateVersandPdf(opts).output("datauristring").split(",")[1];
+/**
+ * Returns the PDF alongside what the parse found, so the calling route can
+ * warn about a missing header, a missing date or a truncated return address
+ * instead of those facts being absorbed here.
+ */
+export function versandPdfBase64(opts: VersandPdfOptions): VersandPdfErgebnis {
+  const befund = leererBefund();
+  const doc = generateVersandPdf(opts, befund);
+  return {
+    base64: doc.output("datauristring").split(",")[1],
+    ...befund,
+  };
 }
