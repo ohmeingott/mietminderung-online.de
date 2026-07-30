@@ -80,7 +80,9 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!rateLimit(clientIp(request), LIMIT_PRO_STUNDE, STUNDE_MS)) {
+  // Namespaced by route: the limiter keys on a plain string, so two routes
+  // using the bare IP would share one budget and starve each other.
+  if (!rateLimit(`vorbereiten:${clientIp(request)}`, LIMIT_PRO_STUNDE, STUNDE_MS)) {
     return NextResponse.json({ fehler: "zu_viele_anfragen" }, { status: 429 });
   }
 
