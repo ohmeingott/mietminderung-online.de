@@ -62,7 +62,21 @@ async function main(): Promise<void> {
 
   // Log which environment is actually being hit before doing anything else,
   // so a staging/live mixup is obvious from the very first line of output.
-  console.log(`eBrief base URL in use: ${ebriefBaseUrl()}`);
+  const baseUrl = ebriefBaseUrl();
+  console.log(`eBrief base URL in use: ${baseUrl}`);
+
+  // Refuse to run anywhere but staging. This script exists precisely because
+  // we do not yet know whether committing a job already triggers printing —
+  // so pointing it at live is the one mistake that could produce a real,
+  // billed letter. A log line is not enough of a safeguard for that.
+  if (!baseUrl.includes("staging")) {
+    console.error(
+      `Refusing to run against a non-staging URL: ${baseUrl}. ` +
+        "Set EBRIEF_BASE_URL to the staging host, or leave it unset."
+    );
+    process.exit(1);
+    return;
+  }
 
   // Step 1: create an empty job. Attributes match a plain, untracked,
   // non-duplex, non-color letter with no silent confirmation.
