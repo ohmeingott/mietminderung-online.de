@@ -149,13 +149,36 @@ const DATUMSZEILE = /^\s*\S.*,\s+den\s+\d{1,2}\.\d{1,2}\.\d{4}\s*$/;
 const DATUM_FALLBACK_MAXLAENGE = 60;
 
 /**
+ * A four-digit year, deliberately not any run of four digits: a German
+ * postcode is five digits, so "40477 Düsseldorf" must not qualify as a date.
+ */
+const JAHRESZAHL = /\b(?:19|20)\d{2}\b/;
+
+/** German month names and the usual abbreviations. */
+const MONATSNAME =
+  /\b(?:jan(?:uar)?|feb(?:ruar)?|m(?:ärz|är|rz|aerz)|apr(?:il)?|mai|jun[i]?|jul[i]?|aug(?:ust)?|sep(?:t|tember)?|okt(?:ober)?|nov(?:ember)?|dez(?:ember)?)\b/i;
+
+/**
+ * Whether a discarded header line could plausibly be the user's date line.
+ * Requiring a year or a month name rather than merely a digit matters: a
+ * postcode printed where the date belongs reads as a malformed letter, and
+ * it would make datumErkannt useless to the caller exactly when it counts.
+ */
+function istDatumsKandidat(zeile: string): boolean {
+  return (
+    zeile.length <= DATUM_FALLBACK_MAXLAENGE &&
+    (JAHRESZAHL.test(zeile) || MONATSNAME.test(zeile))
+  );
+}
+
+/**
  * Finds the date among the header lines that are about to be discarded.
  *
  * The strict pattern above is the primary match. Users edit the letter
  * freely, though, so a date reformatted as "31. Juli 2026" or
  * "Düsseldorf, 30.07.2026" would otherwise be thrown away silently. The
- * fallback therefore keeps the last non-empty header line when it could
- * plausibly be a date — short and containing a digit.
+ * fallback therefore keeps the last non-empty header line when it looks
+ * like a date, per istDatumsKandidat.
  *
  * Nothing is invented: whatever is rendered is the user's own line, and
  * only ever a line from before the subject anchor, which is discarded
@@ -169,9 +192,7 @@ function findeDatum(kopfZeilen: string[]): string | null {
   if (!letzte) return null;
 
   const kandidat = letzte.trim();
-  const plausibel =
-    kandidat.length <= DATUM_FALLBACK_MAXLAENGE && /\d/.test(kandidat);
-  return plausibel ? kandidat : null;
+  return istDatumsKandidat(kandidat) ? kandidat : null;
 }
 
 /**
