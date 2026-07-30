@@ -1909,6 +1909,9 @@ git commit -m "Show the dispatch result after returning from Stripe"
 
 Diese Punkte sind bewusst nicht Teil der Tasks, weil sie Zugangsdaten oder Entscheidungen außerhalb des Codes brauchen:
 
+- [ ] **Einheit von `TotalPrice` klären — potenzieller Launch-Blocker.** Die Preisprüfung in `/api/versand/vorbereiten` nimmt an, dass `TotalPrice` in Euro kommt, und rechnet `* 100`. Kommt der Wert bereits in Cent, vergleicht die Prüfung 8800 gegen 249 und lehnt **jeden** Brief ab. Das scheitert sicher, sieht aber aus wie „Feature kaputt". Der Spike gibt die rohe Preisantwort aus — das ist die erste Zahl, die du dort ansehen solltest.
+- [ ] Nach dem Spike prüfen, ob die Annahme „committeter Job ohne Distribution kostet nichts" hält (Abbruchkriterium steht im Skriptkopf)
+
 - [ ] Verkaufspreise festlegen und in `src/lib/ebrief/produkte.ts` setzen (einzige Stelle; die E2E-Erwartungen in `e2e/versand.spec.ts` auf „2,49" und „6,99" dann mitziehen)
 - [ ] `EBRIEF_BASE_URL` in der Produktion auf `https://api.ebrief.de` stellen
 - [ ] Stripe-Webhook-Endpunkt in Stripe anlegen und `STRIPE_WEBHOOK_SECRET` setzen
