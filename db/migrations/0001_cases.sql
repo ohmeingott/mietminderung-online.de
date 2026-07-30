@@ -30,7 +30,7 @@ create table cases (
   tenant_email  text not null check (char_length(tenant_email) <= 254),
   tenant_city   text not null default '' check (char_length(tenant_city) <= 120),
   tenant_plz    text not null default '' check (tenant_plz ~ '^[0-9]{0,5}$'),
-  locale        text not null check (locale in ('de','tr','ru','uk','ar','pl')),
+  locale        text not null check (locale in ('de','en','tr','ru','uk','ar','pl')),
 
   -- case data
   bruttowarmmiete_eur numeric(8,2) not null check (bruttowarmmiete_eur between 0 and 100000),
@@ -81,7 +81,7 @@ create table funnel_events (
   event      text not null check (event in (
     'check_started','eligibility_done','defects_selected','rent_entered',
     'result_viewed','letter_started','letter_completed','pdf_downloaded','case_saved')),
-  locale     text not null check (locale in ('de','tr','ru','uk','ar','pl'))
+  locale     text not null check (locale in ('de','en','tr','ru','uk','ar','pl'))
 );
 create index funnel_events_created_idx on funnel_events (created_at);
 create index funnel_events_session_idx on funnel_events (session_id);

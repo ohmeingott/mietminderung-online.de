@@ -21,7 +21,7 @@ Regeln:
 - Erwähne den betroffenen Raum und den Zeitraum, falls angegeben
 - 2-4 Sätze pro Mangel
 - Keine Rechtsberatung, keine Paragraphen-Verweise (die stehen bereits im Brief-Template)
-- Keine Erfindungen — nur was der Mieter beschrieben hat, sachlich umformulieren
+- Keine Erfindungen: nur was der Mieter beschrieben hat, sachlich umformulieren
 - Falls die Beschreibung leer ist, erstelle anhand des Mangel-Typs eine kurze, allgemeine Beschreibung
 - Gib genau eine umformulierte Beschreibung pro Mangel zurück, in der Reihenfolge der Eingabe`;
 
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      // No key configured — hand the user's own text back unchanged.
+      // No key configured - hand the user's own text back unchanged.
       return NextResponse.json({
         beschreibungen: maengel.map((m) => m.beschreibung),
         fallback: true,
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ beschreibungen });
   } catch (err) {
     console.error("Gemini enhance error:", err);
-    // Never block the user's letter on an AI failure — return their own text.
+    // Never block the user's letter on an AI failure - return their own text.
     return NextResponse.json({
       beschreibungen: maengel.map((m) => m.beschreibung),
       fallback: true,

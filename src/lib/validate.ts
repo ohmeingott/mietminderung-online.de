@@ -10,7 +10,7 @@ import type { CaseMangel, CaseSubmission } from "@/types/case";
 
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-const VALID_LOCALES = new Set(["de", "tr", "ru", "uk", "ar", "pl"]);
+const VALID_LOCALES = new Set(["de", "en", "tr", "ru", "uk", "ar", "pl"]);
 
 const mangelById = new Map<string, Mangel>(
   mangelKategorien.flatMap((k) => k.maengel.map((m) => [m.id, m])),

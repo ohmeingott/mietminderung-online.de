@@ -138,7 +138,7 @@ export default function MietminderungCheck({
   if (isNotEligible) {
     const reasonKey = `eq.reason.${notEligibleQuestionId}`;
     return (
-      <section id="pruefung" className="py-16 sm:py-24">
+      <section id="pruefung" className="scroll-mt-24 pt-6 pb-16 sm:pt-8 sm:pb-24">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <div className={`${cardClasses} p-6 text-center sm:p-10`}>
             <div className="mx-auto mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-alert-50">
@@ -192,10 +192,10 @@ export default function MietminderungCheck({
   const question = eligibilityQuestions[eligibilityStep];
 
   return (
-    <section id="pruefung" className="py-16 sm:py-24">
+    <section id="pruefung" className="scroll-mt-24 pt-6 pb-16 sm:pt-8 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-ink-900 sm:text-4xl">
+          <h2 className="text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
             {t("check.title")}
           </h2>
           <p className="mt-3 text-base text-ink-600 sm:text-lg">

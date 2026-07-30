@@ -1,4 +1,4 @@
-export type Locale = "de" | "tr" | "ru" | "uk" | "ar" | "pl";
+export type Locale = "de" | "en" | "tr" | "ru" | "uk" | "ar" | "pl";
 
 export interface LocaleInfo {
   code: Locale;
@@ -9,6 +9,7 @@ export interface LocaleInfo {
 
 export const locales: LocaleInfo[] = [
   { code: "de", label: "Deutsch", flag: "🇩🇪" },
+  { code: "en", label: "English", flag: "🇬🇧" },
   { code: "tr", label: "Türkçe", flag: "🇹🇷" },
   { code: "uk", label: "Українська", flag: "🇺🇦" },
   { code: "ru", label: "Русский", flag: "🇷🇺" },
@@ -29,19 +30,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.cta": "Jetzt prüfen",
 
     // Hero
-    "hero.badge": "Basierend auf § 536 BGB — Ihr gesetzliches Recht",
+    "hero.badge": "Basierend auf § 536 BGB: Ihr gesetzliches Recht",
     "hero.title1": "Wohnung hat Mängel?",
     "hero.title2": "Weniger Miete zahlen",
     "hero.title3": "ist Ihr Recht.",
     "hero.subtitle":
-      "Prüfen Sie in 2 Minuten kostenlos, ob Sie Anspruch auf Mietminderung haben. Erstellen Sie eine rechtssichere Mängelanzeige — und lassen Sie den Brief direkt an Ihren Vermieter senden.",
+      "Prüfen Sie in 2 Minuten kostenlos, ob Sie Anspruch auf Mietminderung haben, und erstellen Sie direkt eine rechtssichere Mängelanzeige für Ihren Vermieter.",
     "hero.cta1": "Anspruch kostenlos prüfen",
     "hero.cta2": "Mängelanzeige erstellen",
-    "hero.trust1": "100% kostenlos — keine versteckten Kosten",
+    "hero.trust1": "100% kostenlos, keine versteckten Kosten",
     "hero.trust2": "Keine Registrierung nötig",
     "hero.trust3": "Mängelanzeige kostenlos erstellen",
     "hero.selectLang": "Sprache wählen",
-    "hero.stat1label": "BGB — Ihr Rechtsanspruch",
+    "hero.stat1label": "BGB: Ihr Rechtsanspruch",
     "hero.stat2": "bis 100%",
     "hero.stat2label": "Mietminderung möglich",
     "hero.stat3": "2 Min.",
@@ -53,7 +54,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.step": "SCHRITT",
     "how.s1.title": "Mangel auswählen",
     "how.s1.desc":
-      "Wählen Sie aus über 60 typischen Wohnungsmängeln den passenden aus — von Heizungsausfall bis Schimmel.",
+      "Wählen Sie aus über 60 typischen Wohnungsmängeln den passenden aus, von Heizungsausfall bis Schimmel.",
     "how.s2.title": "Minderung berechnen",
     "how.s2.desc":
       "Wir berechnen anhand aktueller Gerichtsurteile, wie viel Mietminderung Ihnen zusteht.",
@@ -62,11 +63,11 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Aus Ihren Angaben generieren wir eine rechtssichere Mängelanzeige nach § 536c BGB.",
     "how.s4.title": "Brief herunterladen",
     "how.s4.desc":
-      "Laden Sie die fertige Mängelanzeige als PDF oder Textdatei herunter — kostenlos und ohne Registrierung. Den Versand an Ihren Vermieter übernehmen Sie selbst.",
+      "Laden Sie die fertige Mängelanzeige als PDF oder Textdatei herunter, kostenlos und ohne Registrierung. Den Versand an Ihren Vermieter übernehmen Sie selbst.",
 
     // Check
     "check.title": "Haben Sie Anspruch auf Mietminderung?",
-    "check.subtitle": "Beantworten Sie ein paar Fragen — wir prüfen Ihren Anspruch kostenlos.",
+    "check.subtitle": "Beantworten Sie ein paar Fragen. Wir prüfen Ihren Anspruch kostenlos.",
     "check.question": "Frage",
     "check.of": "von",
     "check.step": "Schritt",
@@ -122,9 +123,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "eq.selbst_verursacht.unsicher": "Bin mir nicht sicher",
     "eq.erheblich.q": "Wie stark beeinträchtigt der Mangel Ihre Wohnung?",
     "eq.erheblich.desc": "Nur erhebliche Mängel berechtigen zur Mietminderung. Rein kosmetische oder Bagatellmängel reichen nicht aus.",
-    "eq.erheblich.stark": "Stark — Wohnqualität deutlich eingeschränkt",
-    "eq.erheblich.mittel": "Mittel — spürbare Beeinträchtigung",
-    "eq.erheblich.gering": "Gering — nur leichte Unannehmlichkeit",
+    "eq.erheblich.stark": "Stark: Wohnqualität deutlich eingeschränkt",
+    "eq.erheblich.mittel": "Mittel: spürbare Beeinträchtigung",
+    "eq.erheblich.gering": "Gering: nur leichte Unannehmlichkeit",
     "eq.angezeigt.q": "Haben Sie den Mangel Ihrem Vermieter bereits gemeldet?",
     "eq.angezeigt.desc": "Die Mängelanzeige ist Voraussetzung für die Mietminderung (§ 536c BGB). Wir helfen Ihnen dabei, diese zu erstellen.",
     "eq.angezeigt.ja": "Ja, schriftlich",
@@ -160,7 +161,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.whichRoom": "In welchem Raum tritt der Mangel auf?",
     "letter.sincewhen": "Seit wann besteht der Mangel?",
     "letter.detailDesc": "Detaillierte Beschreibung",
-    "letter.nativeHint": "Sie können in Ihrer Muttersprache schreiben — die KI übersetzt es ins Deutsche.",
+    "letter.nativeHint": "Sie können in Ihrer Muttersprache schreiben. Die KI übersetzt es ins Deutsche.",
     "letter.showPreview": "Vorschau anzeigen",
     "letter.creating": "Brief wird erstellt...",
     "letter.previewTitle": "Vorschau Ihrer Mängelanzeige",
@@ -179,7 +180,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copyText": "Text kopieren",
     "letter.copied": "Kopiert!",
     "letter.warning":
-      "Versenden Sie die Mängelanzeige immer nachweisbar — am besten per Einwurf-Einschreiben. Eine einfache E-Mail reicht als Zugangsnachweis nicht aus.",
+      "Versenden Sie die Mängelanzeige immer nachweisbar, am besten per Einwurf-Einschreiben. Eine einfache E-Mail reicht als Zugangsnachweis nicht aus.",
 
     // Case saving & reminder emails (opt-in)
     "case.optinTitle": "Frist im Blick behalten?",
@@ -262,20 +263,20 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Teaser
     "teaser.title": "Mängelanzeige erstellen",
     "teaser.desc":
-      "Erstellen Sie eine rechtssichere Mängelanzeige für Ihren Vermieter. Nutzen Sie zunächst unsere Prüfung, um Ihren Anspruch und die Höhe der Mietminderung zu ermitteln — diese Daten fließen automatisch in Ihren Brief ein.",
+      "Erstellen Sie eine rechtssichere Mängelanzeige für Ihren Vermieter. Nutzen Sie zunächst unsere Prüfung, um Ihren Anspruch und die Höhe der Mietminderung zu ermitteln. Diese Daten fließen automatisch in Ihren Brief ein.",
     "teaser.feat1": "Rechtssichere Vorlage nach § 536c BGB",
     "teaser.feat2": "Automatisch befüllt mit Ihren Angaben",
     "teaser.feat3": "Als PDF oder Textdatei herunterladen",
     "teaser.feat4": "Digitale Unterschrift möglich",
     "teaser.feat5": "Eingabe in Ihrer Muttersprache möglich",
-    "teaser.cta": "Anspruch prüfen — Brief wird automatisch erstellt",
+    "teaser.cta": "Anspruch prüfen: Brief wird automatisch erstellt",
 
     // Info
-    "info.title": "Ihr Recht auf Mietminderung — die wichtigsten Fakten",
+    "info.title": "Ihr Recht auf Mietminderung: die wichtigsten Fakten",
     "info.subtitle": "Alles was Sie über Mietminderung in Deutschland wissen müssen",
     "info.c1.title": "Gesetzliches Recht",
     "info.c1.desc":
-      "Die Mietminderung ist in § 536 BGB gesetzlich verankert und tritt automatisch ein, sobald ein erheblicher Mangel vorliegt. Sie müssen keine Genehmigung beantragen — die Miete ist kraft Gesetzes gemindert.",
+      "Die Mietminderung ist in § 536 BGB gesetzlich verankert und tritt automatisch ein, sobald ein erheblicher Mangel vorliegt. Sie müssen keine Genehmigung beantragen. Die Miete ist kraft Gesetzes gemindert.",
     "info.c2.title": "Nicht abdingbar",
     "info.c2.desc":
       "Bei Wohnraummiete kann das Minderungsrecht nicht durch den Mietvertrag ausgeschlossen werden (§ 536 Abs. 4 BGB). Klauseln, die das versuchen, sind unwirksam.",
@@ -298,11 +299,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "faq.subtitle": "Antworten auf die wichtigsten Fragen zum Thema Mietminderung in Deutschland.",
     "faq.legal.title": "Rechtlicher Hinweis",
     "faq.legal.text":
-      "Die auf dieser Webseite bereitgestellten Informationen dienen ausschließlich der allgemeinen Information und stellen keine Rechtsberatung dar. Trotz sorgfältiger Recherche können wir keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte übernehmen. Die Minderungsquoten basieren auf Gerichtsurteilen und dienen lediglich als Orientierungswerte — jeder Einzelfall wird individuell beurteilt. Bei konkreten rechtlichen Fragen empfehlen wir die Beratung durch einen Mieterverein oder Rechtsanwalt.",
+      "Die auf dieser Webseite bereitgestellten Informationen dienen ausschließlich der allgemeinen Information und stellen keine Rechtsberatung dar. Trotz sorgfältiger Recherche können wir keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte übernehmen. Die Minderungsquoten basieren auf Gerichtsurteilen und dienen lediglich als Orientierungswerte; jeder Einzelfall wird individuell beurteilt. Bei konkreten rechtlichen Fragen empfehlen wir die Beratung durch einen Mieterverein oder Rechtsanwalt.",
 
     // Footer
     "footer.desc":
-      "Wir helfen Mietern in Deutschland, ihr Recht auf Mietminderung durchzusetzen. Kostenlose Prüfung, Berechnung und Erstellung der Mängelanzeige — alles in wenigen Minuten.",
+      "Wir helfen Mietern in Deutschland, ihr Recht auf Mietminderung durchzusetzen. Kostenlose Prüfung, Berechnung und Erstellung der Mängelanzeige, alles in wenigen Minuten.",
     "footer.service": "Service",
     "footer.legal": "Rechtliches",
     "footer.imprint": "Impressum",
@@ -324,32 +325,343 @@ export const translations: Record<Locale, Record<string, string>> = {
     "faqpage.cta.desc":
       "Nutzen Sie unseren kostenlosen Mietminderungs-Check. In wenigen Schritten erfahren Sie, ob und wie viel Sie mindern können.",
 
-    // Letter — delivery
+    // Letter - delivery
     "letter.basedOn":
       "Basiert auf Ihrer Prüfung: ca. {quote} % Minderung bei {rent} € Bruttowarmmiete.",
   },
 
+  en: {
+    // Header
+    "nav.check": "Check your claim",
+    "nav.letter": "Defect notice",
+    "nav.how": "How it works",
+    "nav.faq": "FAQ",
+    "nav.table": "Table",
+    "nav.guide": "Guides",
+    "nav.cta": "Check now",
+
+    // Hero
+    "hero.badge": "Based on Section 536 of the German Civil Code (BGB) — your statutory right",
+    "hero.title1": "Defects in your apartment?",
+    "hero.title2": "Paying less rent",
+    "hero.title3": "is your right.",
+    "hero.subtitle":
+      "Check for free in 2 minutes whether you are entitled to a rent reduction. Create a legally sound defect notice (Mängelanzeige) — and have the letter sent directly to your landlord.",
+    "hero.cta1": "Check your claim for free",
+    "hero.cta2": "Create defect notice",
+    "hero.trust1": "100% free — no hidden costs",
+    "hero.trust2": "No registration required",
+    "hero.trust3": "Create your defect notice for free",
+    "hero.selectLang": "Select language",
+    "hero.stat1label": "BGB — your statutory right",
+    "hero.stat2": "up to 100%",
+    "hero.stat2label": "rent reduction possible",
+    "hero.stat3": "2 min",
+    "hero.stat3label": "check your claim online",
+
+    // How it works
+    "how.title": "How it works",
+    "how.subtitle": "4 simple steps to your right to a rent reduction",
+    "how.step": "STEP",
+    "how.s1.title": "Select the defect",
+    "how.s1.desc":
+      "Choose the right one from over 60 typical housing defects — from heating failure to mould.",
+    "how.s2.title": "Calculate the reduction",
+    "how.s2.desc":
+      "Based on current court rulings, we calculate how much rent reduction you are entitled to.",
+    "how.s3.title": "Create the defect notice",
+    "how.s3.desc":
+      "From your details we generate a legally sound defect notice under Section 536c BGB.",
+    "how.s4.title": "Download the letter",
+    "how.s4.desc":
+      "Download the finished defect notice as a PDF or text file — free and without registration. You send it to your landlord yourself.",
+
+    // Check
+    "check.title": "Are you entitled to a rent reduction?",
+    "check.subtitle": "Answer a few questions — we check your claim for free.",
+    "check.question": "Question",
+    "check.of": "of",
+    "check.step": "Step",
+    "check.selectDefects": "Select defects",
+    "check.enterRent": "Enter rent",
+    "check.result": "Result",
+    "check.back": "Back",
+    "check.next": "Next",
+    "check.allCategories": "All categories",
+    "check.whichDefects": "Which defects are present?",
+    "check.whichDefectsDesc":
+      "Select a category and then the defects that apply. You can select several defects.",
+    "check.selected": "defect(s) selected",
+    "check.approxReduction": "Reduction",
+    "check.rentTitle": "How much is your monthly rent?",
+    "check.rentDesc":
+      "Enter your gross warm rent (base rent + all service charges). The rent reduction is calculated from the gross warm rent (Federal Court of Justice ruling).",
+    "check.rentPlaceholder": "e.g. 1000",
+    "check.rentInfo":
+      "Gross warm rent = net base rent + advance payments for service charges (utilities). You can find it in your tenancy agreement or on your latest service charge statement.",
+    "check.showResult": "Show result",
+    "check.resultTitle": "You are likely entitled to a rent reduction!",
+    "check.reductionRate": "Reduction rate",
+    "check.range": "Range",
+    "check.monthlySavings": "Monthly savings",
+    "check.yearlySavings": "Yearly savings",
+    "check.withPermanent": "for a permanent defect",
+    "check.disclaimer":
+      "The calculation is based on typical court rulings and serves as a guide. The actual reduction rate may differ in individual cases. If in doubt, we recommend reducing conservatively or initially paying under reservation of rights.",
+    "check.yourDefects": "Your selected defects:",
+    "check.nextStep": "The next step: create a legally sound defect notice to your landlord.",
+    "check.createLetter": "Create defect notice now",
+    "check.editDefects": "Edit defects",
+    "check.notEligibleTitle": "Probably no claim",
+    "check.notEligibleHint":
+      "This is an initial assessment and not legal advice. If in doubt, we recommend consulting a tenants' association or a lawyer.",
+    "check.tryAgain": "Check again",
+
+    // Eligibility questions
+    "eq.mietvertrag.q": "Do you have a valid tenancy agreement?",
+    "eq.mietvertrag.desc": "A rent reduction requires an existing tenancy.",
+    "eq.mietvertrag.ja": "Yes",
+    "eq.mietvertrag.nein": "No",
+    "eq.mangel_bekannt.q": "Did you already know about the defect when you moved in?",
+    "eq.mangel_bekannt.desc": "If you already knew about the defect when moving in and moved in anyway, the right to reduce the rent does not apply (Section 536b BGB).",
+    "eq.mangel_bekannt.nein": "No, I was not aware of the defect",
+    "eq.mangel_bekannt.ja_vorbehalt": "Yes, but I reserved my rights",
+    "eq.mangel_bekannt.ja": "Yes, and I said nothing",
+    "eq.selbst_verursacht.q": "Did you cause the defect yourself?",
+    "eq.selbst_verursacht.desc": "If the tenant caused the defect themselves, there is no right to a rent reduction.",
+    "eq.selbst_verursacht.nein": "No",
+    "eq.selbst_verursacht.ja": "Yes",
+    "eq.selbst_verursacht.unsicher": "I'm not sure",
+    "eq.erheblich.q": "How severely does the defect affect your apartment?",
+    "eq.erheblich.desc": "Only significant defects justify a rent reduction. Purely cosmetic or trivial defects are not enough.",
+    "eq.erheblich.stark": "Severely — quality of living clearly restricted",
+    "eq.erheblich.mittel": "Moderately — noticeable impairment",
+    "eq.erheblich.gering": "Slightly — only a minor inconvenience",
+    "eq.angezeigt.q": "Have you already reported the defect to your landlord?",
+    "eq.angezeigt.desc": "The defect notice is a prerequisite for the rent reduction (Section 536c BGB). We help you create it.",
+    "eq.angezeigt.ja": "Yes, in writing",
+    "eq.angezeigt.muendlich": "Only verbally",
+    "eq.angezeigt.nein": "No, not yet",
+    "eq.reason.mietvertrag": "Without a valid tenancy agreement there is unfortunately no right to a rent reduction.",
+    "eq.reason.mangel_bekannt": "If you knew about the defect when moving in and said nothing, the right to reduce the rent does not apply (Section 536b BGB).",
+    "eq.reason.selbst_verursacht": "If you caused the defect yourself, there is no right to a rent reduction.",
+    "eq.reason.erheblich": "Only significant defects justify a rent reduction. Trivial defects (Section 536 (1) sentence 3 BGB) are unfortunately not sufficient.",
+    "eq.reason.default": "In this case there is unfortunately no claim.",
+
+    // Letter
+    "letter.title": "Create a defect notice",
+    "letter.subtitle": "Create a legally sound defect notice under Section 536c BGB.",
+    "letter.step.data": "Your details",
+    "letter.step.landlord": "Landlord",
+    "letter.step.defects": "Defects",
+    "letter.step.preview": "Preview",
+    "letter.step.send": "Download",
+    "letter.yourData": "Your details (tenant)",
+    "letter.name": "Full name",
+    "letter.street": "Street & house number",
+    "letter.zip": "Postcode",
+    "letter.city": "City",
+    "letter.aptNr": "Apartment number (optional)",
+    "letter.phone": "Phone number",
+    "letter.email": "Email address",
+    "letter.landlordData": "Landlord details",
+    "letter.landlordName": "Name of the landlord / property management",
+    "letter.describeDefects": "Describe the defects",
+    "letter.describeHint":
+      "Describe each defect as precisely as possible. The more detail, the better.",
+    "letter.whichRoom": "In which room does the defect occur?",
+    "letter.sincewhen": "Since when has the defect existed?",
+    "letter.detailDesc": "Detailed description",
+    "letter.nativeHint": "You can write in your native language — the AI translates it into German.",
+    "letter.showPreview": "Show preview",
+    "letter.creating": "Creating your letter...",
+    "letter.previewTitle": "Preview of your defect notice",
+    "letter.editHint": "You can edit the text directly before sending it.",
+    "letter.signature": "Digital signature (optional)",
+    "letter.clearSig": "Clear",
+    "letter.saveSig": "Save signature",
+    "letter.sigSaved": "Saved",
+    "letter.deliveryOptions": "Delivery options",
+    "letter.backPreview": "Back to preview",
+    "letter.howReceive": "Your defect notice is ready",
+    "letter.downloadDesc": "Download the letter as a PDF and print it yourself.",
+    "letter.free": "Free",
+    "letter.downloadPdf": "Download as PDF",
+    "letter.downloadTxt": "As text file",
+    "letter.copyText": "Copy text",
+    "letter.copied": "Copied!",
+    "letter.warning":
+      "Always send the defect notice in a way you can prove — ideally by registered mail (Einwurf-Einschreiben). A simple email is not sufficient proof of receipt.",
+
+    // Case saving & reminder emails (opt-in)
+    "case.optinTitle": "Keep an eye on the deadline?",
+    "case.optinPitch":
+      "Your landlord has until {frist} to fix the defects. If you like, we'll save your case and get back to you exactly when it matters.",
+    "case.optinBenefit1": "Email reminder as soon as the deadline expires on {frist}",
+    "case.optinBenefit2": "Quick one-click status check: Has your landlord responded?",
+    "case.optinBenefit3":
+      "If nothing happens: possible next steps — including a free initial assessment by a lawyer, if you wish",
+    "case.optinEmailLabel": "Your email address",
+    "case.optinConsent":
+      "I consent to mietminderung.online storing my name, email address, postcode and city as well as my case data (defects with descriptions, rent, reduction quota, deadline date, answers from the eligibility check) in order to send me a confirmation email and reminders. Street address, phone number, signature and landlord details are not stored. I can withdraw this consent at any time with effect for the future — my data will then be deleted. Details:",
+    "case.optinPrivacy": "Privacy policy",
+    "case.optinSubmit": "Activate reminder",
+    "case.optinSubmitting": "Saving…",
+    "case.optinSuccessTitle": "Almost done — please confirm your email address.",
+    "case.optinSuccessText":
+      "We've sent a confirmation email to {email}. Only after you click the confirmation link will we permanently save your case and send reminders. No email? Please also check your spam folder.",
+    "case.optinErrorTitle": "That didn't work, unfortunately.",
+    "case.optinErrorText":
+      "Your sign-up couldn't be saved just now. Please try again in a moment — your defect notice and your download are not affected.",
+    "case.optinErrorRate": "Too many attempts. Please wait a moment and then try again.",
+    "case.optinRetry": "Try again",
+    "case.confirmTitle": "Confirm your email address",
+    "case.confirmIntro": "One click activates the deadline reminder for your defect notice.",
+    "case.confirmButton": "Confirm now",
+    "case.confirmWorking": "Confirming…",
+    "case.confirmSuccessTitle": "Reminder active — your case has been saved.",
+    "case.confirmSuccessText":
+      "Thank you! We'll get in touch shortly after the deadline of your defect notice expires and ask whether your landlord has responded. Until then there's nothing you need to do.",
+    "case.confirmDeleteHint":
+      "You can delete your case at any time — you'll find the link in every email we send.",
+    "case.confirmInvalid":
+      "This link is invalid or has expired. If you'd like to use the reminder, please sign up again via a new defect notice.",
+    "case.statusTitle": "Your case",
+    "case.statusLoading": "Loading your case…",
+    "case.statusInvalid": "This link is invalid or the case has already been deleted.",
+    "case.statusDeadline": "Deadline given to the landlord",
+    "case.statusQuota": "Reduction quota (guideline)",
+    "case.statusQuestion": "Has your landlord responded?",
+    "case.statusAnswerResolved": "Yes, defects fixed",
+    "case.statusAnswerPartly": "Partly fixed",
+    "case.statusAnswerNone": "No response",
+    "case.statusThanks": "Thank you for your feedback!",
+    "case.statusResolvedTitle": "Good news — your landlord took action.",
+    "case.statusResolvedText":
+      "Good to know: for the period during which the defects existed, your rent was reduced by operation of law (§ 536 BGB). If you paid in full under reservation, you can claim back the overpaid rent.",
+    "case.statusPartlyTitle": "A start — but not enough yet.",
+    "case.statusPartlyText":
+      "As long as defects remain, your rent stays proportionally reduced. What makes sense now: demand the remaining repairs in writing, set a further deadline and keep paying under reservation.",
+    "case.statusNoneTitle": "You don't have to accept this.",
+    "case.statusNoneText":
+      "Your landlord let the deadline pass. Keep paying under reservation and document the defects (photos, dates, witnesses).",
+    "case.statusGuideLink": "Read the guide",
+    "case.statusLawyerTeaser":
+      "If you wish, a tenancy-law attorney can assess your case free of charge and without obligation.",
+    "case.statusLawyerLink": "More about the free initial assessment",
+    "case.statusError": "That didn't work, unfortunately — please try again.",
+    "case.deleteTitle": "Delete case & withdraw consent",
+    "case.deleteText":
+      "This permanently deletes your saved case and your email address. You will receive no further reminders.",
+    "case.deleteButton": "Delete case",
+    "case.deleteConfirmText": "Really delete? This step cannot be undone.",
+    "case.deleteConfirmButton": "Yes, delete permanently",
+    "case.deletedTitle": "Your data has been deleted.",
+    "case.deletedText":
+      "Your case and your email address have been removed from our system. If you'd like support again later, you can create a new defect notice at any time.",
+    "case.lawyerTitle": "Free initial assessment by a lawyer",
+    "case.lawyerIntro":
+      "A partner law firm admitted in Germany will review your case free of charge and without obligation and contact you by email. This does not commit you to anything — whether you engage them afterwards is entirely up to you.",
+    "case.lawyerConsent":
+      "I consent to mietminderung.online passing on my name, email address, postcode and city as well as my case data (defects including descriptions, rent, reduction quota, deadline history and the landlord's response status) to a partner attorney so that they can contact me for a free, non-binding initial assessment. This consent is voluntary and can be withdrawn at any time with effect for the future. Details:",
+    "case.lawyerSubmit": "Request initial assessment",
+    "case.lawyerWorking": "Submitting…",
+    "case.lawyerSuccessTitle": "Request received!",
+    "case.lawyerSuccessText":
+      "Thank you — a partner law firm will contact you by email within the next few days.",
+    "case.lawyerInvalid": "This link is invalid or the case has already been deleted.",
+
+    // Teaser
+    "teaser.title": "Create a defect notice",
+    "teaser.desc":
+      "Create a legally sound defect notice for your landlord. Start with our check to determine your claim and the amount of the rent reduction — this data flows automatically into your letter.",
+    "teaser.feat1": "Legally sound template under Section 536c BGB",
+    "teaser.feat2": "Automatically filled with your details",
+    "teaser.feat3": "Download as PDF or text file",
+    "teaser.feat4": "Digital signature possible",
+    "teaser.feat5": "Input in your native language possible",
+    "teaser.cta": "Check your claim — the letter is created automatically",
+
+    // Info
+    "info.title": "Your right to a rent reduction — the key facts",
+    "info.subtitle": "Everything you need to know about rent reduction in Germany",
+    "info.c1.title": "A statutory right",
+    "info.c1.desc":
+      "The rent reduction is enshrined in Section 536 BGB and takes effect automatically as soon as a significant defect exists. You do not need to apply for approval — the rent is reduced by operation of law.",
+    "info.c2.title": "Cannot be waived",
+    "info.c2.desc":
+      "For residential tenancies, the right to reduce the rent cannot be excluded by the tenancy agreement (Section 536 (4) BGB). Clauses attempting to do so are invalid.",
+    "info.c3.title": "Defect notice is mandatory",
+    "info.c3.desc":
+      "Before reducing the rent, you must report the defect to your landlord in writing (Section 536c BGB). Without a defect notice you lose your right to reduce and risk claims for damages.",
+    "info.c4.title": "Gross warm rent as the basis",
+    "info.c4.desc":
+      "The rent reduction is calculated from the gross warm rent (base rent + service charges). The Federal Court of Justice confirmed this in its ruling of 6 April 2005 (case no. XII ZR 225/03).",
+    "info.c5.title": "Be careful with the amount",
+    "info.c5.desc":
+      "If you reduce too much and build up arrears of 2 monthly rents, you risk termination without notice. If in doubt: pay the full rent under reservation of rights and reclaim it later.",
+    "info.c6.title": "Act promptly",
+    "info.c6.desc":
+      "The defect notice must be given without delay after discovery. If you pay the full rent for around 6 months without reservation, you risk forfeiting the right to reduce.",
+
+    // FAQ
+    "faq.badge": "Frequently asked questions",
+    "faq.title": "Everything about rent reduction",
+    "faq.subtitle": "Answers to the most important questions about rent reduction in Germany.",
+    "faq.legal.title": "Legal notice",
+    "faq.legal.text":
+      "The information provided on this website is for general information purposes only and does not constitute legal advice. Despite careful research, we cannot guarantee that the content is accurate, complete or up to date. The reduction rates are based on court rulings and serve only as guide values — every individual case is assessed on its own merits. For specific legal questions, we recommend consulting a tenants' association or a lawyer.",
+
+    // Footer
+    "footer.desc":
+      "We help tenants in Germany enforce their right to a rent reduction. Free check, calculation and creation of the defect notice — all in just a few minutes.",
+    "footer.service": "Service",
+    "footer.legal": "Legal",
+    "footer.imprint": "Imprint",
+    "footer.privacy": "Privacy policy",
+    "footer.terms": "Terms of use",
+    "footer.rights": "All rights reserved.",
+    "footer.noLegal":
+      "No legal advice. Information provided without guarantee. If you have questions, contact a tenants' association or a lawyer.",
+    "footer.withdrawal": "Right of withdrawal",
+
+    // Shared
+    "common.note": "Note",
+    "common.backHome": "Back to homepage",
+
+    // FAQ page
+    "faq.showAll": "Show all questions & answers",
+    "faqpage.allTitle": "All questions & answers",
+    "faqpage.cta.title": "Didn't find your question?",
+    "faqpage.cta.desc":
+      "Use our free rent reduction check. In just a few steps you'll find out whether and by how much you can reduce your rent.",
+
+    // Letter — delivery
+    "letter.basedOn":
+      "Based on your check: approx. {quote}% reduction at {rent} € gross warm rent.",
+  },
+
   tr: {
-    "nav.check": "Hakkınızı kontrol edin",
+    "nav.check": "Hak kontrolü",
     "nav.letter": "Kusur bildirimi",
     "nav.how": "Nasıl çalışır",
     "nav.faq": "SSS",
     "nav.table": "Tablo",
     "nav.guide": "Rehber",
     "nav.cta": "Şimdi kontrol et",
-    "hero.badge": "§ 536 BGB'ye dayalı — yasal hakkınız",
+    "hero.badge": "§ 536 BGB'ye dayalı: yasal hakkınız",
     "hero.title1": "Konut kusuru mu?",
     "hero.title2": "Daha az kira ödemek",
     "hero.title3": "sizin hakkınız.",
     "hero.subtitle":
-      "2 dakikada ücretsiz olarak kira indirimi hakkınız olup olmadığını kontrol edin. Yasal olarak geçerli bir kusur bildirimi oluşturun — mektubu doğrudan ev sahibinize gönderin.",
+      "2 dakikada ücretsiz olarak kira indirimi hakkınız olup olmadığını kontrol edin ve ev sahibiniz için hemen yasal olarak geçerli bir kusur bildirimi oluşturun.",
     "hero.cta1": "Hakkınızı ücretsiz kontrol edin",
     "hero.cta2": "Kusur bildirimi oluştur",
-    "hero.trust1": "100% ücretsiz — gizli maliyet yok",
+    "hero.trust1": "100% ücretsiz, gizli maliyet yok",
     "hero.trust2": "Kayıt gerekmez",
     "hero.trust3": "Kusur bildirimi ücretsiz oluştur",
     "hero.selectLang": "Dil seçin",
-    "hero.stat1label": "BGB — Yasal hakkınız",
+    "hero.stat1label": "BGB: Yasal hakkınız",
     "hero.stat2": "%100'e kadar",
     "hero.stat2label": "Kira indirimi mümkün",
     "hero.stat3": "2 dk.",
@@ -358,16 +670,16 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.subtitle": "4 basit adımda kira indirimi hakkınıza ulaşın",
     "how.step": "ADIM",
     "how.s1.title": "Kusur seçin",
-    "how.s1.desc": "60'tan fazla tipik konut kusurundan uygun olanı seçin — ısıtma arızasından küfe kadar.",
+    "how.s1.desc": "60'tan fazla tipik konut kusurundan uygun olanı seçin, ısıtma arızasından küfe kadar.",
     "how.s2.title": "İndirimi hesaplayın",
     "how.s2.desc": "Güncel mahkeme kararlarına göre ne kadar kira indirimi hakkınız olduğunu hesaplıyoruz.",
     "how.s3.title": "Kusur bildirimi oluştur",
     "how.s3.desc": "Bilgilerinizden § 536c BGB'ye uygun yasal bir kusur bildirimi oluşturuyoruz.",
     "how.s4.title": "Mektubu indir",
     "how.s4.desc":
-      "Hazır kusur bildirimini PDF veya metin dosyası olarak indirin — ücretsiz ve kayıt gerektirmez. Ev sahibinize göndermeyi kendiniz yaparsınız.",
+      "Hazır kusur bildirimini PDF veya metin dosyası olarak indirin, ücretsiz ve kayıt gerektirmez. Ev sahibinize göndermeyi kendiniz yaparsınız.",
     "check.title": "Kira indirimi hakkınız var mı?",
-    "check.subtitle": "Birkaç soruyu yanıtlayın — hakkınızı ücretsiz kontrol edelim.",
+    "check.subtitle": "Birkaç soruyu yanıtlayın, hakkınızı ücretsiz kontrol edelim.",
     "check.question": "Soru",
     "check.of": "/",
     "check.step": "Adım",
@@ -418,9 +730,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "eq.selbst_verursacht.unsicher": "Emin değilim",
     "eq.erheblich.q": "Kusur dairenizi ne kadar etkiliyor?",
     "eq.erheblich.desc": "Yalnızca önemli kusurlar kira indirimine hak kazandırır. Kozmetik veya önemsiz kusurlar yeterli değildir.",
-    "eq.erheblich.stark": "Güçlü — yaşam kalitesi belirgin şekilde kısıtlı",
-    "eq.erheblich.mittel": "Orta — hissedilir etki",
-    "eq.erheblich.gering": "Hafif — sadece küçük rahatsızlık",
+    "eq.erheblich.stark": "Güçlü: yaşam kalitesi belirgin şekilde kısıtlı",
+    "eq.erheblich.mittel": "Orta: hissedilir etki",
+    "eq.erheblich.gering": "Hafif: sadece küçük rahatsızlık",
     "eq.angezeigt.q": "Kusuru ev sahibinize bildirdiniz mi?",
     "eq.angezeigt.desc": "Kusur bildirimi, kira indirimi için ön koşuldur (§ 536c BGB). Bunu oluşturmanıza yardımcı oluyoruz.",
     "eq.angezeigt.ja": "Evet, yazılı olarak",
@@ -453,7 +765,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.whichRoom": "Kusur hangi odada ortaya çıkıyor?",
     "letter.sincewhen": "Kusur ne zamandan beri mevcut?",
     "letter.detailDesc": "Ayrıntılı açıklama",
-    "letter.nativeHint": "Kendi ana dilinizde yazabilirsiniz — yapay zeka Almancaya çevirecek.",
+    "letter.nativeHint": "Kendi ana dilinizde yazabilirsiniz, yapay zeka Almancaya çevirecek.",
     "letter.showPreview": "Önizleme göster",
     "letter.creating": "Mektup oluşturuluyor...",
     "letter.previewTitle": "Kusur bildirimi önizlemesi",
@@ -471,7 +783,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "Metin dosyası olarak",
     "letter.copyText": "Metni kopyala",
     "letter.copied": "Kopyalandı!",
-    "letter.warning": "Kusur bildirimini her zaman kanıtlanabilir şekilde gönderin — en iyisi taahhütlü posta ile.",
+    "letter.warning": "Kusur bildirimini her zaman kanıtlanabilir şekilde gönderin, en iyisi taahhütlü posta ile.",
 
     // Case saving & reminder emails (opt-in)
     "case.optinTitle": "Süreyi takip etmek ister misiniz?",
@@ -550,7 +862,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerSuccessText":
       "Teşekkürler — bir partner hukuk bürosu önümüzdeki günlerde e-posta ile size ulaşacak.",
     "case.lawyerInvalid": "Bu bağlantı geçersiz veya vaka zaten silinmiş.",
-
     "teaser.title": "Kusur bildirimi oluştur",
     "teaser.desc":
       "Ev sahibinize yasal olarak geçerli bir kusur bildirimi oluşturun. Önce hakkınızı ve kira indirimi miktarını belirlemek için kontrolümüzü kullanın.",
@@ -559,8 +870,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "teaser.feat3": "PDF veya metin dosyası olarak indirin",
     "teaser.feat4": "Dijital imza mümkün",
     "teaser.feat5": "Kendi ana dilinizde doldurabilirsiniz",
-    "teaser.cta": "Hakkı kontrol et — mektup otomatik oluşturulur",
-    "info.title": "Kira indirimi hakkınız — en önemli bilgiler",
+    "teaser.cta": "Hakkı kontrol et: mektup otomatik oluşturulur",
+    "info.title": "Kira indirimi hakkınız: en önemli bilgiler",
     "info.subtitle": "Almanya'da kira indirimi hakkında bilmeniz gereken her şey",
     "info.c1.title": "Yasal hak",
     "info.c1.desc": "Kira indirimi § 536 BGB'de yasal olarak düzenlenmiştir ve önemli bir kusur olduğunda otomatik olarak devreye girer.",
@@ -601,32 +912,32 @@ export const translations: Record<Locale, Record<string, string>> = {
     "faqpage.cta.desc":
       "Ücretsiz kira indirimi kontrolümüzü kullanın. Birkaç adımda indirim yapıp yapamayacağınızı ve ne kadar indirebileceğinizi öğrenin.",
 
-    // Letter — delivery
+    // Letter - delivery
     "letter.basedOn":
       "Kontrolünüze dayanmaktadır: {rent} € brüt sıcak kirada yaklaşık %{quote} indirim.",
   },
 
   uk: {
-    "nav.check": "Перевірити право",
-    "nav.letter": "Повідомлення про дефект",
+    "nav.check": "Перевірка",
+    "nav.letter": "Повідомлення",
     "nav.how": "Як це працює",
     "nav.faq": "FAQ",
     "nav.table": "Таблиця",
     "nav.guide": "Порадник",
     "nav.cta": "Перевірити зараз",
-    "hero.badge": "На основі § 536 BGB — ваше законне право",
+    "hero.badge": "На основі § 536 BGB: ваше законне право",
     "hero.title1": "Дефект житла?",
     "hero.title2": "Платити менше оренди",
-    "hero.title3": "— ваше право.",
+    "hero.title3": "це ваше право.",
     "hero.subtitle":
-      "Перевірте безкоштовно за 2 хвилини, чи маєте ви право на зниження орендної плати. Створіть юридично обґрунтоване повідомлення про дефект — і надішліть лист безпосередньо орендодавцю.",
+      "Перевірте безкоштовно за 2 хвилини, чи маєте ви право на зниження орендної плати, і одразу створіть юридично обґрунтоване повідомлення про дефект для орендодавця.",
     "hero.cta1": "Безкоштовно перевірити право",
     "hero.cta2": "Створити повідомлення про дефект",
-    "hero.trust1": "100% безкоштовно — без прихованих витрат",
+    "hero.trust1": "100% безкоштовно, без прихованих витрат",
     "hero.trust2": "Реєстрація не потрібна",
     "hero.trust3": "Створити повідомлення безкоштовно",
     "hero.selectLang": "Обрати мову",
-    "hero.stat1label": "BGB — ваше законне право",
+    "hero.stat1label": "BGB: ваше законне право",
     "hero.stat2": "до 100%",
     "hero.stat2label": "Зниження оренди можливе",
     "hero.stat3": "2 хв.",
@@ -635,16 +946,16 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.subtitle": "У 4 простих кроки до вашого права на зниження оренди",
     "how.step": "КРОК",
     "how.s1.title": "Оберіть дефект",
-    "how.s1.desc": "Оберіть з понад 60 типових дефектів житла — від поломки опалення до цвілі.",
+    "how.s1.desc": "Оберіть з понад 60 типових дефектів житла, від поломки опалення до цвілі.",
     "how.s2.title": "Розрахуйте зниження",
     "how.s2.desc": "Ми розрахуємо на основі актуальних судових рішень, яке зниження оренди вам належить.",
     "how.s3.title": "Створіть повідомлення",
     "how.s3.desc": "З ваших даних ми генеруємо юридично обґрунтоване повідомлення згідно § 536c BGB.",
     "how.s4.title": "Завантажте лист",
     "how.s4.desc":
-      "Завантажте готове повідомлення про недоліки у форматі PDF або текстового файлу — безкоштовно й без реєстрації. Надсилання орендодавцю ви виконуєте самостійно.",
+      "Завантажте готове повідомлення про недоліки у форматі PDF або текстового файлу, безкоштовно й без реєстрації. Надсилання орендодавцю ви виконуєте самостійно.",
     "check.title": "Чи маєте ви право на зниження оренди?",
-    "check.subtitle": "Дайте відповідь на кілька запитань — ми безкоштовно перевіримо ваше право.",
+    "check.subtitle": "Дайте відповідь на кілька запитань, і ми безкоштовно перевіримо ваше право.",
     "check.question": "Питання",
     "check.of": "з",
     "check.step": "Крок",
@@ -694,9 +1005,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "eq.selbst_verursacht.unsicher": "Не впевнений",
     "eq.erheblich.q": "Наскільки сильно дефект впливає на ваше житло?",
     "eq.erheblich.desc": "Лише суттєві дефекти дають право на зниження оренди. Косметичні або незначні дефекти не враховуються.",
-    "eq.erheblich.stark": "Сильно — якість проживання значно обмежена",
-    "eq.erheblich.mittel": "Середньо — відчутний вплив",
-    "eq.erheblich.gering": "Незначно — лише легка незручність",
+    "eq.erheblich.stark": "Сильно: якість проживання значно обмежена",
+    "eq.erheblich.mittel": "Середньо: відчутний вплив",
+    "eq.erheblich.gering": "Незначно: лише легка незручність",
     "eq.angezeigt.q": "Чи повідомили ви орендодавця про дефект?",
     "eq.angezeigt.desc": "Повідомлення про дефект є передумовою для зниження оренди (§ 536c BGB). Ми допоможемо вам його створити.",
     "eq.angezeigt.ja": "Так, письмово",
@@ -729,7 +1040,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.whichRoom": "В якій кімнаті виникає дефект?",
     "letter.sincewhen": "З якого часу існує дефект?",
     "letter.detailDesc": "Детальний опис",
-    "letter.nativeHint": "Ви можете писати рідною мовою — ШІ перекладе на німецьку.",
+    "letter.nativeHint": "Ви можете писати рідною мовою, і ШІ перекладе на німецьку.",
     "letter.showPreview": "Показати попередній перегляд",
     "letter.creating": "Лист створюється...",
     "letter.previewTitle": "Попередній перегляд вашого повідомлення",
@@ -747,7 +1058,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "Як текстовий файл",
     "letter.copyText": "Копіювати текст",
     "letter.copied": "Скопійовано!",
-    "letter.warning": "Завжди надсилайте повідомлення з підтвердженням отримання — найкраще рекомендованим листом.",
+    "letter.warning": "Завжди надсилайте повідомлення з підтвердженням отримання, найкраще рекомендованим листом.",
 
     // Case saving & reminder emails (opt-in)
     "case.optinTitle": "Тримати строк під контролем?",
@@ -826,7 +1137,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerSuccessText":
       "Дякуємо — партнерська юридична фірма зв'яжеться з вами електронною поштою найближчими днями.",
     "case.lawyerInvalid": "Це посилання недійсне або справу вже видалено.",
-
     "teaser.title": "Створити повідомлення про дефект",
     "teaser.desc":
       "Створіть юридично обґрунтоване повідомлення для орендодавця. Спочатку скористайтеся перевіркою для визначення права та розміру зниження.",
@@ -835,8 +1145,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "teaser.feat3": "Завантаження у форматі PDF або текстового файлу",
     "teaser.feat4": "Цифровий підпис можливий",
     "teaser.feat5": "Можна заповнити рідною мовою",
-    "teaser.cta": "Перевірити право — лист створюється автоматично",
-    "info.title": "Ваше право на зниження оренди — найважливіші факти",
+    "teaser.cta": "Перевірити право: лист створюється автоматично",
+    "info.title": "Ваше право на зниження оренди: найважливіші факти",
     "info.subtitle": "Все, що потрібно знати про зниження оренди в Німеччині",
     "info.c1.title": "Законне право",
     "info.c1.desc": "Зниження оренди закріплено в § 536 BGB і настає автоматично при наявності суттєвого дефекту.",
@@ -876,32 +1186,32 @@ export const translations: Record<Locale, Record<string, string>> = {
     "faqpage.cta.desc":
       "Скористайтеся нашою безкоштовною перевіркою. За кілька кроків ви дізнаєтесь, чи можете зменшити оренду і на скільки.",
 
-    // Letter — delivery
+    // Letter - delivery
     "letter.basedOn":
       "На основі вашої перевірки: близько {quote} % зменшення при оренді {rent} €.",
   },
 
   ru: {
-    "nav.check": "Проверить право",
-    "nav.letter": "Уведомление о дефекте",
+    "nav.check": "Проверка",
+    "nav.letter": "Уведомление",
     "nav.how": "Как это работает",
     "nav.faq": "FAQ",
     "nav.table": "Таблица",
     "nav.guide": "Справочник",
     "nav.cta": "Проверить сейчас",
-    "hero.badge": "На основании § 536 BGB — ваше законное право",
+    "hero.badge": "На основании § 536 BGB: ваше законное право",
     "hero.title1": "Дефект жилья?",
     "hero.title2": "Платить меньше аренды",
-    "hero.title3": "— ваше право.",
+    "hero.title3": "это ваше право.",
     "hero.subtitle":
-      "Проверьте бесплатно за 2 минуты, имеете ли вы право на снижение арендной платы. Создайте юридически обоснованное уведомление — и отправьте письмо арендодателю.",
+      "Проверьте бесплатно за 2 минуты, имеете ли вы право на снижение арендной платы, и сразу создайте юридически обоснованное уведомление о дефекте для арендодателя.",
     "hero.cta1": "Бесплатно проверить право",
     "hero.cta2": "Создать уведомление о дефекте",
-    "hero.trust1": "100% бесплатно — без скрытых расходов",
+    "hero.trust1": "100% бесплатно, без скрытых расходов",
     "hero.trust2": "Регистрация не требуется",
     "hero.trust3": "Создать уведомление бесплатно",
     "hero.selectLang": "Выбрать язык",
-    "hero.stat1label": "BGB — ваше законное право",
+    "hero.stat1label": "BGB: ваше законное право",
     "hero.stat2": "до 100%",
     "hero.stat2label": "Снижение аренды возможно",
     "hero.stat3": "2 мин.",
@@ -910,16 +1220,16 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.subtitle": "В 4 простых шага к вашему праву на снижение аренды",
     "how.step": "ШАГ",
     "how.s1.title": "Выберите дефект",
-    "how.s1.desc": "Выберите из более 60 типичных дефектов жилья — от поломки отопления до плесени.",
+    "how.s1.desc": "Выберите из более 60 типичных дефектов жилья, от поломки отопления до плесени.",
     "how.s2.title": "Рассчитайте снижение",
     "how.s2.desc": "Мы рассчитаем на основе актуальных судебных решений, какое снижение аренды вам положено.",
     "how.s3.title": "Создайте уведомление",
     "how.s3.desc": "Из ваших данных мы генерируем юридически обоснованное уведомление согласно § 536c BGB.",
     "how.s4.title": "Скачайте письмо",
     "how.s4.desc":
-      "Скачайте готовое уведомление о недостатках в формате PDF или текстового файла — бесплатно и без регистрации. Отправку арендодателю вы выполняете сами.",
+      "Скачайте готовое уведомление о недостатках в формате PDF или текстового файла, бесплатно и без регистрации. Отправку арендодателю вы выполняете сами.",
     "check.title": "Есть ли у вас право на снижение аренды?",
-    "check.subtitle": "Ответьте на несколько вопросов — мы бесплатно проверим ваше право.",
+    "check.subtitle": "Ответьте на несколько вопросов, и мы бесплатно проверим ваше право.",
     "check.question": "Вопрос",
     "check.of": "из",
     "check.step": "Шаг",
@@ -968,11 +1278,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "eq.selbst_verursacht.unsicher": "Не уверен",
     "eq.erheblich.q": "Насколько сильно дефект влияет на ваше жильё?",
     "eq.erheblich.desc": "Только существенные дефекты дают право на снижение аренды. Косметические или незначительные дефекты не учитываются.",
-    "eq.erheblich.stark": "Сильно — качество жизни значительно ограничено",
-    "eq.erheblich.mittel": "Средне — ощутимое влияние",
-    "eq.erheblich.gering": "Незначительно — лишь лёгкое неудобство",
+    "eq.erheblich.stark": "Сильно: качество жизни значительно ограничено",
+    "eq.erheblich.mittel": "Средне: ощутимое влияние",
+    "eq.erheblich.gering": "Незначительно: лишь лёгкое неудобство",
     "eq.angezeigt.q": "Сообщили ли вы арендодателю о дефекте?",
-    "eq.angezeigt.desc": "Уведомление о дефекте — обязательное условие для снижения аренды (§ 536c BGB). Мы поможем вам его составить.",
+    "eq.angezeigt.desc": "Уведомление о дефекте является обязательным условием для снижения аренды (§ 536c BGB). Мы поможем вам его составить.",
     "eq.angezeigt.ja": "Да, письменно",
     "eq.angezeigt.muendlich": "Только устно",
     "eq.angezeigt.nein": "Нет, ещё нет",
@@ -1003,7 +1313,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.whichRoom": "В какой комнате проявляется дефект?",
     "letter.sincewhen": "С какого времени существует дефект?",
     "letter.detailDesc": "Подробное описание",
-    "letter.nativeHint": "Вы можете писать на родном языке — ИИ переведёт на немецкий.",
+    "letter.nativeHint": "Вы можете писать на родном языке, и ИИ переведёт на немецкий.",
     "letter.showPreview": "Показать предпросмотр",
     "letter.creating": "Письмо создаётся...",
     "letter.previewTitle": "Предпросмотр вашего уведомления",
@@ -1021,7 +1331,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "Как текстовый файл",
     "letter.copyText": "Копировать текст",
     "letter.copied": "Скопировано!",
-    "letter.warning": "Всегда отправляйте уведомление с подтверждением получения — лучше всего заказным письмом.",
+    "letter.warning": "Всегда отправляйте уведомление с подтверждением получения, лучше всего заказным письмом.",
 
     // Case saving & reminder emails (opt-in)
     "case.optinTitle": "Держать срок под контролем?",
@@ -1100,7 +1410,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerSuccessText":
       "Спасибо — партнёрская юридическая фирма свяжется с вами по электронной почте в ближайшие дни.",
     "case.lawyerInvalid": "Эта ссылка недействительна или дело уже удалено.",
-
     "teaser.title": "Создать уведомление о дефекте",
     "teaser.desc": "Создайте юридически обоснованное уведомление для арендодателя.",
     "teaser.feat1": "Юридический шаблон согласно § 536c BGB",
@@ -1108,8 +1417,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "teaser.feat3": "Скачивание в формате PDF или текстового файла",
     "teaser.feat4": "Цифровая подпись возможна",
     "teaser.feat5": "Можно заполнить на родном языке",
-    "teaser.cta": "Проверить право — письмо создаётся автоматически",
-    "info.title": "Ваше право на снижение аренды — важнейшие факты",
+    "teaser.cta": "Проверить право: письмо создаётся автоматически",
+    "info.title": "Ваше право на снижение аренды: важнейшие факты",
     "info.subtitle": "Всё, что нужно знать о снижении аренды в Германии",
     "info.c1.title": "Законное право",
     "info.c1.desc": "Снижение аренды закреплено в § 536 BGB и наступает автоматически при существенном дефекте.",
@@ -1149,7 +1458,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "faqpage.cta.desc":
       "Воспользуйтесь нашей бесплатной проверкой. За несколько шагов вы узнаете, можете ли вы снизить аренду и насколько.",
 
-    // Letter — delivery
+    // Letter - delivery
     "letter.basedOn":
       "На основе вашей проверки: около {quote} % снижения при аренде {rent} €.",
   },
@@ -1162,19 +1471,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.table": "الجدول",
     "nav.guide": "الدليل",
     "nav.cta": "تحقق الآن",
-    "hero.badge": "بموجب § 536 BGB — حقك القانوني",
+    "hero.badge": "بموجب § 536 BGB: حقك القانوني",
     "hero.title1": "عيب في السكن؟",
     "hero.title2": "دفع إيجار أقل",
     "hero.title3": "هو حقك.",
     "hero.subtitle":
-      "تحقق مجاناً خلال دقيقتين مما إذا كان لديك الحق في تخفيض الإيجار. أنشئ إشعاراً قانونياً بالعيب — وأرسل الرسالة مباشرة إلى المؤجر.",
+      "تحقق مجاناً خلال دقيقتين مما إذا كان لديك الحق في تخفيض الإيجار، وأنشئ فوراً إشعاراً قانونياً بالعيب للمؤجر.",
     "hero.cta1": "تحقق من حقك مجاناً",
     "hero.cta2": "إنشاء إشعار بالعيب",
-    "hero.trust1": "مجاني 100% — بدون تكاليف مخفية",
+    "hero.trust1": "مجاني 100%، بدون تكاليف مخفية",
     "hero.trust2": "لا يلزم التسجيل",
     "hero.trust3": "إنشاء إشعار بالعيب مجاناً",
     "hero.selectLang": "اختر اللغة",
-    "hero.stat1label": "BGB — حقك القانوني",
+    "hero.stat1label": "BGB: حقك القانوني",
     "hero.stat2": "حتى 100%",
     "hero.stat2label": "تخفيض الإيجار ممكن",
     "hero.stat3": "دقيقتان",
@@ -1190,9 +1499,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s3.desc": "من بياناتك ننشئ إشعاراً قانونياً وفقاً لـ § 536c BGB.",
     "how.s4.title": "حمّل الرسالة",
     "how.s4.desc":
-      "حمّل إشعار العيوب الجاهز بصيغة PDF أو ملف نصي — مجاناً ودون تسجيل. أنت من يتولى إرساله إلى المؤجر.",
+      "حمّل إشعار العيوب الجاهز بصيغة PDF أو ملف نصي، مجاناً ودون تسجيل. أنت من يتولى إرساله إلى المؤجر.",
     "check.title": "هل لديك الحق في تخفيض الإيجار؟",
-    "check.subtitle": "أجب عن بعض الأسئلة — نتحقق من حقك مجاناً.",
+    "check.subtitle": "أجب عن بعض الأسئلة، ونتحقق من حقك مجاناً.",
     "check.question": "السؤال",
     "check.of": "من",
     "check.step": "الخطوة",
@@ -1241,9 +1550,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "eq.selbst_verursacht.unsicher": "لست متأكداً",
     "eq.erheblich.q": "ما مدى تأثير العيب على سكنك؟",
     "eq.erheblich.desc": "فقط العيوب الجوهرية تمنح الحق في تخفيض الإيجار. العيوب التجميلية أو البسيطة لا تكفي.",
-    "eq.erheblich.stark": "قوي — جودة السكن محدودة بشكل واضح",
-    "eq.erheblich.mittel": "متوسط — تأثير ملموس",
-    "eq.erheblich.gering": "خفيف — إزعاج بسيط فقط",
+    "eq.erheblich.stark": "قوي: جودة السكن محدودة بشكل واضح",
+    "eq.erheblich.mittel": "متوسط: تأثير ملموس",
+    "eq.erheblich.gering": "خفيف: إزعاج بسيط فقط",
     "eq.angezeigt.q": "هل أبلغت المؤجر بالعيب؟",
     "eq.angezeigt.desc": "الإبلاغ عن العيب شرط مسبق لتخفيض الإيجار (§ 536c BGB). نساعدك في إنشائه.",
     "eq.angezeigt.ja": "نعم، كتابياً",
@@ -1276,7 +1585,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.whichRoom": "في أي غرفة يظهر العيب؟",
     "letter.sincewhen": "منذ متى يوجد العيب؟",
     "letter.detailDesc": "وصف مفصل",
-    "letter.nativeHint": "يمكنك الكتابة بلغتك الأم — سيترجم الذكاء الاصطناعي إلى الألمانية.",
+    "letter.nativeHint": "يمكنك الكتابة بلغتك الأم، وسيترجم الذكاء الاصطناعي إلى الألمانية.",
     "letter.showPreview": "عرض المعاينة",
     "letter.creating": "جارٍ إنشاء الرسالة...",
     "letter.previewTitle": "معاينة إشعارك",
@@ -1294,7 +1603,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "كملف نصي",
     "letter.copyText": "نسخ النص",
     "letter.copied": "تم النسخ!",
-    "letter.warning": "أرسل الإشعار دائماً بطريقة يمكن إثباتها — الأفضل بالبريد المسجل.",
+    "letter.warning": "أرسل الإشعار دائماً بطريقة يمكن إثباتها، والأفضل بالبريد المسجل.",
 
     // Case saving & reminder emails (opt-in)
     "case.optinTitle": "هل تريد متابعة المهلة؟",
@@ -1373,7 +1682,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerSuccessText":
       "شكراً لك — سيتواصل معك مكتب محاماة شريك عبر البريد الإلكتروني خلال الأيام القادمة.",
     "case.lawyerInvalid": "هذا الرابط غير صالح أو تم حذف الحالة بالفعل.",
-
     "teaser.title": "إنشاء إشعار بالعيب",
     "teaser.desc": "أنشئ إشعاراً قانونياً للمؤجر.",
     "teaser.feat1": "قالب قانوني وفقاً لـ § 536c BGB",
@@ -1381,8 +1689,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "teaser.feat3": "تحميل بصيغة PDF أو ملف نصي",
     "teaser.feat4": "توقيع رقمي ممكن",
     "teaser.feat5": "يمكنك الكتابة بلغتك الأم",
-    "teaser.cta": "تحقق من الحق — يُنشأ الخطاب تلقائياً",
-    "info.title": "حقك في تخفيض الإيجار — أهم الحقائق",
+    "teaser.cta": "تحقق من الحق: يُنشأ الخطاب تلقائياً",
+    "info.title": "حقك في تخفيض الإيجار: أهم الحقائق",
     "info.subtitle": "كل ما تحتاج معرفته عن تخفيض الإيجار في ألمانيا",
     "info.c1.title": "حق قانوني",
     "info.c1.desc": "تخفيض الإيجار منصوص عليه في § 536 BGB ويسري تلقائياً عند وجود عيب جوهري.",
@@ -1422,7 +1730,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "faqpage.cta.desc":
       "استخدم فحصنا المجاني لتخفيض الإيجار. في خطوات قليلة ستعرف ما إذا كان يحق لك التخفيض وبأي نسبة.",
 
-    // Letter — delivery
+    // Letter - delivery
     "letter.basedOn":
       "بناءً على فحصك: نحو {quote} ٪ تخفيض عند إيجار إجمالي قدره {rent} €.",
   },
@@ -1435,19 +1743,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.table": "Tabela",
     "nav.guide": "Poradnik",
     "nav.cta": "Sprawdź teraz",
-    "hero.badge": "Na podstawie § 536 BGB — Twoje ustawowe prawo",
+    "hero.badge": "Na podstawie § 536 BGB: Twoje ustawowe prawo",
     "hero.title1": "Usterka mieszkania?",
     "hero.title2": "Płacić mniej czynszu",
     "hero.title3": "to Twoje prawo.",
     "hero.subtitle":
-      "Sprawdź bezpłatnie w 2 minuty, czy masz prawo do obniżki czynszu. Utwórz prawnie wiążące zgłoszenie usterki — i wyślij list bezpośrednio do wynajmującego.",
+      "Sprawdź bezpłatnie w 2 minuty, czy masz prawo do obniżki czynszu i od razu utwórz prawnie wiążące zgłoszenie usterki dla wynajmującego.",
     "hero.cta1": "Bezpłatnie sprawdź prawo",
     "hero.cta2": "Utwórz zgłoszenie usterki",
-    "hero.trust1": "100% bezpłatnie — bez ukrytych kosztów",
+    "hero.trust1": "100% bezpłatnie, bez ukrytych kosztów",
     "hero.trust2": "Rejestracja nie jest wymagana",
     "hero.trust3": "Utwórz zgłoszenie usterki bezpłatnie",
     "hero.selectLang": "Wybierz język",
-    "hero.stat1label": "BGB — Twoje prawo",
+    "hero.stat1label": "BGB: Twoje prawo",
     "hero.stat2": "do 100%",
     "hero.stat2label": "Obniżka czynszu możliwa",
     "hero.stat3": "2 min.",
@@ -1463,9 +1771,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s3.desc": "Z Twoich danych wygenerujemy prawnie wiążące zgłoszenie zgodnie z § 536c BGB.",
     "how.s4.title": "Pobierz list",
     "how.s4.desc":
-      "Pobierz gotowe zgłoszenie wad w formacie PDF lub pliku tekstowego — bezpłatnie i bez rejestracji. Wysyłkę do wynajmującego wykonujesz samodzielnie.",
+      "Pobierz gotowe zgłoszenie wad w formacie PDF lub pliku tekstowego, bezpłatnie i bez rejestracji. Wysyłkę do wynajmującego wykonujesz samodzielnie.",
     "check.title": "Czy masz prawo do obniżki czynszu?",
-    "check.subtitle": "Odpowiedz na kilka pytań — bezpłatnie sprawdzimy Twoje prawo.",
+    "check.subtitle": "Odpowiedz na kilka pytań, a my bezpłatnie sprawdzimy Twoje prawo.",
     "check.question": "Pytanie",
     "check.of": "z",
     "check.step": "Krok",
@@ -1514,9 +1822,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "eq.selbst_verursacht.unsicher": "Nie jestem pewien",
     "eq.erheblich.q": "Jak mocno usterka wpływa na Twoje mieszkanie?",
     "eq.erheblich.desc": "Tylko istotne usterki uprawniają do obniżki czynszu. Kosmetyczne lub bagatelne usterki nie wystarczają.",
-    "eq.erheblich.stark": "Mocno — jakość mieszkania wyraźnie ograniczona",
-    "eq.erheblich.mittel": "Średnio — odczuwalny wpływ",
-    "eq.erheblich.gering": "Lekko — tylko niewielka niedogodność",
+    "eq.erheblich.stark": "Mocno: jakość mieszkania wyraźnie ograniczona",
+    "eq.erheblich.mittel": "Średnio: odczuwalny wpływ",
+    "eq.erheblich.gering": "Lekko: tylko niewielka niedogodność",
     "eq.angezeigt.q": "Czy zgłosiłeś usterkę wynajmującemu?",
     "eq.angezeigt.desc": "Zgłoszenie usterki jest warunkiem obniżki czynszu (§ 536c BGB). Pomagamy Ci je utworzyć.",
     "eq.angezeigt.ja": "Tak, pisemnie",
@@ -1549,7 +1857,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.whichRoom": "W którym pokoju występuje usterka?",
     "letter.sincewhen": "Od kiedy istnieje usterka?",
     "letter.detailDesc": "Szczegółowy opis",
-    "letter.nativeHint": "Możesz pisać w swoim języku ojczystym — AI przetłumaczy na niemiecki.",
+    "letter.nativeHint": "Możesz pisać w swoim języku ojczystym, a AI przetłumaczy na niemiecki.",
     "letter.showPreview": "Pokaż podgląd",
     "letter.creating": "List jest tworzony...",
     "letter.previewTitle": "Podgląd Twojego zgłoszenia",
@@ -1567,7 +1875,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "Jako plik tekstowy",
     "letter.copyText": "Kopiuj tekst",
     "letter.copied": "Skopiowano!",
-    "letter.warning": "Zawsze wysyłaj zgłoszenie w sposób udokumentowany — najlepiej listem poleconym.",
+    "letter.warning": "Zawsze wysyłaj zgłoszenie w sposób udokumentowany, najlepiej listem poleconym.",
 
     // Case saving & reminder emails (opt-in)
     "case.optinTitle": "Chcesz mieć termin pod kontrolą?",
@@ -1646,7 +1954,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "case.lawyerSuccessText":
       "Dziękujemy — partnerska kancelaria skontaktuje się z Tobą e-mailem w najbliższych dniach.",
     "case.lawyerInvalid": "Ten link jest nieprawidłowy lub sprawa została już usunięta.",
-
     "teaser.title": "Utwórz zgłoszenie usterki",
     "teaser.desc": "Utwórz prawnie wiążące zgłoszenie dla wynajmującego.",
     "teaser.feat1": "Szablon prawny zgodny z § 536c BGB",
@@ -1654,8 +1961,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "teaser.feat3": "Pobieranie w formacie PDF lub pliku tekstowego",
     "teaser.feat4": "Podpis cyfrowy możliwy",
     "teaser.feat5": "Możliwość wypełnienia w języku ojczystym",
-    "teaser.cta": "Sprawdź prawo — list tworzony automatycznie",
-    "info.title": "Twoje prawo do obniżki czynszu — najważniejsze fakty",
+    "teaser.cta": "Sprawdź prawo: list tworzony automatycznie",
+    "info.title": "Twoje prawo do obniżki czynszu: najważniejsze fakty",
     "info.subtitle": "Wszystko, co musisz wiedzieć o obniżce czynszu w Niemczech",
     "info.c1.title": "Prawo ustawowe",
     "info.c1.desc": "Obniżka czynszu jest zapisana w § 536 BGB i następuje automatycznie przy istotnej usterce.",
@@ -1695,7 +2002,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "faqpage.cta.desc":
       "Skorzystaj z naszego bezpłatnego sprawdzenia. W kilku krokach dowiesz się, czy i o ile możesz obniżyć czynsz.",
 
-    // Letter — delivery
+    // Letter - delivery
     "letter.basedOn":
       "Na podstawie twojego sprawdzenia: ok. {quote} % obniżki przy czynszu {rent} €.",
   },

@@ -3,6 +3,30 @@
   "framework": "nextjs",
   "regions": ["fra1"],
   "crons": [{ "path": "/api/cron", "schedule": "0 6 * * *" }],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.mietminderung-online.de"
+        }
+      ],
+      "destination": "https://mietminderung-online.de/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.mietminderung-online.de"
+        }
+      ],
+      "destination": "https://mietminderung-online.de/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

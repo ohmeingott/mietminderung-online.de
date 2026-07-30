@@ -24,7 +24,7 @@ const VALID_EVENTS = new Set([
   "case_saved",
 ]);
 
-const VALID_LOCALES = new Set(["de", "tr", "ru", "uk", "ar", "pl"]);
+const VALID_LOCALES = new Set(["de", "en", "tr", "ru", "uk", "ar", "pl"]);
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
