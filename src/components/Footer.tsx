@@ -47,6 +47,10 @@ export default function Footer() {
                 alt=""
                 width={32}
                 height={32}
+                // The brand blue has too little contrast on the dark footer, so
+                // the mark is flattened to a white silhouette. This relies on
+                // logo.png having a transparent background: the filter only
+                // touches RGB, leaving alpha to keep the shape.
                 className="h-8 w-8 brightness-0 invert"
               />
               <span className="text-lg font-bold text-white">
