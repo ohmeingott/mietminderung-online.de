@@ -36,6 +36,8 @@
 
 `src/lib/generatePdf.ts` bleibt unangetastet — der kostenlose Download darf von Änderungen am Versandlayout nicht betroffen sein.
 
+**Sprache im Code:** `CLAUDE.md` verlangt englische Kommentare, und der Bestandscode hält sich daran, auch wo die Domänenbezeichner deutsch bleiben (`MieterDaten`, `heuteDatum()`). Die Codeblöcke in diesem Plan tragen aus Lesbarkeitsgründen deutsche Kommentare — **beim Umsetzen sind sie ins Englische zu übersetzen**. Bezeichner bleiben wie geschrieben.
+
 **Testansatz:** Das Projekt hat keinen Unit-Test-Runner und bekommt für diese Integration keinen (so in der Spec entschieden). Verifikation läuft über drei Wege: der Spike prüft die Annahmen gegen die echte Staging-API, `npm run verify` deckt Lint/i18n/Build/E2E ab, und Playwright testet die Routen mit gestubbten eBrief-Antworten.
 
 ---
