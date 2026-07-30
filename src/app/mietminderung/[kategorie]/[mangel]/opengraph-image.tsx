@@ -55,7 +55,7 @@ export default async function MangelOgImage({
             🛡️
           </div>
           <span style={{ fontSize: "27px", fontWeight: 700, color: "white" }}>
-            Mietminderung.online
+            Mietminderung-online.de
           </span>
         </div>
 

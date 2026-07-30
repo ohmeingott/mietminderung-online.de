@@ -20,13 +20,13 @@ export default function ContentHeader() {
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
               src="/logo.png"
-              alt="Mietminderung Online"
+              alt="Mietminderung-online.de"
               width={36}
               height={36}
               className="w-9 h-9"
             />
             <span className="text-lg sm:text-xl font-extrabold tracking-tight text-gray-900">
-              Mietminderung<span className="text-blue-600">-online</span>
+              Mietminderung-online<span className="text-blue-600">.de</span>
             </span>
           </Link>
 

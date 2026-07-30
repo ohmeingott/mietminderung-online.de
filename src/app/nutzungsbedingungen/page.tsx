@@ -4,9 +4,9 @@ import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Nutzungsbedingungen & AGB — Mietminderung Online",
+  title: "Nutzungsbedingungen & AGB — Mietminderung-online.de",
   description:
-    "Nutzungsbedingungen und AGB von mietminderung.online: kostenloser Mietminderungs-Check, Mängelanzeige-Generator, Haftung und Gerichtsstand.",
+    "Nutzungsbedingungen und AGB von mietminderung-online.de: kostenloser Mietminderungs-Check, Mängelanzeige-Generator, Haftung und Gerichtsstand.",
   path: "/nutzungsbedingungen",
 });
 
@@ -225,7 +225,7 @@ export default function Nutzungsbedingungen() {
   return (
     <LegalPage
       title="Nutzungsbedingungen und AGB"
-      intro="Bedingungen für die Nutzung von mietminderung.online."
+      intro={`Bedingungen für die Nutzung von ${site.name}.`}
       updated={site.legalVersion}
     >
       <NumberedSections sections={sections} />

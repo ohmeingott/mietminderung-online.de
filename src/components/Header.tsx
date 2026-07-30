@@ -49,7 +49,7 @@ export default function Header() {
           <Link
             href="/"
             className="flex shrink-0 items-center gap-2"
-            aria-label="Mietminderung-online"
+            aria-label="Mietminderung-online.de"
           >
             <Image
               src="/logo.png"
@@ -62,8 +62,8 @@ export default function Header() {
               priority
             />
             <span className="text-lg font-bold tracking-tight text-ink-900 sm:text-xl">
-              Mietminderung
-              <span className="text-brand-500">-online</span>
+              Mietminderung-online
+              <span className="text-brand-500">.de</span>
             </span>
           </Link>
 

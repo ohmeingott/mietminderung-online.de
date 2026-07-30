@@ -4,9 +4,9 @@ import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Datenschutzerklärung — Mietminderung Online",
+  title: "Datenschutzerklärung — Mietminderung-online.de",
   description:
-    "Datenschutzerklärung von mietminderung.online: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.",
+    "Datenschutzerklärung von mietminderung-online.de: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.",
   path: "/datenschutz",
 });
 

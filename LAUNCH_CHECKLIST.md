@@ -1,4 +1,4 @@
-# Launch checklist — mietminderung.online
+# Launch checklist — mietminderung-online.de
 
 Status of the go-live preparation, plus the decisions that still need a human.
 
@@ -15,18 +15,18 @@ Status of the go-live preparation, plus the decisions that still need a human.
 - [ ] **Confirm the Impressum data.** `src/lib/site.ts` currently holds
       `Paul Ohm, Holzgasse 8, 50676 Köln, pjhohm@gmail.com`. A private Gmail
       address is legally sufficient but looks less trustworthy than
-      `kontakt@mietminderung.online` — consider a domain mailbox.
+      `kontakt@mietminderung-online.de` — consider a domain mailbox.
 - [ ] **Verify the domain.** The canonical host defaults to
-      `https://mietminderung.online` and drives canonicals, the sitemap,
-      `robots.txt` and every JSON-LD block. The repository is named
-      `mietminderung-online.de` — if the live domain is the `.de` one, set
-      `NEXT_PUBLIC_SITE_URL` in the Vercel project rather than editing code.
-      Leave it unset on preview deployments so they inherit the production
+      `https://mietminderung-online.de` and drives canonicals, the sitemap,
+      `robots.txt` and every JSON-LD block. That is the live domain, and
+      `vercel.json` redirects `www.mietminderung-online.de` to it. Only set
+      `NEXT_PUBLIC_SITE_URL` in the Vercel project if the host ever changes —
+      leave it unset on preview deployments so they inherit the production
       canonical.
 
 ### Recommended
 
-- [ ] Submit `https://mietminderung.online/sitemap.xml` in Google Search Console.
+- [ ] Submit `https://mietminderung-online.de/sitemap.xml` in Google Search Console.
       It now lists 86 URLs — the calculator, 58 defect pages, 13 category hubs,
       the guides and the legal texts.
 - [ ] Run `npm run verify` (lint → i18n check → build → E2E) one last time.

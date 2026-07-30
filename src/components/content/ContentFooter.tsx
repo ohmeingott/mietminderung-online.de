@@ -13,7 +13,7 @@ export default function ContentFooter() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div>
             <Link href="/" className="text-xl font-bold text-white">
-              Mietminderung<span className="text-blue-400">.online</span>
+              Mietminderung-online<span className="text-blue-400">.de</span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed">
               Kostenlos prüfen, ob Sie die Miete mindern dürfen, die
@@ -95,7 +95,7 @@ export default function ContentFooter() {
 
         <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs">
-            &copy; {new Date().getFullYear()} mietminderung.online
+            &copy; {new Date().getFullYear()} mietminderung-online.de
           </p>
           <p className="text-xs">
             Keine Rechtsberatung — alle Angaben ohne Gewähr.

@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 const defaultTitle =
-  "Mietminderung Online — Prüfen Sie Ihr Recht auf Mietminderung";
+  "Mietminderung-online.de — Prüfen Sie Ihr Recht auf Mietminderung";
 
 export const viewport: Viewport = {
   width: "device-width",

@@ -12,7 +12,7 @@
  */
 
 const rawSiteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://mietminderung.online";
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://mietminderung-online.de";
 
 /** Canonical origin, never with a trailing slash. */
 const siteUrl = rawSiteUrl.replace(/\/+$/, "");
@@ -31,7 +31,7 @@ const operator = {
 /** Operator details and legal metadata used across the legal pages. */
 export const site = {
   url: siteUrl,
-  name: "mietminderung.online",
+  name: "mietminderung-online.de",
   operator,
   /** Court venue for merchant disputes. */
   venue: "Köln",
@@ -41,8 +41,9 @@ export const site = {
 
 export const siteConfig = {
   url: siteUrl,
-  name: "Mietminderung Online",
-  brand: "mietminderung.online",
+  name: "Mietminderung-online.de",
+  /** Wordmark without the TLD, as shown in the header and footer logos. */
+  brand: "Mietminderung-online",
   lang: "de",
   locale: "de_DE",
   themeColor: "#1e40af",

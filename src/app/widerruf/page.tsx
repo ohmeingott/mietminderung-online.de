@@ -4,9 +4,9 @@ import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Widerrufsrecht — Mietminderung Online",
+  title: "Widerrufsrecht — Mietminderung-online.de",
   description:
-    "Alle Funktionen von mietminderung.online sind kostenlos. Mangels entgeltlichem Vertrag besteht derzeit kein gesetzliches Widerrufsrecht.",
+    "Alle Funktionen von mietminderung-online.de sind kostenlos. Mangels entgeltlichem Vertrag besteht derzeit kein gesetzliches Widerrufsrecht.",
   path: "/widerruf",
 });
 
