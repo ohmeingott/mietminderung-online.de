@@ -165,17 +165,9 @@ export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   registriereSchrift(doc);
 
-  // Sender line in 6 pt: inside the envelope window, above the coding stripe.
-  doc.setFontSize(6);
-  doc.text(
-    kuerzeAufEineZeile(doc, opts.absenderZeile, ANSCHRIFT_BREITE_MM),
-    LINKER_RAND_MM,
-    ABSENDERZEILE_Y_MM
-  );
-
-  // Address field, 10 pt. Wrap first and measure the whole block: an address
-  // that overflows the 27 mm field is one eBrief would reject, so it is
-  // better to fail loudly here than to post an undeliverable letter.
+  // Measure everything that can fail before drawing anything, so a rejected
+  // address never leaves a half-rendered document behind. Wrapping and
+  // truncation both depend on the current font size, hence the two passes.
   doc.setFontSize(10);
   const anschriftZeilen = opts.empfaenger.flatMap((zeile) =>
     umbrich(doc, zeile, ANSCHRIFT_BREITE_MM)
@@ -184,6 +176,8 @@ export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
     ANSCHRIFT_Y_MM +
     (anschriftZeilen.length - 1) * ANSCHRIFT_ZEILENHOEHE_MM +
     ANSCHRIFT_UNTERLAENGE_MM;
+  // An address that overflows the 27 mm field is one eBrief would reject, so
+  // it is better to fail loudly here than to post an undeliverable letter.
   if (anschriftUnterkante > ANSCHRIFT_FELD_UNTERKANTE_MM) {
     throw new AnschriftZuLangError(
       anschriftZeilen.length,
@@ -192,13 +186,24 @@ export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
     );
   }
 
+  doc.setFontSize(6);
+  const absenderZeile = kuerzeAufEineZeile(
+    doc,
+    opts.absenderZeile,
+    ANSCHRIFT_BREITE_MM
+  );
+
+  // Sender line in 6 pt: inside the envelope window, above the coding stripe.
+  doc.text(absenderZeile, LINKER_RAND_MM, ABSENDERZEILE_Y_MM);
+
+  // Address field, 10 pt, using the lines measured above.
+  doc.setFontSize(10);
   let anschriftY = ANSCHRIFT_Y_MM;
   for (const zeile of anschriftZeilen) {
     doc.text(zeile, LINKER_RAND_MM, anschriftY);
     anschriftY += ANSCHRIFT_ZEILENHOEHE_MM;
   }
 
-  doc.setFontSize(10);
   let y = TEXTSTART_Y_MM;
 
   const neueSeite = () => {
