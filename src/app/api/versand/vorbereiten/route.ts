@@ -40,6 +40,24 @@ function gefuellt(wert: unknown): wert is string {
   return typeof wert === "string" && wert.trim() !== "";
 }
 
+/** eBrief job attributes are strings; the price endpoint wants real booleans. */
+function janein(wert: "true" | "false"): boolean {
+  return wert === "true";
+}
+
+/**
+ * Best-effort cleanup of a job that must not go out. Its own failure is
+ * logged and swallowed: it must never replace the error that led here, nor
+ * turn a specific refusal into a generic one.
+ */
+async function verwerfeJob(jobId: number): Promise<void> {
+  try {
+    await deleteJob(jobId);
+  } catch (deleteErr) {
+    console.error("eBrief job could not be deleted", { jobId, deleteErr });
+  }
+}
+
 /**
  * Prepares an eBrief job up to and including the commit: the job exists and
  * eBrief's address check runs while the user can still correct things, but
@@ -88,7 +106,6 @@ export async function POST(request: Request) {
   }
 
   const produkt = PRODUKTE[produktId];
-  const istEinschreiben = produkt.ebrief.IsTracking === "true";
 
   // Built before the first eBrief call, so a rejected address leaves no job
   // behind that would have to be cleaned up.
@@ -132,14 +149,16 @@ export async function POST(request: Request) {
     await commitJob(jobId);
 
     // Sanity check: if the purchase price is above what the user pays, do not
-    // send rather than print at a loss. The page count comes from the rendered
-    // document, not from an assumption — a long Mängelanzeige can run past the
-    // three-sheet standard-letter bracket, where the price steps up sharply.
+    // send rather than print at a loss. Every input mirrors what the job was
+    // actually created with — the real rendered page count, because a long
+    // Mängelanzeige can run past the three-sheet standard-letter bracket where
+    // the price steps up sharply, and the catalogue's own attributes, so that
+    // a future colour or duplex product cannot be priced as mono simplex.
     const preis = await getPrice({
       pages: pdf.seiten,
-      isColor: false,
-      isDuplex: false,
-      isTracking: istEinschreiben,
+      isColor: janein(produkt.ebrief.IsColor),
+      isDuplex: janein(produkt.ebrief.IsDuplex),
+      isTracking: janein(produkt.ebrief.IsTracking),
     });
     if (preis.TotalPrice === undefined) {
       // Nothing to compare against. Not a reason to refuse the letter, but it
@@ -161,11 +180,9 @@ export async function POST(request: Request) {
         // Raw, so the euros-vs-cents question is answerable from the log alone.
         preisRoh: preis,
       });
-      // Logged first and swallowed here on purpose: a failing cleanup must not
-      // turn the price rejection into a generic eBrief error.
-      await deleteJob(jobId).catch((deleteErr) => {
-        console.error("eBrief job could not be deleted", { jobId, deleteErr });
-      });
+      // Logged before the cleanup runs, so the numbers survive even if the
+      // delete fails.
+      await verwerfeJob(jobId);
       return NextResponse.json({ fehler: "preis_unplausibel" }, { status: 409 });
     }
 
@@ -182,16 +199,9 @@ export async function POST(request: Request) {
     });
   } catch (err) {
     console.error("eBrief prepare failed", { jobId, err });
-    if (jobId !== undefined) {
-      // Do not leave half-finished jobs lying around; the delete is best
-      // effort, its own failure must not mask the original one.
-      await deleteJob(jobId).catch((deleteErr) => {
-        console.error("eBrief job could not be deleted", {
-          jobId,
-          deleteErr,
-        });
-      });
-    }
+    // Do not leave a half-finished job behind. Nothing was distributed, so it
+    // costs nothing, but it would otherwise linger until something reaps it.
+    if (jobId !== undefined) await verwerfeJob(jobId);
     return NextResponse.json({ fehler: "ebrief_fehler" }, { status: 502 });
   }
 }
