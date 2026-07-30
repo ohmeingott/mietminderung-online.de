@@ -2,22 +2,23 @@
 
 /* ---------------------------------------------------------------------------
    Design tokens
-   Warm paper neutrals + a deep steel blue taken from the logo, so the site
-   reads as an editorial legal product rather than a default Tailwind template.
+   Warm paper neutrals + a vivid brand blue (Tailwind's blue scale), so the
+   accent colour matches the blue used across the content pages.
 --------------------------------------------------------------------------- */
 @theme {
-  /* Brand — deep steel blue, matched to the shield in the logo */
-  --color-brand-50: #eef4fb;
-  --color-brand-100: #d9e6f5;
-  --color-brand-200: #b3cbe9;
-  --color-brand-300: #82a8d6;
-  --color-brand-400: #5183bd;
-  --color-brand-500: #33639f;
-  --color-brand-600: #275083;
-  --color-brand-700: #1e3f69;
-  --color-brand-800: #183253;
-  --color-brand-900: #122741;
-  --color-brand-950: #0b1a2d;
+  /* Brand — vivid blue, identical to Tailwind's `blue` scale so brand-*
+     and blue-* utilities render the same colour everywhere */
+  --color-brand-50: oklch(97% 0.014 254.604);
+  --color-brand-100: oklch(93.2% 0.032 255.585);
+  --color-brand-200: oklch(88.2% 0.059 254.128);
+  --color-brand-300: oklch(80.9% 0.105 251.813);
+  --color-brand-400: oklch(70.7% 0.165 254.624);
+  --color-brand-500: oklch(62.3% 0.214 259.815);
+  --color-brand-600: oklch(54.6% 0.245 262.881);
+  --color-brand-700: oklch(48.8% 0.243 264.376);
+  --color-brand-800: oklch(42.4% 0.199 265.638);
+  --color-brand-900: oklch(37.9% 0.146 265.522);
+  --color-brand-950: oklch(28.2% 0.091 267.935);
 
   /* Ink — warm near-black for text and dark surfaces */
   --color-ink-50: #f7f6f4;
@@ -57,9 +58,9 @@
 
   /* Layered, low-opacity shadows instead of one big blur */
   --shadow-raise:
-    0 1px 2px rgba(15, 26, 45, 0.04), 0 4px 12px -4px rgba(15, 26, 45, 0.08);
+    0 1px 2px rgba(23, 37, 84, 0.04), 0 4px 12px -4px rgba(23, 37, 84, 0.08);
   --shadow-float:
-    0 2px 4px rgba(15, 26, 45, 0.05), 0 12px 32px -12px rgba(15, 26, 45, 0.16);
+    0 2px 4px rgba(23, 37, 84, 0.05), 0 12px 32px -12px rgba(23, 37, 84, 0.16);
 }
 
 /* ---------------------------------------------------------------------------
