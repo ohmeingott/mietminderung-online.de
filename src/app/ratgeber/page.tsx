@@ -71,9 +71,9 @@ export default function RatgeberHub() {
             </h1>
             <p className="mt-5 text-lg text-blue-100 max-w-3xl leading-relaxed">
               Von der ersten Mängelanzeige bis zur Rückforderung zu viel
-              gezahlter Miete: Diese Anleitungen erklären Schritt für Schritt,
-              wie Sie Ihr Recht als Mieter durchsetzen — auf Basis des deutschen
-              Mietrechts und ohne Fachjargon.
+              gezahlter Miete: Diese Anleitungen erklären Schritt für Schritt
+              und ohne Fachjargon, wie Sie Ihr Recht als Mieter nach deutschem
+              Mietrecht durchsetzen.
             </p>
           </div>
         </div>
@@ -113,9 +113,9 @@ export default function RatgeberHub() {
               Sie suchen die Quote für einen konkreten Mangel?
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              Die Ratgeber erklären das Verfahren. Wie viel Prozent Minderung bei
-              Ihrem konkreten Mangel anerkannt sind, finden Sie in der
-              Mängelübersicht — dort ist jeder Mangel einzeln aufgeschlüsselt,
+              Die Ratgeber erklären das Verfahren. Wie viel Prozent Minderung
+              bei Ihrem konkreten Mangel anerkannt sind, steht in der
+              Mängelübersicht: Dort ist jeder Mangel einzeln aufgeschlüsselt,
               inklusive Rechner und Nachweis-Checkliste.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">

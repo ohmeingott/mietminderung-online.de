@@ -24,7 +24,7 @@ const faqs = [
   {
     question: "Was ist eine Mietminderungstabelle?",
     answer:
-      "Eine Mietminderungstabelle fasst zusammen, welche Minderungsquoten deutsche Gerichte bei bestimmten Wohnungsmängeln zugesprochen haben. Sie dient als Orientierung für die Frage, um wie viel Prozent der Bruttowarmmiete Sie mindern können — verbindlich ist sie nicht, da jeder Einzelfall individuell bewertet wird.",
+      "Eine Mietminderungstabelle fasst zusammen, welche Minderungsquoten deutsche Gerichte bei bestimmten Wohnungsmängeln zugesprochen haben. Sie hilft bei der Frage, um wie viel Prozent der Bruttowarmmiete Sie mindern können. Verbindlich ist sie nicht, denn jeder Einzelfall wird individuell bewertet.",
   },
   {
     question: "Von welcher Miete wird die Minderung berechnet?",
@@ -50,7 +50,7 @@ const faqs = [
 
 export const metadata: Metadata = buildMetadata({
   title: `Mietminderungstabelle 2026: ${alleMaengel.length} Mängel mit Prozentsätzen`,
-  description: `Die vollständige Mietminderungstabelle: ${alleMaengel.length} Wohnungsmängel mit den von Gerichten anerkannten Minderungsquoten — von Schimmel über Heizungsausfall bis Lärm.`,
+  description: `Die vollständige Mietminderungstabelle: ${alleMaengel.length} Wohnungsmängel mit den von Gerichten anerkannten Minderungsquoten, von Schimmel über Heizungsausfall bis Lärm.`,
   path: "/mietminderungstabelle",
   keywords: [
     "Mietminderungstabelle",
@@ -106,7 +106,7 @@ export default function MietminderungstabellePage() {
             </h1>
             <p className="mt-5 text-lg text-blue-100 max-w-3xl leading-relaxed">
               {alleMaengel.length} Wohnungsmängel mit den von deutschen
-              Gerichten anerkannten Minderungsquoten — sortiert nach{" "}
+              Gerichten anerkannten Minderungsquoten, sortiert nach{" "}
               {kategorieIndex.length} Kategorien. Alle Prozentangaben beziehen
               sich auf die Bruttowarmmiete.
             </p>
