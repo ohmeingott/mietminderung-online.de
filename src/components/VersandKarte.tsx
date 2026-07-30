@@ -63,6 +63,18 @@ interface Hinweise {
   absenderGekuerzt: boolean;
 }
 
+/** The four UI states of GET /api/versand/status, collapsed to what is done next. */
+type StatusErgebnis =
+  | { status: "bereit" | "adresse_warnung" }
+  | { status: "fehler"; slug: string };
+
+/** Untrusted until checked — the body is whatever came back over the wire. */
+interface VorbereitenAntwort {
+  jobId?: unknown;
+  token?: unknown;
+  hinweise?: Partial<Hinweise>;
+}
+
 const PRODUKT_IDS: ProduktId[] = ["brief", "einwurfEinschreiben"];
 
 const POLL_INTERVALL_MS = 2000;
@@ -72,6 +84,14 @@ const POLL_INTERVALL_MS = 2000;
  * spinner that never stops. Nothing has been charged at this point.
  */
 const POLL_FRIST_MS = 60_000;
+
+/**
+ * Per-request deadline. A request that stalls without ever erroring — a flaky
+ * connection that never resets, a cold start that hangs before the headers —
+ * would otherwise leave the button disabled and the spinner turning with no way
+ * back short of reloading the page.
+ */
+const ANFRAGE_FRIST_MS = 20_000;
 
 /**
  * Every slug the four dispatch routes can return, plus the local timeout. The
@@ -104,6 +124,32 @@ const euro = (cent: number) =>
   (cent / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
 const warte = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** Thrown when a request ran into its deadline, so callers can say so. */
+class FristAbgelaufen extends Error {}
+
+/**
+ * Runs one request under a deadline. The whole exchange is inside it, headers
+ * and body both: clearing the timer once the response object exists would leave
+ * a stalled body read uncovered, which hangs just as badly as a stalled request.
+ */
+async function mitFrist<T>(
+  ms: number,
+  ausfuehren: (signal: AbortSignal) => Promise<T>
+): Promise<T> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  try {
+    return await ausfuehren(controller.signal);
+  } catch (err) {
+    // An abort surfaces as a DOMException that says nothing useful. Translated
+    // here so every call site can map it onto a slug the user can act on.
+    if (controller.signal.aborted) throw new FristAbgelaufen();
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 /** An error body is JSON with a slug, but a proxy may answer with anything. */
 async function leseFehlerSlug(res: Response): Promise<string | undefined> {
@@ -142,7 +188,10 @@ export default function VersandKarte({
   }, []);
 
   const fehlerText = () => {
-    if (!fehlerSlug) return "";
+    // Only null means "no error". An empty slug is what a dropped connection or
+    // an unreadable body leaves behind, and it must still produce a sentence —
+    // an alert box with a warning icon and no text says nothing at all.
+    if (fehlerSlug === null) return "";
     return FEHLER_SLUGS.has(fehlerSlug)
       ? t(`dispatch.error.${fehlerSlug}`)
       : t("dispatch.error.allgemein");
@@ -150,33 +199,53 @@ export default function VersandKarte({
 
   /** Polls until eBrief reports something other than "laeuft", or time is up. */
   const warteAufStatus = useCallback(
-    async (
-      job: Vorgang
-    ): Promise<
-      | { status: "bereit" | "adresse_warnung" }
-      | { status: "fehler"; slug: string }
-    > => {
+    async (job: Vorgang): Promise<StatusErgebnis> => {
       const frist = Date.now() + POLL_FRIST_MS;
       while (Date.now() < frist) {
         await warte(POLL_INTERVALL_MS);
         if (!aktiv.current) return { status: "fehler", slug: "abgebrochen" };
 
-        const res = await fetch(
-          `/api/versand/status?jobId=${encodeURIComponent(
-            String(job.jobId)
-          )}&token=${encodeURIComponent(job.token)}`
-        );
-        if (!res.ok) {
-          return { status: "fehler", slug: (await leseFehlerSlug(res)) ?? "" };
+        // Never longer than what is left of the overall deadline: a single
+        // stalled poll must not be able to outlive it.
+        const rest = frist - Date.now();
+        if (rest <= 0) break;
+
+        try {
+          const ergebnis = await mitFrist<StatusErgebnis | null>(
+            Math.min(ANFRAGE_FRIST_MS, rest),
+            async (signal) => {
+              const res = await fetch(
+                `/api/versand/status?jobId=${encodeURIComponent(
+                  String(job.jobId)
+                )}&token=${encodeURIComponent(job.token)}`,
+                { signal }
+              );
+              if (!res.ok) {
+                return {
+                  status: "fehler" as const,
+                  slug: (await leseFehlerSlug(res)) ?? "",
+                };
+              }
+              const daten = (await res.json()) as { status?: unknown };
+              if (
+                daten.status === "bereit" ||
+                daten.status === "adresse_warnung"
+              ) {
+                return { status: daten.status };
+              }
+              if (daten.status === "fehler") {
+                return { status: "fehler" as const, slug: "ebrief_fehler" };
+              }
+              // Anything else means eBrief is still working — keep polling.
+              return null;
+            }
+          );
+          if (ergebnis) return ergebnis;
+        } catch {
+          // One failed or stalled poll is not the end of the wait: the job is
+          // committed either way, and the next iteration asks again. Only the
+          // overall deadline below gives up.
         }
-        const daten = (await res.json()) as { status?: unknown };
-        if (daten.status === "bereit" || daten.status === "adresse_warnung") {
-          return { status: daten.status };
-        }
-        if (daten.status === "fehler") {
-          return { status: "fehler", slug: "ebrief_fehler" };
-        }
-        // Anything else means eBrief is still working — keep polling.
       }
       return { status: "fehler", slug: "zeitueberschreitung" };
     },
@@ -188,33 +257,40 @@ export default function VersandKarte({
     async (job: Vorgang, zurueck: Phase) => {
       setPhase("weiterleiten");
       try {
-        const res = await fetch("/api/versand/checkout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            jobId: job.jobId,
-            produktId: job.produktId,
-            token: job.token,
-          }),
-        });
-        if (!res.ok) {
-          const slug = await leseFehlerSlug(res);
-          if (!aktiv.current) return;
-          setFehlerSlug(slug ?? "");
-          setPhase(zurueck);
-          return;
-        }
-        const daten = (await res.json()) as { url?: unknown };
-        if (typeof daten.url !== "string") {
-          if (!aktiv.current) return;
-          setFehlerSlug("checkout_fehler");
+        const ergebnis = await mitFrist<{ url: string } | { fehler: string }>(
+          ANFRAGE_FRIST_MS,
+          async (signal) => {
+            const res = await fetch("/api/versand/checkout", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                jobId: job.jobId,
+                produktId: job.produktId,
+                token: job.token,
+              }),
+              signal,
+            });
+            if (!res.ok) {
+              return { fehler: (await leseFehlerSlug(res)) ?? "" };
+            }
+            const daten = (await res.json()) as { url?: unknown };
+            return typeof daten.url === "string"
+              ? { url: daten.url }
+              : { fehler: "checkout_fehler" };
+          }
+        );
+        if (!aktiv.current) return;
+        if (!("url" in ergebnis)) {
+          setFehlerSlug(ergebnis.fehler);
           setPhase(zurueck);
           return;
         }
         // Leaving the site: the phase stays "weiterleiten" so nothing looks
         // clickable while the browser navigates away.
-        window.location.href = daten.url;
+        window.location.href = ergebnis.url;
       } catch {
+        // A deadline lands here too, and "checkout_fehler" already says the
+        // right thing: the payment page did not open and nothing was charged.
         if (!aktiv.current) return;
         setFehlerSlug("checkout_fehler");
         setPhase(zurueck);
@@ -228,30 +304,32 @@ export default function VersandKarte({
     setHinweise(null);
     setPhase("vorbereiten");
     try {
-      const res = await fetch("/api/versand/vorbereiten", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          produktId,
-          text,
-          signatureDataUrl,
-          mieter,
-          vermieter,
-        }),
+      const antwort = await mitFrist<
+        { daten: VorbereitenAntwort } | { fehler: string }
+      >(ANFRAGE_FRIST_MS, async (signal) => {
+        const res = await fetch("/api/versand/vorbereiten", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            produktId,
+            text,
+            signatureDataUrl,
+            mieter,
+            vermieter,
+          }),
+          signal,
+        });
+        if (!res.ok) return { fehler: (await leseFehlerSlug(res)) ?? "" };
+        return { daten: (await res.json()) as VorbereitenAntwort };
       });
-      if (!res.ok) {
-        const slug = await leseFehlerSlug(res);
-        if (!aktiv.current) return;
-        setFehlerSlug(slug ?? "");
+      if (!aktiv.current) return;
+      if (!("daten" in antwort)) {
+        setFehlerSlug(antwort.fehler);
         setPhase("auswahl");
         return;
       }
 
-      const daten = (await res.json()) as {
-        jobId?: unknown;
-        token?: unknown;
-        hinweise?: Partial<Hinweise>;
-      };
+      const { daten } = antwort;
       if (typeof daten.jobId !== "number" || typeof daten.token !== "string") {
         if (!aktiv.current) return;
         setFehlerSlug("");
@@ -284,9 +362,11 @@ export default function VersandKarte({
         return;
       }
       await bezahlen(job, "auswahl");
-    } catch {
+    } catch (err) {
       if (!aktiv.current) return;
-      setFehlerSlug("");
+      // A deadline gets its own message; anything else — a dropped connection,
+      // an unreadable body — falls through to the generic one.
+      setFehlerSlug(err instanceof FristAbgelaufen ? "zeitueberschreitung" : "");
       setPhase("auswahl");
     }
   };

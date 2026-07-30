@@ -308,7 +308,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.error.checkout_fehler":
       "Die Bezahlseite konnte nicht geöffnet werden. Bitte versuchen Sie es noch einmal — es wurde nichts berechnet.",
     "dispatch.error.zeitueberschreitung":
-      "Die Prüfung dauert länger als erwartet. Bitte versuchen Sie es in einigen Minuten noch einmal — es wurde nichts berechnet.",
+      "Der Vorgang dauert länger als erwartet. Bitte versuchen Sie es in einigen Minuten noch einmal — es wurde nichts berechnet.",
   },
 
   tr: {
@@ -563,7 +563,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.error.checkout_fehler":
       "Ödeme sayfası açılamadı. Lütfen tekrar deneyin — hiçbir ücret alınmadı.",
     "dispatch.error.zeitueberschreitung":
-      "Kontrol beklenenden uzun sürüyor. Lütfen birkaç dakika sonra tekrar deneyin — hiçbir ücret alınmadı.",
+      "İşlem beklenenden uzun sürüyor. Lütfen birkaç dakika sonra tekrar deneyin — hiçbir ücret alınmadı.",
   },
 
   uk: {
@@ -817,7 +817,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.error.checkout_fehler":
       "Не вдалося відкрити сторінку оплати. Спробуйте, будь ласка, ще раз — нічого не списано.",
     "dispatch.error.zeitueberschreitung":
-      "Перевірка триває довше, ніж очікувалося. Спробуйте, будь ласка, за кілька хвилин — нічого не списано.",
+      "Операція триває довше, ніж очікувалося. Спробуйте, будь ласка, за кілька хвилин — нічого не списано.",
   },
 
   ru: {
@@ -1069,7 +1069,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.error.checkout_fehler":
       "Не удалось открыть страницу оплаты. Пожалуйста, попробуйте ещё раз — ничего не списано.",
     "dispatch.error.zeitueberschreitung":
-      "Проверка занимает больше времени, чем ожидалось. Пожалуйста, попробуйте через несколько минут — ничего не списано.",
+      "Операция занимает больше времени, чем ожидалось. Пожалуйста, попробуйте через несколько минут — ничего не списано.",
   },
 
   ar: {
@@ -1319,7 +1319,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.error.checkout_fehler":
       "تعذّر فتح صفحة الدفع. يرجى المحاولة مرة أخرى — لم يتم تحصيل أي مبلغ.",
     "dispatch.error.zeitueberschreitung":
-      "يستغرق التحقق وقتاً أطول من المتوقع. يرجى المحاولة بعد بضع دقائق — لم يتم تحصيل أي مبلغ.",
+      "تستغرق العملية وقتاً أطول من المتوقع. يرجى المحاولة بعد بضع دقائق — لم يتم تحصيل أي مبلغ.",
   },
 
   pl: {
@@ -1570,6 +1570,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.error.checkout_fehler":
       "Nie udało się otworzyć strony płatności. Spróbuj ponownie — nic nie zostało pobrane.",
     "dispatch.error.zeitueberschreitung":
-      "Sprawdzanie trwa dłużej niż zwykle. Spróbuj ponownie za kilka minut — nic nie zostało pobrane.",
+      "Operacja trwa dłużej niż zwykle. Spróbuj ponownie za kilka minut — nic nie zostało pobrane.",
   },
 };
