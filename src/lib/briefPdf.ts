@@ -79,6 +79,34 @@ export interface Brieftext {
   koerper: string;
 }
 
+/**
+ * Thrown when the recipient address does not fit the template's 27 mm
+ * address field, which eBrief would reject.
+ *
+ * The message is an English developer diagnostic for logs only. The site
+ * ships in six languages (see src/i18n/translations.ts), so a message thrown
+ * from here can never be shown to a user — the calling route catches this
+ * type, maps it to its own error code, and the UI translates that.
+ * The measurements are exposed so callers branch on numbers, not on prose.
+ */
+export class AnschriftZuLangError extends Error {
+  constructor(
+    /** Number of lines the address occupies after wrapping. */
+    readonly zeilen: number,
+    /** How far down the page the rendered address reaches, in mm. */
+    readonly unterkanteMm: number,
+    /** Where the address field ends, in mm from the top of the page. */
+    readonly feldUnterkanteMm: number
+  ) {
+    super(
+      `Recipient address does not fit the eBrief address field: ${zeilen} ` +
+        `lines reach ${unterkanteMm.toFixed(1)} mm, the field ends at ` +
+        `${feldUnterkanteMm} mm.`
+    );
+    this.name = "AnschriftZuLangError";
+  }
+}
+
 /** Matches the "<Ort>, den DD.MM.YYYY" line the letter generator emits. */
 const DATUMSZEILE = /^\s*\S.*,\s+den\s+\d{1,2}\.\d{1,2}\.\d{4}\s*$/;
 
@@ -157,10 +185,10 @@ export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
     (anschriftZeilen.length - 1) * ANSCHRIFT_ZEILENHOEHE_MM +
     ANSCHRIFT_UNTERLAENGE_MM;
   if (anschriftUnterkante > ANSCHRIFT_FELD_UNTERKANTE_MM) {
-    throw new Error(
-      `Die Empfängeranschrift passt nicht in das eBrief-Anschriftfeld: ` +
-        `${anschriftZeilen.length} Zeilen reichen bis ${anschriftUnterkante.toFixed(1)} mm, ` +
-        `das Feld endet bei ${ANSCHRIFT_FELD_UNTERKANTE_MM} mm.`
+    throw new AnschriftZuLangError(
+      anschriftZeilen.length,
+      anschriftUnterkante,
+      ANSCHRIFT_FELD_UNTERKANTE_MM
     );
   }
 
