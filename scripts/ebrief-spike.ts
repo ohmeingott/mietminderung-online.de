@@ -31,11 +31,12 @@ import {
   commitJob,
   createJob,
   deleteJob,
+  getFileWithMark,
   getJob,
   getPrice,
 } from "../src/lib/ebrief/client";
 import { ebriefBaseUrl } from "../src/lib/ebrief/token";
-import { DISTRIBUTED_STATUSES } from "../src/lib/ebrief/types";
+import { DISTRIBUTED_STATUSES, type EbriefJob } from "../src/lib/ebrief/types";
 
 const POLL_ATTEMPTS = 30;
 const POLL_INTERVAL_MS = 2000;
@@ -104,8 +105,13 @@ async function main(): Promise<void> {
   // Step 4: poll job status until it reaches a meaningful checkpoint, an
   // error, or the attempt budget is exhausted. Every iteration logs the
   // status so the abort criterion above is visible without extra tooling.
+  // Kept outside the loop so the address check below can use whatever the
+  // last poll saw, whichever way the loop ended.
+  let letzterJob: EbriefJob | undefined;
+
   for (let attempt = 1; attempt <= POLL_ATTEMPTS; attempt++) {
     const polledJob = await getJob(job.Id);
+    letzterJob = polledJob;
     const docCount = polledJob.Documents?.length ?? 0;
     console.log(
       `[poll ${attempt}/${POLL_ATTEMPTS}] Status=${polledJob.Status} Documents=${docCount}`
@@ -131,6 +137,29 @@ async function main(): Promise<void> {
 
     if (attempt < POLL_ATTEMPTS) {
       await sleep(POLL_INTERVAL_MS);
+    }
+  }
+
+  // Step 4b: fetch eBrief's own rendering with the address zone it detected
+  // marked up, and write it next to the uploaded PDF. This is the only way to
+  // see whether our address block lands where eBrief actually looks — the
+  // layout was measured from the spacing template, but never confirmed
+  // against the reader that has to find it.
+  const docId = letzterJob?.Documents?.[0]?.Id;
+  if (docId === undefined) {
+    console.warn(
+      "No document id on the job — cannot check what eBrief read as the address."
+    );
+  } else {
+    try {
+      const markiert = await getFileWithMark(docId);
+      const markPfad = `${pdfPath.replace(/\.pdf$/i, "")}-eBrief-markiert.pdf`;
+      fs.writeFileSync(markPfad, Buffer.from(markiert));
+      console.log(
+        `Wrote ${markPfad} — open it and check the marked zone sits on the recipient address.`
+      );
+    } catch (error) {
+      console.warn("Could not fetch the marked file:", error);
     }
   }
 
