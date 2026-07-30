@@ -1,4 +1,4 @@
-# Launch checklist — mietminderung.online
+# Launch checklist — mietminderung-online.de
 
 Status of the go-live preparation, plus the decisions that still need a human.
 
@@ -15,20 +15,24 @@ Status of the go-live preparation, plus the decisions that still need a human.
 - [ ] **Confirm the Impressum data.** `src/lib/site.ts` currently holds
       `Paul Ohm, Holzgasse 8, 50676 Köln, pjhohm@gmail.com`. A private Gmail
       address is legally sufficient but looks less trustworthy than
-      `kontakt@mietminderung.online` — consider a domain mailbox.
-- [ ] **Verify the domain.** The canonical host defaults to
-      `https://mietminderung.online` and drives canonicals, the sitemap,
-      `robots.txt` and every JSON-LD block. The repository is named
-      `mietminderung-online.de` — if the live domain is the `.de` one, set
-      `NEXT_PUBLIC_SITE_URL` in the Vercel project rather than editing code.
-      Leave it unset on preview deployments so they inherit the production
-      canonical.
+      `kontakt@mietminderung-online.de` — consider a domain mailbox.
+- [x] **Verify the domain.** Settled: the live host is
+      `https://mietminderung-online.de`, and that is now the built-in default in
+      `src/lib/site.ts`. It drives canonicals, the sitemap, `robots.txt`, every
+      JSON-LD block and the brand name in the footer and the legal pages.
+      `NEXT_PUBLIC_SITE_URL` only needs setting to override it; leave it unset
+      on preview deployments so they inherit the production canonical. The
+      build now rejects a value that is not a bare https origin, and
+      `e2e/seo.spec.ts` fails if a canonical, the sitemap or `robots.txt` ever
+      points at a different host than the one serving the page.
 
 ### Recommended
 
-- [ ] Submit `https://mietminderung.online/sitemap.xml` in Google Search Console.
-      It now lists 86 URLs — the calculator, 58 defect pages, 13 category hubs,
-      the guides and the legal texts.
+- [ ] Submit `https://mietminderung-online.de/sitemap.xml` in Google Search
+      Console, after verifying the property. Until this is done the site is
+      effectively invisible: nothing links to it yet, so Google has no reason to
+      discover it on its own. It lists 86 URLs — the calculator, 58 defect
+      pages, 13 category hubs, the guides and the legal texts.
 - [ ] Run `npm run verify` (lint → i18n check → build → E2E) one last time.
       The same steps run automatically on every pull request via
       `.github/workflows/ci.yml`.
