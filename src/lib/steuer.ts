@@ -1,9 +1,9 @@
 /**
- * Der Betreiber ist eine GbR unter der Kleinunternehmerregelung. Ein
- * Steuerausweis wäre nach § 14c UStG schädlich: die ausgewiesene Steuer
- * müsste abgeführt werden, obwohl sie nicht erhoben werden darf.
+ * The operator is a GbR under the small-business rule of § 19 UStG. Stating
+ * tax would be harmful under § 14c UStG: the stated amount would have to be
+ * remitted even though it may not be collected in the first place.
  *
- * Beim Wechsel zur Regelbesteuerung genügt STEUERMODUS=regel.
+ * Switching to standard taxation only needs STEUERMODUS=regel.
  */
 export type Steuermodus = "kleinunternehmer" | "regel";
 
@@ -12,8 +12,8 @@ export function steuermodus(): Steuermodus {
 }
 
 /**
- * Stripe darf im Kleinunternehmerfall keinerlei Steuerverhalten annehmen —
- * undefined lässt den Betrag unverändert als Endpreis stehen.
+ * Under the small-business rule Stripe must not assume any tax behaviour at
+ * all — undefined leaves the amount standing as the final price.
  */
 export function stripeTaxBehavior(): "inclusive" | undefined {
   return steuermodus() === "regel" ? "inclusive" : undefined;

@@ -1,17 +1,17 @@
 /**
- * Verkaufspreise sind Endpreise. Der Betreiber ist Kleinunternehmer nach
- * § 19 UStG und darf keine Umsatzsteuer ausweisen — siehe src/lib/steuer.ts.
+ * Sale prices are final prices. The operator is a small business under
+ * § 19 UStG and may not state VAT — see src/lib/steuer.ts.
  *
- * Die Einkaufspreise dienen nur der Kalkulation und werden nicht angezeigt.
- * Ohne Vorsteuerabzug ist der Bruttopreis der real gezahlte Preis.
+ * The purchase prices exist for calculation only and are never displayed.
+ * Without input tax deduction the gross price is what is really paid.
  */
 export interface Produkt {
   id: ProduktId;
-  /** Endpreis in Cent, den der Nutzer zahlt. */
+  /** Final price in cents that the user pays. */
   preisCent: number;
-  /** Einkaufspreis brutto in Cent laut eBrief-Preisliste, Standardbrief bis 3 Blatt. */
+  /** Gross purchase price in cents per the eBrief price list, standard letter up to 3 sheets. */
   einkaufBruttoCent: number;
-  /** Job-Attribute. eBrief erwartet hier Strings, keine Booleans. */
+  /** Job attributes. eBrief expects strings here, not booleans. */
   ebrief: {
     IsDuplex: "true" | "false";
     IsColor: "true" | "false";
