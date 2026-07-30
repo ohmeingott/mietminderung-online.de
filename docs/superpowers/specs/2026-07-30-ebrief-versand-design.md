@@ -208,6 +208,34 @@ festgelegt; sie werden hier zentral gepflegt, nicht im UI verstreut. Die
 Einkaufspreise stammen von der eBrief-Preisseite (Standardbrief bis 3 Blatt,
 s/w, einseitig, national) und dienen als Kalkulationsgrundlage.
 
+### Umsatzsteuer
+
+Der Betreiber ist eine GbR unter der Kleinunternehmerregelung nach § 19 UStG.
+Daraus folgt dreierlei:
+
+**Kein Steuerausweis, nirgends.** Weder im UI noch auf der Stripe-Rechnung darf
+„inkl. 19 % MwSt." oder ein vergleichbarer Hinweis erscheinen. Ein
+unberechtigter Steuerausweis nach § 14c UStG verpflichtet zur Abführung der
+ausgewiesenen Steuer. Stattdessen trägt die Rechnung den Pflichthinweis
+„Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.". In Stripe heißt das: kein
+Stripe Tax, `tax_behavior` bleibt ungesetzt, `preisCent` ist der Endpreis.
+
+**Die eBrief-Bruttopreise sind die echten Kosten.** Ohne Vorsteuerabzug ist der
+maßgebliche Einkaufspreis der Bruttopreis, nicht der Nettopreis. Deckungsbeitrag
+bei den Startwerten, inklusive Stripe-Gebühr (rund 1,5 % + 0,25 €):
+
+| Produkt | Verkauf | eBrief brutto | Stripe ca. | Deckungsbeitrag |
+|---|---|---|---|---|
+| Brief | 2,49 € | 0,88 € | 0,29 € | 1,32 € |
+| Einwurf-Einschreiben | 6,99 € | 4,15 € | 0,35 € | 2,49 € |
+
+**Der Wechsel zur Regelbesteuerung muss ohne Umbau möglich sein.** Die
+Kleinunternehmergrenze liegt bei 25.000 € Vorjahresumsatz und 100.000 € im
+laufenden Jahr; bei Überschreiten der Jahresgrenze entfällt der Status sofort.
+Der Steuerhinweis im UI und das `tax_behavior` in Stripe kommen deshalb aus
+einer einzigen Konfigurationsstelle (`STEUERMODUS=kleinunternehmer|regel`),
+nicht aus fest verdrahtetem Text.
+
 **Die eBrief-`Attributes` sind Strings.** Die Doku warnt ausdrücklich: „'string'
 type fields with value 'false' are not boolean and should be used as a string
 'false'!". In `POST /prices` sind dieselben Felder dagegen echte Booleans. Der
@@ -235,8 +263,13 @@ Weitere Vorgaben aus der Vorlage:
 
 - **Schriften müssen vollständig eingebettet sein.** jsPDF nutzt standardmäßig
   die PDF-Standardschrift Helvetica, die *nicht* eingebettet wird. Für das
-  Versand-PDF muss deshalb eine TTF per `addFont` registriert werden. Das ist
-  der unauffälligste Fallstrick der ganzen Integration.
+  Versand-PDF wird deshalb **Liberation Sans** (regular und bold) per `addFont`
+  registriert: metrisch kompatibel zu Arial, das die Vorlage ausdrücklich als
+  geeignete Adressschrift nennt, und unter SIL OFL lizenziert, also kommerziell
+  unproblematisch. Da das Versand-PDF ausschließlich serverseitig in der
+  API-Route entsteht, belasten die Schriftdaten das Client-Bundle nicht. Der
+  kostenlose Download im Browser bleibt bei der Standard-Helvetica und braucht
+  keine Einbettung — das ist der zweite Grund für die getrennten Layoutdateien.
 - Keine großen Grafikelemente näher als 3 cm an Adresse, oberem, unterem oder
   seitlichem Rand. Betrifft die Unterschrift, die entsprechend platziert wird.
 - Transparenzen und Formularfelder werden automatisch entfernt.
@@ -286,6 +319,7 @@ Missbrauch auf API-Rauschen begrenzt, das der Cleanup-Cron abräumt.
 | `STRIPE_SECRET_KEY` | Stripe API-Key |
 | `STRIPE_WEBHOOK_SECRET` | Signaturprüfung des Webhooks |
 | `CRON_SECRET` | schützt die Cleanup-Route |
+| `STEUERMODUS` | `kleinunternehmer` (Default) oder `regel` — steuert Steuerhinweis und Stripe-`tax_behavior` |
 
 `.env.example` wird entsprechend ergänzt. Der dortige Hinweis „The site is
 download-only and completely free — there is no paid service and therefore no
