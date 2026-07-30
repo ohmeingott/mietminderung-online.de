@@ -9,16 +9,47 @@ import { DEJAVU_SANS_REGULAR_BASE64 } from "./fonts/dejaVuSans";
  * The free download keeps using src/lib/generatePdf.ts. The two layouts are
  * deliberately separate: only this one needs an embedded font and clear zones
  * kept free for machine reading.
+ *
+ * Every vertical position below was measured out of
+ * docs/ebrief/PIN_eBrief_Abstandsvorlage_A4_2026_EN.pdf rather than taken
+ * from DIN 5008 — the template is neither Form A nor Form B, and the
+ * DIN Form B positions put the recipient name inside the coding stripe.
  */
 const LINKER_RAND_MM = 25;
 const RECHTER_RAND_MM = 20;
 const SEITENBREITE_MM = 210;
 const TEXTBREITE_MM = SEITENBREITE_MM - LINKER_RAND_MM - RECHTER_RAND_MM;
+const RECHTE_TEXTKANTE_MM = SEITENBREITE_MM - RECHTER_RAND_MM;
 
-const ABSENDERZEILE_Y_MM = 45;
-const ANSCHRIFT_Y_MM = 55;
+/**
+ * The template reserves a PIN AG coding stripe at 53.0–59.5 mm that has to
+ * stay free of text. The sender line sits above it and the address field
+ * below it, so the stripe is kept clear by the fixed geometry alone. That is
+ * why this layout is identical for a plain and for a registered ("eTracked")
+ * letter and needs no flag to tell them apart.
+ */
+const ABSENDERZEILE_Y_MM = 50;
+
+/** Address field of the template: x 25.37–110.24 mm, y 63.0–89.8 mm. */
+const ANSCHRIFT_Y_MM = 67;
 const ANSCHRIFT_BREITE_MM = 85;
-const TEXTSTART_Y_MM = 111;
+const ANSCHRIFT_FELD_UNTERKANTE_MM = 89.8;
+
+/**
+ * Deliberately tighter than the body's line height: the address has to fit
+ * into the 27 mm field, whereas the body is set for readability.
+ */
+const ANSCHRIFT_ZEILENHOEHE_MM = 5;
+
+/** Descender allowance below the last address baseline at 10 pt. */
+const ANSCHRIFT_UNTERLAENGE_MM = 1;
+
+/**
+ * A baseline, not a block top. The template marks the start of the text at
+ * 111 mm; at 10 pt the ascent is about 3.3 mm, so a baseline of 114 mm puts
+ * the top of the first line on that mark.
+ */
+const TEXTSTART_Y_MM = 114;
 
 const ZEILENHOEHE_MM = 5.5;
 const SEITENUMBRUCH_Y_MM = 272;
@@ -35,23 +66,46 @@ export interface VersandPdfOptions {
   absenderZeile: string;
   empfaenger: string[];
   signatureDataUrl?: string;
-  /**
-   * For a registered letter a PIN AG coding zone sits above the address
-   * field and must stay free of text, so the sender line is dropped.
-   */
-  istEinschreiben: boolean;
 }
 
+export interface Brieftext {
+  /**
+   * The date line lifted out of the header, e.g. "Köln, den 30.07.2026", or
+   * null when the text carries none. Never invented: an undated Mängelanzeige
+   * is weak, but a wrong date is worse.
+   */
+  datum: string | null;
+  /** The letter from the subject line onwards. */
+  koerper: string;
+}
+
+/** Matches the "<Ort>, den DD.MM.YYYY" line the letter generator emits. */
+const DATUMSZEILE = /^\s*\S.*,\s+den\s+\d{1,2}\.\d{1,2}\.\d{4}\s*$/;
+
 /**
- * The generated letter text already carries an address header (tenant,
- * landlord, date). In the dispatch layout the address goes into the address
- * field, so leaving the header in the body would print it twice. The subject
- * line is the reliable anchor: in DIN 5008 it follows the address anyway.
+ * The generated letter text carries an address header (tenant, landlord,
+ * date). In the dispatch layout the address goes into the address field, so
+ * leaving the header in the body would print it twice. The subject line is
+ * the reliable anchor: in DIN 5008 it follows the address anyway.
+ *
+ * The date is the one part of that header worth keeping — it is what dates
+ * the Frist — so it is returned separately and re-rendered above the subject
+ * instead of being dropped along with the rest.
  */
-export function entferneAdresskopf(text: string): string {
+export function zerlegeBrieftext(text: string): Brieftext {
   const zeilen = text.split("\n");
   const index = zeilen.findIndex((zeile) => /^\s*Betreff:/i.test(zeile));
-  return index === -1 ? text : zeilen.slice(index).join("\n");
+  if (index === -1) return { datum: null, koerper: text };
+
+  const datumZeile = zeilen
+    .slice(0, index)
+    .reverse()
+    .find((zeile) => DATUMSZEILE.test(zeile));
+
+  return {
+    datum: datumZeile ? datumZeile.trim() : null,
+    koerper: zeilen.slice(index).join("\n"),
+  };
 }
 
 function registriereSchrift(doc: jsPDF): void {
@@ -60,25 +114,60 @@ function registriereSchrift(doc: jsPDF): void {
   doc.setFont(SCHRIFT, "normal");
 }
 
+function umbrich(doc: jsPDF, text: string, breiteMm: number): string[] {
+  return doc.splitTextToSize(text, breiteMm) as string[];
+}
+
+/**
+ * Cuts a string down to a single rendered line. The sender line must not
+ * wrap: a second line would run straight into the PIN coding stripe below.
+ */
+function kuerzeAufEineZeile(doc: jsPDF, text: string, breiteMm: number): string {
+  const zeilen = umbrich(doc, text, breiteMm);
+  if (zeilen.length <= 1) return text;
+
+  let gekuerzt = zeilen[0];
+  while (gekuerzt.length > 0 && doc.getTextWidth(`${gekuerzt}…`) > breiteMm) {
+    gekuerzt = gekuerzt.slice(0, -1);
+  }
+  return `${gekuerzt}…`;
+}
+
 export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   registriereSchrift(doc);
 
-  // Sender line in 6 pt above the address field. On a registered letter the
-  // PIN AG coding zone occupies that strip, so the line is dropped.
-  if (!opts.istEinschreiben) {
-    doc.setFontSize(6);
-    doc.text(opts.absenderZeile, LINKER_RAND_MM, ABSENDERZEILE_Y_MM, {
-      maxWidth: ANSCHRIFT_BREITE_MM,
-    });
+  // Sender line in 6 pt: inside the envelope window, above the coding stripe.
+  doc.setFontSize(6);
+  doc.text(
+    kuerzeAufEineZeile(doc, opts.absenderZeile, ANSCHRIFT_BREITE_MM),
+    LINKER_RAND_MM,
+    ABSENDERZEILE_Y_MM
+  );
+
+  // Address field, 10 pt. Wrap first and measure the whole block: an address
+  // that overflows the 27 mm field is one eBrief would reject, so it is
+  // better to fail loudly here than to post an undeliverable letter.
+  doc.setFontSize(10);
+  const anschriftZeilen = opts.empfaenger.flatMap((zeile) =>
+    umbrich(doc, zeile, ANSCHRIFT_BREITE_MM)
+  );
+  const anschriftUnterkante =
+    ANSCHRIFT_Y_MM +
+    (anschriftZeilen.length - 1) * ANSCHRIFT_ZEILENHOEHE_MM +
+    ANSCHRIFT_UNTERLAENGE_MM;
+  if (anschriftUnterkante > ANSCHRIFT_FELD_UNTERKANTE_MM) {
+    throw new Error(
+      `Die Empfängeranschrift passt nicht in das eBrief-Anschriftfeld: ` +
+        `${anschriftZeilen.length} Zeilen reichen bis ${anschriftUnterkante.toFixed(1)} mm, ` +
+        `das Feld endet bei ${ANSCHRIFT_FELD_UNTERKANTE_MM} mm.`
+    );
   }
 
-  // Address field: 10 pt, comfortably inside 85 × 27 mm.
-  doc.setFontSize(10);
   let anschriftY = ANSCHRIFT_Y_MM;
-  for (const zeile of opts.empfaenger) {
-    doc.text(zeile, LINKER_RAND_MM, anschriftY, { maxWidth: ANSCHRIFT_BREITE_MM });
-    anschriftY += ZEILENHOEHE_MM;
+  for (const zeile of anschriftZeilen) {
+    doc.text(zeile, LINKER_RAND_MM, anschriftY);
+    anschriftY += ANSCHRIFT_ZEILENHOEHE_MM;
   }
 
   doc.setFontSize(10);
@@ -89,15 +178,23 @@ export function generateVersandPdf(opts: VersandPdfOptions): jsPDF {
     y = FOLGESEITE_START_Y_MM;
   };
 
+  const { datum, koerper } = zerlegeBrieftext(opts.text);
+  if (datum) {
+    // DIN 5008 puts the date right-aligned above the subject, separated from
+    // it by a blank line.
+    doc.text(datum, RECHTE_TEXTKANTE_MM, y, { align: "right" });
+    y += 2 * ZEILENHOEHE_MM;
+  }
+
   // Blank lines are meaningful paragraph breaks, so walk the text line by
   // line rather than letting jsPDF collapse it.
-  for (const absatz of entferneAdresskopf(opts.text).split("\n")) {
+  for (const absatz of koerper.split("\n")) {
     if (absatz.trim() === "") {
       y += ZEILENHOEHE_MM;
       if (y > SEITENUMBRUCH_Y_MM) neueSeite();
       continue;
     }
-    for (const zeile of doc.splitTextToSize(absatz, TEXTBREITE_MM)) {
+    for (const zeile of umbrich(doc, absatz, TEXTBREITE_MM)) {
       if (y > SEITENUMBRUCH_Y_MM) neueSeite();
       doc.text(zeile, LINKER_RAND_MM, y);
       y += ZEILENHOEHE_MM;
