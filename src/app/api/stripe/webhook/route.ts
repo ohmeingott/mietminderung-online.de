@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { confirmDocs, distribute, getJob } from "@/lib/ebrief/client";
 import { DISTRIBUTED_STATUSES } from "@/lib/ebrief/types";
+import type { JobStatus } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import { stripe, stripeKonfiguriert } from "@/lib/stripe";
 
@@ -34,6 +35,23 @@ function merkeVersand(jobId: number, sessionId: string): void {
   }
   versendetVonSession.set(jobId, sessionId);
 }
+
+/**
+ * Jobs eBrief will never post: it failed on them, or they were deleted or
+ * rolled back. Distribution cannot be retried into success from any of these,
+ * so a payment for such a job is money taken for a letter that will not exist.
+ *
+ * Listed explicitly and typed as JobStatus rather than matched on a prefix, so
+ * that a renamed status breaks the build instead of quietly falling through.
+ * Anything not named here keeps the transient treatment — 500 and let Stripe
+ * retry — which is the safe direction to be wrong in.
+ */
+const ENDGUELTIG_GESCHEITERTE_STATUSES: JobStatus[] = [
+  "ERROR_DOCUMENT",
+  "ERROR_GENERAL",
+  "USER_DELETED",
+  "ROLLEDBACK",
+];
 
 type Wiederholung = "webhook_retry" | "zweite_zahlung" | "unbekannt";
 
@@ -90,7 +108,9 @@ function paymentIntentId(session: {
  * to three days, which is the only thing standing between a transient eBrief
  * outage and a customer who paid for a letter that was never sent. That also
  * covers the job that is merely not ready yet — a payment landing while eBrief
- * still processes the documents fails here and succeeds on a later retry.
+ * still processes the documents fails here and succeeds on a later retry. A
+ * job that has failed for good is the exception: it answers 200 so the retries
+ * stop, and says so in one findable log line.
  *
  * Nothing here is rate-limited. The signature is the gate, and dropping
  * deliveries under a burst would turn a Stripe retry storm into unsent mail.
@@ -254,6 +274,32 @@ export async function POST(request: Request) {
         );
       }
 
+      return NextResponse.json({ empfangen: true });
+    }
+
+    if (ENDGUELTIG_GESCHEITERTE_STATUSES.includes(job.Status)) {
+      // 200, so Stripe stops. The 500-and-retry below is right while a failure
+      // might still be transient — those retries are the only protection
+      // against "paid but not posted". It is wrong here: no retry can revive a
+      // deleted or errored job, so three days of identical deliveries would
+      // bury the one log line that matters under its own repetitions, and the
+      // case most in need of a human would be the hardest to notice.
+      //
+      // Not refunded automatically, for the same reason as the second-payment
+      // case above: this line carries everything the refund needs, so it can be
+      // issued from the log alone.
+      console.error(
+        "PAID BUT UNSENDABLE: the eBrief job failed or is gone, the letter will never be posted — refund by hand",
+        {
+          eventId: event.id,
+          eventTyp: event.type,
+          sessionId: session.id,
+          paymentIntent: paymentIntentId(session),
+          amountTotal: session.amount_total,
+          jobId,
+          ebriefStatus: job.Status,
+        }
+      );
       return NextResponse.json({ empfangen: true });
     }
 
