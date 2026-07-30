@@ -20,14 +20,21 @@ test.describe("Landing page and navigation", () => {
     await expectNoHorizontalOverflow(page);
   });
 
-  test("hero CTAs jump to their sections", async ({ page }) => {
+  test("interactive check sits directly beneath the hero", async ({ page }) => {
     await page.goto("/");
 
-    await page.getByRole("link", { name: /Anspruch kostenlos prüfen/ }).click();
-    await expect(page).toHaveURL(/#pruefung$/);
+    // The check replaced the hero CTAs: it must come before "So
+    // funktioniert's" and be usable without any prior click.
+    const checkBeforeHow = await page.evaluate(() => {
+      const check = document.querySelector("#pruefung");
+      const how = document.querySelector("#so-funktionierts");
+      return !!check && !!how &&
+        !!(check.compareDocumentPosition(how) & Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    expect(checkBeforeHow).toBe(true);
 
-    await page.getByRole("link", { name: /Mängelanzeige erstellen/ }).first().click();
-    await expect(page).toHaveURL(/#maengelanzeige$/);
+    await page.getByTestId("eq-mietvertrag-ja").click();
+    await expect(page.getByTestId("eq-mangel_bekannt-nein")).toBeVisible();
   });
 
   test("every in-page anchor target exists", async ({ page }) => {
