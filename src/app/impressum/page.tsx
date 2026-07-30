@@ -4,7 +4,7 @@ import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Impressum — Mietminderung-online.de",
+  title: "Impressum | Mietminderung-online.de",
   description:
     "Impressum und Anbieterkennzeichnung von mietminderung-online.de gemäß § 5 DDG: Betreiber, Anschrift, Kontakt und Haftungshinweise.",
   path: "/impressum",

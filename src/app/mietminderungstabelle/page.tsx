@@ -84,7 +84,7 @@ export default function MietminderungstabellePage() {
             itemListElement: alleMaengel.map((entry, i) => ({
               "@type": "ListItem",
               position: i + 1,
-              name: `${entry.mangel.label} — ${entry.mangel.minderung_min}–${entry.mangel.minderung_max} % Mietminderung`,
+              name: `${entry.mangel.label}: ${entry.mangel.minderung_min}–${entry.mangel.minderung_max} % Mietminderung`,
               url: absoluteUrl(entry.path),
             })),
           },
@@ -142,7 +142,7 @@ export default function MietminderungstabellePage() {
               Gerichtsentscheidungen zu vergleichbaren Fällen bewegen. Die Spalte{" "}
               <strong>typisch</strong> nennt einen häufig angesetzten
               Ausgangswert. Welcher Wert im Einzelfall angemessen ist, hängt von
-              Dauer, Intensität und Ausmaß der Beeinträchtigung ab — im Zweifel
+              Dauer, Intensität und Ausmaß der Beeinträchtigung ab. Im Zweifel
               sollten Sie eher konservativ mindern oder{" "}
               <Link
                 href="/ratgeber/miete-unter-vorbehalt-zahlen"
@@ -224,7 +224,7 @@ export default function MietminderungstabellePage() {
               Ihre Minderung automatisch berechnen
             </h2>
             <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-              Wählen Sie Ihre Mängel aus, geben Sie Ihre Bruttowarmmiete ein —
+              Wählen Sie Ihre Mängel aus, geben Sie Ihre Bruttowarmmiete ein,
               und erhalten Sie sofort die Minderungsquote sowie eine fertige
               Mängelanzeige zum Versenden.
             </p>

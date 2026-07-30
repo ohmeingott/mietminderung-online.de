@@ -5,7 +5,7 @@ import { alleMaengel, kategorieIndex, topMaengel } from "@/lib/mangelIndex";
 /**
  * Static internal-link hub on the landing page. The homepage carries the most
  * authority, so this is where the category, defect and guide pages are linked
- * from — server-rendered, no JavaScript required to crawl it.
+ * from - server-rendered, no JavaScript required to crawl it.
  */
 export default function PopularLinks() {
   const top = topMaengel(10);
@@ -23,7 +23,7 @@ export default function PopularLinks() {
           <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
             Wie viel Prozent stehen Ihnen bei Ihrem Mangel zu?{" "}
             {alleMaengel.length} Mangelarten mit den von deutschen Gerichten
-            anerkannten Minderungsquoten — jeweils mit Rechner und
+            anerkannten Minderungsquoten, jeweils mit Rechner und
             Nachweis-Checkliste.
           </p>
         </div>

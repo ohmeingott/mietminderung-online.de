@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 // No edge runtime: this lets Next generate the image at build time so it is
 // served as a static, cacheable asset instead of being rendered per request.
 export const alt =
-  "Mietminderung-online.de — Prüfen Sie Ihr Recht auf Mietminderung";
+  "Mietminderung-online.de: Prüfen Sie Ihr Recht auf Mietminderung";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

@@ -4,7 +4,7 @@ import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Widerrufsrecht — Mietminderung-online.de",
+  title: "Widerrufsrecht | Mietminderung-online.de",
   description:
     "Alle Funktionen von mietminderung-online.de sind kostenlos. Mangels entgeltlichem Vertrag besteht derzeit kein gesetzliches Widerrufsrecht.",
   path: "/widerruf",
@@ -28,14 +28,14 @@ export default function Widerruf() {
         <p>
           Da zwischen Ihnen und uns <strong>kein entgeltlicher Vertrag</strong>{" "}
           zustande kommt, entsteht auch kein gesetzliches Widerrufsrecht nach
-          §§ 312g, 355 BGB — es gibt schlicht nichts zu widerrufen.
+          §§ 312g, 355 BGB. Es gibt schlicht nichts zu widerrufen.
         </p>
       </LegalSection>
 
       <LegalSection heading="Versand erfolgt durch Sie selbst">
         <p>
           Wir versenden keine Briefe. Die fertige Mängelanzeige laden Sie herunter
-          und schicken sie selbst an Ihren Vermieter — am besten nachweisbar per
+          und schicken sie selbst an Ihren Vermieter, am besten nachweisbar per
           Einwurf-Einschreiben.
         </p>
       </LegalSection>

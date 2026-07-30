@@ -1,7 +1,7 @@
 /**
  * Central site configuration.
  *
- * `operator` is the single source of truth for who runs this site — the legal
+ * `operator` is the single source of truth for who runs this site - the legal
  * pages read it directly, and `siteConfig.publisher` re-exposes the same record
  * under schema.org field names for the JSON-LD emitters. Change it here and
  * both the Impressum and the structured data follow.
@@ -48,7 +48,7 @@ export const siteConfig = {
   locale: "de_DE",
   themeColor: "#1e40af",
   description:
-    "Kostenlos prüfen, ob Sie Anspruch auf Mietminderung haben. Minderungsquote berechnen und rechtssichere Mängelanzeige für den Vermieter erstellen — in wenigen Minuten, ohne Anwalt.",
+    "Kostenlos prüfen, ob Sie Anspruch auf Mietminderung haben. Minderungsquote berechnen und rechtssichere Mängelanzeige für den Vermieter erstellen, in wenigen Minuten und ohne Anwalt.",
   /** The same operator record, under the schema.org names the JSON-LD needs. */
   publisher: {
     name: operator.name,

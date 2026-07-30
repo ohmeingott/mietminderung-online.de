@@ -25,7 +25,7 @@ const DEFAULT_OG_IMAGE = {
   url: absoluteUrl("/opengraph-image"),
   width: 1200,
   height: 630,
-  alt: "Mietminderung-online.de — Prüfen Sie Ihr Recht auf Mietminderung",
+  alt: "Mietminderung-online.de: Prüfen Sie Ihr Recht auf Mietminderung",
 };
 
 /**
@@ -119,7 +119,7 @@ export function organizationSchema() {
       addressCountry: siteConfig.publisher.addressCountry,
     },
     areaServed: { "@type": "Country", name: "Deutschland" },
-    knowsLanguage: ["de", "tr", "uk", "ru", "ar", "pl"],
+    knowsLanguage: ["de", "en", "tr", "uk", "ru", "ar", "pl"],
   };
 }
 
@@ -205,7 +205,7 @@ export function webApplicationSchema() {
     applicationCategory: "LegalService",
     operatingSystem: "Alle Betriebssysteme mit Webbrowser",
     browserRequirements: "Erfordert JavaScript",
-    inLanguage: ["de", "tr", "uk", "ru", "ar", "pl"],
+    inLanguage: ["de", "en", "tr", "uk", "ru", "ar", "pl"],
     description:
       "Kostenloser Online-Check für die Mietminderung: Anspruch prüfen, Minderungsquote für über 58 Wohnungsmängel berechnen und eine rechtssichere Mängelanzeige nach § 536c BGB erstellen.",
     offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
@@ -214,7 +214,7 @@ export function webApplicationSchema() {
       "Minderungsquote nach Mangelart berechnen",
       "Mängelanzeige als PDF erstellen",
       "Versand per E-Mail oder Brief",
-      "Verfügbar in sechs Sprachen",
+      "Verfügbar in sieben Sprachen",
     ],
     publisher: { "@id": ORGANIZATION_ID },
     isPartOf: { "@id": WEBSITE_ID },
