@@ -3,6 +3,12 @@ import { getJob } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
 import { DISTRIBUTED_STATUSES } from "@/lib/ebrief/types";
 import type { JobStatus } from "@/lib/ebrief/types";
+import { pruefeZugang, versandTokenKonfiguriert } from "@/lib/versandToken";
+import { clientIp, rateLimit } from "@/lib/rateLimit";
+
+/** Generous: the browser polls this while eBrief works through the commit. */
+const LIMIT_PRO_STUNDE = 240;
+const STUNDE_MS = 60 * 60 * 1000;
 
 /**
  * The four states the UI actually distinguishes. eBrief's sixteen job
@@ -29,7 +35,13 @@ export function versandStatus(ebriefStatus: JobStatus): VersandStatus {
   // committed before payment.
   if (ebriefStatus === "USER_CONFIRMATION_REQUESTED") return "adresse_warnung";
 
-  if (ebriefStatus.startsWith("ERROR") || ebriefStatus === "ROLLEDBACK") {
+  if (
+    ebriefStatus.startsWith("ERROR") ||
+    ebriefStatus === "ROLLEDBACK" ||
+    // Terminal like the other two: a deleted job never becomes "bereit", so
+    // reporting it as still working would leave the browser polling forever.
+    ebriefStatus === "USER_DELETED"
+  ) {
     return "fehler";
   }
 
@@ -46,36 +58,45 @@ export function versandStatus(ebriefStatus: JobStatus): VersandStatus {
   return "laeuft";
 }
 
-/** Accepts a positive integer id only — "0", "-1", "1.5" and "1e3" are not ids. */
-function parseId(wert: string | null): number | null {
-  if (wert === null || !/^\d+$/.test(wert)) return null;
-  const id = Number(wert);
-  return Number.isSafeInteger(id) && id > 0 ? id : null;
-}
-
 /**
  * Polled by the browser while eBrief works through the commit it was handed by
  * POST /api/versand/vorbereiten. Answers with the UI state, the raw eBrief
- * status (for logs and support) and the id of the first document, which
- * /api/versand/adressvorschau needs to render the marked-up preview.
+ * status (for logs and support) and the id of the first document, which the
+ * later address-confirmation step needs for POST /docs/confirmation.
+ *
+ * Requires the capability token issued by the prepare route: the jobId alone
+ * is a small sequential integer, and without the token anyone could count
+ * upwards and watch every job in the account.
  *
  * Everything returned to the client is an error slug, never prose — the site
  * ships in six languages and the UI translates the slugs via src/i18n.
  */
 export async function GET(request: Request) {
-  // No credentials means the site simply keeps working as a free download.
-  if (!ebriefKonfiguriert()) {
+  // No credentials, or no secret to check tokens with, means the site simply
+  // keeps working as a free download.
+  if (!ebriefKonfiguriert() || !versandTokenKonfiguriert()) {
     return NextResponse.json(
       { fehler: "versand_nicht_konfiguriert" },
       { status: 503 }
     );
   }
 
-  const jobId = parseId(new URL(request.url).searchParams.get("jobId"));
-  if (jobId === null) {
-    return NextResponse.json({ fehler: "jobId_ungueltig" }, { status: 400 });
+  const zugang = pruefeZugang(request);
+  if (!zugang.ok) {
+    return NextResponse.json(
+      { fehler: zugang.fehler },
+      { status: zugang.status }
+    );
   }
 
+  // Namespaced: the limiter is keyed by string alone, so a bare IP would put
+  // the polling done here into the same bucket as the far tighter preview
+  // limit and starve it.
+  if (!rateLimit(`status:${clientIp(request)}`, LIMIT_PRO_STUNDE, STUNDE_MS)) {
+    return NextResponse.json({ fehler: "zu_viele_anfragen" }, { status: 429 });
+  }
+
+  const { jobId } = zugang;
   try {
     const job = await getJob(jobId);
     return NextResponse.json(

@@ -7,6 +7,7 @@ import {
   getPrice,
 } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
+import { versandToken, versandTokenKonfiguriert } from "@/lib/versandToken";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import { AnschriftZuLangError, versandPdfBase64 } from "@/lib/briefPdf";
 import type { VersandPdfErgebnis } from "@/lib/briefPdf";
@@ -68,8 +69,11 @@ async function verwerfeJob(jobId: number): Promise<void> {
  * ships in six languages and the UI translates the slugs via src/i18n.
  */
 export async function POST(request: Request) {
-  // No credentials means the site simply keeps working as a free download.
-  if (!ebriefKonfiguriert()) {
+  // No credentials, or no secret to sign the job tokens with, means the site
+  // simply keeps working as a free download. Refusing without the secret is
+  // deliberate: the follow-up routes are only safe because of the token, so a
+  // job that cannot be handed one must not be created in the first place.
+  if (!ebriefKonfiguriert() || !versandTokenKonfiguriert()) {
     return NextResponse.json(
       { fehler: "versand_nicht_konfiguriert" },
       { status: 503 }
@@ -188,6 +192,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       jobId,
+      // Capability token for GET /api/versand/status and
+      // /api/versand/adressvorschau — those routes are unauthenticated and
+      // eBrief's job ids are small sequential integers, so without it the
+      // letters would be reachable by counting upwards.
+      token: versandToken(jobId),
       produktId,
       preisCent: produkt.preisCent,
       // So the UI can warn about what the letter parse had to infer.

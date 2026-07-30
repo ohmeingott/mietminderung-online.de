@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
-import { getFileWithMark } from "@/lib/ebrief/client";
+import { getFileWithMark, getJob } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
+import { pruefeZugang, versandTokenKonfiguriert } from "@/lib/versandToken";
+import { clientIp, rateLimit } from "@/lib/rateLimit";
 
-/** Accepts a positive integer id only — "0", "-1", "1.5" and "1e3" are not ids. */
-function parseId(wert: string | null): number | null {
-  if (wert === null || !/^\d+$/.test(wert)) return null;
-  const id = Number(wert);
-  return Number.isSafeInteger(id) && id > 0 ? id : null;
-}
+/**
+ * Tight. Unlike the status route this is not polled — the user opens the
+ * preview, looks at it, and maybe reloads it a couple of times.
+ */
+const LIMIT_PRO_STUNDE = 20;
+const STUNDE_MS = 60 * 60 * 1000;
 
 /**
  * Streams eBrief's own rendering of the document back to the browser, with the
@@ -15,24 +17,49 @@ function parseId(wert: string | null): number | null {
  * paying, whether eBrief read the right address — especially after
  * /api/versand/status has reported "adresse_warnung".
  *
- * The docId comes from that same status response. Errors are slugs, never
- * prose — the site ships in six languages and the UI translates them.
+ * Deliberately takes the signed jobId and resolves the document itself rather
+ * than accepting a docId: this route hands out the letter, which carries the
+ * tenant's name and address, the landlord's address, the defect description
+ * and the signature. A free-form docId parameter would leave all of that
+ * reachable by counting upwards, no matter how well the jobId were protected.
+ *
+ * Errors are slugs, never prose — the site ships in six languages and the UI
+ * translates them.
  */
 export async function GET(request: Request) {
-  // No credentials means the site simply keeps working as a free download.
-  if (!ebriefKonfiguriert()) {
+  // No credentials, or no secret to check tokens with, means the site simply
+  // keeps working as a free download.
+  if (!ebriefKonfiguriert() || !versandTokenKonfiguriert()) {
     return NextResponse.json(
       { fehler: "versand_nicht_konfiguriert" },
       { status: 503 }
     );
   }
 
-  const docId = parseId(new URL(request.url).searchParams.get("docId"));
-  if (docId === null) {
-    return NextResponse.json({ fehler: "docId_ungueltig" }, { status: 400 });
+  const zugang = pruefeZugang(request);
+  if (!zugang.ok) {
+    return NextResponse.json(
+      { fehler: zugang.fehler },
+      { status: zugang.status }
+    );
   }
 
+  // Namespaced, so the status route's polling cannot eat this allowance —
+  // the limiter is keyed by string alone and would otherwise share a bucket.
+  if (!rateLimit(`vorschau:${clientIp(request)}`, LIMIT_PRO_STUNDE, STUNDE_MS)) {
+    return NextResponse.json({ fehler: "zu_viele_anfragen" }, { status: 429 });
+  }
+
+  const { jobId } = zugang;
   try {
+    const job = await getJob(jobId);
+    const docId = job.Documents?.[0]?.Id;
+    if (docId === undefined) {
+      // eBrief has not produced the document yet. Not an error — the UI should
+      // keep polling the status route and offer the preview once it is there.
+      return NextResponse.json({ fehler: "kein_dokument" }, { status: 404 });
+    }
+
     const pdf = await getFileWithMark(docId);
     return new NextResponse(pdf, {
       headers: {
@@ -44,7 +71,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (err) {
-    console.error("eBrief address preview failed", { docId, err });
+    console.error("eBrief address preview failed", { jobId, err });
     return NextResponse.json({ fehler: "ebrief_fehler" }, { status: 502 });
   }
 }
