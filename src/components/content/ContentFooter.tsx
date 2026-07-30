@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { kategorieIndex } from "@/lib/mangelIndex";
 import { ratgeberArtikel } from "@/data/ratgeber";
+import { siteConfig } from "@/lib/site";
 
 /**
  * Static footer with a broad internal link block. This is the main hub that
@@ -95,7 +96,7 @@ export default function ContentFooter() {
 
         <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs">
-            &copy; {new Date().getFullYear()} mietminderung.online
+            &copy; {new Date().getFullYear()} {siteConfig.brand}
           </p>
           <p className="text-xs">
             Keine Rechtsberatung, alle Angaben ohne Gewähr.
