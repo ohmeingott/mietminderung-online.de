@@ -247,17 +247,30 @@ Die offizielle Vorlage liegt unter
 `docs/ebrief/PIN_eBrief_Abstandsvorlage_A4_2026_EN.pdf` im Repo. Maße für A4
 (210 × 297 mm):
 
-| Element | Maß |
+Die Maße stammen **nicht** aus dem gerenderten Bild der Vorlage, sondern aus
+ihrem Content-Stream (CTM-aufgelöste Pfade). Eine erste Schätzung nach Augenmaß
+entsprach DIN 5008 Form B und lag am Anschriftenfeld rund 8 mm zu hoch — der
+Empfängername wäre in die Maschinencode-Zone geraten und die Sendung nicht
+zustellbar gewesen.
+
+| Element | Maß (von oben, mm) |
 |---|---|
+| Umschlagfenster DIN lang | x 23,30–112,30 · y 46,00–92,00 |
+| Anschriftenfeld (85 × 27) | x 25,37–110,24 · y 63,00–89,80 |
+| PIN-AG-Codierzone („No text zone") | x 25,37–91,40 · y 53,00–59,50 |
+| Absenderzeile, 6 pt | Grundlinie ≈ 50,4 |
+| Textbeginn | y 111,0 (Oberkante der ersten Zeile) |
 | Linker Textrand | 25 mm |
-| Textbeginn | 111 mm von oben |
-| Anschriftenfeld | 85 mm breit × 27 mm hoch |
-| Absenderzeile über der Anschrift | 6 pt, einzeilig |
 | Sicherheitsabstand zum Seitenrand | 3 mm |
 | Adressschrift | serifenlos (Arial, Frutiger, Helvetica, Univers), 10–12 pt, regular |
 | Zeilenabstand in der Adresse | 0,5–2,5 mm |
 | Zeichenabstand in der Adresse | 0,2–0,4 mm |
 | Auflösung eingebetteter Grafiken | mind. 150 dpi, max. 300 dpi |
+
+Weil die Codierzone (53,0–59,50) zwischen Absenderzeile und Anschriftenfeld
+liegt, bleibt sie durch die feste Geometrie ohnehin frei. Das Layout ist
+deshalb für Brief und Einwurf-Einschreiben **identisch** — eine
+produktabhängige Fallunterscheidung ist nicht nötig.
 
 Weitere Vorgaben aus der Vorlage:
 
@@ -276,13 +289,16 @@ Weitere Vorgaben aus der Vorlage:
 - Der linke Bereich neben dem Anschriftenfeld trägt einen von eBrief gedruckten
   DataMatrix-Code zur Seitensortierung und bleibt frei.
 
-**Beim Einwurf-Einschreiben** (`IsTracking: "true"`) kommt laut Seite 2 der
-Vorlage eine zusätzliche PIN-AG-Codierzone unmittelbar über dem
-Anschriftenfeld hinzu, die als „No text zone" ausgewiesen ist. Dort darf auch
-die Absenderzeile nicht stehen. Das Layout berücksichtigt das produktabhängig.
-
 Der Brieftext enthält im Versand-Layout keinen eigenen Adresskopf mehr, damit
-die Anschrift nicht doppelt erscheint.
+die Anschrift nicht doppelt erscheint. **Die Datumszeile wird jedoch gerettet**
+und nach DIN 5008 rechtsbündig über der Betreffzeile gesetzt: Eine
+Mängelanzeige, die eine Frist setzt, ohne datiert zu sein, ist deutlich
+schwächer. Findet sich keine Datumszeile, wird auch keine erfunden.
+
+Überlange Adresszeilen werden umbrochen, nicht übereinander gedruckt. Passt die
+Anschrift auch umbrochen nicht ins 27-mm-Feld, wirft die Funktion einen Fehler,
+statt einen unzustellbaren Brief zu erzeugen — die Route macht daraus eine
+Meldung an den Nutzer.
 
 ## Fehlerbehandlung
 
