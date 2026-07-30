@@ -6,9 +6,9 @@
 ## Ziel
 
 Nutzer sollen ihre fertige Mängelanzeige am Ende des bestehenden Flows direkt
-als physischen Brief an den Vermieter schicken können, statt das PDF
-herunterzuladen, auszudrucken und selbst zur Post zu bringen. Der Versand ist
-kostenpflichtig und wird per Stripe bezahlt.
+als physischen Brief oder als Einschreiben an den Vermieter schicken können,
+statt das PDF herunterzuladen, auszudrucken und selbst zur Post zu bringen. Der
+Versand ist kostenpflichtig und wird per Stripe bezahlt.
 
 Der kostenlose Download bleibt unverändert bestehen. Der Postversand ist eine
 zusätzliche Option in Schritt 4, kein Ersatz.
@@ -24,72 +24,86 @@ Ein Konto samt Staging-Zugang liegt vor.
 
 ### Authentifizierung
 
-`POST /oauth2/token/generateBearerToken` mit Base64-kodierten Basic-Auth-Daten
-liefert ein Bearer-Token, das **7 Tage** gültig ist. Alle weiteren Aufrufe
-tragen `Authorization: Bearer <token>`.
+`GET /oauth2/token/generateBearerToken` mit `Authorization: Basic <base64(user:pass)>`
+liefert das Token im Feld `GenerateBearerTokenResult`. Es ist **7 Tage** gültig.
+Alle weiteren Aufrufe tragen `Authorization: Bearer <token>`.
+
+Achtung: Die Doku beschreibt den Endpunkt an einer Stelle als POST, das
+Codebeispiel verwendet aber `method: "GET"`. Der Spike klärt das praktisch;
+der Client implementiert GET mit Fallback auf POST bei 405.
 
 ### Relevante Endpunkte
 
 | Endpunkt | Zweck |
 |---|---|
-| `POST /jobs/singleFiles` | Job mit einem Dokument anlegen (PDF als Base64 in `Document.FileContent`) |
-| `PUT /jobs/{jobId}` | Job zur Verarbeitung freigeben (Commit) |
-| `GET /jobs/{jobId}` | Status abfragen |
-| `POST /prices` | Preis für eine Sendung berechnen |
-| `POST /docs/confirmation` | Dokument mit Warnung bestätigen |
-| `POST /jobs/distribution` | Druck und Versand auslösen |
+| `POST /jobs` | Leeren Job anlegen (Status `UNPROCESSED`) |
+| `POST /jobs/{jobId}/singleFiles` | Dokument in den Job laden (`Document.FileName`, `Document.FileContent` als Base64) |
+| `PUT /jobs/{jobId}` | Commit, Body `{ "IsRollback": false }` — eBrief liest jetzt die Adresse aus und erzeugt Dokumente |
+| `GET /jobs/{jobId}` | Status und erzeugte Dokumente abfragen |
+| `POST /prices` | Preis berechnen |
+| `POST /docs/confirmation` | Dokument mit Warnung bestätigen, Body `{ "Ids": [docId] }` |
+| `POST /jobs/distribution` | Druck und Versand auslösen, Body `{ "Ids": [jobId] }` |
 | `DELETE /jobs/{jobId}` | Job verwerfen |
 | `POST /Jobs/searchJobDetails` | Jobs nach Filtern suchen (für Cleanup) |
 
-### Zwei Eigenheiten der API, die das Design prägen
+### Drei Eigenheiten der API, die das Design prägen
 
-**Die Empfängeradresse wird aus dem PDF gelesen**, nicht als JSON übergeben:
-„The address of the document is read and compared with the address database."
-Das Anschriftenfeld muss deshalb an der von DIN 5008 vorgesehenen Position
-stehen und die Barcode-Zone frei bleiben. Der aktuelle Brief in
+**`POST /jobs/singleFiles` (ohne `jobId`) druckt sofort.** Die Doku dazu:
+„it doesn't require to be confirmed and distributed in order to be proceeded
+for printing. When Job is created with this endpoint then it is going to be
+scheduled for printing right away. Expected job status after creating is
+`BILLING_COMPLETED` or `DISTRIBUTION_COMPLETED`". Dieser Endpunkt darf für
+unseren Ablauf **nicht** verwendet werden — der Brief wäre vor der Zahlung
+gedruckt. Wir nutzen ausschließlich die vierstufige Variante aus der Tabelle
+oben.
+
+**Die Empfängeradresse wird aus dem PDF gelesen**, nicht als JSON übergeben.
+Das Anschriftenfeld muss deshalb exakt an der von eBrief vorgegebenen Position
+stehen (siehe Abstandsvorlage weiter unten). Der aktuelle Brief in
 `src/lib/generatePdf.ts` erfüllt das nicht — er setzt reinen Fließtext ab 30 mm
 oberem Rand.
 
 **Ein committeter Job wird nicht automatisch versendet.** Erst
-`POST /jobs/distribution` löst Druck und Zustellung aus. Das trennt
-Vorbereitung und Versand sauber und ist die Grundlage für den unten
-beschriebenen Zahlungsablauf.
+`POST /jobs/distribution` löst Druck und Zustellung aus, und die Abrechnung
+folgt erst danach (`BILLING_COMPLETED` kommt nach `DISTRIBUTION_COMPLETED`).
+Zu `USER_DELETED` heißt es ausdrücklich: „It will not be printed, distributed,
+or invoiced." Ein Job, der zwischen Commit und Distribution gelöscht wird,
+kostet also nichts. Das ist die Grundlage für den Zahlungsablauf.
 
-## Offener Punkt: Einschreiben
+**Ungeklärt bleibt** nur, ob es ein Limit für die Anzahl offener, nicht
+distribuierter Jobs pro Konto gibt. Die Doku sagt dazu nichts. Das Risiko ist
+gering und wird durch den Cleanup-Cron und das Rate Limit abgefedert.
 
-Die öffentliche API-Dokumentation kennt kein Einschreiben. Es gibt lediglich
-das Job-Attribut `IsTracking` (Sendungsverfolgung) — das ist beweisrechtlich
-**kein** Einschreiben und darf im UI auch nicht so genannt werden.
+## Einschreiben
 
-Gerade bei der Mängelanzeige ist der Zugangsnachweis der eigentliche Grund,
-warum ein Mieter überhaupt zum Einschreiben greift. Wir bauen den
-Produktkatalog deshalb von Anfang an zweistufig, schalten das Einschreiben aber
-erst frei, wenn eBrief bestätigt hat, dass es über die API buchbar ist und
-unter welchem Attribut. Bis dahin ist die Option im UI sichtbar, aber
-deaktiviert, mit dem Hinweis, dass ein Einschreiben derzeit nur persönlich bei
-der Post aufgegeben werden kann.
+Verfügbar, und zwar über das Job-Attribut `IsTracking: "true"`.
 
-Zu klären mit support@ebrief.de:
+Der Nachweis ergibt sich aus drei Quellen: Die deutsche Preisseite führt
+„Einschreiben" mit **+2,75 € netto / +3,27 € brutto** (national). Die englische
+Preisseite listet beim identischen Preis „eTracked Letter". Die offizielle
+Abstandsvorlage hat eine eigene Seite mit der Überschrift „Specifications for
+eTracked letter". Es handelt sich um dasselbe Produkt.
 
-1. Sind Einschreiben, Einwurf-Einschreiben oder Rückschein über die API
-   buchbar? Wenn ja, unter welchem Feld in `Attributes`?
-2. Bleibt ein committeter Job, der nie distribuiert wird, kostenfrei?
-3. Gibt es ein Limit für offene, nicht distribuierte Jobs?
-
-Frage 2 ist die einzige Annahme im Design, die den Ablauf umwerfen würde. Sie
-wird zusätzlich im Staging-Spike praktisch geprüft (siehe Tests).
+**Einschränkung, die ins UI gehört:** Die deutsche Seite formuliert „Als
+**Einwurf**-Einschreiben versenden (Aufpreis)". Es ist also kein
+Übergabe-Einschreiben mit Unterschrift des Empfängers. Für die Mängelanzeige
+ist das Einwurf-Einschreiben die übliche Variante, beweisrechtlich aber
+schwächer. Das UI benennt das Produkt korrekt als „Einwurf-Einschreiben" und
+weist auf den Unterschied hin, statt pauschal „Einschreiben" zu versprechen.
 
 ## Ablauf
 
 ```
 Browser (Maengelanzeige, Schritt 4)
-   │  Brieftext + Unterschrift + Adressdaten (kein PDF)
+   │  Brieftext + Unterschrift + Adressdaten + Produktwahl (kein PDF)
    ▼
 POST /api/versand/vorbereiten
-   ├─ generatePdf() serverseitig, DIN 5008 mit Anschriftenfeld
-   ├─ eBrief POST /jobs/singleFiles → PUT /jobs/{jobId}
-   └─ eBrief POST /prices
-   ◄── { jobId, preisBrutto, seiten }
+   ├─ generatePdf() serverseitig, Layout nach eBrief-Abstandsvorlage
+   ├─ eBrief POST /jobs                          → jobId
+   ├─ eBrief POST /jobs/{jobId}/singleFiles      → PDF als Base64
+   ├─ eBrief PUT  /jobs/{jobId}  {IsRollback:false}  → Commit, Adressprüfung läuft
+   └─ eBrief POST /prices                        → Einkaufspreis (Plausibilitätscheck)
+   ◄── { jobId, produkt, preisCent, seiten }
    │
 GET /api/versand/status?jobId=…   (Polling)
    └─► "bereit" | "adresse_warnung" | "fehler"
@@ -101,13 +115,26 @@ POST /api/versand/checkout
    │
 POST /api/stripe/webhook  (checkout.session.completed)
    ├─ Signatur prüfen
-   ├─ GET /jobs/{jobId} → bereits distribuiert? dann überspringen
-   └─ POST /jobs/distribution
+   ├─ GET /jobs/{jobId} → schon distribuiert? dann überspringen (Idempotenz)
+   └─ POST /jobs/distribution  {Ids: [jobId]}
 ```
 
 Das PDF wird **serverseitig** erzeugt. Der Client schickt nur Text, Unterschrift
 und Adressdaten. Damit sitzt das Anschriftenfeld garantiert an der richtigen
-Stelle, und es lässt sich uns kein beliebiges Fremd-PDF zum Drucken unterschieben.
+Stelle, und es lässt sich uns kein beliebiges Fremd-PDF zum Drucken
+unterschieben.
+
+Der Verkaufspreis kommt aus unserem Produktkatalog, nicht aus `/prices`.
+`/prices` dient der Kontrolle: Weicht der Einkaufspreis stark vom erwarteten ab
+(etwa weil der Brief mehr Seiten hat als gedacht), brechen wir ab, statt mit
+Verlust zu versenden.
+
+### Job-Status-Webhook als spätere Verbesserung
+
+eBrief bietet einen Webhook für Job-Statusänderungen an; die URL muss beim
+Support hinterlegt werden. Das wäre der sauberere Weg statt Polling in
+`/api/versand/status`. Wir starten mit Polling, weil es keine Absprache
+erfordert, und stellen später um.
 
 ## Warum Zahlung zwischen Commit und Distribution
 
@@ -143,15 +170,21 @@ Wir speichern nichts.
 | Datei | Aufgabe |
 |---|---|
 | `src/lib/ebrief/token.ts` | Bearer-Token beschaffen und im Modul-Scope cachen; proaktive Erneuerung nach 6 Tagen, zusätzlich einmaliger Retry bei HTTP 401 |
-| `src/lib/ebrief/client.ts` | Typisierter Client: `createJob`, `commitJob`, `getJob`, `getPrice`, `confirmDocs`, `distribute`, `deleteJob`, `searchJobs` |
+| `src/lib/ebrief/client.ts` | Typisierter Client: `createJob`, `addFile`, `commitJob`, `getJob`, `getPrice`, `confirmDocs`, `distribute`, `deleteJob`, `searchJobs` |
 | `src/lib/ebrief/produkte.ts` | Produktkatalog mit eBrief-Attributen und Verkaufspreisen |
-| `src/lib/generatePdf.ts` | erweitert um optionalen `address`-Block (DIN 5008 Typ A) |
-| `src/app/api/versand/vorbereiten/route.ts` | PDF bauen, Job anlegen und committen, Preis holen |
+| `src/lib/briefPdf.ts` | Versand-Layout nach eBrief-Abstandsvorlage (siehe unten) |
+| `src/lib/generatePdf.ts` | unverändert für den kostenlosen Download |
+| `src/app/api/versand/vorbereiten/route.ts` | PDF bauen, Job anlegen, Datei hochladen, committen, Preis prüfen |
 | `src/app/api/versand/status/route.ts` | eBrief-Job-Status auf drei UI-Zustände abbilden |
 | `src/app/api/versand/checkout/route.ts` | Stripe Checkout Session erzeugen |
 | `src/app/api/stripe/webhook/route.ts` | Signatur prüfen, Distribution auslösen |
 | `src/app/api/cron/ebrief-cleanup/route.ts` | unbezahlte Jobs älter als 24 h löschen |
 | `src/components/Maengelanzeige.tsx` | Versand-Karte in Schritt 4 |
+
+Das Versand-Layout kommt in eine **eigene Datei** statt als Option in
+`generatePdf.ts`. Die beiden Layouts haben unterschiedliche Anforderungen
+(freie Zonen, eingebettete Schrift, kein Adresskopf im Fließtext), und der
+kostenlose Download soll von Änderungen am Versandlayout nicht betroffen sein.
 
 ### Produktkatalog
 
@@ -159,77 +192,89 @@ Wir speichern nichts.
 export const PRODUKTE = {
   brief: {
     id: "brief",
-    enabled: true,
-    preisCent: 249,
-    ebrief: { IsDuplex: false, IsColor: false, IsTracking: false },
+    preisCent: 249,          // Einkauf laut Preisliste: 0,88 € brutto
+    ebrief: { IsDuplex: "false", IsColor: "false", IsTracking: "false" },
   },
-  einschreiben: {
-    id: "einschreiben",
-    enabled: false,   // freischalten, sobald eBrief das Attribut bestätigt
-    preisCent: 599,
-    ebrief: { IsDuplex: false, IsColor: false, IsTracking: true },
+  einwurfEinschreiben: {
+    id: "einwurfEinschreiben",
+    preisCent: 699,          // Einkauf laut Preisliste: 0,88 € + 3,27 € = 4,15 € brutto
+    ebrief: { IsDuplex: "false", IsColor: "false", IsTracking: "true" },
   },
 } as const;
 ```
 
-Die Preise sind Startwerte und decken eBrief-Kosten plus Marge; sie werden hier
-zentral gepflegt, nicht im UI verstreut. Das `IsTracking: true` beim
-Einschreiben ist ein Platzhalter und wird durch das echte Attribut ersetzt,
-sobald es bekannt ist — solange `enabled: false` gilt, kommt es nicht zum
-Einsatz.
+Die Verkaufspreise sind Startwerte und noch nicht betriebswirtschaftlich
+festgelegt; sie werden hier zentral gepflegt, nicht im UI verstreut. Die
+Einkaufspreise stammen von der eBrief-Preisseite (Standardbrief bis 3 Blatt,
+s/w, einseitig, national) und dienen als Kalkulationsgrundlage.
 
-### DIN-5008-Layout
+**Die eBrief-`Attributes` sind Strings.** Die Doku warnt ausdrücklich: „'string'
+type fields with value 'false' are not boolean and should be used as a string
+'false'!". In `POST /prices` sind dieselben Felder dagegen echte Booleans. Der
+Client kapselt diese Inkonsistenz, damit sie sich nicht durch den Code zieht.
 
-`generatePdf` bekommt ein optionales Feld:
+### Layout nach eBrief-Abstandsvorlage
 
-```ts
-interface LetterPdfOptions {
-  text: string;
-  signatureDataUrl?: string;
-  address?: {
-    absender: string;   // einzeilig, über dem Anschriftenfeld
-    empfaenger: string[]; // Name, Straße, "PLZ Ort"
-  };
-}
-```
+Die offizielle Vorlage liegt unter
+`docs/ebrief/PIN_eBrief_Abstandsvorlage_A4_2026_EN.pdf` im Repo. Maße für A4
+(210 × 297 mm):
 
-Ist `address` gesetzt, rendert die Funktion nach **DIN 5008 Form B**: das
-Anschriftenfeld beginnt 20 mm von links und 45 mm von oben, die oberen 45 mm
-sowie der rechte Rand bleiben als Barcode- und Frankierzone frei, der Brieftext
-startet bei 125 mm. Ohne `address` bleibt das Verhalten für den kostenlosen
-Download exakt wie bisher.
+| Element | Maß |
+|---|---|
+| Linker Textrand | 25 mm |
+| Textbeginn | 111 mm von oben |
+| Anschriftenfeld | 85 mm breit × 27 mm hoch |
+| Absenderzeile über der Anschrift | 6 pt, einzeilig |
+| Sicherheitsabstand zum Seitenrand | 3 mm |
+| Adressschrift | serifenlos (Arial, Frutiger, Helvetica, Univers), 10–12 pt, regular |
+| Zeilenabstand in der Adresse | 0,5–2,5 mm |
+| Zeichenabstand in der Adresse | 0,2–0,4 mm |
+| Auflösung eingebetteter Grafiken | mind. 150 dpi, max. 300 dpi |
 
-Form B statt Form A, weil das größere obere Feld eBrief mehr Platz für
-Barcode und Frankierung lässt. Die genauen Maße werden vor der Umsetzung gegen
-das offizielle eBrief-Template abgeglichen — die Doku verweist ausdrücklich auf
-eigene Templates und warnt, dass abweichende Positionierung die Verarbeitung
-verzögert.
+Weitere Vorgaben aus der Vorlage:
 
-Der Brieftext enthält in diesem Fall keinen eigenen Adresskopf mehr, damit die
-Anschrift nicht doppelt erscheint.
+- **Schriften müssen vollständig eingebettet sein.** jsPDF nutzt standardmäßig
+  die PDF-Standardschrift Helvetica, die *nicht* eingebettet wird. Für das
+  Versand-PDF muss deshalb eine TTF per `addFont` registriert werden. Das ist
+  der unauffälligste Fallstrick der ganzen Integration.
+- Keine großen Grafikelemente näher als 3 cm an Adresse, oberem, unterem oder
+  seitlichem Rand. Betrifft die Unterschrift, die entsprechend platziert wird.
+- Transparenzen und Formularfelder werden automatisch entfernt.
+- Der linke Bereich neben dem Anschriftenfeld trägt einen von eBrief gedruckten
+  DataMatrix-Code zur Seitensortierung und bleibt frei.
+
+**Beim Einwurf-Einschreiben** (`IsTracking: "true"`) kommt laut Seite 2 der
+Vorlage eine zusätzliche PIN-AG-Codierzone unmittelbar über dem
+Anschriftenfeld hinzu, die als „No text zone" ausgewiesen ist. Dort darf auch
+die Absenderzeile nicht stehen. Das Layout berücksichtigt das produktabhängig.
+
+Der Brieftext enthält im Versand-Layout keinen eigenen Adresskopf mehr, damit
+die Anschrift nicht doppelt erscheint.
 
 ## Fehlerbehandlung
 
 | Fall | Verhalten |
 |---|---|
 | eBrief bei „vorbereiten" nicht erreichbar | Fehlermeldung in der Versand-Karte, kostenloser Download bleibt sichtbar, kein Stripe-Aufruf |
-| Adressprüfung meldet Warnung | UI zeigt die Warnung, Nutzer korrigiert (alter Job wird per `DELETE` verworfen, neuer angelegt) oder bestätigt bewusst via `POST /docs/confirmation` |
+| Adressprüfung meldet Warnung (`USER_CONFIRMATION_REQUESTED`) | UI zeigt die Warnung, Nutzer korrigiert (alter Job wird per `DELETE` verworfen, neuer angelegt) oder bestätigt bewusst via `POST /docs/confirmation` |
+| Einkaufspreis weicht stark vom kalkulierten ab | Abbruch mit Hinweis, Job wird gelöscht, kein Stripe-Aufruf |
 | Nutzer bricht die Zahlung ab | Job bleibt committet, aber undistribuiert liegen; Cron räumt nach 24 h auf |
 | Webhook schlägt fehl | Stripe wiederholt bis zu 3 Tage. `console.error` mit `jobId` und Stripe-Session-ID landet in den Vercel Runtime Logs; fehlgeschlagene Zustellungen sind zusätzlich im Stripe-Dashboard sichtbar. (Im Projekt ist kein Sentry eingebunden.) |
 | Webhook läuft doppelt | `GET /jobs/{jobId}`: ist der Status bereits `DISTRIBUTION_*` oder weiter, wird übersprungen und 200 zurückgegeben |
 
 ### `SilentConfirm` bleibt `false`
 
-Mit `SilentConfirm: true` würde eBrief Adresswarnungen stillschweigend
+Mit `SilentConfirm: "true"` würde eBrief Adresswarnungen stillschweigend
 bestätigen und der Brief ginge an eine Adresse, die die Prüfung beanstandet hat.
 Wir zeigen die Warnung stattdessen im UI und lassen den Nutzer entscheiden.
+`AdressCheck` bleibt beim Default `true`.
 
 ### Missbrauchsschutz
 
 `/api/versand/vorbereiten` legt bei jedem Aufruf einen Job bei eBrief an. Die
 Route bekommt deshalb ein Rate Limit pro IP (10 Aufrufe pro Stunde). Da vor der
-Distribution nichts gedruckt wird, ist der Schaden bei Missbrauch auf
-API-Rauschen begrenzt, das der Cleanup-Cron abräumt.
+Distribution nichts gedruckt und nichts berechnet wird, ist der Schaden bei
+Missbrauch auf API-Rauschen begrenzt, das der Cleanup-Cron abräumt.
 
 ## Environment-Variablen
 
@@ -249,11 +294,17 @@ payment or postal-dispatch configuration." wird ersetzt.
 ## Tests
 
 **Staging-Spike** (`scripts/ebrief-spike.ts`, manuell auszuführen): läuft den
-kompletten Lebenszyklus einmal gegen `api.staging.ebrief.de` durch — Token,
-Job anlegen, committen, Status pollen, Preis abfragen, Job löschen. Prüft
-praktisch nach, ob ein committeter Job ohne Distribution kostenfrei liegen
-bleibt, und dient danach als Referenz für die echten Feldnamen und
-Statusübergänge.
+Lebenszyklus einmal gegen `api.staging.ebrief.de` durch — Token holen (GET vs.
+POST klären), leeren Job anlegen, Datei hochladen, committen, Status pollen,
+Preis abfragen, Job löschen. Prüft praktisch nach, dass ein committeter Job ohne
+Distribution kostenfrei bleibt, und dient danach als Referenz für die echten
+Feldnamen und Statusübergänge. Der Spike distribuiert bewusst nichts.
+
+**Layout-Prüfung**: Das erzeugte Versand-PDF wird einmal gegen die
+Abstandsvorlage gelegt (beide A4, Vorlage als Hintergrundebene), um
+Anschriftenfeld und freie Zonen visuell zu verifizieren. Danach genügt der
+`GET /docs/{docId}/fileWithMark`-Endpunkt, der die von eBrief erkannte
+Adresszone markiert zurückgibt.
 
 **Playwright-E2E** mit gestubbten `/api/versand/*`-Routen: Happy Path bis zum
 Stripe-Redirect, Adresswarnung, abgebrochene Zahlung, eBrief nicht erreichbar.
@@ -267,5 +318,6 @@ dünn, und der Spike deckt die Vertragsannahmen gegenüber eBrief ab.
 
 - Eigene Datenbank und Sendungsverfolgung im Nutzerkonto
 - Nutzerkonten überhaupt
+- Übergabe-Einschreiben mit Empfängerunterschrift (bietet eBrief nicht an)
 - Mehrere Empfänger pro Sendung, Anlagen, Farbdruck, C4-Umschläge
-- Einschreiben-Versand (vorbereitet, aber deaktiviert — siehe oben)
+- Job-Status-Webhook von eBrief (später, erfordert Absprache mit dem Support)
