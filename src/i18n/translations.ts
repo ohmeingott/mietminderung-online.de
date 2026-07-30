@@ -268,7 +268,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Paying less rent",
     "hero.title3": "is your right.",
     "hero.subtitle":
-      "Check for free in 2 minutes whether you are entitled to a rent reduction. Create a legally sound defect notice (Mängelanzeige) — and have the letter sent directly to your landlord.",
+      "Check for free in 2 minutes — including a ready-made defect notice for your landlord.",
     "hero.cta1": "Check your claim for free",
     "hero.cta2": "Create defect notice",
     "hero.trust1": "100% free — no hidden costs",
@@ -300,7 +300,6 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Check
     "check.title": "Are you entitled to a rent reduction?",
-    "check.subtitle": "Answer a few questions — we check your claim for free.",
     "check.question": "Question",
     "check.of": "of",
     "check.step": "Step",
