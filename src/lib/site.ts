@@ -1,6 +1,11 @@
 /**
  * Central site configuration.
  *
+ * `operator` is the single source of truth for who runs this site — the legal
+ * pages read it directly, and `siteConfig.publisher` re-exposes the same record
+ * under schema.org field names for the JSON-LD emitters. Change it here and
+ * both the Impressum and the structured data follow.
+ *
  * The canonical host is read from NEXT_PUBLIC_SITE_URL so that preview
  * deployments never emit canonicals/sitemaps pointing at the wrong origin.
  * Falls back to the production domain.
@@ -9,9 +14,33 @@
 const rawSiteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://mietminderung.online";
 
+/** Canonical origin, never with a trailing slash. */
+const siteUrl = rawSiteUrl.replace(/\/+$/, "");
+
+const operator = {
+  name: "Paul Ohm",
+  street: "Holzgasse 8",
+  zip: "50676",
+  city: "Köln",
+  country: "Deutschland",
+  /** ISO 3166-1 alpha-2, for structured data. */
+  countryCode: "DE",
+  email: "pjhohm@gmail.com",
+} as const;
+
+/** Operator details and legal metadata used across the legal pages. */
+export const site = {
+  url: siteUrl,
+  name: "mietminderung.online",
+  operator,
+  /** Court venue for merchant disputes. */
+  venue: "Köln",
+  /** Shown as "Stand:" on the legal documents. */
+  legalVersion: "Juli 2026",
+} as const;
+
 export const siteConfig = {
-  /** Canonical origin, never with a trailing slash. */
-  url: rawSiteUrl.replace(/\/+$/, ""),
+  url: siteUrl,
   name: "Mietminderung Online",
   brand: "mietminderung.online",
   lang: "de",
@@ -19,14 +48,14 @@ export const siteConfig = {
   themeColor: "#1e40af",
   description:
     "Kostenlos prüfen, ob Sie Anspruch auf Mietminderung haben. Minderungsquote berechnen und rechtssichere Mängelanzeige für den Vermieter erstellen — in wenigen Minuten, ohne Anwalt.",
-  /** Operator details — kept in sync with /impressum. */
+  /** The same operator record, under the schema.org names the JSON-LD needs. */
   publisher: {
-    name: "Paul Ohm",
-    streetAddress: "Holzgasse 8",
-    postalCode: "50676",
-    addressLocality: "Köln",
-    addressCountry: "DE",
-    email: "pjhohm@gmail.com",
+    name: operator.name,
+    streetAddress: operator.street,
+    postalCode: operator.zip,
+    addressLocality: operator.city,
+    addressCountry: operator.countryCode,
+    email: operator.email,
   },
   /** Number of distinct defect types covered by the calculator. */
   mangelCount: 58,

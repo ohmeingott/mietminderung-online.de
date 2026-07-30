@@ -2,169 +2,120 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { kategorieIndex } from "@/lib/mangelIndex";
 import { ratgeberArtikel } from "@/data/ratgeber";
 import { useTranslation } from "@/i18n/LanguageContext";
+
+const serviceLinks = [
+  { href: "/#pruefung", key: "nav.check" },
+  { href: "/#maengelanzeige", key: "nav.letter" },
+  { href: "/#so-funktionierts", key: "nav.how" },
+  { href: "/faq", key: "nav.faq" },
+] as const;
+
+/**
+ * German-only content routes, like the legal pages. They carry the site's
+ * internal linking, so they stay in the footer on every page.
+ */
+const contentLinks = [
+  { href: "/mietminderungstabelle", label: "Mietminderungstabelle" },
+  { href: "/mietminderung", label: "Mängel A–Z" },
+  { href: "/ratgeber", label: "Ratgeber" },
+  ...ratgeberArtikel.map((artikel) => ({
+    href: `/ratgeber/${artikel.slug}`,
+    label: artikel.navLabel,
+  })),
+] as const;
+
+const legalLinks = [
+  { href: "/impressum", key: "footer.imprint" },
+  { href: "/datenschutz", key: "footer.privacy" },
+  { href: "/nutzungsbedingungen", key: "footer.terms" },
+  { href: "/widerruf", key: "footer.withdrawal" },
+] as const;
 
 export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-gray-900 text-gray-400 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <Image src="/logo.png" alt="Mietminderung.online Logo" width={32} height={32} className="w-8 h-8 brightness-0 invert" />
-              <span className="text-xl font-bold text-white">
-                Mietminderung<span className="text-blue-400">.online</span>
+    <footer className="bg-brand-950 text-brand-200">
+      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-5">
+          <div className="col-span-2">
+            <div className="mb-4 flex items-center gap-2">
+              <Image
+                src="/logo.png"
+                alt=""
+                width={32}
+                height={32}
+                className="h-8 w-8 brightness-0 invert"
+              />
+              <span className="text-lg font-bold text-white">
+                Mietminderung<span className="text-brand-300">.online</span>
               </span>
             </div>
-            <p className="text-sm leading-relaxed max-w-md">
-              {t("footer.desc")}
-            </p>
+            <p className="max-w-md text-sm leading-relaxed">{t("footer.desc")}</p>
           </div>
 
-          <div>
-            <h4 className="text-sm font-semibold text-white mb-4">
+          <nav aria-labelledby="footer-service">
+            <h2 id="footer-service" className="mb-4 text-sm font-semibold text-white">
               {t("footer.service")}
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#pruefung"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("nav.check")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#maengelanzeige"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("nav.letter")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#so-funktionierts"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("nav.how")}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#faq"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {t("nav.faq")}
-                </a>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  Alle Fragen &amp; Antworten
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/mietminderungstabelle"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  Mietminderungstabelle
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/mietminderung"
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  Mängel A–Z
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Ratgeber</h4>
-            <ul className="space-y-2">
-              {ratgeberArtikel.map((artikel) => (
-                <li key={artikel.slug}>
+            </h2>
+            <ul className="space-y-1">
+              {serviceLinks.map((link) => (
+                <li key={link.href}>
                   <Link
-                    href={`/ratgeber/${artikel.slug}`}
-                    className="text-sm hover:text-white transition-colors"
+                    href={link.href}
+                    className="inline-flex min-h-[2.25rem] items-center text-sm transition-colors hover:text-white"
                   >
-                    {artikel.navLabel}
+                    {t(link.key)}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
+
+          <nav aria-labelledby="footer-content">
+            <h2 id="footer-content" className="mb-4 text-sm font-semibold text-white">
+              Ratgeber &amp; Tabellen
+            </h2>
+            <ul className="space-y-1">
+              {contentLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="inline-flex min-h-[2.25rem] items-center text-sm transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-labelledby="footer-legal">
+            <h2 id="footer-legal" className="mb-4 text-sm font-semibold text-white">
+              {t("footer.legal")}
+            </h2>
+            <ul className="space-y-1">
+              {legalLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="inline-flex min-h-[2.25rem] items-center text-sm transition-colors hover:text-white"
+                  >
+                    {t(link.key)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <div className="mb-12">
-          <h4 className="text-sm font-semibold text-white mb-4">
-            Mietminderung nach Mangelart
-          </h4>
-          <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            {kategorieIndex.map(({ kategorie, seo }) => (
-              <li key={seo.slug}>
-                <Link
-                  href={`/mietminderung/${seo.slug}`}
-                  className="text-sm hover:text-white transition-colors"
-                >
-                  {kategorie.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="mb-12">
-          <h4 className="text-sm font-semibold text-white mb-4">
-            {t("footer.legal")}
-          </h4>
-          <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            <li>
-              <Link
-                href="/impressum"
-                className="text-sm hover:text-white transition-colors"
-              >
-                {t("footer.imprint")}
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/datenschutz"
-                className="text-sm hover:text-white transition-colors"
-              >
-                {t("footer.privacy")}
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/nutzungsbedingungen"
-                className="text-sm hover:text-white transition-colors"
-              >
-                {t("footer.terms")}
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs">
-              &copy; {new Date().getFullYear()} mietminderung.online — {t("footer.rights")}
-            </p>
-            <p className="text-xs">
-              {t("footer.noLegal")}
-            </p>
-          </div>
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 text-xs sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            &copy; {new Date().getFullYear()} mietminderung.online — {t("footer.rights")}
+          </p>
+          <p>{t("footer.noLegal")}</p>
         </div>
       </div>
     </footer>

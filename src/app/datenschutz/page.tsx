@@ -1,6 +1,7 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
+import LegalPage, { NumberedSections } from "@/components/LegalPage";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
   title: "Datenschutzerklärung — Mietminderung Online",
@@ -9,286 +10,367 @@ export const metadata: Metadata = buildMetadata({
   path: "/datenschutz",
 });
 
+const mailto = `mailto:${site.operator.email}`;
+
 export default function Datenschutz() {
+  const sections = [
+    {
+      heading: "Verantwortlicher",
+      body: (
+        <>
+          <address>
+            {site.operator.name}
+            <br />
+            {site.operator.street}
+            <br />
+            {site.operator.zip} {site.operator.city}
+            <br />
+            E-Mail: <a href={mailto}>{site.operator.email}</a>
+          </address>
+          <p>
+            Ein Datenschutzbeauftragter ist nicht bestellt, da die
+            Voraussetzungen des Art. 37 DSGVO bzw. § 38 BDSG nicht vorliegen.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Grundsatz: Verarbeitung überwiegend im Browser",
+      body: (
+        <>
+          <p>
+            Dieser Dienst ist so gebaut, dass so wenig Daten wie möglich unseren
+            Server erreichen. Die Anspruchsprüfung, die Berechnung der
+            Minderungsquote sowie das Erzeugen und Herunterladen der
+            Mängelanzeige (PDF, Textdatei) laufen{" "}
+            <strong>vollständig in Ihrem Browser</strong> ab. Ihre Angaben zu
+            Ihrer Person, Ihrer Wohnung und Ihrem Vermieter werden dabei{" "}
+            <strong>nicht an uns übertragen</strong> und von uns nicht
+            gespeichert.
+          </p>
+          <p>
+            Eine Übermittlung findet nur statt, wenn Sie eine der unten
+            beschriebenen optionalen Funktionen aktiv auslösen.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Aufruf der Webseite (Server-Logs)",
+      body: (
+        <>
+          <p>
+            Beim Aufruf der Seite verarbeitet unser Hoster technisch notwendige
+            Verbindungsdaten: IP-Adresse, Datum und Uhrzeit, angeforderte
+            Ressource, Referrer, Browsertyp und Betriebssystem. Diese Daten sind
+            erforderlich, um die Seite auszuliefern und die Systemsicherheit zu
+            gewährleisten.
+          </p>
+          <ul>
+            <li>
+              <strong>Zweck:</strong> Auslieferung der Webseite,
+              Betriebssicherheit, Abwehr von Missbrauch
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO
+              (berechtigtes Interesse am sicheren Betrieb)
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> Löschung durch den Hoster nach
+              kurzer Zeit, spätestens nach 30 Tagen
+            </li>
+          </ul>
+        </>
+      ),
+    },
+    {
+      heading: "Reichweitenmessung — Vercel Web Analytics",
+      body: (
+        <>
+          <p>
+            Wir nutzen <strong>Vercel Web Analytics</strong> der Vercel Inc., 340
+            S Lemon Ave #4133, Walnut, CA 91789, USA, um zu verstehen, welche
+            Seiten aufgerufen werden und wie viele Besucher der Dienst hat.
+          </p>
+          <p>
+            Vercel Web Analytics setzt <strong>keine Cookies</strong> und
+            speichert oder liest keine Informationen auf Ihrem Endgerät. Es wird
+            kein geräteübergreifendes Profil gebildet und keine Wiedererkennung
+            über die Sitzung hinaus vorgenommen. Aus IP-Adresse, User-Agent und
+            der aufgerufenen Seite wird serverseitig ein Hashwert gebildet, der
+            täglich wechselt und danach nicht mehr zugeordnet werden kann; die
+            IP-Adresse selbst wird nicht gespeichert.
+          </p>
+          <ul>
+            <li>
+              <strong>Zweck:</strong> statistische Auswertung der Nutzung,
+              Verbesserung des Angebots
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO
+              (berechtigtes Interesse an einer datensparsamen
+              Reichweitenmessung). Eine Einwilligung nach § 25 Abs. 1 TDDDG ist
+              nicht erforderlich, da keine Informationen auf Ihrem Endgerät
+              gespeichert oder ausgelesen werden.
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> aggregierte Statistiken; der
+              tagesbezogene Hash wird nach 24 Stunden unbrauchbar
+            </li>
+          </ul>
+          <p>
+            Weitere Informationen:{" "}
+            <a
+              href="https://vercel.com/docs/analytics/privacy-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              vercel.com/docs/analytics/privacy-policy
+            </a>
+            .
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Hosting — Vercel",
+      body: (
+        <p>
+          Diese Webseite wird bei der <strong>Vercel Inc.</strong> (USA)
+          betrieben; die Auslieferung erfolgt über Rechenzentren in Frankfurt am
+          Main (Region <code>fra1</code>). Mit Vercel besteht ein
+          Auftragsverarbeitungsvertrag nach Art. 28 DSGVO. Soweit im Einzelfall
+          Daten in die USA übermittelt werden, stützt sich die Übermittlung auf
+          Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO sowie auf die
+          Zertifizierung von Vercel unter dem EU-US Data Privacy Framework.
+        </p>
+      ),
+    },
+    {
+      heading: "KI-Textverbesserung — Google Gemini",
+      body: (
+        <>
+          <p>
+            Wenn Sie im Schritt „Mängel beschreiben“ auf „Vorschau anzeigen“
+            klicken, werden die von Ihnen eingegebenen{" "}
+            <strong>Mangelbeschreibungen</strong> (Bezeichnung des Mangels, Raum,
+            Zeitraum, Freitext) an die Gemini-API der{" "}
+            <strong>Google Ireland Limited</strong>, Gordon House, Barrow Street,
+            Dublin 4, Irland übermittelt. Dort werden sie sprachlich geglättet
+            und — falls Sie in einer anderen Sprache geschrieben haben — ins
+            Deutsche übersetzt.
+          </p>
+          <ul>
+            <li>
+              <strong>Nicht übermittelt werden:</strong> Ihr Name, Ihre
+              Anschrift, Ihre Telefonnummer, Ihre E-Mail-Adresse, die Daten Ihres
+              Vermieters und Ihre Unterschrift.
+            </li>
+            <li>
+              <strong>Zweck:</strong> Verbesserung und Übersetzung der von Ihnen
+              verfassten Mangelbeschreibung
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO
+              (Durchführung der von Ihnen angeforderten Leistung)
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> Wir speichern die Texte nicht.
+              Google verarbeitet über die kostenpflichtige Gemini-API
+              übermittelte Inhalte nicht zum Training seiner Modelle und löscht
+              sie nach kurzer Zeit.
+            </li>
+          </ul>
+          <p>
+            Bitte geben Sie in das Freitextfeld keine Angaben ein, die Sie nicht
+            übermitteln möchten — insbesondere keine Gesundheitsdaten oder Daten
+            Dritter. Ist der Dienst nicht konfiguriert oder nicht erreichbar,
+            wird Ihr Text unverändert übernommen. Weitere Informationen:{" "}
+            <a
+              href="https://ai.google.dev/gemini-api/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ai.google.dev/gemini-api/terms
+            </a>
+            .
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "E-Mail-Verteiler (freiwilliges Opt-in)",
+      body: (
+        <>
+          <p>
+            Im Formular können Sie freiwillig ankreuzen, dass wir Sie über
+            Neuigkeiten informieren dürfen. Nur dann werden{" "}
+            <strong>Ihr Name und Ihre E-Mail-Adresse</strong> zusammen mit dem
+            Zeitpunkt der Anmeldung an einen von uns betriebenen
+            Google-Sheets-Webhook (Google Ireland Limited) übermittelt und dort
+            gespeichert.
+          </p>
+          <ul>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO
+              (Einwilligung)
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> bis zum Widerruf Ihrer Einwilligung
+            </li>
+            <li>
+              <strong>Widerruf:</strong> jederzeit formlos per E-Mail an{" "}
+              <a href={mailto}>{site.operator.email}</a>. Die Rechtmäßigkeit der
+              bis zum Widerruf erfolgten Verarbeitung bleibt unberührt.
+            </li>
+          </ul>
+        </>
+      ),
+    },
+    {
+      heading: "Lokale Speicherung im Browser",
+      body: (
+        <p>
+          Wir speichern Ihre gewählte Sprache (z. B. „de“, „tr“) im{" "}
+          <code>localStorage</code> Ihres Browsers unter dem Schlüssel{" "}
+          <code>locale</code>. Diese Speicherung ist unbedingt erforderlich, um
+          den von Ihnen ausdrücklich gewünschten Dienst in der gewählten Sprache
+          bereitzustellen (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist dafür
+          nicht erforderlich. Es werden keine <strong>Cookies</strong> gesetzt.
+          Sie können den Eintrag jederzeit über die Einstellungen Ihres Browsers
+          löschen.
+        </p>
+      ),
+    },
+    {
+      heading: "Empfänger und Drittlandtransfer",
+      body: (
+        <>
+          <div className="overflow-x-auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>Empfänger</th>
+                  <th>Zweck</th>
+                  <th>Sitz</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Vercel Inc.</td>
+                  <td>Hosting, Reichweitenmessung</td>
+                  <td>USA (Auslieferung EU/Frankfurt)</td>
+                </tr>
+                <tr>
+                  <td>Google Ireland Limited</td>
+                  <td>KI-Textverbesserung, E-Mail-Verteiler</td>
+                  <td>Irland (EU)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Eine darüber hinausgehende Weitergabe Ihrer Daten an Dritte findet
+            nicht statt. Wir verkaufen keine Daten und betreiben keine Werbe-
+            oder Profilbildung.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Ihre Rechte",
+      body: (
+        <>
+          <p>Sie haben uns gegenüber jederzeit folgende Rechte:</p>
+          <ul>
+            <li>
+              <strong>Auskunft</strong> über die zu Ihrer Person verarbeiteten
+              Daten (Art. 15 DSGVO)
+            </li>
+            <li>
+              <strong>Berichtigung</strong> unrichtiger Daten (Art. 16 DSGVO)
+            </li>
+            <li>
+              <strong>Löschung</strong> (Art. 17 DSGVO)
+            </li>
+            <li>
+              <strong>Einschränkung</strong> der Verarbeitung (Art. 18 DSGVO)
+            </li>
+            <li>
+              <strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO)
+            </li>
+            <li>
+              <strong>Widerspruch</strong> gegen Verarbeitungen auf Grundlage von
+              Art. 6 Abs. 1 lit. f DSGVO (Art. 21 DSGVO)
+            </li>
+            <li>
+              <strong>Widerruf</strong> einer erteilten Einwilligung mit Wirkung
+              für die Zukunft (Art. 7 Abs. 3 DSGVO)
+            </li>
+          </ul>
+          <p>
+            Zur Ausübung genügt eine formlose Nachricht an{" "}
+            <a href={mailto}>{site.operator.email}</a>.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Beschwerderecht",
+      body: (
+        <>
+          <p>
+            Unbeschadet anderweitiger Rechtsbehelfe haben Sie das Recht, sich bei
+            einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO). Für
+            uns zuständig ist:
+          </p>
+          <address>
+            Landesbeauftragte für Datenschutz und Informationsfreiheit
+            Nordrhein-Westfalen
+            <br />
+            Kavalleriestraße 2–4
+            <br />
+            40213 Düsseldorf
+            <br />
+            <a href="https://www.ldi.nrw.de" target="_blank" rel="noopener noreferrer">
+              www.ldi.nrw.de
+            </a>
+          </address>
+        </>
+      ),
+    },
+    {
+      heading: "Erforderlichkeit der Bereitstellung",
+      body: (
+        <p>
+          Die Bereitstellung Ihrer Daten ist weder gesetzlich noch vertraglich
+          vorgeschrieben. Ohne Angaben zu Ihrer Person und Ihrem Vermieter kann
+          allerdings keine Mängelanzeige erzeugt werden. Eine automatisierte
+          Entscheidungsfindung einschließlich Profiling nach Art. 22 DSGVO findet
+          nicht statt; die angezeigte Minderungsquote ist eine unverbindliche
+          Orientierung und keine Entscheidung mit rechtlicher Wirkung.
+        </p>
+      ),
+    },
+    {
+      heading: "Änderungen dieser Erklärung",
+      body: (
+        <p>
+          Wir passen diese Datenschutzerklärung an, wenn sich unsere
+          Datenverarbeitung oder die rechtlichen Rahmenbedingungen ändern. Es
+          gilt jeweils die auf dieser Seite veröffentlichte Fassung.
+        </p>
+      ),
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-blue-700 hover:text-blue-800 mb-8"
-        >
-          &larr; Zurück zur Startseite
-        </Link>
-
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-10">
-          Datenschutzerklärung
-        </h1>
-
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-12 space-y-8">
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              1. Verantwortlicher
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Paul Ohm
-              <br />
-              Holzgasse 8
-              <br />
-              50676 Köln
-              <br />
-              E-Mail:{" "}
-              <a
-                href="mailto:pjhohm@gmail.com"
-                className="text-blue-700 hover:underline"
-              >
-                pjhohm@gmail.com
-              </a>
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              2. Überblick der Verarbeitungen
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Diese Webseite ermöglicht es Mietern, die Höhe einer möglichen
-              Mietminderung zu berechnen und eine Mängelanzeige an den Vermieter
-              zu erstellen. Dabei werden personenbezogene Daten ausschließlich
-              zur Erbringung des jeweiligen Dienstes verarbeitet.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              3. Welche Daten wir erheben
-            </h2>
-
-            <h3 className="font-medium text-gray-800 mt-4 mb-2">
-              a) Mängelanzeige-Formular
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Wenn Sie eine Mängelanzeige erstellen, geben Sie folgende Daten
-              ein:
-            </p>
-            <ul className="list-disc ml-6 mt-2 text-gray-700 space-y-1">
-              <li>Name, Anschrift, Wohnungsnummer</li>
-              <li>Telefonnummer, E-Mail-Adresse</li>
-              <li>Name und Anschrift des Vermieters</li>
-              <li>Beschreibung der Mängel (Raum, Zeitpunkt, Details)</li>
-              <li>Digitale Unterschrift (optional)</li>
-            </ul>
-            <p className="text-gray-700 leading-relaxed mt-2">
-              Diese Daten werden <strong>nicht auf unserem Server gespeichert</strong>.
-              Sie werden ausschließlich in Ihrem Browser verarbeitet, um den
-              Brief zu erzeugen. Eine Speicherung erfolgt nur dann, wenn Sie
-              sich aktiv für eine der Versandoptionen (E-Mail oder Post)
-              entscheiden — in diesem Fall werden die Daten an den jeweiligen
-              Dienstleister übermittelt (siehe Abschnitt 5).
-            </p>
-
-            <h3 className="font-medium text-gray-800 mt-4 mb-2">
-              b) Mietminderungs-Rechner
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Die Eingabe der Bruttowarmmiete und Auswahl der Mängel erfolgt
-              ausschließlich in Ihrem Browser. Es werden keine Daten an unseren
-              Server übertragen.
-            </p>
-
-            <h3 className="font-medium text-gray-800 mt-4 mb-2">
-              c) Newsletter / E-Mail-Opt-in
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Wenn Sie im Formular dem Erhalt von Informationen zustimmen
-              (Opt-in-Checkbox), werden Ihre E-Mail-Adresse und Ihr Name an
-              einen externen Dienst übermittelt. Rechtsgrundlage ist Ihre
-              Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Sie können diese
-              jederzeit widerrufen, indem Sie uns per E-Mail kontaktieren.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              4. Rechtsgrundlagen
-            </h2>
-            <ul className="list-disc ml-6 text-gray-700 space-y-2">
-              <li>
-                <strong>Art. 6 Abs. 1 lit. a DSGVO (Einwilligung):</strong>{" "}
-                Newsletter-Opt-in, optionaler E-Mail-Versand, optionaler
-                Postversand.
-              </li>
-              <li>
-                <strong>Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung):</strong>{" "}
-                Verarbeitung Ihrer Daten zur Erstellung und zum Versand der
-                Mängelanzeige.
-              </li>
-              <li>
-                <strong>Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse):</strong>{" "}
-                Technisch notwendige Verarbeitung für den Betrieb der Webseite.
-              </li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              5. Drittanbieter und Datenübermittlung
-            </h2>
-
-            <h3 className="font-medium text-gray-800 mt-4 mb-2">
-              a) E-Mail-Versand — Resend
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Wenn Sie die Mängelanzeige per E-Mail versenden, nutzen wir den
-              Dienst <strong>Resend</strong> (Resend, Inc., USA). Dabei werden
-              Ihre E-Mail-Adresse, Ihr Name und der Briefinhalt an Resend
-              übermittelt. Die Übermittlung in die USA erfolgt auf Grundlage von
-              Standardvertragsklauseln (Art. 46 Abs. 2 lit. c DSGVO).
-            </p>
-
-            <h3 className="font-medium text-gray-800 mt-4 mb-2">
-              b) Postversand — eBrief.de
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Wenn Sie die Mängelanzeige per Post versenden, wird das generierte
-              PDF an <strong>eBrief.de</strong> übermittelt. eBrief druckt den
-              Brief und versendet ihn postalisch an die Adresse Ihres
-              Vermieters. Es werden der Briefinhalt sowie die Empfängeradresse
-              übermittelt.
-            </p>
-
-            <h3 className="font-medium text-gray-800 mt-4 mb-2">
-              c) KI-Textverbesserung — Anthropic
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Zur optionalen Verbesserung der Mängelbeschreibungen nutzen wir
-              die API von <strong>Anthropic</strong> (Anthropic, PBC, USA).
-              Dabei werden die von Ihnen eingegebenen Mängelbeschreibungen (ohne
-              Ihren Namen oder Ihre Adresse) an Anthropic übermittelt. Anthropic
-              verarbeitet diese Daten nicht für eigene Trainingszwecke. Die
-              Übermittlung in die USA erfolgt auf Grundlage von
-              Standardvertragsklauseln.
-            </p>
-
-            <h3 className="font-medium text-gray-800 mt-4 mb-2">
-              d) Hosting — Vercel
-            </h3>
-            <p className="text-gray-700 leading-relaxed">
-              Diese Webseite wird bei <strong>Vercel Inc.</strong> (USA)
-              gehostet. Bei jedem Seitenaufruf werden technisch bedingt
-              Server-Logdaten erhoben (IP-Adresse, Zeitpunkt, angefragte Seite,
-              Browser-Typ). Diese Daten werden von Vercel automatisch erhoben
-              und nach kurzer Zeit gelöscht.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              6. Lokale Speicherung (localStorage)
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Wir speichern Ihre Spracheinstellung (z.B. &bdquo;de&ldquo;,
-              &bdquo;tr&ldquo;) im
-              localStorage Ihres Browsers. Dies ist technisch notwendig, damit
-              die Webseite in Ihrer bevorzugten Sprache angezeigt wird. Es
-              werden keine Cookies gesetzt und keine Tracking-Daten erhoben.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              7. Keine Cookies, kein Tracking
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Diese Webseite verwendet keine Cookies, keine Analyse-Tools
-              (z.B. Google Analytics) und keine Tracking-Pixel. Es findet kein
-              Nutzer-Tracking statt.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              8. Ihre Rechte nach DSGVO
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Sie haben jederzeit das Recht auf:
-            </p>
-            <ul className="list-disc ml-6 mt-2 text-gray-700 space-y-1">
-              <li>
-                <strong>Auskunft</strong> über die zu Ihrer Person gespeicherten
-                Daten (Art. 15 DSGVO)
-              </li>
-              <li>
-                <strong>Berichtigung</strong> unrichtiger Daten (Art. 16 DSGVO)
-              </li>
-              <li>
-                <strong>Löschung</strong> Ihrer Daten (Art. 17 DSGVO)
-              </li>
-              <li>
-                <strong>Einschränkung</strong> der Verarbeitung (Art. 18 DSGVO)
-              </li>
-              <li>
-                <strong>Datenübertragbarkeit</strong> (Art. 20 DSGVO)
-              </li>
-              <li>
-                <strong>Widerspruch</strong> gegen die Verarbeitung (Art. 21
-                DSGVO)
-              </li>
-              <li>
-                <strong>Widerruf</strong> einer erteilten Einwilligung mit
-                Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO)
-              </li>
-            </ul>
-            <p className="text-gray-700 leading-relaxed mt-3">
-              Zur Ausübung Ihrer Rechte kontaktieren Sie uns unter{" "}
-              <a
-                href="mailto:pjhohm@gmail.com"
-                className="text-blue-700 hover:underline"
-              >
-                pjhohm@gmail.com
-              </a>
-              .
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              9. Beschwerderecht
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde
-              zu beschweren. Die für uns zuständige Aufsichtsbehörde ist:
-            </p>
-            <p className="text-gray-700 leading-relaxed mt-2">
-              Landesbeauftragte für Datenschutz und Informationsfreiheit
-              Nordrhein-Westfalen
-              <br />
-              Kavalleriestr. 2–4
-              <br />
-              40213 Düsseldorf
-              <br />
-              <a
-                href="https://www.ldi.nrw.de"
-                className="text-blue-700 hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                www.ldi.nrw.de
-              </a>
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              10. Aktualität dieser Datenschutzerklärung
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Stand: März 2026. Wir behalten uns vor, diese Datenschutzerklärung
-              bei Änderungen unserer Datenverarbeitung oder bei neuen
-              gesetzlichen Anforderungen anzupassen.
-            </p>
-          </section>
-        </div>
-      </div>
-    </div>
+    <LegalPage
+      title="Datenschutzerklärung"
+      intro="Informationen zur Verarbeitung personenbezogener Daten nach Art. 13 DSGVO."
+      updated={site.legalVersion}
+    >
+      <NumberedSections sections={sections} />
+    </LegalPage>
   );
 }

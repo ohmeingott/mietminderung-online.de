@@ -1,163 +1,234 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
+import LegalPage, { NumberedSections } from "@/components/LegalPage";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Nutzungsbedingungen — Mietminderung Online",
+  title: "Nutzungsbedingungen & AGB — Mietminderung Online",
   description:
-    "Nutzungsbedingungen für den kostenlosen Mietminderungs-Check und den Mängelanzeige-Generator von mietminderung.online.",
+    "Nutzungsbedingungen und AGB von mietminderung.online: kostenloser Mietminderungs-Check, Mängelanzeige-Generator, Haftung und Gerichtsstand.",
   path: "/nutzungsbedingungen",
 });
 
 export default function Nutzungsbedingungen() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-blue-700 hover:text-blue-800 mb-8"
-        >
-          &larr; Zurück zur Startseite
-        </Link>
-
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-10">
-          Nutzungsbedingungen
-        </h1>
-
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 sm:p-12 space-y-8">
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              1. Geltungsbereich
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Diese Nutzungsbedingungen gelten für die Nutzung der Webseite
-              mietminderung.online (nachfolgend &bdquo;Webseite&ldquo;), betrieben von Paul
-              Ohm, Holzgasse 8, 50676 Köln. Mit der Nutzung der Webseite
-              erklären Sie sich mit diesen Bedingungen einverstanden.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              2. Leistungsbeschreibung
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Die Webseite bietet einen kostenlosen Online-Rechner zur
-              Einschätzung möglicher Mietminderungsansprüche sowie die
-              Möglichkeit, eine Mängelanzeige zu erstellen. Sämtliche Dienste
-              der Webseite sind kostenlos und erfordern keine Registrierung.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              3. Keine Rechtsberatung
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Die auf dieser Webseite bereitgestellten Informationen,
-              Berechnungen und generierten Dokumente dienen ausschließlich der
-              allgemeinen Information und stellen{" "}
-              <strong>keine Rechtsberatung</strong> dar. Die angezeigten
-              Minderungsquoten basieren auf veröffentlichten Gerichtsurteilen
-              und dienen lediglich als Orientierungswerte. Jeder Einzelfall wird
-              von Gerichten individuell beurteilt.
-            </p>
-            <p className="text-gray-700 leading-relaxed mt-3">
-              Wir empfehlen dringend, bei konkreten rechtlichen Fragen einen
-              Mieterverein oder Rechtsanwalt zu konsultieren. Die Nutzung der
-              Webseite begründet kein Mandatsverhältnis.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              4. Haftungsbeschränkung
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Die Inhalte der Webseite werden mit größtmöglicher Sorgfalt
-              erstellt. Dennoch übernehmen wir keine Gewähr für die Richtigkeit,
-              Vollständigkeit und Aktualität der bereitgestellten Informationen
-              und Berechnungen. Die Nutzung der Webseite erfolgt auf eigenes
-              Risiko.
-            </p>
-            <p className="text-gray-700 leading-relaxed mt-3">
-              Eine Haftung für Schäden, die durch die Nutzung der auf dieser
-              Webseite bereitgestellten Informationen, Berechnungen oder
-              Dokumente entstehen, ist — soweit gesetzlich zulässig —
-              ausgeschlossen. Dies gilt insbesondere für Schäden, die aus einer
-              zu hohen oder unberechtigten Mietminderung resultieren.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              5. Dateneingabe und Datenschutz
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Für die Nutzung des Mietminderungsrechners und die Erstellung
-              einer Mängelanzeige geben Sie personenbezogene Daten ein (z.B.
-              Name, Adresse). Diese Daten werden ausschließlich zur Erstellung
-              des gewünschten Dokuments verwendet und nicht dauerhaft
-              gespeichert, sofern Sie nicht ausdrücklich eine Speicherung
-              (z.B. E-Mail-Versand) anfordern.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              6. Urheberrecht
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Die auf dieser Webseite veröffentlichten Inhalte unterliegen dem
-              deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung oder
-              Verbreitung außerhalb der Grenzen des Urheberrechts bedarf der
-              schriftlichen Zustimmung des Betreibers. Die erstellten
-              Mängelanzeigen dürfen von den Nutzern frei für den eigenen
-              Gebrauch verwendet werden.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              7. Verfügbarkeit
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Wir bemühen uns um eine möglichst unterbrechungsfreie
-              Verfügbarkeit der Webseite. Ein Anspruch auf ständige
-              Verfügbarkeit besteht jedoch nicht. Wartungsarbeiten,
-              technische Störungen oder höhere Gewalt können zu
-              vorübergehenden Ausfällen führen.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              8. Änderungen der Nutzungsbedingungen
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Wir behalten uns vor, diese Nutzungsbedingungen jederzeit zu
-              ändern. Die jeweils aktuelle Fassung ist auf dieser Seite
-              einsehbar. Durch die fortgesetzte Nutzung der Webseite nach einer
-              Änderung erklären Sie sich mit den neuen Bedingungen
-              einverstanden.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">
-              9. Anwendbares Recht
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              Es gilt das Recht der Bundesrepublik Deutschland. Gerichtsstand
-              ist, soweit gesetzlich zulässig, Köln.
-            </p>
-          </section>
-
-          <p className="text-sm text-gray-500 pt-4 border-t border-gray-100">
-            Stand: März 2026
+  const sections = [
+    {
+      heading: "Geltungsbereich und Anbieter",
+      body: (
+        <>
+          <p>
+            Diese Nutzungsbedingungen gelten für die Nutzung der Webseite{" "}
+            {site.name} (nachfolgend „Webseite“), betrieben von{" "}
+            {site.operator.name}, {site.operator.street}, {site.operator.zip}{" "}
+            {site.operator.city} (nachfolgend „wir“). Sie gelten in der bei
+            Nutzung gültigen Fassung.
           </p>
-        </div>
-      </div>
-    </div>
+          <p>
+            Abweichende Bedingungen des Nutzers werden nicht Vertragsbestandteil,
+            es sei denn, wir stimmen ihrer Geltung ausdrücklich in Textform zu.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Leistungsbeschreibung",
+      body: (
+        <>
+          <p>Die Webseite stellt Ihnen folgende Funktionen zur Verfügung:</p>
+          <ul>
+            <li>
+              eine schrittweise <strong>Prüfung</strong>, ob die Voraussetzungen
+              einer Mietminderung vorliegen könnten,
+            </li>
+            <li>
+              eine <strong>Berechnung</strong> einer möglichen Minderungsquote
+              anhand veröffentlichter Gerichtsurteile,
+            </li>
+            <li>
+              die <strong>Erstellung</strong> einer Mängelanzeige, die Sie als
+              PDF oder Textdatei herunterladen, kopieren und selbst versenden
+              können,
+            </li>
+            <li>
+              eine optionale, automatisierte{" "}
+              <strong>sprachliche Überarbeitung</strong> Ihrer Mangelbeschreibung
+              durch ein KI-Sprachmodell, einschließlich Übersetzung ins Deutsche.
+            </li>
+          </ul>
+          <p>
+            <strong>
+              Diese Funktionen sind und bleiben kostenlos und erfordern keine
+              Registrierung.
+            </strong>
+          </p>
+          <p>
+            Ein kostenpflichtiger Versand der Mängelanzeige wird derzeit nicht
+            angeboten. Sie laden das Dokument herunter und versenden es selbst an
+            Ihren Vermieter.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Keine Rechtsberatung",
+      body: (
+        <>
+          <p>
+            Die auf dieser Webseite bereitgestellten Informationen, Berechnungen
+            und erzeugten Dokumente dienen ausschließlich der allgemeinen
+            Information und stellen <strong>keine Rechtsberatung</strong> dar. Es
+            werden keine Rechtsdienstleistungen im Sinne des § 2 RDG erbracht;
+            die Erstellung der Mängelanzeige erfolgt vollautomatisiert anhand
+            Ihrer eigenen Eingaben, ohne rechtliche Prüfung Ihres Einzelfalls.
+          </p>
+          <p>
+            Die angezeigten Minderungsquoten beruhen auf veröffentlichten
+            Gerichtsurteilen und sind reine Orientierungswerte. Jeder Einzelfall
+            wird von Gerichten individuell beurteilt; Abweichungen nach oben und
+            unten sind möglich und häufig.
+          </p>
+          <p>
+            Wir empfehlen ausdrücklich, vor einer Minderung der Miete einen
+            Mieterverein oder eine Rechtsanwältin bzw. einen Rechtsanwalt zu
+            konsultieren. Die Nutzung der Webseite begründet kein Mandats- oder
+            Beratungsverhältnis.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Ihre Verantwortung",
+      body: (
+        <>
+          <p>
+            Sie sind für die Richtigkeit und Vollständigkeit Ihrer Angaben
+            verantwortlich. Prüfen Sie die erzeugte Mängelanzeige vor dem Versand
+            sorgfältig — Sie können den Text vor dem Herunterladen vollständig
+            bearbeiten. Sie tragen die Entscheidung, ob, in welcher Höhe und ab
+            wann Sie die Miete mindern.
+          </p>
+          <p>
+            Bitte geben Sie keine Daten Dritter ein, zu deren Verwendung Sie
+            nicht berechtigt sind, und nutzen Sie den Dienst nicht für
+            rechtswidrige Zwecke oder in einer Weise, die den Betrieb
+            beeinträchtigt (automatisierte Massenabfragen, Umgehung von
+            Schutzmaßnahmen).
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Haftung",
+      body: (
+        <>
+          <p>
+            Wir haften unbeschränkt für Schäden aus der Verletzung des Lebens,
+            des Körpers oder der Gesundheit sowie für Schäden, die auf Vorsatz
+            oder grober Fahrlässigkeit beruhen, ferner nach dem
+            Produkthaftungsgesetz und im Umfang einer von uns übernommenen
+            Garantie.
+          </p>
+          <p>
+            Bei der leicht fahrlässigen Verletzung wesentlicher Vertragspflichten
+            — also solcher Pflichten, deren Erfüllung die ordnungsgemäße
+            Durchführung des Vertrags überhaupt erst ermöglicht und auf deren
+            Einhaltung Sie regelmäßig vertrauen dürfen — ist unsere Haftung auf
+            den bei Vertragsschluss vorhersehbaren, vertragstypischen Schaden
+            begrenzt. Im Übrigen ist die Haftung für leichte Fahrlässigkeit
+            ausgeschlossen.
+          </p>
+          <p>
+            Für die kostenlosen Funktionen der Webseite haften wir nach den
+            gesetzlichen Vorschriften über die Schenkung nur für Vorsatz und
+            grobe Fahrlässigkeit. Insbesondere übernehmen wir keine Gewähr dafür,
+            dass eine Minderung in der berechneten Höhe rechtlich durchsetzbar
+            ist.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Verfügbarkeit",
+      body: (
+        <p>
+          Wir bemühen uns um eine möglichst unterbrechungsfreie Verfügbarkeit,
+          schulden diese für die kostenlosen Funktionen jedoch nicht.
+          Wartungsarbeiten, technische Störungen oder höhere Gewalt können zu
+          vorübergehenden Ausfällen führen.
+        </p>
+      ),
+    },
+    {
+      heading: "Urheberrecht",
+      body: (
+        <p>
+          Die Inhalte dieser Webseite unterliegen dem deutschen Urheberrecht.
+          Vervielfältigung, Bearbeitung oder Verbreitung außerhalb der Grenzen
+          des Urheberrechts bedürfen unserer schriftlichen Zustimmung. Die von
+          Ihnen erzeugte Mängelanzeige dürfen Sie uneingeschränkt für eigene
+          Zwecke verwenden, verändern und weitergeben.
+        </p>
+      ),
+    },
+    {
+      heading: "Datenschutz",
+      body: (
+        <p>
+          Wie wir mit Ihren Daten umgehen, beschreibt unsere{" "}
+          <a href="/datenschutz">Datenschutzerklärung</a>. Kurz gefasst: Ihre
+          Eingaben zur Mängelanzeige werden im Browser verarbeitet und erreichen
+          unseren Server nur, wenn Sie eine optionale Funktion aktiv auslösen.
+        </p>
+      ),
+    },
+    {
+      heading: "Änderungen",
+      body: (
+        <p>
+          Wir können diese Nutzungsbedingungen mit Wirkung für die Zukunft
+          ändern, etwa bei einer Änderung des Leistungsumfangs oder der
+          Rechtslage. Für bereits geschlossene Verträge gilt die bei
+          Vertragsschluss vereinbarte Fassung.
+        </p>
+      ),
+    },
+    {
+      heading: "Schlussbestimmungen",
+      body: (
+        <>
+          <p>
+            Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des
+            UN-Kaufrechts. Sind Sie Verbraucher mit gewöhnlichem Aufenthalt in
+            einem anderen EU-Staat, bleiben die zwingenden
+            Verbraucherschutzvorschriften dieses Staates unberührt.
+          </p>
+          <p>
+            Gerichtsstand ist {site.venue}, sofern Sie Kaufmann, juristische
+            Person des öffentlichen Rechts oder öffentlich-rechtliches
+            Sondervermögen sind. Für Verbraucher gelten die gesetzlichen
+            Gerichtsstände.
+          </p>
+          <p>
+            Wir sind nicht bereit und nicht verpflichtet, an
+            Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
+            teilzunehmen (§ 36 Abs. 1 Nr. 1 VSBG).
+          </p>
+          <p>
+            Sollte eine Bestimmung unwirksam sein, bleibt die Wirksamkeit der
+            übrigen Bestimmungen unberührt.
+          </p>
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <LegalPage
+      title="Nutzungsbedingungen und AGB"
+      intro="Bedingungen für die Nutzung von mietminderung.online."
+      updated={site.legalVersion}
+    >
+      <NumberedSections sections={sections} />
+    </LegalPage>
   );
 }

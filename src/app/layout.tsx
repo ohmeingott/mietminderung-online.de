@@ -8,14 +8,19 @@ import { absoluteUrl, siteConfig } from "@/lib/site";
 import { jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/seo";
 
 const inter = Inter({
-  subsets: ["latin", "cyrillic"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  variable: "--font-inter",
 });
 
 const defaultTitle =
   "Mietminderung Online — Prüfen Sie Ihr Recht auf Mietminderung";
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // Lets the layout paint into the iOS safe areas; globals.css pads them back.
+  viewportFit: "cover",
   themeColor: siteConfig.themeColor,
   colorScheme: "light",
 };
@@ -89,9 +94,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // `lang`/`dir` are the server-rendered defaults; LanguageProvider updates
+  // them on the client once a stored language preference is read.
   return (
-    <html lang={siteConfig.lang} className={inter.className}>
-      <body className="antialiased">
+    <html lang={siteConfig.lang} dir="ltr" className={inter.variable}>
+      <body className="font-sans antialiased">
         <JsonLd data={jsonLdGraph(organizationSchema(), websiteSchema())} />
         <LanguageProvider>{children}</LanguageProvider>
         <Analytics />

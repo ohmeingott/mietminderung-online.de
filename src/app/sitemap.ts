@@ -68,6 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/impressum",
     "/datenschutz",
     "/nutzungsbedingungen",
+    "/widerruf",
   ].map((path) => ({
     url: absoluteUrl(path),
     lastModified: CONTENT_REVIEWED,
