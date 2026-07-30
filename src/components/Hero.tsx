@@ -6,8 +6,8 @@ import { useTranslation } from "@/i18n/LanguageContext";
 /**
  * Top of the merged hero/check block: the page's only headline, one short
  * benefit line and the trust chips. The interactive check renders directly
- * below and shares this section's background, so the two read as one unit —
- * the hero carries no heading or CTA of its own beyond the h1.
+ * below and shares this section's background, so the two read as one unit.
+ * The hero carries no heading or CTA of its own beyond the h1.
  */
 export default function Hero() {
   const { t } = useTranslation();
@@ -40,7 +40,7 @@ export default function Hero() {
             {t("hero.subtitle")}
           </p>
 
-          {/* Trust row — wraps to two lines on narrow screens instead of clipping */}
+          {/* Trust row - wraps to two lines on narrow screens instead of clipping */}
           <ul className="mx-auto mt-4 flex max-w-2xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[0.8125rem] text-ink-500 sm:text-sm">
             {trust.map((item) => (
               <li key={item} className="flex items-center gap-1.5">

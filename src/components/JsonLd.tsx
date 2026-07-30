@@ -1,5 +1,5 @@
 /**
- * Renders a structured-data block. Server component — the JSON is part of the
+ * Renders a structured-data block. Server component - the JSON is part of the
  * initial HTML so crawlers see it without executing JavaScript.
  */
 export default function JsonLd({ data }: { data: object }) {

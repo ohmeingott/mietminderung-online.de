@@ -25,7 +25,7 @@ const DEFAULT_OG_IMAGE = {
   url: absoluteUrl("/opengraph-image"),
   width: 1200,
   height: 630,
-  alt: "Mietminderung Online — Prüfen Sie Ihr Recht auf Mietminderung",
+  alt: "Mietminderung Online: Prüfen Sie Ihr Recht auf Mietminderung",
 };
 
 /**

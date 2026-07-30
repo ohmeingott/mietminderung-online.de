@@ -35,7 +35,7 @@ const DEFAULT_LOCALE: Locale = "de";
    The selected language lives in localStorage, which React treats as an
    external store. Reading it through useSyncExternalStore keeps the server
    render deterministic ("de") while the client picks up the stored value
-   during hydration — without a setState-in-effect cascade.
+   during hydration - without a setState-in-effect cascade.
 -------------------------------------------------------------------------- */
 
 let cachedLocale: Locale | null = null;
@@ -46,7 +46,7 @@ function readStoredLocale(): Locale {
     const saved = localStorage.getItem(STORAGE_KEY) as Locale | null;
     return saved && translations[saved] ? saved : DEFAULT_LOCALE;
   } catch {
-    // Storage disabled (private mode, blocked cookies) — fall back to German.
+    // Storage disabled (private mode, blocked cookies) - fall back to German.
     return DEFAULT_LOCALE;
   }
 }
@@ -81,7 +81,7 @@ function writeLocale(next: Locale) {
   try {
     localStorage.setItem(STORAGE_KEY, next);
   } catch {
-    // Not persisting is acceptable — the language still applies for this visit.
+    // Not persisting is acceptable - the language still applies for this visit.
   }
   listeners.forEach((l) => l());
 }
