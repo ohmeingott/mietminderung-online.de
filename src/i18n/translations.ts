@@ -34,7 +34,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Weniger Miete zahlen",
     "hero.title3": "ist Ihr Recht.",
     "hero.subtitle":
-      "Prüfen Sie in 2 Minuten kostenlos, ob Sie Anspruch auf Mietminderung haben. Erstellen Sie eine rechtssichere Mängelanzeige — und lassen Sie den Brief direkt an Ihren Vermieter senden.",
+      "Prüfen Sie in 2 Minuten kostenlos, ob Sie Anspruch auf Mietminderung haben — und erstellen Sie direkt eine rechtssichere Mängelanzeige für Ihren Vermieter.",
     "hero.cta1": "Anspruch kostenlos prüfen",
     "hero.cta2": "Mängelanzeige erstellen",
     "hero.trust1": "100% kostenlos — keine versteckten Kosten",
@@ -253,7 +253,7 @@ export const translations: Record<Locale, Record<string, string>> = {
   },
 
   tr: {
-    "nav.check": "Hakkınızı kontrol edin",
+    "nav.check": "Hak kontrolü",
     "nav.letter": "Kusur bildirimi",
     "nav.how": "Nasıl çalışır",
     "nav.faq": "SSS",
@@ -265,7 +265,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Daha az kira ödemek",
     "hero.title3": "sizin hakkınız.",
     "hero.subtitle":
-      "2 dakikada ücretsiz olarak kira indirimi hakkınız olup olmadığını kontrol edin. Yasal olarak geçerli bir kusur bildirimi oluşturun — mektubu doğrudan ev sahibinize gönderin.",
+      "2 dakikada ücretsiz olarak kira indirimi hakkınız olup olmadığını kontrol edin — ve ev sahibiniz için hemen yasal olarak geçerli bir kusur bildirimi oluşturun.",
     "hero.cta1": "Hakkınızı ücretsiz kontrol edin",
     "hero.cta2": "Kusur bildirimi oluştur",
     "hero.trust1": "100% ücretsiz — gizli maliyet yok",
@@ -452,8 +452,8 @@ export const translations: Record<Locale, Record<string, string>> = {
   },
 
   uk: {
-    "nav.check": "Перевірити право",
-    "nav.letter": "Повідомлення про дефект",
+    "nav.check": "Перевірка",
+    "nav.letter": "Повідомлення",
     "nav.how": "Як це працює",
     "nav.faq": "FAQ",
     "nav.table": "Таблиця",
@@ -464,7 +464,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Платити менше оренди",
     "hero.title3": "— ваше право.",
     "hero.subtitle":
-      "Перевірте безкоштовно за 2 хвилини, чи маєте ви право на зниження орендної плати. Створіть юридично обґрунтоване повідомлення про дефект — і надішліть лист безпосередньо орендодавцю.",
+      "Перевірте безкоштовно за 2 хвилини, чи маєте ви право на зниження орендної плати — і одразу створіть юридично обґрунтоване повідомлення про дефект для орендодавця.",
     "hero.cta1": "Безкоштовно перевірити право",
     "hero.cta2": "Створити повідомлення про дефект",
     "hero.trust1": "100% безкоштовно — без прихованих витрат",
@@ -649,8 +649,8 @@ export const translations: Record<Locale, Record<string, string>> = {
   },
 
   ru: {
-    "nav.check": "Проверить право",
-    "nav.letter": "Уведомление о дефекте",
+    "nav.check": "Проверка",
+    "nav.letter": "Уведомление",
     "nav.how": "Как это работает",
     "nav.faq": "FAQ",
     "nav.table": "Таблица",
@@ -661,7 +661,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Платить меньше аренды",
     "hero.title3": "— ваше право.",
     "hero.subtitle":
-      "Проверьте бесплатно за 2 минуты, имеете ли вы право на снижение арендной платы. Создайте юридически обоснованное уведомление — и отправьте письмо арендодателю.",
+      "Проверьте бесплатно за 2 минуты, имеете ли вы право на снижение арендной платы — и сразу создайте юридически обоснованное уведомление о дефекте для арендодателя.",
     "hero.cta1": "Бесплатно проверить право",
     "hero.cta2": "Создать уведомление о дефекте",
     "hero.trust1": "100% бесплатно — без скрытых расходов",
@@ -856,7 +856,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "دفع إيجار أقل",
     "hero.title3": "هو حقك.",
     "hero.subtitle":
-      "تحقق مجاناً خلال دقيقتين مما إذا كان لديك الحق في تخفيض الإيجار. أنشئ إشعاراً قانونياً بالعيب — وأرسل الرسالة مباشرة إلى المؤجر.",
+      "تحقق مجاناً خلال دقيقتين مما إذا كان لديك الحق في تخفيض الإيجار — وأنشئ فوراً إشعاراً قانونياً بالعيب للمؤجر.",
     "hero.cta1": "تحقق من حقك مجاناً",
     "hero.cta2": "إنشاء إشعار بالعيب",
     "hero.trust1": "مجاني 100% — بدون تكاليف مخفية",
@@ -1051,7 +1051,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title2": "Płacić mniej czynszu",
     "hero.title3": "to Twoje prawo.",
     "hero.subtitle":
-      "Sprawdź bezpłatnie w 2 minuty, czy masz prawo do obniżki czynszu. Utwórz prawnie wiążące zgłoszenie usterki — i wyślij list bezpośrednio do wynajmującego.",
+      "Sprawdź bezpłatnie w 2 minuty, czy masz prawo do obniżki czynszu — i od razu utwórz prawnie wiążące zgłoszenie usterki dla wynajmującego.",
     "hero.cta1": "Bezpłatnie sprawdź prawo",
     "hero.cta2": "Utwórz zgłoszenie usterki",
     "hero.trust1": "100% bezpłatnie — bez ukrytych kosztów",
