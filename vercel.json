@@ -4,6 +4,17 @@
   "regions": ["fra1"],
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.mietminderung-online.de"
+        }
+      ],
+      "destination": "https://mietminderung-online.de/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
