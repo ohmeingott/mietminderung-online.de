@@ -5,8 +5,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
   title: "Datenschutzerklärung — Mietminderung Online",
-  description:
-    "Datenschutzerklärung von mietminderung.online: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.",
+  description: `Datenschutzerklärung von ${site.name}: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.`,
   path: "/datenschutz",
 });
 

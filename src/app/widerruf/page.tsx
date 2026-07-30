@@ -5,8 +5,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
   title: "Widerrufsrecht — Mietminderung Online",
-  description:
-    "Alle Funktionen von mietminderung.online sind kostenlos. Mangels entgeltlichem Vertrag besteht derzeit kein gesetzliches Widerrufsrecht.",
+  description: `Alle Funktionen von ${site.name} sind kostenlos. Mangels entgeltlichem Vertrag besteht derzeit kein gesetzliches Widerrufsrecht.`,
   path: "/widerruf",
 });
 
