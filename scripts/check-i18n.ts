@@ -1,6 +1,6 @@
 /**
  * Verifies that every locale carries the full set of UI and content keys.
- * Run with `npm run check:i18n` — exits non-zero when something is missing.
+ * Run with `npm run check:i18n` - exits non-zero when something is missing.
  */
 import { translations, locales, type Locale } from "../src/i18n/translations";
 import {
@@ -28,9 +28,9 @@ for (const l of locales) {
   const dict = translations[l.code];
   const missing = deKeys.filter((k) => !(k in dict));
   const extra = Object.keys(dict).filter((k) => !deKeys.includes(k));
-  console.log(`${l.code} — UI: ${Object.keys(dict).length} keys`);
-  if (missing.length) fail(`${l.code}: missing UI keys — ${missing.join(", ")}`);
-  if (extra.length) fail(`${l.code}: unknown UI keys — ${extra.join(", ")}`);
+  console.log(`${l.code} - UI: ${Object.keys(dict).length} keys`);
+  if (missing.length) fail(`${l.code}: missing UI keys - ${missing.join(", ")}`);
+  if (extra.length) fail(`${l.code}: unknown UI keys - ${extra.join(", ")}`);
 }
 
 // --- Content strings (defect catalogue + FAQ) --------------------------------
@@ -56,9 +56,9 @@ for (const l of locales) {
   }
   const missing = expectedContentKeys.filter((k) => !(k in dict));
   const extra = Object.keys(dict).filter((k) => !expectedContentKeys.includes(k));
-  console.log(`${l.code} — content: ${Object.keys(dict).length} keys`);
-  if (missing.length) fail(`${l.code}: missing content keys — ${missing.join(", ")}`);
-  if (extra.length) fail(`${l.code}: stale content keys — ${extra.join(", ")}`);
+  console.log(`${l.code} - content: ${Object.keys(dict).length} keys`);
+  if (missing.length) fail(`${l.code}: missing content keys - ${missing.join(", ")}`);
+  if (extra.length) fail(`${l.code}: stale content keys - ${extra.join(", ")}`);
 }
 
 if (failures) {

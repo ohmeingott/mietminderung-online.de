@@ -56,9 +56,7 @@ export default function Header() {
               alt=""
               width={36}
               height={36}
-              // The logo ships with a white background; multiply blends it into
-              // the warm paper surface instead of showing a white tile.
-              className="h-9 w-9 mix-blend-multiply"
+              className="h-9 w-9"
               priority
             />
             <span className="text-lg font-bold tracking-tight text-ink-900 sm:text-xl">
@@ -67,12 +65,12 @@ export default function Header() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-7 md:flex" aria-label="Hauptnavigation">
+          <nav className="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Hauptnavigation">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-ink-600 transition-colors hover:text-brand-700"
+                className="whitespace-nowrap text-sm font-medium text-ink-600 transition-colors hover:text-brand-700"
               >
                 {t(link.key)}
               </Link>
@@ -84,14 +82,14 @@ export default function Header() {
 
             <Link
               href="/#pruefung"
-              className="hidden h-11 items-center rounded-full bg-brand-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-800 md:inline-flex"
+              className="hidden h-11 items-center whitespace-nowrap rounded-full bg-brand-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-800 xl:inline-flex"
             >
               {t("nav.cta")}
             </Link>
 
             <button
               type="button"
-              className="-me-2 inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-700 transition-colors hover:bg-ink-100 md:hidden"
+              className="-me-2 inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-700 transition-colors hover:bg-ink-100 lg:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
@@ -110,7 +108,7 @@ export default function Header() {
       {mobileOpen && (
         <div
           id="mobile-nav"
-          className="animate-fade-in border-t border-ink-200/70 bg-paper md:hidden"
+          className="animate-fade-in border-t border-ink-200/70 bg-paper lg:hidden"
         >
           <nav className="mx-auto max-w-6xl px-4 py-3 sm:px-6" aria-label="Hauptnavigation mobil">
             <ul className="flex flex-col">

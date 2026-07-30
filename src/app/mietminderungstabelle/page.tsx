@@ -24,7 +24,7 @@ const faqs = [
   {
     question: "Was ist eine Mietminderungstabelle?",
     answer:
-      "Eine Mietminderungstabelle fasst zusammen, welche Minderungsquoten deutsche Gerichte bei bestimmten Wohnungsmängeln zugesprochen haben. Sie dient als Orientierung für die Frage, um wie viel Prozent der Bruttowarmmiete Sie mindern können — verbindlich ist sie nicht, da jeder Einzelfall individuell bewertet wird.",
+      "Eine Mietminderungstabelle fasst zusammen, welche Minderungsquoten deutsche Gerichte bei bestimmten Wohnungsmängeln zugesprochen haben. Sie hilft bei der Frage, um wie viel Prozent der Bruttowarmmiete Sie mindern können. Verbindlich ist sie nicht, denn jeder Einzelfall wird individuell bewertet.",
   },
   {
     question: "Von welcher Miete wird die Minderung berechnet?",
@@ -50,7 +50,7 @@ const faqs = [
 
 export const metadata: Metadata = buildMetadata({
   title: `Mietminderungstabelle 2026: ${alleMaengel.length} Mängel mit Prozentsätzen`,
-  description: `Die vollständige Mietminderungstabelle: ${alleMaengel.length} Wohnungsmängel mit den von Gerichten anerkannten Minderungsquoten — von Schimmel über Heizungsausfall bis Lärm.`,
+  description: `Die vollständige Mietminderungstabelle: ${alleMaengel.length} Wohnungsmängel mit den von Gerichten anerkannten Minderungsquoten, von Schimmel über Heizungsausfall bis Lärm.`,
   path: "/mietminderungstabelle",
   keywords: [
     "Mietminderungstabelle",
@@ -84,7 +84,7 @@ export default function MietminderungstabellePage() {
             itemListElement: alleMaengel.map((entry, i) => ({
               "@type": "ListItem",
               position: i + 1,
-              name: `${entry.mangel.label} — ${entry.mangel.minderung_min}–${entry.mangel.minderung_max} % Mietminderung`,
+              name: `${entry.mangel.label}: ${entry.mangel.minderung_min}–${entry.mangel.minderung_max} % Mietminderung`,
               url: absoluteUrl(entry.path),
             })),
           },
@@ -106,7 +106,7 @@ export default function MietminderungstabellePage() {
             </h1>
             <p className="mt-5 text-lg text-blue-100 max-w-3xl leading-relaxed">
               {alleMaengel.length} Wohnungsmängel mit den von deutschen
-              Gerichten anerkannten Minderungsquoten — sortiert nach{" "}
+              Gerichten anerkannten Minderungsquoten, sortiert nach{" "}
               {kategorieIndex.length} Kategorien. Alle Prozentangaben beziehen
               sich auf die Bruttowarmmiete.
             </p>
@@ -142,7 +142,7 @@ export default function MietminderungstabellePage() {
               Gerichtsentscheidungen zu vergleichbaren Fällen bewegen. Die Spalte{" "}
               <strong>typisch</strong> nennt einen häufig angesetzten
               Ausgangswert. Welcher Wert im Einzelfall angemessen ist, hängt von
-              Dauer, Intensität und Ausmaß der Beeinträchtigung ab — im Zweifel
+              Dauer, Intensität und Ausmaß der Beeinträchtigung ab. Im Zweifel
               sollten Sie eher konservativ mindern oder{" "}
               <Link
                 href="/ratgeber/miete-unter-vorbehalt-zahlen"
@@ -224,7 +224,7 @@ export default function MietminderungstabellePage() {
               Ihre Minderung automatisch berechnen
             </h2>
             <p className="text-blue-100 mb-8 max-w-xl mx-auto">
-              Wählen Sie Ihre Mängel aus, geben Sie Ihre Bruttowarmmiete ein —
+              Wählen Sie Ihre Mängel aus, geben Sie Ihre Bruttowarmmiete ein,
               und erhalten Sie sofort die Minderungsquote sowie eine fertige
               Mängelanzeige zum Versenden.
             </p>

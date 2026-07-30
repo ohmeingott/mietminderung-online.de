@@ -77,7 +77,7 @@ export async function generateMetadata({
 
   return buildMetadata({
     title: `Mietminderung ${entry.seo.titel}: ${min}–${max} % | Alle Quoten`,
-    description: `Mietminderung bei ${entry.seo.titel}: ${entry.maengel.length} Mangelarten mit Quoten von ${min} bis ${max} % der Bruttowarmmiete — mit Rechner und Mängelanzeige-Vorlage.`,
+    description: `Mietminderung bei ${entry.seo.titel}: ${entry.maengel.length} Mangelarten mit Quoten von ${min} bis ${max} % der Bruttowarmmiete. Mit Rechner und Mängelanzeige-Vorlage.`,
     path: `/mietminderung/${entry.seo.slug}`,
     keywords: entry.seo.keywords,
   });
@@ -112,7 +112,7 @@ export default async function KategoriePage({ params }: { params: Params }) {
               itemListElement: sortiert.map((m, i) => ({
                 "@type": "ListItem",
                 position: i + 1,
-                name: `${m.mangel.label} — ${m.mangel.minderung_min}–${m.mangel.minderung_max} % Mietminderung`,
+                name: `${m.mangel.label}: ${m.mangel.minderung_min}–${m.mangel.minderung_max} % Mietminderung`,
                 url: absoluteUrl(m.path),
               })),
             },
@@ -185,9 +185,9 @@ export default async function KategoriePage({ params }: { params: Params }) {
             </p>
             <p className="mt-4 text-gray-700 leading-relaxed">
               Voraussetzung für jede Minderung ist eine Mängelanzeige nach
-              § 536c BGB. Erst ab Kenntnis des Vermieters ist der Anspruch
-              praktisch durchsetzbar — wie Sie diese Anzeige korrekt
-              formulieren und nachweisbar zustellen, lesen Sie im{" "}
+              § 536c BGB, denn erst ab Kenntnis des Vermieters lässt sich der
+              Anspruch durchsetzen. Wie Sie diese Anzeige formulieren und
+              nachweisbar zustellen, lesen Sie im{" "}
               <Link
                 href="/ratgeber/maengelanzeige-schreiben"
                 className="text-blue-700 font-medium hover:underline"
@@ -251,7 +251,7 @@ export default async function KategoriePage({ params }: { params: Params }) {
             </h2>
             <p className="text-blue-100 mb-8 max-w-xl mx-auto">
               Wählen Sie Ihre Mängel aus, geben Sie Ihre Bruttowarmmiete ein und
-              erhalten Sie eine fertige Mängelanzeige — kostenlos, ohne
+              erhalten Sie eine fertige Mängelanzeige. Kostenlos und ohne
               Registrierung.
             </p>
             <Link

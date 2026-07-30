@@ -146,7 +146,7 @@ test.describe("Mängelanzeige wizard", () => {
 
     const canvas = page.locator("canvas");
     await expect(canvas).toBeVisible();
-    // boundingBox() is viewport-relative — scroll the pad in first or the
+    // boundingBox() is viewport-relative - scroll the pad in first or the
     // synthetic mouse events land on whatever is currently on screen.
     await canvas.scrollIntoViewIfNeeded();
 

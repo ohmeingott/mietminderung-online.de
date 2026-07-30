@@ -34,7 +34,7 @@ export default function MinderungRechner({ min, max, typical, label }: Props) {
         Mietminderung berechnen
       </h3>
       <p className="text-sm text-gray-500 mb-6">
-        Für den Mangel „{label}“ — Grundlage ist Ihre Bruttowarmmiete.
+        Für den Mangel „{label}“. Grundlage ist Ihre Bruttowarmmiete.
       </p>
 
       <div className="space-y-6">
@@ -111,7 +111,7 @@ export default function MinderungRechner({ min, max, typical, label }: Props) {
           {euro.format(ersparnisMonat * 12)}
         </strong>
         . Orientierungswert auf Basis von Gerichtsentscheidungen zu
-        vergleichbaren Fällen — keine Rechtsberatung.
+        vergleichbaren Fällen, keine Rechtsberatung.
       </p>
     </div>
   );
