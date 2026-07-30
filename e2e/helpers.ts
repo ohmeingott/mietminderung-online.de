@@ -85,7 +85,7 @@ export async function reachPreview(page: Page) {
   await fillLandlord(page);
   await page.getByTestId("letter-next").click();
   await page.getByTestId("letter-preview").click();
-  // The textarea mounts empty and is filled by an effect — wait for content,
+  // The textarea mounts empty and is filled by an effect - wait for content,
   // not just for the element.
   await expect(page.getByTestId("brieftext")).not.toHaveValue("");
 }
@@ -111,7 +111,7 @@ export async function stubEnhanceApi(page: Page) {
   });
 }
 
-/** Fails if the document scrolls sideways — the classic mobile layout bug. */
+/** Fails if the document scrolls sideways - the classic mobile layout bug. */
 export async function expectNoHorizontalOverflow(page: Page) {
   const { scrollWidth, clientWidth } = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,

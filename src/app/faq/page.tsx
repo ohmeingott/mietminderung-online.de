@@ -30,7 +30,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function FAQPage() {
-  // The structured data stays German — it is indexed against the German
+  // The structured data stays German - it is indexed against the German
   // canonical URL, whatever UI language the visitor has selected.
   return (
     <>

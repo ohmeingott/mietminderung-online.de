@@ -1,7 +1,7 @@
 /**
  * Central site configuration.
  *
- * `operator` is the single source of truth for who runs this site — the legal
+ * `operator` is the single source of truth for who runs this site - the legal
  * pages read it directly, and `siteConfig.publisher` re-exposes the same record
  * under schema.org field names for the JSON-LD emitters. Change it here and
  * both the Impressum and the structured data follow.
@@ -12,9 +12,9 @@
  */
 
 /**
- * The live production origin. Everything else — canonical tags, the sitemap,
+ * The live production origin. Everything else - canonical tags, the sitemap,
  * robots.txt, the JSON-LD and the brand name shown in the footer and the legal
- * pages — is derived from this one value, so the site can never advertise a
+ * pages - is derived from this one value, so the site can never advertise a
  * host it is not actually served from.
  */
 const PRODUCTION_URL = "https://mietminderung-online.de";
@@ -57,7 +57,7 @@ const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || PRODUCTION_URL;
 /** Canonical origin, never with a trailing slash. */
 const siteUrl = toOrigin(rawSiteUrl);
 
-/** Host only — the brand is the domain, so it follows the canonical origin. */
+/** Host only - the brand is the domain, so it follows the canonical origin. */
 const siteHost = new URL(siteUrl).host;
 
 const operator = {
@@ -90,7 +90,7 @@ export const siteConfig = {
   locale: "de_DE",
   themeColor: "#1e40af",
   description:
-    "Kostenlos prüfen, ob Sie Anspruch auf Mietminderung haben. Minderungsquote berechnen und rechtssichere Mängelanzeige für den Vermieter erstellen — in wenigen Minuten, ohne Anwalt.",
+    "Kostenlos prüfen, ob Sie Anspruch auf Mietminderung haben. Minderungsquote berechnen und rechtssichere Mängelanzeige für den Vermieter erstellen, in wenigen Minuten und ohne Anwalt.",
   /** The same operator record, under the schema.org names the JSON-LD needs. */
   publisher: {
     name: operator.name,

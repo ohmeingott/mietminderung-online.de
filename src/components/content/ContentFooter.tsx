@@ -19,7 +19,7 @@ export default function ContentFooter() {
             <p className="mt-4 text-sm leading-relaxed">
               Kostenlos prüfen, ob Sie die Miete mindern dürfen, die
               Minderungsquote berechnen und eine rechtssichere Mängelanzeige
-              erstellen — ohne Anwalt, ohne Registrierung.
+              erstellen, ohne Anwalt und ohne Registrierung.
             </p>
             <Link
               href="/#pruefung"
@@ -99,7 +99,7 @@ export default function ContentFooter() {
             &copy; {new Date().getFullYear()} {siteConfig.brand}
           </p>
           <p className="text-xs">
-            Keine Rechtsberatung — alle Angaben ohne Gewähr.
+            Keine Rechtsberatung, alle Angaben ohne Gewähr.
           </p>
         </div>
       </div>

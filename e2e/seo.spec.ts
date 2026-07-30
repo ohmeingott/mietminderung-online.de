@@ -4,8 +4,8 @@ import { test, expect } from "@playwright/test";
  * Guards the canonical host.
  *
  * The site once defaulted to `https://mietminderung.online` while it was served
- * from `mietminderung-online.de`. Nothing broke visibly — the pages rendered
- * fine — but every canonical tag pointed at a domain that was not the one being
+ * from `mietminderung-online.de`. Nothing broke visibly - the pages rendered
+ * fine - but every canonical tag pointed at a domain that was not the one being
  * crawled, which tells Google to index that other host instead. The result is a
  * site that is live and completely absent from the index.
  *
@@ -43,7 +43,7 @@ test.describe("canonical host", () => {
     ).not.toContain(WRONG_ORIGIN);
 
     // The catch-all group must stay open. A blanket `Disallow: /` is expected
-    // further down — that is the deliberate block on the SEO scraper bots — so
+    // further down - that is the deliberate block on the SEO scraper bots - so
     // only the `User-Agent: *` group is checked here.
     const catchAll = body
       .split(/\n\s*\n/)

@@ -56,9 +56,7 @@ export default function Header() {
               alt=""
               width={36}
               height={36}
-              // The logo ships with a white background; multiply blends it into
-              // the warm paper surface instead of showing a white tile.
-              className="h-9 w-9 mix-blend-multiply"
+              className="h-9 w-9"
               priority
             />
             <span className="text-lg font-bold tracking-tight text-ink-900 sm:text-xl">
