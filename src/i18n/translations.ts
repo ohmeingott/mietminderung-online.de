@@ -1,4 +1,4 @@
-export type Locale = "de" | "tr" | "ru" | "uk" | "ar" | "pl";
+export type Locale = "de" | "en" | "tr" | "ru" | "uk" | "ar" | "pl";
 
 export interface LocaleInfo {
   code: Locale;
@@ -9,6 +9,7 @@ export interface LocaleInfo {
 
 export const locales: LocaleInfo[] = [
   { code: "de", label: "Deutsch", flag: "🇩🇪" },
+  { code: "en", label: "English", flag: "🇬🇧" },
   { code: "tr", label: "Türkçe", flag: "🇹🇷" },
   { code: "uk", label: "Українська", flag: "🇺🇦" },
   { code: "ru", label: "Русский", flag: "🇷🇺" },
@@ -250,6 +251,240 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter - delivery
     "letter.basedOn":
       "Basiert auf Ihrer Prüfung: ca. {quote} % Minderung bei {rent} € Bruttowarmmiete.",
+  },
+
+  en: {
+    // Header
+    "nav.check": "Check your claim",
+    "nav.letter": "Defect notice",
+    "nav.how": "How it works",
+    "nav.faq": "FAQ",
+    "nav.table": "Table",
+    "nav.guide": "Guides",
+    "nav.cta": "Check now",
+
+    // Hero
+    "hero.badge": "Based on Section 536 of the German Civil Code (BGB) — your statutory right",
+    "hero.title1": "Defects in your apartment?",
+    "hero.title2": "Paying less rent",
+    "hero.title3": "is your right.",
+    "hero.subtitle":
+      "Check for free in 2 minutes whether you are entitled to a rent reduction. Create a legally sound defect notice (Mängelanzeige) — and have the letter sent directly to your landlord.",
+    "hero.cta1": "Check your claim for free",
+    "hero.cta2": "Create defect notice",
+    "hero.trust1": "100% free — no hidden costs",
+    "hero.trust2": "No registration required",
+    "hero.trust3": "Create your defect notice for free",
+    "hero.selectLang": "Select language",
+    "hero.stat1label": "BGB — your statutory right",
+    "hero.stat2": "up to 100%",
+    "hero.stat2label": "rent reduction possible",
+    "hero.stat3": "2 min",
+    "hero.stat3label": "check your claim online",
+
+    // How it works
+    "how.title": "How it works",
+    "how.subtitle": "4 simple steps to your right to a rent reduction",
+    "how.step": "STEP",
+    "how.s1.title": "Select the defect",
+    "how.s1.desc":
+      "Choose the right one from over 60 typical housing defects — from heating failure to mould.",
+    "how.s2.title": "Calculate the reduction",
+    "how.s2.desc":
+      "Based on current court rulings, we calculate how much rent reduction you are entitled to.",
+    "how.s3.title": "Create the defect notice",
+    "how.s3.desc":
+      "From your details we generate a legally sound defect notice under Section 536c BGB.",
+    "how.s4.title": "Download the letter",
+    "how.s4.desc":
+      "Download the finished defect notice as a PDF or text file — free and without registration. You send it to your landlord yourself.",
+
+    // Check
+    "check.title": "Are you entitled to a rent reduction?",
+    "check.subtitle": "Answer a few questions — we check your claim for free.",
+    "check.question": "Question",
+    "check.of": "of",
+    "check.step": "Step",
+    "check.selectDefects": "Select defects",
+    "check.enterRent": "Enter rent",
+    "check.result": "Result",
+    "check.back": "Back",
+    "check.next": "Next",
+    "check.allCategories": "All categories",
+    "check.whichDefects": "Which defects are present?",
+    "check.whichDefectsDesc":
+      "Select a category and then the defects that apply. You can select several defects.",
+    "check.selected": "defect(s) selected",
+    "check.approxReduction": "Reduction",
+    "check.rentTitle": "How much is your monthly rent?",
+    "check.rentDesc":
+      "Enter your gross warm rent (base rent + all service charges). The rent reduction is calculated from the gross warm rent (Federal Court of Justice ruling).",
+    "check.rentPlaceholder": "e.g. 1000",
+    "check.rentInfo":
+      "Gross warm rent = net base rent + advance payments for service charges (utilities). You can find it in your tenancy agreement or on your latest service charge statement.",
+    "check.showResult": "Show result",
+    "check.resultTitle": "You are likely entitled to a rent reduction!",
+    "check.reductionRate": "Reduction rate",
+    "check.range": "Range",
+    "check.monthlySavings": "Monthly savings",
+    "check.yearlySavings": "Yearly savings",
+    "check.withPermanent": "for a permanent defect",
+    "check.disclaimer":
+      "The calculation is based on typical court rulings and serves as a guide. The actual reduction rate may differ in individual cases. If in doubt, we recommend reducing conservatively or initially paying under reservation of rights.",
+    "check.yourDefects": "Your selected defects:",
+    "check.nextStep": "The next step: create a legally sound defect notice to your landlord.",
+    "check.createLetter": "Create defect notice now",
+    "check.editDefects": "Edit defects",
+    "check.notEligibleTitle": "Probably no claim",
+    "check.notEligibleHint":
+      "This is an initial assessment and not legal advice. If in doubt, we recommend consulting a tenants' association or a lawyer.",
+    "check.tryAgain": "Check again",
+
+    // Eligibility questions
+    "eq.mietvertrag.q": "Do you have a valid tenancy agreement?",
+    "eq.mietvertrag.desc": "A rent reduction requires an existing tenancy.",
+    "eq.mietvertrag.ja": "Yes",
+    "eq.mietvertrag.nein": "No",
+    "eq.mangel_bekannt.q": "Did you already know about the defect when you moved in?",
+    "eq.mangel_bekannt.desc": "If you already knew about the defect when moving in and moved in anyway, the right to reduce the rent does not apply (Section 536b BGB).",
+    "eq.mangel_bekannt.nein": "No, I was not aware of the defect",
+    "eq.mangel_bekannt.ja_vorbehalt": "Yes, but I reserved my rights",
+    "eq.mangel_bekannt.ja": "Yes, and I said nothing",
+    "eq.selbst_verursacht.q": "Did you cause the defect yourself?",
+    "eq.selbst_verursacht.desc": "If the tenant caused the defect themselves, there is no right to a rent reduction.",
+    "eq.selbst_verursacht.nein": "No",
+    "eq.selbst_verursacht.ja": "Yes",
+    "eq.selbst_verursacht.unsicher": "I'm not sure",
+    "eq.erheblich.q": "How severely does the defect affect your apartment?",
+    "eq.erheblich.desc": "Only significant defects justify a rent reduction. Purely cosmetic or trivial defects are not enough.",
+    "eq.erheblich.stark": "Severely — quality of living clearly restricted",
+    "eq.erheblich.mittel": "Moderately — noticeable impairment",
+    "eq.erheblich.gering": "Slightly — only a minor inconvenience",
+    "eq.angezeigt.q": "Have you already reported the defect to your landlord?",
+    "eq.angezeigt.desc": "The defect notice is a prerequisite for the rent reduction (Section 536c BGB). We help you create it.",
+    "eq.angezeigt.ja": "Yes, in writing",
+    "eq.angezeigt.muendlich": "Only verbally",
+    "eq.angezeigt.nein": "No, not yet",
+    "eq.reason.mietvertrag": "Without a valid tenancy agreement there is unfortunately no right to a rent reduction.",
+    "eq.reason.mangel_bekannt": "If you knew about the defect when moving in and said nothing, the right to reduce the rent does not apply (Section 536b BGB).",
+    "eq.reason.selbst_verursacht": "If you caused the defect yourself, there is no right to a rent reduction.",
+    "eq.reason.erheblich": "Only significant defects justify a rent reduction. Trivial defects (Section 536 (1) sentence 3 BGB) are unfortunately not sufficient.",
+    "eq.reason.default": "In this case there is unfortunately no claim.",
+
+    // Letter
+    "letter.title": "Create a defect notice",
+    "letter.subtitle": "Create a legally sound defect notice under Section 536c BGB.",
+    "letter.step.data": "Your details",
+    "letter.step.landlord": "Landlord",
+    "letter.step.defects": "Defects",
+    "letter.step.preview": "Preview",
+    "letter.step.send": "Download",
+    "letter.yourData": "Your details (tenant)",
+    "letter.name": "Full name",
+    "letter.street": "Street & house number",
+    "letter.zip": "Postcode",
+    "letter.city": "City",
+    "letter.aptNr": "Apartment number (optional)",
+    "letter.phone": "Phone number",
+    "letter.email": "Email address",
+    "letter.emailOptIn": "I agree that my email address may be stored to inform me about news relating to rent reduction. I can withdraw this consent at any time.",
+    "letter.landlordData": "Landlord details",
+    "letter.landlordName": "Name of the landlord / property management",
+    "letter.describeDefects": "Describe the defects",
+    "letter.describeHint":
+      "Describe each defect as precisely as possible. The more detail, the better.",
+    "letter.whichRoom": "In which room does the defect occur?",
+    "letter.sincewhen": "Since when has the defect existed?",
+    "letter.detailDesc": "Detailed description",
+    "letter.nativeHint": "You can write in your native language — the AI translates it into German.",
+    "letter.showPreview": "Show preview",
+    "letter.creating": "Creating your letter...",
+    "letter.previewTitle": "Preview of your defect notice",
+    "letter.editHint": "You can edit the text directly before sending it.",
+    "letter.signature": "Digital signature (optional)",
+    "letter.clearSig": "Clear",
+    "letter.saveSig": "Save signature",
+    "letter.sigSaved": "Saved",
+    "letter.deliveryOptions": "Delivery options",
+    "letter.backPreview": "Back to preview",
+    "letter.howReceive": "Your defect notice is ready",
+    "letter.downloadDesc": "Download the letter as a PDF and print it yourself.",
+    "letter.free": "Free",
+    "letter.downloadPdf": "Download as PDF",
+    "letter.downloadTxt": "As text file",
+    "letter.copyText": "Copy text",
+    "letter.copied": "Copied!",
+    "letter.warning":
+      "Always send the defect notice in a way you can prove — ideally by registered mail (Einwurf-Einschreiben). A simple email is not sufficient proof of receipt.",
+
+    // Teaser
+    "teaser.title": "Create a defect notice",
+    "teaser.desc":
+      "Create a legally sound defect notice for your landlord. Start with our check to determine your claim and the amount of the rent reduction — this data flows automatically into your letter.",
+    "teaser.feat1": "Legally sound template under Section 536c BGB",
+    "teaser.feat2": "Automatically filled with your details",
+    "teaser.feat3": "Download as PDF or text file",
+    "teaser.feat4": "Digital signature possible",
+    "teaser.feat5": "Input in your native language possible",
+    "teaser.cta": "Check your claim — the letter is created automatically",
+
+    // Info
+    "info.title": "Your right to a rent reduction — the key facts",
+    "info.subtitle": "Everything you need to know about rent reduction in Germany",
+    "info.c1.title": "A statutory right",
+    "info.c1.desc":
+      "The rent reduction is enshrined in Section 536 BGB and takes effect automatically as soon as a significant defect exists. You do not need to apply for approval — the rent is reduced by operation of law.",
+    "info.c2.title": "Cannot be waived",
+    "info.c2.desc":
+      "For residential tenancies, the right to reduce the rent cannot be excluded by the tenancy agreement (Section 536 (4) BGB). Clauses attempting to do so are invalid.",
+    "info.c3.title": "Defect notice is mandatory",
+    "info.c3.desc":
+      "Before reducing the rent, you must report the defect to your landlord in writing (Section 536c BGB). Without a defect notice you lose your right to reduce and risk claims for damages.",
+    "info.c4.title": "Gross warm rent as the basis",
+    "info.c4.desc":
+      "The rent reduction is calculated from the gross warm rent (base rent + service charges). The Federal Court of Justice confirmed this in its ruling of 6 April 2005 (case no. XII ZR 225/03).",
+    "info.c5.title": "Be careful with the amount",
+    "info.c5.desc":
+      "If you reduce too much and build up arrears of 2 monthly rents, you risk termination without notice. If in doubt: pay the full rent under reservation of rights and reclaim it later.",
+    "info.c6.title": "Act promptly",
+    "info.c6.desc":
+      "The defect notice must be given without delay after discovery. If you pay the full rent for around 6 months without reservation, you risk forfeiting the right to reduce.",
+
+    // FAQ
+    "faq.badge": "Frequently asked questions",
+    "faq.title": "Everything about rent reduction",
+    "faq.subtitle": "Answers to the most important questions about rent reduction in Germany.",
+    "faq.legal.title": "Legal notice",
+    "faq.legal.text":
+      "The information provided on this website is for general information purposes only and does not constitute legal advice. Despite careful research, we cannot guarantee that the content is accurate, complete or up to date. The reduction rates are based on court rulings and serve only as guide values — every individual case is assessed on its own merits. For specific legal questions, we recommend consulting a tenants' association or a lawyer.",
+
+    // Footer
+    "footer.desc":
+      "We help tenants in Germany enforce their right to a rent reduction. Free check, calculation and creation of the defect notice — all in just a few minutes.",
+    "footer.service": "Service",
+    "footer.legal": "Legal",
+    "footer.imprint": "Imprint",
+    "footer.privacy": "Privacy policy",
+    "footer.terms": "Terms of use",
+    "footer.rights": "All rights reserved.",
+    "footer.noLegal":
+      "No legal advice. Information provided without guarantee. If you have questions, contact a tenants' association or a lawyer.",
+    "footer.withdrawal": "Right of withdrawal",
+
+    // Shared
+    "common.note": "Note",
+    "common.backHome": "Back to homepage",
+
+    // FAQ page
+    "faq.showAll": "Show all questions & answers",
+    "faqpage.allTitle": "All questions & answers",
+    "faqpage.cta.title": "Didn't find your question?",
+    "faqpage.cta.desc":
+      "Use our free rent reduction check. In just a few steps you'll find out whether and by how much you can reduce your rent.",
+
+    // Letter — delivery
+    "letter.basedOn":
+      "Based on your check: approx. {quote}% reduction at {rent} € gross warm rent.",
   },
 
   tr: {
