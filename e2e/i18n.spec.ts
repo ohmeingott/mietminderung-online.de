@@ -35,6 +35,7 @@ test.describe("Language switching", () => {
 
   test("translates the defect catalogue in every language", async ({ page }) => {
     const expected = [
+      ["en", "Heating & Hot Water"],
       ["uk", "Опалення та гаряча вода"],
       ["ru", "Отопление и горячая вода"],
       ["ar", "التدفئة والماء الساخن"],
@@ -87,7 +88,7 @@ test.describe("Language switching", () => {
   test("sets the html lang attribute for each language", async ({ page }) => {
     await page.goto("/");
 
-    for (const code of ["uk", "pl", "de"] as const) {
+    for (const code of ["en", "uk", "pl", "de"] as const) {
       await switchLanguage(page, code);
       await expect(page.locator("html")).toHaveAttribute("lang", code);
     }
