@@ -16,13 +16,6 @@ const LIMIT_PRO_STUNDE = 10;
 const STUNDE_MS = 60 * 60 * 1000;
 
 /**
- * What the price sanity check assumes the letter costs to buy. A Mängelanzeige
- * that runs longer than this is still priced as two pages here — see the note
- * at the check itself.
- */
-const ANGENOMMENE_SEITEN = 2;
-
-/**
  * The body is untrusted JSON, so every field is `unknown` rather than a
  * declared string — a number where a name belongs would otherwise pass the
  * check below and only blow up inside the PDF layout.
@@ -139,10 +132,11 @@ export async function POST(request: Request) {
     await commitJob(jobId);
 
     // Sanity check: if the purchase price is above what the user pays, do not
-    // send rather than print at a loss. The page count is an assumption, so
-    // this catches a price list change, not an unusually long letter.
+    // send rather than print at a loss. The page count comes from the rendered
+    // document, not from an assumption — a long Mängelanzeige can run past the
+    // three-sheet standard-letter bracket, where the price steps up sharply.
     const preis = await getPrice({
-      pages: ANGENOMMENE_SEITEN,
+      pages: pdf.seiten,
       isColor: false,
       isDuplex: false,
       isTracking: istEinschreiben,
@@ -152,12 +146,20 @@ export async function POST(request: Request) {
       // means the guard below silently did nothing, so leave a trace.
       console.error("eBrief price response carried no TotalPrice", { jobId });
     }
+    // ASSUMPTION, NOT YET VERIFIED AGAINST THE LIVE API: TotalPrice is euros,
+    // so cents are ×100. If it is already cents, every letter is rejected as
+    // "preis_unplausibel" (8800 vs 249) and the feature looks broken rather
+    // than misconfigured — hence the raw envelope in the rejection log below,
+    // which settles the unit on the first staging run.
     const einkaufCent = Math.round((preis.TotalPrice ?? 0) * 100);
     if (einkaufCent > produkt.preisCent) {
       console.error("eBrief purchase price above sale price", {
         jobId,
+        seiten: pdf.seiten,
         einkaufCent,
         verkaufCent: produkt.preisCent,
+        // Raw, so the euros-vs-cents question is answerable from the log alone.
+        preisRoh: preis,
       });
       // Logged first and swallowed here on purpose: a failing cleanup must not
       // turn the price rejection into a generic eBrief error.

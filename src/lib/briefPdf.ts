@@ -112,6 +112,12 @@ export function leererBefund(): VersandBefund {
 export interface VersandPdfErgebnis extends VersandBefund {
   /** Base64 without the data-URL prefix — what eBrief expects in FileContent. */
   base64: string;
+  /**
+   * Rendered page count. The letter is printed single-sided, so this is also
+   * the sheet count the eBrief price depends on — a caller pricing the job
+   * has to use this rather than assume a length.
+   */
+  seiten: number;
 }
 
 /**
@@ -365,6 +371,7 @@ export function versandPdfBase64(opts: VersandPdfOptions): VersandPdfErgebnis {
   const doc = generateVersandPdf(opts, befund);
   return {
     base64: doc.output("datauristring").split(",")[1],
+    seiten: doc.getNumberOfPages(),
     ...befund,
   };
 }
