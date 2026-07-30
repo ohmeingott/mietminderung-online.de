@@ -30,6 +30,7 @@ import {
   type MangelKategorie,
   type Mangel,
 } from "@/data/maengel";
+import FormProgress from "@/components/FormProgress";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { katKey, mangelDescKey, mangelLabelKey } from "@/i18n/content";
 
@@ -183,14 +184,12 @@ export default function MietminderungCheck({
     );
   }
 
-  const progressPercent =
-    step === 0
-      ? ((eligibilityStep + 1) / eligibilityQuestions.length) * 25
-      : step === 1
-        ? 25 + (selectedMaengel.length > 0 ? 25 : 0)
-        : step === 2
-          ? 75
-          : 100;
+  const phaseLabels = [
+    t("check.phase.eligibility"),
+    t("check.phase.defects"),
+    t("check.phase.rent"),
+    t("check.result"),
+  ];
 
   const question = eligibilityQuestions[eligibilityStep];
 
@@ -208,32 +207,14 @@ export default function MietminderungCheck({
 
         {/* Progress */}
         <div className="mt-8 sm:mt-10">
-          <div className="mb-2 flex items-center justify-between gap-3 text-xs text-ink-500 sm:text-sm">
-            <span className="truncate">
-              {step === 0
-                ? `${t("check.question")} ${eligibilityStep + 1} ${t("check.of")} ${eligibilityQuestions.length}`
-                : step === 1
-                  ? t("check.selectDefects")
-                  : step === 2
-                    ? t("check.enterRent")
-                    : t("check.result")}
-            </span>
-            <span className="shrink-0 tabular-nums">
-              {t("check.step")} {step + 1} {t("check.of")} 4
-            </span>
-          </div>
-          <div
-            className="h-1.5 w-full overflow-hidden rounded-full bg-ink-200"
-            role="progressbar"
-            aria-valuenow={Math.round(progressPercent)}
-            aria-valuemin={0}
-            aria-valuemax={100}
-          >
-            <div
-              className="progress-fill h-full rounded-full bg-brand-600"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
+          <FormProgress
+            steps={phaseLabels}
+            currentStep={step}
+            subProgress={
+              step === 0 ? eligibilityStep / eligibilityQuestions.length : 0
+            }
+            complete={step === 3}
+          />
         </div>
 
         {/* -------------------------------------------------- step 0: eligibility */}
