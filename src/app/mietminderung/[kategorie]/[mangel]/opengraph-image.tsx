@@ -11,7 +11,7 @@ export const alt =
 
 type Params = { kategorie: string; mangel: string };
 
-/** Per-defect social card — the quota is the hook that earns the click. */
+/** Per-defect social card - the quota is the hook that earns the click. */
 export default async function MangelOgImage({
   params,
 }: {

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ratgeberArtikel } from "@/data/ratgeber";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { siteConfig } from "@/lib/site";
 
 const serviceLinks = [
   { href: "/#pruefung", key: "nav.check" },
@@ -47,6 +48,10 @@ export default function Footer() {
                 alt=""
                 width={32}
                 height={32}
+                // The brand blue has too little contrast on the dark footer, so
+                // the mark is flattened to a white silhouette. This relies on
+                // logo.png having a transparent background: the filter only
+                // touches RGB, leaving alpha to keep the shape.
                 className="h-8 w-8 brightness-0 invert"
               />
               <span className="text-lg font-bold text-white">
@@ -113,7 +118,7 @@ export default function Footer() {
 
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>
-            &copy; {new Date().getFullYear()} mietminderung.online — {t("footer.rights")}
+            &copy; {new Date().getFullYear()} {siteConfig.brand} · {t("footer.rights")}
           </p>
           <p>{t("footer.noLegal")}</p>
         </div>

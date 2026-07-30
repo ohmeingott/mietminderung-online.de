@@ -4,9 +4,8 @@ import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Datenschutzerklärung — Mietminderung Online",
-  description:
-    "Datenschutzerklärung von mietminderung.online: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.",
+  title: "Datenschutzerklärung | Mietminderung Online",
+  description: `Datenschutzerklärung von ${site.name}: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.`,
   path: "/datenschutz",
 });
 
@@ -84,7 +83,7 @@ export default function Datenschutz() {
       ),
     },
     {
-      heading: "Reichweitenmessung — Vercel Web Analytics",
+      heading: "Reichweitenmessung: Vercel Web Analytics",
       body: (
         <>
           <p>
@@ -133,7 +132,7 @@ export default function Datenschutz() {
       ),
     },
     {
-      heading: "Hosting — Vercel",
+      heading: "Hosting: Vercel",
       body: (
         <p>
           Diese Webseite wird bei der <strong>Vercel Inc.</strong> (USA)
@@ -147,7 +146,7 @@ export default function Datenschutz() {
       ),
     },
     {
-      heading: "KI-Textverbesserung — Google Gemini",
+      heading: "KI-Textverbesserung: Google Gemini",
       body: (
         <>
           <p>
@@ -157,7 +156,7 @@ export default function Datenschutz() {
             Zeitraum, Freitext) an die Gemini-API der{" "}
             <strong>Google Ireland Limited</strong>, Gordon House, Barrow Street,
             Dublin 4, Irland übermittelt. Dort werden sie sprachlich geglättet
-            und — falls Sie in einer anderen Sprache geschrieben haben — ins
+            und, falls Sie in einer anderen Sprache geschrieben haben, ins
             Deutsche übersetzt.
           </p>
           <ul>
@@ -183,7 +182,7 @@ export default function Datenschutz() {
           </ul>
           <p>
             Bitte geben Sie in das Freitextfeld keine Angaben ein, die Sie nicht
-            übermitteln möchten — insbesondere keine Gesundheitsdaten oder Daten
+            übermitteln möchten, insbesondere keine Gesundheitsdaten oder Daten
             Dritter. Ist der Dienst nicht konfiguriert oder nicht erreichbar,
             wird Ihr Text unverändert übernommen. Weitere Informationen:{" "}
             <a

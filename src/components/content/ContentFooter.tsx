@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { kategorieIndex } from "@/lib/mangelIndex";
 import { ratgeberArtikel } from "@/data/ratgeber";
+import { siteConfig } from "@/lib/site";
 
 /**
  * Static footer with a broad internal link block. This is the main hub that
@@ -18,7 +19,7 @@ export default function ContentFooter() {
             <p className="mt-4 text-sm leading-relaxed">
               Kostenlos prüfen, ob Sie die Miete mindern dürfen, die
               Minderungsquote berechnen und eine rechtssichere Mängelanzeige
-              erstellen — ohne Anwalt, ohne Registrierung.
+              erstellen, ohne Anwalt und ohne Registrierung.
             </p>
             <Link
               href="/#pruefung"
@@ -95,10 +96,10 @@ export default function ContentFooter() {
 
         <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs">
-            &copy; {new Date().getFullYear()} mietminderung.online
+            &copy; {new Date().getFullYear()} {siteConfig.brand}
           </p>
           <p className="text-xs">
-            Keine Rechtsberatung — alle Angaben ohne Gewähr.
+            Keine Rechtsberatung, alle Angaben ohne Gewähr.
           </p>
         </div>
       </div>

@@ -20,7 +20,7 @@ export interface RatgeberArtikel {
   navLabel: string;
   /** H1 on the page. */
   title: string;
-  /** <title> — may differ from the H1 to fit the SERP width. */
+  /** <title> - may differ from the H1 to fit the SERP width. */
   metaTitle: string;
   description: string;
   keywords: string[];
@@ -38,7 +38,7 @@ export const ratgeberArtikel: RatgeberArtikel[] = [
     navLabel: "Mängelanzeige schreiben",
     title: "Mängelanzeige schreiben: Muster, Pflichtangaben und Fristen",
     metaTitle:
-      "Mängelanzeige schreiben — Muster & Anleitung nach § 536c BGB",
+      "Mängelanzeige schreiben: Muster & Anleitung nach § 536c BGB",
     description:
       "Mängelanzeige an den Vermieter: alle Pflichtangaben nach § 536c BGB, ein vollständiges Muster zum Abschreiben, Fristen und die richtige Zustellung.",
     keywords: [
@@ -125,7 +125,7 @@ An
 [Name des Vermieters / der Hausverwaltung]
 [Anschrift]
 
-Betreff: Mängelanzeige — Wohnung [Adresse, Stockwerk, Wohnungsnummer]
+Betreff: Mängelanzeige für die Wohnung [Adresse, Stockwerk, Wohnungsnummer]
 
 Sehr geehrte/r [Name],
 
@@ -210,7 +210,7 @@ Anlagen:
     slug: "mietminderung-berechnen",
     navLabel: "Mietminderung berechnen",
     title: "Mietminderung berechnen: Formel, Beispiele und Berechnungsgrundlage",
-    metaTitle: "Mietminderung berechnen — Formel, Beispiele & Bruttowarmmiete",
+    metaTitle: "Mietminderung berechnen: Formel, Beispiele & Bruttowarmmiete",
     description:
       "Mietminderung berechnen: warum die Bruttowarmmiete die Grundlage ist, wie die Formel lautet und was bei mehreren Mängeln gilt. Mit Rechenbeispielen.",
     keywords: [
@@ -331,7 +331,7 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
     slug: "miete-unter-vorbehalt-zahlen",
     navLabel: "Miete unter Vorbehalt zahlen",
     title: "Miete unter Vorbehalt zahlen: Der sichere Weg zur Mietminderung",
-    metaTitle: "Miete unter Vorbehalt zahlen — Formulierung & Rückforderung",
+    metaTitle: "Miete unter Vorbehalt zahlen: Formulierung & Rückforderung",
     description:
       "Warum Sie die Miete bei Mängeln unter Vorbehalt zahlen sollten, wie Sie den Vorbehalt formulieren und zu viel gezahlte Miete zurückfordern.",
     keywords: [
@@ -431,7 +431,7 @@ Im Schreiben an den Vermieter:
     slug: "mietminderung-rueckwirkend",
     navLabel: "Rückwirkend mindern",
     title: "Rückwirkende Mietminderung: Wann Sie Geld zurückfordern können",
-    metaTitle: "Rückwirkende Mietminderung — wann Rückforderung möglich ist",
+    metaTitle: "Rückwirkende Mietminderung: wann Rückforderung möglich ist",
     description:
       "Rückwirkend mindern geht nur in vier Fällen. Welche das sind, welche Verjährungsfristen gelten und wie Sie bei der Rückforderung vorgehen.",
     keywords: [
@@ -533,7 +533,7 @@ Im Schreiben an den Vermieter:
     slug: "mietminderung-ausschluss",
     navLabel: "Wann keine Minderung gilt",
     title: "Wann die Mietminderung ausgeschlossen ist: 7 Ausschlussgründe",
-    metaTitle: "Mietminderung ausgeschlossen — 7 Gründe, die den Anspruch kosten",
+    metaTitle: "Mietminderung ausgeschlossen: 7 Gründe, die den Anspruch kosten",
     description:
       "Nicht jeder Mangel berechtigt zur Minderung: sieben Ausschlussgründe von Kenntnis bei Vertragsschluss über Bagatellmängel bis zur energetischen Sanierung.",
     keywords: [

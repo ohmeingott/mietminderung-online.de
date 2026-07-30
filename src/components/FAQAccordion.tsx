@@ -51,7 +51,7 @@ export default function FAQAccordion({
               </button>
             </h3>
             {/*
-              The answer stays mounted while collapsed — these are the exact
+              The answer stays mounted while collapsed - these are the exact
               phrases the page is meant to rank for, and unmounting them keeps
               them out of the served HTML entirely. Only the height animates.
             */}

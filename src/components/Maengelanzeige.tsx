@@ -116,7 +116,7 @@ export default function Maengelanzeige({
     new Date().toLocaleDateString("de-DE", { month: "long", year: "numeric" });
 
   /**
-   * The letter itself is always German — it is addressed to a German landlord
+   * The letter itself is always German - it is addressed to a German landlord
    * and quotes the BGB. Only the surrounding UI is translated.
    */
   const generateBriefText = useCallback(() => {
@@ -125,7 +125,7 @@ export default function Maengelanzeige({
         const details = mangelDetails[i];
         let text = `${i + 1}. ${m.label}`;
         if (details?.raum) text += ` (Raum: ${details.raum})`;
-        if (details?.seit) text += ` — besteht seit ${details.seit}`;
+        if (details?.seit) text += ` (besteht seit ${details.seit})`;
         if (details?.beschreibung) text += `\n   ${details.beschreibung}`;
         return text;
       })
@@ -141,7 +141,7 @@ ${vermieter.plz} ${vermieter.ort}
 
 ${mieter.ort}, den ${heuteDatum()}
 
-Betreff: Mängelanzeige — Wohnung ${mieter.strasse}, ${mieter.plz} ${mieter.ort}${
+Betreff: Mängelanzeige für die Wohnung ${mieter.strasse}, ${mieter.plz} ${mieter.ort}${
       mieter.wohnungNr ? `, Wohnung ${mieter.wohnungNr}` : ""
     }
 
@@ -188,7 +188,7 @@ ${mieter.name}`;
     signaturePadRef.current = pad;
 
     // Resizing the canvas wipes it, so only do it when the size really changed.
-    // Mobile browsers fire resize events when the URL bar collapses — without
+    // Mobile browsers fire resize events when the URL bar collapses - without
     // this guard a finished signature would vanish mid-scroll.
     let lastWidth = 0;
     let lastHeight = 0;
@@ -262,14 +262,14 @@ ${mieter.name}`;
         );
       }
     } catch {
-      // Never block the letter on an AI failure — keep the user's own wording.
+      // Never block the letter on an AI failure - keep the user's own wording.
     } finally {
       setEnhancing(false);
       setStep(3);
     }
   };
 
-  /** What the user reviewed, plus their signature — nothing rebuilt. */
+  /** What the user reviewed, plus their signature - nothing rebuilt. */
   const letterPdfOptions = () => ({
     text: editedBriefText,
     signatureDataUrl: signatureData || undefined,
@@ -283,7 +283,7 @@ ${mieter.name}`;
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Clipboard blocked (insecure context / permission) — the textarea above
+      // Clipboard blocked (insecure context / permission) - the textarea above
       // is still selectable, so there is nothing to recover from.
     }
   };
@@ -382,7 +382,7 @@ ${mieter.name}`;
           <p className="mt-3 text-base text-ink-600 sm:text-lg">{t("letter.subtitle")}</p>
         </div>
 
-        {/* Same rail as the eligibility check — the letter is the second
+        {/* Same rail as the eligibility check. The letter is the second
             chapter of one journey, not a different kind of tool. */}
         <div className="mt-8 sm:mt-10">
           <FormProgress
@@ -784,7 +784,7 @@ ${mieter.name}`;
           )}
         </div>
 
-        {/* Calculation reminder — keeps the numbers from the check visible */}
+        {/* Calculation reminder - keeps the numbers from the check visible */}
         <p className="mt-5 text-center text-sm text-ink-500">
           {t("letter.basedOn")
             .replace("{quote}", String(minderungsquote))

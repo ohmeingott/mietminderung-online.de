@@ -33,7 +33,7 @@ export default function Hero() {
             {t("hero.subtitle")}
           </p>
 
-          {/* Trust row — wraps to two lines on narrow screens instead of clipping */}
+          {/* Trust row - wraps to two lines on narrow screens instead of clipping */}
           <ul className="mx-auto mt-5 flex max-w-2xl flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-sm text-ink-500">
             {trust.map((item) => (
               <li key={item} className="flex items-center gap-1.5">

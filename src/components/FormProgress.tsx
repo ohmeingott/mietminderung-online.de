@@ -12,13 +12,13 @@ interface FormProgressProps {
    * of several screens. Phases without sub-screens leave this at 0.
    */
   subProgress?: number;
-  /** Renders every segment as filled — the user has nothing left to do. */
+  /** Renders every segment as filled: the user has nothing left to do. */
   complete?: boolean;
 }
 
 /**
  * Segmented progress rail: one bar per phase, the active one filling up as the
- * user works through its screens. Replaces separate question/step counters —
+ * user works through its screens. Replaces separate question/step counters:
  * the segments themselves communicate how far along the form is.
  */
 export default function FormProgress({
@@ -43,7 +43,7 @@ export default function FormProgress({
       aria-valuenow={percent}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-valuetext={`${steps[currentStep]} — ${percent}%`}
+      aria-valuetext={`${steps[currentStep]}, ${percent}%`}
     >
       <ol className="flex gap-2">
         {steps.map((label, i) => {
