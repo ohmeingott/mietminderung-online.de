@@ -20,6 +20,8 @@ export default function Datenschutz() {
           <address>
             {site.operator.name}
             <br />
+            Inhaber: {site.operator.owner}
+            <br />
             {site.operator.street}
             <br />
             {site.operator.zip} {site.operator.city}

@@ -91,7 +91,7 @@ export default function Widerruf() {
           Ihr Brief gedruckt, kuvertiert, frankiert und in die Zustellung
           gegeben wurde. Bis zu diesem Zeitpunkt können Sie widerrufen; danach
           nicht mehr. In der Praxis erfolgt der Druck bei einem Zahlungseingang
-          bis 14:30 Uhr an Werktagen noch am selben Tag, andernfalls am
+          montags bis freitags bis 14:30 Uhr noch am selben Tag, andernfalls am
           folgenden Werktag.
         </p>
         <p>

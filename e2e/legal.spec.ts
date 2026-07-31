@@ -10,8 +10,12 @@ const LEGAL_PAGES = [
     path: "/impressum",
     footerLink: "Impressum",
     heading: "Impressum",
+    // The provider named here has to be the party that signs the eBrief
+    // contract — the business name for § 5 DDG, and the natural person behind
+    // it, which a Geschäftsbezeichnung cannot stand in for.
     mustContain: [
-      "Paul Ohm",
+      "Animals of Cologne",
+      "Maximilian Marowsky",
       "Holzgasse 8",
       "50676",
       "§ 5 DDG",

@@ -61,7 +61,19 @@ const siteUrl = toOrigin(rawSiteUrl);
 const siteHost = new URL(siteUrl).host;
 
 const operator = {
-  name: "Paul Ohm",
+  /**
+   * The contracting party, and therefore the provider named on every legal
+   * page. It has to be the same entity that signs the eBrief service contract
+   * (customer number D01039646) — a tenant who orders from one name while the
+   * letter is commissioned by another has no counterparty they can hold to it.
+   */
+  name: "Animals of Cologne",
+  /**
+   * Named separately because a business name alone does not satisfy § 5 DDG:
+   * behind a Geschäftsbezeichnung without a legal form there must be a natural
+   * person, and § 18 Abs. 2 MStV wants that person for the content as well.
+   */
+  owner: "Maximilian Marowsky",
   street: "Holzgasse 8",
   zip: "50676",
   city: "Köln",
