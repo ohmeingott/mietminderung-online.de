@@ -4,6 +4,8 @@ import { DISTRIBUTED_STATUSES, hatStatus } from "@/lib/ebrief/types";
 import type { JobStatus } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import { stripe, stripeKonfiguriert } from "@/lib/stripe";
+import { emailConfigured, sendEmail } from "@/lib/email/send";
+import { bestellbestaetigungEmail } from "@/lib/email/templates";
 
 /**
  * Explicit, because the signature check depends on it: constructEvent hashes
@@ -54,6 +56,78 @@ const ENDGUELTIG_GESCHEITERTE_STATUSES: JobStatus[] = [
 ];
 
 type Wiederholung = "webhook_retry" | "zweite_zahlung" | "unbekannt";
+
+/**
+ * Sends the order confirmation § 312f Abs. 2 und 3 BGB owes the customer, and
+ * which doubles as the Eingangsbestätigung under § 312i Abs. 1 Nr. 3 BGB.
+ *
+ * Deliberately unable to fail the request. It runs after `distribute`, and by
+ * then the letter is irreversibly on its way: answering 500 because an email
+ * did not go out would have Stripe retry a dispatch that already happened, for
+ * three days. So every failure is swallowed and logged loudly instead — the
+ * duty is real, and a missing confirmation needs a human, not a retry.
+ *
+ * The narrow gap this leaves: if the process dies between `distribute` and this
+ * call, Stripe's retry finds the job already distributed and returns early, so
+ * no confirmation is ever sent. Sending from that branch too would mean a
+ * duplicate confirmation on every ordinary webhook retry, which is the worse
+ * everyday behaviour. The log line below is what closes the gap by hand.
+ */
+async function sendeBestellbestaetigung(kontext: {
+  empfaenger: string | null | undefined;
+  produktId: string | undefined;
+  betragCent: number | null;
+  referenz: string;
+  jobId: number;
+  eventId: string;
+}): Promise<void> {
+  const { empfaenger, betragCent, jobId, eventId, referenz } = kontext;
+
+  if (!emailConfigured()) {
+    console.error(
+      "NO ORDER CONFIRMATION SENT: Resend is not configured — § 312f BGB requires one, send it by hand",
+      { jobId, eventId, referenz, empfaenger: empfaenger ?? null }
+    );
+    return;
+  }
+  // Checkout collects the address, so this is close to impossible — but the
+  // confirmation is owed, and a silent skip would hide that it was not sent.
+  if (!empfaenger || betragCent === null) {
+    console.error(
+      "NO ORDER CONFIRMATION SENT: the paid session carried no email address or no amount — send it by hand",
+      { jobId, eventId, referenz, empfaenger: empfaenger ?? null, betragCent }
+    );
+    return;
+  }
+
+  try {
+    const ergebnis = await sendEmail({
+      to: empfaenger,
+      email: bestellbestaetigungEmail({
+        produktId: kontext.produktId ?? "",
+        betragCent,
+        referenz,
+      }),
+    });
+    if (!ergebnis.ok) {
+      console.error(
+        "NO ORDER CONFIRMATION SENT: Resend refused the message — § 312f BGB requires one, send it by hand",
+        { jobId, eventId, referenz, empfaenger }
+      );
+      return;
+    }
+    console.log("Order confirmation sent", {
+      jobId,
+      eventId,
+      messageId: ergebnis.id ?? null,
+    });
+  } catch (err) {
+    console.error(
+      "NO ORDER CONFIRMATION SENT: sending threw — § 312f BGB requires one, send it by hand",
+      { jobId, eventId, referenz, empfaenger, err }
+    );
+  }
+}
 
 function artDerWiederholung(jobId: number, sessionId: string): Wiederholung {
   const bekannt = versendetVonSession.get(jobId);
@@ -350,6 +424,18 @@ export async function POST(request: Request) {
       eventTyp: event.type,
       sessionId: session.id,
       produktId: produktId ?? null,
+    });
+
+    // After the dispatch, never before: a confirmation for a letter that then
+    // fails to go out would be a contract confirmed and not performed. Cannot
+    // throw — see the function's own comment.
+    await sendeBestellbestaetigung({
+      empfaenger: session.customer_details?.email,
+      produktId,
+      betragCent: session.amount_total,
+      referenz: session.id,
+      jobId,
+      eventId: event.id,
     });
 
     return NextResponse.json({ empfangen: true });
