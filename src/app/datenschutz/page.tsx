@@ -333,6 +333,58 @@ export default function Datenschutz() {
       ),
     },
     {
+      heading: "Bestellbestätigung per E-Mail: Resend",
+      body: (
+        <>
+          <p>
+            Nach einer erfolgreichen Zahlung für den Postversand sind wir
+            gesetzlich verpflichtet, Ihnen den Vertrag zu bestätigen
+            (§ 312f BGB). Diese eine E-Mail versenden wir über{" "}
+            <strong>Resend (Plus Five Five, Inc.)</strong>. Die Zustellung
+            erfolgt über deren europäische Infrastruktur (Region Irland).
+          </p>
+          <ul>
+            <li>
+              <strong>Übermittelt werden:</strong> die E-Mail-Adresse, die Sie
+              bei der Bezahlung angegeben haben, sowie der Inhalt der
+              Bestätigung — gewählte Versandart, gezahlter Betrag,
+              Vorgangsnummer und die Widerrufsbelehrung. Der Text Ihrer
+              Mängelanzeige und die Anschrift Ihres Vermieters sind{" "}
+              <strong>nicht</strong> Teil dieser E-Mail.
+            </li>
+            <li>
+              <strong>Zweck:</strong> Erfüllung der gesetzlichen
+              Bestätigungspflicht bei Fernabsatzverträgen
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. c DSGVO
+              (rechtliche Verpflichtung) sowie Art. 6 Abs. 1 lit. b DSGVO
+              (Vertragserfüllung)
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> Resend protokolliert den Versand
+              für einen begrenzten Zeitraum, um Zustellprobleme nachvollziehen
+              zu können. Ein Werbe- oder Newsletterversand findet nicht statt.
+            </li>
+          </ul>
+          <p>
+            Resend ist ein US-Unternehmen; soweit im Einzelfall Daten in die USA
+            übermittelt werden, stützt sich die Übermittlung auf
+            Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO. Wir
+            verwenden weder Öffnungs- noch Klickverfolgung. Einzelheiten:{" "}
+            <a
+              href="https://resend.com/legal/privacy-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              resend.com/legal/privacy-policy
+            </a>
+            .
+          </p>
+        </>
+      ),
+    },
+    {
       heading: "Lokale Speicherung im Browser",
       body: (
         <p>
@@ -388,6 +440,11 @@ export default function Datenschutz() {
                   <td>Stripe Payments Europe, Limited</td>
                   <td>Zahlungsabwicklung beim Postversand</td>
                   <td>Irland (EU)</td>
+                </tr>
+                <tr>
+                  <td>Resend (Plus Five Five, Inc.)</td>
+                  <td>Versand der Bestellbestätigung</td>
+                  <td>USA (Versand über Irland)</td>
                 </tr>
               </tbody>
             </table>

@@ -106,7 +106,20 @@ davon erst auf aktive Handlung des Nutzers.
 vorliegen, weil ein Brief andernfalls nicht zustellbar ist. So ausdrücklich
 auch die TOM der PIN AG, Ziffer 1.4.
 
-## 7. Zahlungsabwicklung
+## 7. Bestellbestätigung per E-Mail
+
+| | |
+|---|---|
+| **Zweck** | Erfüllung der Bestätigungspflicht aus § 312f Abs. 2 und 3 BGB nach einem kostenpflichtigen Postversand |
+| **Betroffene** | zahlende Nutzer |
+| **Datenarten** | E-Mail-Adresse aus dem Bezahlvorgang, Versandart, gezahlter Betrag, Vorgangsnummer. **Nicht enthalten:** Brieftext, Anschrift des Vermieters, Unterschrift |
+| **Rechtsgrundlage** | Art. 6 Abs. 1 lit. c DSGVO (rechtliche Verpflichtung), daneben lit. b |
+| **Empfänger** | Resend (Plus Five Five, Inc.), Versand über die Region Irland (`eu-west-1`) |
+| **Drittland** | US-Unternehmen; Übermittlung gestützt auf Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO |
+| **Löschfrist** | Versandprotokoll beim Anbieter für einen begrenzten Zeitraum; keine eigene Speicherung |
+| **TOM** | keine Öffnungs- oder Klickverfolgung, kein Werbeversand, Absenderdomäne mit SPF und DKIM |
+
+## 8. Zahlungsabwicklung
 
 | | |
 |---|---|
