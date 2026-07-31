@@ -27,11 +27,19 @@ export type VersandStatus = "laeuft" | "bereit" | "adresse_warnung" | "fehler";
  * declares: `JobStatus` is a nullable free string, not an enum, so a status
  * outside the sixteen this codebase knows is possible and so is none at all.
  *
- * Note that everything unrecognised — including a missing status — falls
- * through to "laeuft": the commit is asynchronous on eBrief's side, so an
- * unfamiliar status is far more likely to be a stage of that pipeline than a
- * terminal state, and claiming "fehler" for a job that is merely still working
- * would be the worse mistake.
+ * Note that everything unrecognised — including a missing status, and including
+ * both spellings of the committed one — falls through to "laeuft": the commit is
+ * asynchronous on eBrief's side, so an unfamiliar status is far more likely to
+ * be a stage of that pipeline than a terminal state, and claiming "fehler" for a
+ * job that is merely still working would be the worse mistake.
+ *
+ * That fallback is not a spinner without end. The browser polls under its own
+ * deadline (POLL_FRIST_MS in src/components/VersandKarte.tsx, one minute) and
+ * then shows the translated "zeitueberschreitung" message, so a status this
+ * route cannot place ends in a sentence the user can act on — and it ends there
+ * before any money has moved. Unlike the dispatch decision, being wrong here is
+ * cosmetic in both directions, so it stays a fall-through rather than an
+ * allow-list.
  */
 export function versandStatus(
   ebriefStatus: string | null | undefined

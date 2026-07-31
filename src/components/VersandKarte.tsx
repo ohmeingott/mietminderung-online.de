@@ -110,6 +110,7 @@ const FEHLER_SLUGS = new Set([
   "jobId_ungueltig",
   "kein_dokument",
   "bereits_versendet",
+  "versand_nicht_moeglich",
   "checkout_fehler",
   "zeitueberschreitung",
 ]);

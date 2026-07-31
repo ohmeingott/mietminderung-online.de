@@ -77,10 +77,18 @@ const ZUKUNFTS_TOLERANZ_MS = 24 * 60 * 60 * 1000;
  *
  * Doubles as the `JobStatus` filter sent to the search, which is what keeps the
  * paging below from being clogged by jobs that are not candidates at all.
+ *
+ * Both spellings of the committed status are listed. Leaving out the one the
+ * live API actually sends would not be a safety problem here — nothing extra
+ * gets deleted — but it would quietly make this cron pointless: `COMITTED` is
+ * the state nearly every abandoned job sits in, so the filter would match
+ * almost nothing and the backlog would grow for ever while the run reported
+ * success.
  */
 const LOESCHBARE_STATUSES: JobStatus[] = [
   "UNPROCESSED",
   "COMMITTED",
+  "COMITTED",
   "PROCESSING_DOCUMENTS_PREPARE",
   "COMPLETED_DOCUMENTS_PREPARE",
   "PROCESSING_DOCUMENTS_PROCESS",

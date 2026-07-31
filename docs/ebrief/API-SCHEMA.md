@@ -58,6 +58,24 @@ Die Statuswerte sind in der Spezifikation **nicht** als Enum hinterlegt —
 unterscheidet, stammen aus der Prosa-Dokumentation und sind entsprechend
 defensiv zu behandeln.
 
+### `COMITTED` mit einem M
+
+Der erste erfolgreiche Lauf gegen Staging antwortete mit
+`JobStatus=COMITTED` — **ein M**, während die Dokumentation durchgängig
+`COMMITTED` schreibt. Die tatsächlichen Statusstrings entsprechen also nicht
+verlässlich den dokumentierten.
+
+Konsequenzen im Code:
+
+- Beide Schreibweisen stehen als eigene Literale in `src/lib/ebrief/types.ts`
+  und in jeder Statusliste. **Nicht** normalisieren: ein Normalisierer, der
+  `COMITTED` und `COMMITTED` zusammenfasst, fasst auch Werte zusammen, die sich
+  echt unterscheiden.
+- Keine Liste bekannter Status darf als Verbotsliste benutzt werden. Ob
+  verteilt werden darf, wird positiv gefragt (`VOR_VERTEILUNG_STATUSES`), damit
+  ein unbekannter oder falsch geschriebener „bereits verteilt“-Status keinen
+  zweiten Brief auslöst.
+
 ## DocumentDetailsInfo
 
 | Feld | Typ | Anmerkung |
