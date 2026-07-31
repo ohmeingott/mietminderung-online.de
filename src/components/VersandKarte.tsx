@@ -113,6 +113,7 @@ const FEHLER_SLUGS = new Set([
   "versand_nicht_moeglich",
   "checkout_fehler",
   "zeitueberschreitung",
+  "zustimmung_fehlt",
 ]);
 
 /**
@@ -175,6 +176,12 @@ export default function VersandKarte({
   const [fehlerSlug, setFehlerSlug] = useState<string | null>(null);
   const [hinweise, setHinweise] = useState<Hinweise | null>(null);
   const [vorgang, setVorgang] = useState<Vorgang | null>(null);
+  /**
+   * The § 356 Abs. 4 BGB declaration. Unchecked by default and never
+   * pre-selected: a pre-ticked box is not the "ausdrückliche Zustimmung" the
+   * provision asks for, and would make the whole declaration worthless.
+   */
+  const [zustimmung, setZustimmung] = useState(false);
 
   /**
    * The polling loop outlives a step change. Without this the loop would keep
@@ -253,9 +260,15 @@ export default function VersandKarte({
     []
   );
 
-  /** Opens the Stripe payment page for an already prepared job. */
+  /**
+   * Opens the Stripe payment page for an already prepared job.
+   *
+   * The § 356 declaration travels as an argument rather than being read from
+   * state: this callback is memoised with an empty dependency list, and a
+   * captured stale `false` would block a payment the user did consent to.
+   */
   const bezahlen = useCallback(
-    async (job: Vorgang, zurueck: Phase) => {
+    async (job: Vorgang, zurueck: Phase, zustimmungErteilt: boolean) => {
       setPhase("weiterleiten");
       try {
         const ergebnis = await mitFrist<{ url: string } | { fehler: string }>(
@@ -268,6 +281,7 @@ export default function VersandKarte({
                 jobId: job.jobId,
                 produktId: job.produktId,
                 token: job.token,
+                zustimmung: zustimmungErteilt,
               }),
               signal,
             });
@@ -362,7 +376,7 @@ export default function VersandKarte({
         setPhase("warnung");
         return;
       }
-      await bezahlen(job, "auswahl");
+      await bezahlen(job, "auswahl", zustimmung);
     } catch (err) {
       if (!aktiv.current) return;
       // A deadline gets its own message; anything else — a dropped connection,
@@ -524,18 +538,52 @@ export default function VersandKarte({
         </div>
       )}
 
+      {/*
+        § 356 Abs. 4 BGB. Sits directly above the order button, unticked, and
+        gates it: the declaration has to be made before the order, not after,
+        and it has to be the user's own act. The link opens in a new tab so
+        reading the Widerrufsbelehrung does not destroy the letter draft, which
+        lives in React state and does not survive navigation.
+      */}
+      <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-[var(--radius-field)] border border-ink-200 p-3.5">
+        <input
+          type="checkbox"
+          data-testid="dispatch-consent"
+          checked={zustimmung}
+          disabled={beschaeftigt}
+          onChange={(e) => {
+            setZustimmung(e.target.checked);
+            if (e.target.checked && fehlerSlug === "zustimmung_fehlt") {
+              setFehlerSlug(null);
+            }
+          }}
+          className="mt-0.5 h-5 w-5 shrink-0 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
+        />
+        <span className="text-xs leading-relaxed text-ink-600">
+          {t("dispatch.consent")}{" "}
+          <a
+            href="/widerruf"
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-brand-700 underline"
+          >
+            {t("dispatch.consentLink")}
+          </a>
+        </span>
+      </label>
+
       <button
         type="button"
         data-testid="dispatch-submit"
-        disabled={beschaeftigt}
+        disabled={beschaeftigt || !zustimmung}
         onClick={() => {
           if (phase === "warnung" && vorgang) {
-            void bezahlen(vorgang, "warnung");
+            void bezahlen(vorgang, "warnung", zustimmung);
             return;
           }
           void starteVersand();
         }}
-        className="mt-5 inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full bg-brand-700 px-4 text-center font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60 sm:px-6"
+        className="mt-3 inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full bg-brand-700 px-4 text-center font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60 sm:px-6"
       >
         {beschaeftigt ? (
           <span

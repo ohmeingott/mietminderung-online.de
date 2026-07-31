@@ -120,6 +120,7 @@ interface CheckoutBody {
   jobId?: unknown;
   produktId?: unknown;
   token?: unknown;
+  zustimmung?: unknown;
 }
 
 /**
@@ -192,7 +193,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ fehler: "unvollstaendig" }, { status: 400 });
   }
 
-  const { jobId, produktId, token } = body ?? {};
+  const { jobId, produktId, token, zustimmung } = body ?? {};
 
   // Before anything else, and in particular before the job is looked up: the
   // answer below reveals whether the job exists and how far along it is.
@@ -207,6 +208,19 @@ export async function POST(request: Request) {
   // The jobId has been validated by the access check; the product has not.
   if (!istProduktId(produktId)) {
     return NextResponse.json({ fehler: "unvollstaendig" }, { status: 400 });
+  }
+
+  // § 356 Abs. 4 BGB. The letter is posted within hours, so the withdrawal
+  // right has to be dealt with before the order, not after. Strict `!== true`
+  // rather than a truthiness check: a "false" string or a 1 must not pass for
+  // a declaration the customer has to make deliberately.
+  //
+  // This cannot stop a crafted request — the flag comes from the client either
+  // way — and it is not meant to. It stops the UI from ever reaching checkout
+  // without asking, and it makes the declaration a documented precondition of
+  // the order rather than an afterthought.
+  if (zustimmung !== true) {
+    return NextResponse.json({ fehler: "zustimmung_fehlt" }, { status: 400 });
   }
 
   // Namespaced by route: the limiter keys on a plain string, so a bare IP
@@ -287,7 +301,20 @@ export async function POST(request: Request) {
         // All the webhook gets. It has no database to look anything up in, so
         // the jobId travelling with the payment is what connects the money to
         // the letter; the produktId rides along for logs and support.
-        metadata: { jobId: String(gepruefteJobId), produktId: produkt.id },
+        //
+        // `widerrufZustimmung` is the record that the § 356 Abs. 4 declaration
+        // was made: there is no database, so Stripe is the order record, and a
+        // consent that lives only in a React checkbox is a consent nobody can
+        // produce in a dispute. Deliberately a constant and not a timestamp —
+        // Stripe refuses a reused idempotency key whose parameters differ, so a
+        // per-request timestamp would turn every legitimate retry into a
+        // "checkout_fehler". The session's own creation time answers "when"
+        // closely enough; the declaration is made moments before it.
+        metadata: {
+          jobId: String(gepruefteJobId),
+          produktId: produkt.id,
+          widerrufZustimmung: "356-4-BGB",
+        },
         // Two pages of their own, not a query parameter on a wizard step: the
         // letter wizard lives in React state that the full-page trip to Stripe
         // destroys, so a returning payer cannot be shown their draft again.
