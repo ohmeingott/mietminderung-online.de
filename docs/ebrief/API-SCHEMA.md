@@ -6,6 +6,55 @@ abgerufen am 2026-07-31. Die HTML-Dokumentation unter
 Job- oder Dokumentobjekts**; alle Feldnamen hier stammen aus der Spezifikation,
 nicht aus Prosa. Der erste Spike-Lauf ist an genau dieser Lücke gescheitert.
 
+## Was der Staging-Lauf vom 31.07.2026 belegt
+
+Vollständige Ausgabe: `spike-staging-2026-07-31.txt`, markierte Adresse:
+`spike-adresserkennung-2026-07-31.png`.
+
+**Statusverlauf nach dem Commit:**
+
+```
+UNPROCESSED → COMITTED → USER_WAIT_FOR_SHOPPING   (stabil)
+```
+
+Zwei Schlüsse:
+
+1. **Ein committeter Job wird nicht gedruckt.** Er bleibt stehen, bis er
+   ausdrücklich weitergereicht wird. Die Annahme, auf der der gesamte
+   Zahlungsablauf steht, hält.
+2. **Der Endzustand ist `USER_WAIT_FOR_SHOPPING`** — genau der Status, den
+   `POST /Jobs/payment` laut Spezifikation als einzigen akzeptiert. eBriefs
+   eigener Warenkorbschritt liegt also in unserem Pfad. Ob
+   `POST /Jobs/distribution` aus diesem Status heraus direkt funktioniert oder
+   ob `POST /Jobs/payment` davor nötig ist, ist **noch offen** und der letzte
+   ungeprüfte Schritt der Kette.
+
+**Adresserkennung: fehlerfrei.** Aus unserem Layout gelesen:
+
+```
+Street: Holzgasse · HouseNumber: 8 · Zip: 50676 · City: Köln · Country: DE
+ExtractedTextFromDocument: Paul Ohm|Holzgasse 8|50676 Köln
+DocumentStatus: OK        (keine Warnung)
+```
+
+Das markierte PNG zeigt den Rahmen exakt auf dem Anschriftenfeld, der von
+eBrief gedruckte DataMatrix-Code liegt in der freigehaltenen Zone. Die aus der
+Abstandsvorlage abgemessene Geometrie ist damit von eBrief selbst bestätigt.
+
+**Preise, real (Standardbrief s/w simplex, national):**
+
+| Position | Brutto | Netto | USt |
+|---|---|---|---|
+| eBrief-Standard inkl. 1 Blatt | 0,88 € | 0,74 € | 0,14 € |
+| Zusatzblatt | 0,05 € | 0,04 € | 0,01 € |
+| Einschreiben-Einwurf | 3,27 € | 2,75 € | 0,52 € |
+
+Der Job trägt seinen eigenen Preis (`PriceBrutto: 0,8806`) bereits im Zustand
+`USER_WAIT_FOR_SHOPPING` — eine belastbarere Grundlage für die Preisprüfung als
+`/Prices` mit selbst gezählten Seiten. Die Einheit ist bestätigt **Euro**.
+
+`FileWithMark` liefert wie erwartet ein **PNG** (212 KB), kein PDF.
+
 ## Antwortumschlag
 
 Jede Antwort ist gewickelt:
