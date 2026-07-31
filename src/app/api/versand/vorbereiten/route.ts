@@ -62,7 +62,7 @@ async function verwerfeJob(jobId: number): Promise<void> {
 /**
  * Prepares an eBrief job up to and including the commit: the job exists and
  * eBrief's address check runs while the user can still correct things, but
- * nothing is printed and nothing is billed until POST /jobs/distribution,
+ * nothing is printed and nothing is billed until POST /Jobs/distribution,
  * which only happens later in the Stripe webhook.
  *
  * Everything returned to the client is an error slug, never prose — the site
@@ -156,34 +156,37 @@ export async function POST(request: Request) {
 
     // Sanity check: if the purchase price is above what the user pays, do not
     // send rather than print at a loss. Every input mirrors what the job was
-    // actually created with — the real rendered page count, because a long
+    // actually created with — the page count of the PDF we just built, which is
+    // what the API means by `Pages` ("number of logical pages"), because a long
     // Mängelanzeige can run past the three-sheet standard-letter bracket where
     // the price steps up sharply, and the catalogue's own attributes, so that
     // a future colour or duplex product cannot be priced as mono simplex.
+    //
+    // The job itself also carries a `PriceBrutto` once eBrief has processed it,
+    // which would be a firmer basis than this recomputation. The spike now
+    // prints both; switching is a later decision, not one to make blind.
     const preis = await getPrice({
       pages: pdf.seiten,
       isColor: janein(produkt.ebrief.IsColor),
       isDuplex: janein(produkt.ebrief.IsDuplex),
       isTracking: janein(produkt.ebrief.IsTracking),
     });
-    if (preis.TotalPrice === undefined) {
+    if (preis.TotalSumBrutto === undefined) {
       // Nothing to compare against. Not a reason to refuse the letter, but it
       // means the guard below silently did nothing, so leave a trace.
-      console.error("eBrief price response carried no TotalPrice", { jobId });
+      console.error("eBrief price response carried no TotalSumBrutto", { jobId });
     }
-    // ASSUMPTION, NOT YET VERIFIED AGAINST THE LIVE API: TotalPrice is euros,
-    // so cents are ×100. If it is already cents, every letter is rejected as
-    // "preis_unplausibel" (8800 vs 249) and the feature looks broken rather
-    // than misconfigured — hence the raw envelope in the rejection log below,
-    // which settles the unit on the first staging run.
-    const einkaufCent = Math.round((preis.TotalPrice ?? 0) * 100);
+    // Gross, and in euros: the schema splits every sum into brutto/netto/vat as
+    // doubles, so ×100 gives cents. Gross is the right side of that split
+    // because the operator has no input tax deduction (see produkte.ts).
+    const einkaufCent = Math.round((preis.TotalSumBrutto ?? 0) * 100);
     if (einkaufCent > produkt.preisCent) {
       console.error("eBrief purchase price above sale price", {
         jobId,
         seiten: pdf.seiten,
         einkaufCent,
         verkaufCent: produkt.preisCent,
-        // Raw, so the euros-vs-cents question is answerable from the log alone.
+        // Raw, so the article breakdown behind the sum is in the log too.
         preisRoh: preis,
       });
       // Logged before the cleanup runs, so the numbers survive even if the

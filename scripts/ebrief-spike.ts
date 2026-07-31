@@ -7,6 +7,14 @@
  * including) distribution against the real eBrief API, so that assumption
  * can be checked before more code is built on top of it.
  *
+ * It answers three further questions the layout and the price guard rest on:
+ *  - what eBrief READ as the recipient address (`AddressInformation`), which is
+ *    the direct evidence that our address block sits where eBrief looks;
+ *  - how many pages eBrief actually prints (`NumberPagesPhysical`);
+ *  - whether the job carries its own price (`PriceBrutto`/`PriceNetto`) once
+ *    processed, which would be a firmer basis for the sanity check in
+ *    /api/versand/vorbereiten than /Prices with a page count we computed.
+ *
  * MUST be run against the eBrief STAGING environment (EBRIEF_BASE_URL should
  * point at staging, or be left unset so the client falls back to the
  * staging default — see src/lib/ebrief/token.ts). This script deliberately
@@ -36,7 +44,11 @@ import {
   getPrice,
 } from "../src/lib/ebrief/client";
 import { ebriefBaseUrl } from "../src/lib/ebrief/token";
-import { DISTRIBUTED_STATUSES, type EbriefJob } from "../src/lib/ebrief/types";
+import {
+  DISTRIBUTED_STATUSES,
+  hatStatus,
+  type EbriefJobDetails,
+} from "../src/lib/ebrief/types";
 
 const POLL_ATTEMPTS = 30;
 const POLL_INTERVAL_MS = 2000;
@@ -51,6 +63,11 @@ const STOP_STATUSES = [
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/** Prints a value as it came, so a missing field is visible as `undefined`. */
+function zeige(label: string, wert: unknown): void {
+  console.log(`  ${label}: ${wert === undefined ? "undefined" : String(wert)}`);
 }
 
 async function main(): Promise<void> {
@@ -87,7 +104,7 @@ async function main(): Promise<void> {
     IsTracking: "false",
     SilentConfirm: "false",
   });
-  console.log(`Created job: Id=${job.Id} Status=${job.Status}`);
+  console.log(`Created job: Id=${job.Id} JobStatus=${job.JobStatus}`);
 
   // Step 2: upload the test PDF as the job's single document.
   const pdfBuffer = fs.readFileSync(pdfPath);
@@ -105,33 +122,30 @@ async function main(): Promise<void> {
   // Step 4: poll job status until it reaches a meaningful checkpoint, an
   // error, or the attempt budget is exhausted. Every iteration logs the
   // status so the abort criterion above is visible without extra tooling.
-  // Kept outside the loop so the address check below can use whatever the
-  // last poll saw, whichever way the loop ended.
-  let letzterJob: EbriefJob | undefined;
+  // Kept outside the loop so the report below can use whatever the last poll
+  // saw, whichever way the loop ended.
+  let letzterJob: EbriefJobDetails | undefined;
 
   for (let attempt = 1; attempt <= POLL_ATTEMPTS; attempt++) {
     const polledJob = await getJob(job.Id);
     letzterJob = polledJob;
+    const status = polledJob.JobStatus ?? "";
     const docCount = polledJob.Documents?.length ?? 0;
     console.log(
-      `[poll ${attempt}/${POLL_ATTEMPTS}] Status=${polledJob.Status} Documents=${docCount}`
+      `[poll ${attempt}/${POLL_ATTEMPTS}] JobStatus=${polledJob.JobStatus} Documents=${docCount}`
     );
 
-    if (DISTRIBUTED_STATUSES.includes(polledJob.Status)) {
+    if (hatStatus(status, DISTRIBUTED_STATUSES)) {
       console.warn(
-        `ABORT CRITERION MET: job reached distributed status "${polledJob.Status}" ` +
+        `ABORT CRITERION MET: job reached distributed status "${status}" ` +
           "without this script ever calling distribute. eBrief appears to print " +
           "on commit — the payment-before-distribution design does not hold."
       );
       break;
     }
 
-    if (
-      STOP_STATUSES.includes(polledJob.Status) ||
-      polledJob.Status.startsWith("ERROR")
-    ) {
-      console.log(`Reached stable state: ${polledJob.Status}`);
-      console.log(JSON.stringify(polledJob.Documents ?? [], null, 2));
+    if (STOP_STATUSES.includes(status) || status.startsWith("ERROR")) {
+      console.log(`Reached stable state: ${status}`);
       break;
     }
 
@@ -140,23 +154,76 @@ async function main(): Promise<void> {
     }
   }
 
-  // Step 4b: fetch eBrief's own rendering with the address zone it detected
-  // marked up, and write it next to the uploaded PDF. This is the only way to
-  // see whether our address block lands where eBrief actually looks — the
-  // layout was measured from the spacing template, but never confirmed
-  // against the reader that has to find it.
-  const docId = letzterJob?.Documents?.[0]?.Id;
+  // Step 4a: the job's own price. If eBrief fills these in once the job is
+  // processed, the price guard in /api/versand/vorbereiten can compare against
+  // the price of THIS job instead of recomputing one from /Prices and a page
+  // count of our own — a better basis, and the reason these are printed.
+  console.log("\n=== Job price (the job's own figures) ===");
+  zeige("PriceBrutto", letzterJob?.PriceBrutto);
+  zeige("PriceNetto", letzterJob?.PriceNetto);
+  zeige("Vat", letzterJob?.Vat);
+  zeige("DateCreated", letzterJob?.DateCreated);
+
+  // Step 4b: WHAT EBRIEF READ AS THE ADDRESS. The layout was measured from the
+  // spacing template but never confirmed against the reader that has to find
+  // the address block. These fields are that confirmation: compare them with
+  // the recipient in the uploaded PDF, field by field.
+  const dokumente = letzterJob?.Documents ?? [];
+  console.log(`\n=== ADDRESS AS EBRIEF READ IT (${dokumente.length} document(s)) ===`);
+  if (dokumente.length === 0) {
+    console.warn(
+      "No documents on the job — eBrief has not reported an address at all."
+    );
+  }
+  for (const [i, doc] of dokumente.entries()) {
+    console.log(`--- Document ${i + 1}: Id=${doc.Id} ---`);
+    zeige("DocumentStatus", doc.DocumentStatus);
+    zeige("NumberPagesPhysical", doc.NumberPagesPhysical);
+    zeige("NumberPagesLogical", doc.NumberPagesLogical);
+    zeige("PriceBrutto", doc.PriceBrutto);
+    zeige("DocumentErrorCode", doc.DocumentErrorCode);
+    const adresse = doc.AddressInformation;
+    if (!adresse) {
+      console.warn("  AddressInformation: MISSING — eBrief reported no address.");
+      continue;
+    }
+    zeige("Street", adresse.Street);
+    zeige("HouseNumber", adresse.HouseNumber);
+    zeige("Zip", adresse.Zip);
+    zeige("City", adresse.City);
+    zeige("Country", adresse.Country);
+    console.log("  ExtractedTextFromDocument:");
+    console.log(
+      String(adresse.ExtractedTextFromDocument ?? "(none)")
+        .split("\n")
+        .map((zeile) => `    | ${zeile}`)
+        .join("\n")
+    );
+  }
+
+  // Step 4c: fetch eBrief's own rendering with the address zone it detected
+  // marked up, and write it next to the uploaded PDF. Kept alongside the
+  // fields above: the fields say what was read, the file shows where it was
+  // read from. The extension follows what eBrief actually sent — per the
+  // specification this endpoint answers with a PNG of the first page.
+  const docId = dokumente[0]?.Id;
   if (docId === undefined) {
     console.warn(
-      "No document id on the job — cannot check what eBrief read as the address."
+      "\nNo document id on the job — cannot fetch the marked rendering."
     );
   } else {
     try {
       const markiert = await getFileWithMark(docId);
-      const markPfad = `${pdfPath.replace(/\.pdf$/i, "")}-eBrief-markiert.pdf`;
-      fs.writeFileSync(markPfad, Buffer.from(markiert));
+      // eBrief's own file name first; if it carries no extension, the subtype
+      // of whatever content type came back ("image/png" → "png").
+      const endung = markiert.fileName.includes(".")
+        ? markiert.fileName.split(".").pop()
+        : (markiert.contentType.split("/").pop() ?? "bin");
+      const markPfad = `${pdfPath.replace(/\.pdf$/i, "")}-eBrief-markiert.${endung}`;
+      fs.writeFileSync(markPfad, Buffer.from(markiert.bytes));
       console.log(
-        `Wrote ${markPfad} — open it and check the marked zone sits on the recipient address.`
+        `\nWrote ${markPfad} (${markiert.contentType}, ${markiert.bytes.byteLength} bytes) — ` +
+          "open it and check the marked zone sits on the recipient address."
       );
     } catch (error) {
       console.warn("Could not fetch the marked file:", error);
@@ -164,14 +231,18 @@ async function main(): Promise<void> {
   }
 
   // Step 5: look up the purchase prices for a plain letter vs. a registered
-  // (tracked) letter — the two options the payment flow needs to price.
+  // (tracked) letter — the two options the payment flow needs to price. The
+  // sums are doubles split brutto/netto, i.e. euros.
   const priceLetter = await getPrice({
     pages: 2,
     isColor: false,
     isDuplex: false,
     isTracking: false,
   });
-  console.log("Price (plain letter, isTracking=false):");
+  console.log("\n=== Price (plain letter, isTracking=false) ===");
+  zeige("TotalSumBrutto", priceLetter.TotalSumBrutto);
+  zeige("TotalSumNetto", priceLetter.TotalSumNetto);
+  zeige("TotalSumVat", priceLetter.TotalSumVat);
   console.log(JSON.stringify(priceLetter, null, 2));
 
   const priceRegistered = await getPrice({
@@ -180,7 +251,10 @@ async function main(): Promise<void> {
     isDuplex: false,
     isTracking: true,
   });
-  console.log("Price (registered letter, isTracking=true):");
+  console.log("\n=== Price (registered letter, isTracking=true) ===");
+  zeige("TotalSumBrutto", priceRegistered.TotalSumBrutto);
+  zeige("TotalSumNetto", priceRegistered.TotalSumNetto);
+  zeige("TotalSumVat", priceRegistered.TotalSumVat);
   console.log(JSON.stringify(priceRegistered, null, 2));
 
   // Step 6: delete the job. Per the eBrief docs, a deleted job is not
@@ -188,7 +262,7 @@ async function main(): Promise<void> {
   // this spike from leaving billable jobs sitting on staging.
   await deleteJob(job.Id);
   console.log(
-    `Deleted job ${job.Id}. Per the eBrief docs, a deleted job is not printed, ` +
+    `\nDeleted job ${job.Id}. Per the eBrief docs, a deleted job is not printed, ` +
       "distributed, or invoiced."
   );
 

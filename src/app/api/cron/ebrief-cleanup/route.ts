@@ -1,10 +1,10 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { EbriefError, deleteJob, searchJobs } from "@/lib/ebrief/client";
-import type { EbriefSuchJob, JobSuchFilter } from "@/lib/ebrief/client";
+import type { JobSuchFilter } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
-import { DISTRIBUTED_STATUSES } from "@/lib/ebrief/types";
-import type { JobStatus } from "@/lib/ebrief/types";
+import { DISTRIBUTED_STATUSES, hatStatus } from "@/lib/ebrief/types";
+import type { EbriefSearchJob, JobStatus } from "@/lib/ebrief/types";
 
 /**
  * Explicit because the authorisation gate uses node:crypto's timingSafeEqual,
@@ -65,24 +65,6 @@ const FRUEHESTER_ZEITSTEMPEL = Date.UTC(2020, 0, 1);
 const ZUKUNFTS_TOLERANZ_MS = 24 * 60 * 60 * 1000;
 
 /**
- * Candidate names for the job's creation timestamp, tried in order.
- *
- * `EbriefJob.CreatedAt` is what this codebase declares, but the eBrief docs
- * show no sample job object anywhere, so the real spelling is unverified and a
- * short list beats betting the whole cleanup on one guess. Every name here
- * means creation and nothing else: a modification or dispatch date would be
- * NEWER than creation and would therefore make jobs look younger, which is the
- * harmless direction, but naming only creation fields keeps the decision
- * honest. The field actually used is logged with each deletion.
- */
-const ZEITSTEMPEL_FELDER = [
-  "CreatedAt",
-  "CreationDate",
-  "CreateDate",
-  "Created",
-];
-
-/**
  * The only statuses this route will delete: everything strictly before
  * distribution, plus the dead ends that can never reach it.
  *
@@ -127,31 +109,39 @@ function autorisiert(request: Request, secret: string): boolean {
   return timingSafeEqual(erwartet, geliefert);
 }
 
-type Alter = { bekannt: true; ms: number; feld: string } | { bekannt: false };
+type Zeiteinheit = "sekunden" | "millisekunden";
+type Alter =
+  | { bekannt: true; ms: number; einheit: Zeiteinheit }
+  | { bekannt: false };
 
 /**
  * The age of a job, or the admission that it could not be established.
  *
- * Never guesses. A job whose age is unknown is left alone, because "how old is
- * this" is the only thing separating an abandoned draft from a checkout the
- * user is in the middle of.
+ * The search response dates a job with `DateCreatedUnix`, described in the
+ * specification only as "Job created DateTime (in Unix format)" — an int64 with
+ * no word on whether it counts seconds or milliseconds, and Unix time is
+ * written both ways. Both readings are tried and the first one that lands
+ * inside the sanity bounds above wins; the two cannot both fit, since a
+ * seconds value read as milliseconds falls in 1970 and a milliseconds value
+ * read as seconds falls tens of thousands of years from now.
  *
- * On timezones: a date string without an offset is parsed as LOCAL time by JS.
- * Vercel functions run in UTC, so that matches eBrief's timestamps; on a
- * machine in another zone the age would be off by the offset, which against a
- * 24 h threshold is a few hours of slack, not a category error.
+ * Never guesses beyond that. A job whose age is unknown is left alone, because
+ * "how old is this" is the only thing separating an abandoned draft from a
+ * checkout the user is in the middle of.
  */
-function alterVonJob(job: EbriefSuchJob, jetzt: number): Alter {
-  for (const feld of ZEITSTEMPEL_FELDER) {
-    const roh = job[feld];
-    if (typeof roh !== "string" && typeof roh !== "number") continue;
+function alterVonJob(job: EbriefSearchJob, jetzt: number): Alter {
+  const roh = job.DateCreatedUnix;
+  if (typeof roh !== "number" || !Number.isFinite(roh)) return { bekannt: false };
 
-    const zeit = new Date(roh).getTime();
-    if (!Number.isFinite(zeit)) continue;
+  const lesarten: { einheit: Zeiteinheit; zeit: number }[] = [
+    { einheit: "sekunden", zeit: roh * 1000 },
+    { einheit: "millisekunden", zeit: roh },
+  ];
+
+  for (const { einheit, zeit } of lesarten) {
     if (zeit < FRUEHESTER_ZEITSTEMPEL) continue;
     if (zeit > jetzt + ZUKUNFTS_TOLERANZ_MS) continue;
-
-    return { bekannt: true, ms: jetzt - zeit, feld };
+    return { bekannt: true, ms: jetzt - zeit, einheit };
   }
   return { bekannt: false };
 }
@@ -168,18 +158,16 @@ function istFilterAblehnung(err: unknown): boolean {
 }
 
 interface Sammlung {
-  jobs: EbriefSuchJob[];
+  jobs: EbriefSearchJob[];
   seiten: number;
   /** True once every job the search can show has been seen. */
   vollstaendig: boolean;
   /** Why collection stopped — carried into the response for the operator. */
-  grund:
-    | "letzte_seite"
-    | "seitenlimit"
-    | "paging_wirkungslos"
-    | "form_unbekannt";
+  grund: "letzte_seite" | "seitenlimit" | "paging_wirkungslos";
   /** The filtered search was refused and a bare paged search was used instead. */
   filterAbgelehnt: boolean;
+  /** `ResultMetadata.TotalCount` from the first page, for comparison. */
+  gesamtLautApi?: number;
 }
 
 /**
@@ -203,16 +191,17 @@ interface Sammlung {
  *     a wasted page, not a wrong deletion. If the API refuses the filters
  *     outright (4XX), one bare paged search is tried instead, so a cleanup does
  *     not stop working because of a filter it never needed.
- *  3. The response is shaped the way the client's reader expects. If it is not,
- *     `formUnbekannt` comes back and collection stops with `form_unbekannt`,
- *     which the caller reports loudly — a cleanup that sees nothing must not
- *     read like a cleanup with nothing to do.
+ *  3. The response is shaped as the specification describes. If it is not, the
+ *     client raises rather than reporting an empty page, and the caller turns
+ *     that into a failed run — a cleanup that sees nothing must not read like a
+ *     cleanup with nothing to do.
  */
 async function sammleKandidaten(stichtag: string): Promise<Sammlung> {
-  const jobs: EbriefSuchJob[] = [];
+  const jobs: EbriefSearchJob[] = [];
   const gesehen = new Set<number>();
   let filterAbgelehnt = false;
   let seiten = 0;
+  let gesamtLautApi: number | undefined;
 
   for (let seite = 1; seite <= MAX_SEITEN; seite++) {
     const filter: JobSuchFilter = {
@@ -243,10 +232,7 @@ async function sammleKandidaten(stichtag: string): Promise<Sammlung> {
     }
 
     seiten = seite;
-
-    if (ergebnis.formUnbekannt) {
-      return { jobs, seiten, vollstaendig: false, grund: "form_unbekannt", filterAbgelehnt };
-    }
+    if (gesamtLautApi === undefined) gesamtLautApi = ergebnis.gesamt;
 
     const neu = ergebnis.jobs.filter((job) => !gesehen.has(job.Id));
     for (const job of neu) {
@@ -256,16 +242,37 @@ async function sammleKandidaten(stichtag: string): Promise<Sammlung> {
 
     // A short page is the end of the result set. So is an empty one.
     if (ergebnis.jobs.length < SEITENGROESSE) {
-      return { jobs, seiten, vollstaendig: true, grund: "letzte_seite", filterAbgelehnt };
+      return {
+        jobs,
+        seiten,
+        vollstaendig: true,
+        grund: "letzte_seite",
+        filterAbgelehnt,
+        gesamtLautApi,
+      };
     }
     // A full page that added nothing new means Paging had no effect; asking for
     // page 3 would only fetch page 1 again.
     if (neu.length === 0) {
-      return { jobs, seiten, vollstaendig: false, grund: "paging_wirkungslos", filterAbgelehnt };
+      return {
+        jobs,
+        seiten,
+        vollstaendig: false,
+        grund: "paging_wirkungslos",
+        filterAbgelehnt,
+        gesamtLautApi,
+      };
     }
   }
 
-  return { jobs, seiten, vollstaendig: false, grund: "seitenlimit", filterAbgelehnt };
+  return {
+    jobs,
+    seiten,
+    vollstaendig: false,
+    grund: "seitenlimit",
+    filterAbgelehnt,
+    gesamtLautApi,
+  };
 }
 
 export async function GET(request: Request) {
@@ -319,21 +326,18 @@ export async function GET(request: Request) {
   let statusUnbekannt = 0;
 
   for (const job of sammlung.jobs) {
-    const status = job.Status;
+    const status = job.JobStatus;
 
     // Conditions 1 and 2 — not distributed, not already USER_DELETED — hold by
     // construction, since neither appears in LOESCHBARE_STATUSES. They are
     // named again here only to sort them into the right counter: a job on its
     // way is a normal sight, a status nobody recognises deserves its own
-    // number.
-    if (
-      typeof status !== "string" ||
-      !LOESCHBARE_STATUSES.includes(status as JobStatus)
-    ) {
+    // number. `JobStatus` is a free string in the specification, so "no status
+    // at all" and "a status added after this code was written" are both
+    // possible and both mean: leave it alone.
+    if (!hatStatus(status, LOESCHBARE_STATUSES)) {
       const bekanntGeschuetzt =
-        typeof status === "string" &&
-        (DISTRIBUTED_STATUSES.includes(status as JobStatus) ||
-          status === "USER_DELETED");
+        hatStatus(status, DISTRIBUTED_STATUSES) || status === "USER_DELETED";
       if (bekanntGeschuetzt) geschuetzt++;
       else statusUnbekannt++;
       continue;
@@ -361,7 +365,7 @@ export async function GET(request: Request) {
         jobId: job.Id,
         status,
         alterStunden: Math.round(alter.ms / (60 * 60 * 1000)),
-        zeitstempelFeld: alter.feld,
+        zeitEinheit: alter.einheit,
       });
     } catch (err) {
       fehlgeschlagen++;
@@ -383,6 +387,8 @@ export async function GET(request: Request) {
     statusUnbekannt,
     geprueft: sammlung.jobs.length,
     seiten: sammlung.seiten,
+    /** What the search itself said the filter matched, for comparison. */
+    gesamtLautApi: sammlung.gesamtLautApi ?? null,
     /**
      * Whether this run saw the whole backlog. "unbekannt" is a real answer,
      * not a placeholder: a cleanup that only ever sees the first page is a
@@ -393,16 +399,6 @@ export async function GET(request: Request) {
     filterAbgelehnt: sammlung.filterAbgelehnt,
   };
 
-  if (sammlung.grund === "form_unbekannt") {
-    // The endpoint answered with something neither this route nor the client
-    // knows how to read. Nothing was deleted because nothing was seen, and
-    // without this line that is indistinguishable from a quiet night.
-    console.error(
-      "eBrief searchJobDetails returned an unrecognised result shape — the cleanup saw nothing",
-      zusammenfassung
-    );
-  }
-
   if (sammlung.grund === "paging_wirkungslos") {
     console.error(
       "eBrief searchJobDetails ignored the Paging parameter — the cleanup only ever sees one page",
@@ -410,13 +406,13 @@ export async function GET(request: Request) {
     );
   }
 
-  // A handful of undatable jobs is noise. A large share of them means the
-  // timestamp field is not called what ZEITSTEMPEL_FELDER thinks it is, the
+  // A handful of undatable jobs is noise. A large share of them means
+  // DateCreatedUnix is absent or in a unit neither reading recognises, the
   // cleanup is quietly deleting nothing, and a human needs to know.
   if (alterUnbekannt > 0 && alterUnbekannt * 2 >= sammlung.jobs.length) {
     console.error(
-      "Most eBrief jobs carried no readable timestamp — the creation-date field is probably named differently and the cleanup is not working",
-      { ...zusammenfassung, gesuchteFelder: ZEITSTEMPEL_FELDER }
+      "Most eBrief jobs carried no readable DateCreatedUnix — the cleanup is not working",
+      zusammenfassung
     );
   }
 

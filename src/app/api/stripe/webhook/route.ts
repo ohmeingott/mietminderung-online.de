@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { confirmDocs, distribute, getJob } from "@/lib/ebrief/client";
-import { DISTRIBUTED_STATUSES } from "@/lib/ebrief/types";
+import { DISTRIBUTED_STATUSES, hatStatus } from "@/lib/ebrief/types";
 import type { JobStatus } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import { stripe, stripeKonfiguriert } from "@/lib/stripe";
@@ -85,7 +85,7 @@ function paymentIntentId(session: {
 
 /**
  * The point where money becomes a physical letter, and the only irreversible
- * step in the whole dispatch flow: POST /jobs/distribution has eBrief print,
+ * step in the whole dispatch flow: POST /Jobs/distribution has eBrief print,
  * frank and post the Mängelanzeige, and bill us for it. Everything before it —
  * creating the job, uploading the PDF, committing it — can be undone by
  * deleting the job.
@@ -239,8 +239,21 @@ export async function POST(request: Request) {
 
   try {
     const job = await getJob(jobId);
+    const jobStatus = job.JobStatus;
 
-    if (DISTRIBUTED_STATUSES.includes(job.Status)) {
+    // The job status is the closest thing to a lock this flow has, and the
+    // specification models it as a NULLABLE free string. A missing status
+    // therefore must not be read as "not distributed yet": that reading would
+    // post a second letter for a job already on its way. Thrown instead, so it
+    // lands in the URGENT log below and Stripe retries — a retry can still
+    // dispatch, a duplicate dispatch cannot be taken back.
+    if (typeof jobStatus !== "string" || jobStatus === "") {
+      throw new Error(
+        `eBrief job ${jobId} reported no status — cannot tell whether it was already distributed`
+      );
+    }
+
+    if (hatStatus(jobStatus, DISTRIBUTED_STATUSES)) {
       const art = artDerWiederholung(jobId, session.id);
       const daten = {
         eventId: event.id,
@@ -249,7 +262,7 @@ export async function POST(request: Request) {
         paymentIntent: paymentIntentId(session),
         amountTotal: session.amount_total,
         jobId,
-        ebriefStatus: job.Status,
+        ebriefStatus: jobStatus,
         wiederholung: art,
       };
 
@@ -277,7 +290,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ empfangen: true });
     }
 
-    if (ENDGUELTIG_GESCHEITERTE_STATUSES.includes(job.Status)) {
+    if (hatStatus(jobStatus, ENDGUELTIG_GESCHEITERTE_STATUSES)) {
       // 200, so Stripe stops. The 500-and-retry below is right while a failure
       // might still be transient — those retries are the only protection
       // against "paid but not posted". It is wrong here: no retry can revive a
@@ -297,13 +310,13 @@ export async function POST(request: Request) {
           paymentIntent: paymentIntentId(session),
           amountTotal: session.amount_total,
           jobId,
-          ebriefStatus: job.Status,
+          ebriefStatus: jobStatus,
         }
       );
       return NextResponse.json({ empfangen: true });
     }
 
-    if (job.Status === "USER_CONFIRMATION_REQUESTED") {
+    if (jobStatus === "USER_CONFIRMATION_REQUESTED") {
       // eBrief could not verify the recipient address and is holding the job;
       // distribute would not move it. The user was shown the warning in the UI
       // and paid anyway, which is the acknowledgement eBrief is waiting for.

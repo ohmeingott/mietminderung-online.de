@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getJob } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
-import { DISTRIBUTED_STATUSES } from "@/lib/ebrief/types";
+import { DISTRIBUTED_STATUSES, hatStatus } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import type { ProduktId } from "@/lib/ebrief/produkte";
 import { pruefeZugang, versandTokenKonfiguriert } from "@/lib/versandToken";
@@ -219,7 +219,7 @@ export async function POST(request: Request) {
 
   try {
     const job = await getJob(gepruefteJobId);
-    if (DISTRIBUTED_STATUSES.includes(job.Status)) {
+    if (hatStatus(job.JobStatus, DISTRIBUTED_STATUSES)) {
       // The letter is already on its way. A second payment page for it could
       // only take money for something that cannot be sent twice.
       return NextResponse.json({ fehler: "bereits_versendet" }, { status: 409 });

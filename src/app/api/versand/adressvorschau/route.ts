@@ -13,8 +13,9 @@ const STUNDE_MS = 60 * 60 * 1000;
 
 /**
  * Streams eBrief's own rendering of the document back to the browser, with the
- * address zone it detected marked up. That is what lets the user see, before
- * paying, whether eBrief read the right address — especially after
+ * address zone it detected marked up (per the API specification an image of the
+ * first page, not a PDF). That is what lets the user see, before paying,
+ * whether eBrief read the right address — especially after
  * /api/versand/status has reported "adresse_warnung".
  *
  * Deliberately takes the signed jobId and resolves the document itself rather
@@ -60,14 +61,18 @@ export async function GET(request: Request) {
       return NextResponse.json({ fehler: "kein_dokument" }, { status: 404 });
     }
 
-    const pdf = await getFileWithMark(docId);
-    return new NextResponse(pdf, {
+    const datei = await getFileWithMark(docId);
+    return new NextResponse(datei.bytes, {
       headers: {
-        "Content-Type": "application/pdf",
+        // Whatever eBrief sent, not what we hoped for: the specification
+        // describes this endpoint as returning a PNG of the first page, so
+        // declaring "application/pdf" here would hand the browser a file it
+        // refuses to display.
+        "Content-Type": datei.contentType,
         // A letter carrying the user's own address has no business in any
         // cache between here and the browser.
         "Cache-Control": "no-store",
-        "Content-Length": String(pdf.byteLength),
+        "Content-Length": String(datei.bytes.byteLength),
       },
     });
   } catch (err) {

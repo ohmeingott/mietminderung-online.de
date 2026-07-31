@@ -272,7 +272,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.confirmSend": "Adresse ist richtig — kostenpflichtig versenden",
     "dispatch.addressWarning":
       "Die Anschrift des Vermieters konnte nicht eindeutig geprüft werden. Bitte kontrollieren Sie sie, bevor Sie kostenpflichtig versenden.",
-    "dispatch.showMarked": "Erkannte Adresse ansehen (PDF)",
+    "dispatch.showMarked": "Erkannte Adresse ansehen",
     "dispatch.fixAddress": "Anschrift des Vermieters korrigieren",
     "dispatch.freeStays":
       "Der kostenlose Download bleibt Ihnen in jedem Fall erhalten.",
@@ -584,7 +584,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.confirmSend": "Address is correct — send (chargeable)",
     "dispatch.addressWarning":
       "Your landlord's address could not be verified with certainty. Please check it before you pay.",
-    "dispatch.showMarked": "View the detected address (PDF)",
+    "dispatch.showMarked": "View the detected address",
     "dispatch.fixAddress": "Correct your landlord's address",
     "dispatch.freeStays":
       "The free download stays available to you either way.",
@@ -851,7 +851,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.confirmSend": "Adres doğru — ücretli olarak gönder",
     "dispatch.addressWarning":
       "Ev sahibinin adresi kesin olarak doğrulanamadı. Ücretli gönderimden önce lütfen adresi kontrol edin.",
-    "dispatch.showMarked": "Algılanan adresi görüntüle (PDF)",
+    "dispatch.showMarked": "Algılanan adresi görüntüle",
     "dispatch.fixAddress": "Ev sahibinin adresini düzelt",
     "dispatch.freeStays": "Ücretsiz indirme her durumda kullanılabilir kalır.",
     "dispatch.result.erfolg.title": "Ödeme başarılı",
@@ -1115,7 +1115,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.confirmSend": "Адреса правильна — надіслати платно",
     "dispatch.addressWarning":
       "Адресу орендодавця не вдалося однозначно перевірити. Будь ласка, перевірте її перед платним надсиланням.",
-    "dispatch.showMarked": "Переглянути розпізнану адресу (PDF)",
+    "dispatch.showMarked": "Переглянути розпізнану адресу",
     "dispatch.fixAddress": "Виправити адресу орендодавця",
     "dispatch.freeStays":
       "Безкоштовне завантаження залишається доступним у будь-якому разі.",
@@ -1378,7 +1378,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.confirmSend": "Адрес верный — отправить платно",
     "dispatch.addressWarning":
       "Адрес арендодателя не удалось однозначно проверить. Пожалуйста, проверьте его перед платной отправкой.",
-    "dispatch.showMarked": "Посмотреть распознанный адрес (PDF)",
+    "dispatch.showMarked": "Посмотреть распознанный адрес",
     "dispatch.fixAddress": "Исправить адрес арендодателя",
     "dispatch.freeStays":
       "Бесплатная загрузка остаётся доступной в любом случае.",
@@ -1640,7 +1640,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.confirmSend": "العنوان صحيح — إرسال مقابل رسوم",
     "dispatch.addressWarning":
       "تعذّر التحقق من عنوان المؤجر بشكل مؤكد. يرجى مراجعته قبل الإرسال المدفوع.",
-    "dispatch.showMarked": "عرض العنوان الذي تم التعرف عليه (PDF)",
+    "dispatch.showMarked": "عرض العنوان الذي تم التعرف عليه",
     "dispatch.fixAddress": "تصحيح عنوان المؤجر",
     "dispatch.freeStays": "يبقى التنزيل المجاني متاحاً في كل الأحوال.",
     "dispatch.result.erfolg.title": "تم الدفع بنجاح",
@@ -1900,7 +1900,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.confirmSend": "Adres jest poprawny — wyślij odpłatnie",
     "dispatch.addressWarning":
       "Nie udało się jednoznacznie zweryfikować adresu wynajmującego. Sprawdź go, zanim wyślesz list odpłatnie.",
-    "dispatch.showMarked": "Zobacz rozpoznany adres (PDF)",
+    "dispatch.showMarked": "Zobacz rozpoznany adres",
     "dispatch.fixAddress": "Popraw adres wynajmującego",
     "dispatch.freeStays":
       "Bezpłatne pobranie pozostaje dostępne w każdym przypadku.",
