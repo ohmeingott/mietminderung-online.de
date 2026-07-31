@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { confirmDocs, distribute, getJob } from "@/lib/ebrief/client";
-import { DISTRIBUTED_STATUSES, hatStatus } from "@/lib/ebrief/types";
+import {
+  DISTRIBUTED_STATUSES,
+  VOR_VERTEILUNG_STATUSES,
+  hatStatus,
+} from "@/lib/ebrief/types";
 import type { JobStatus } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import { stripe, stripeKonfiguriert } from "@/lib/stripe";
@@ -45,8 +49,11 @@ function merkeVersand(jobId: number, sessionId: string): void {
  *
  * Listed explicitly and typed as JobStatus rather than matched on a prefix, so
  * that a renamed status breaks the build instead of quietly falling through.
- * Anything not named here keeps the transient treatment — 500 and let Stripe
- * retry — which is the safe direction to be wrong in.
+ * Like every list of eBrief statuses in this codebase it is subject to the
+ * spelling doubt that `COMITTED` established — a misspelt `ERROR_GENERAL` would
+ * not be recognised here. That misses only the chance to stop the retries
+ * early: an unrecognised status does not dispatch either way, because
+ * dispatching needs a positive match against VOR_VERTEILUNG_STATUSES.
  */
 const ENDGUELTIG_GESCHEITERTE_STATUSES: JobStatus[] = [
   "ERROR_DOCUMENT",
@@ -171,7 +178,11 @@ function paymentIntentId(session: {
  *     fires for payments that have not settled;
  *  3. the eBrief job status, which is the closest thing to a lock this project
  *     has — there is no database, so "already distributed" is answered by
- *     asking eBrief rather than by remembering. It is a check, not a lock: two
+ *     asking eBrief rather than by remembering. The question is put the
+ *     positive way round: the job must report a status we recognise as sitting
+ *     before distribution, so a status we cannot place — unknown, new,
+ *     misspelt or missing — never turns into a second letter. It is a check,
+ *     not a lock: two
  *     deliveries for the same job arriving at the same instant could both read
  *     a not-yet-distributed status. Stripe delivers a given event serially and
  *     the checkout route's idempotency key keeps one job to one session, so
@@ -315,18 +326,6 @@ export async function POST(request: Request) {
     const job = await getJob(jobId);
     const jobStatus = job.JobStatus;
 
-    // The job status is the closest thing to a lock this flow has, and the
-    // specification models it as a NULLABLE free string. A missing status
-    // therefore must not be read as "not distributed yet": that reading would
-    // post a second letter for a job already on its way. Thrown instead, so it
-    // lands in the URGENT log below and Stripe retries — a retry can still
-    // dispatch, a duplicate dispatch cannot be taken back.
-    if (typeof jobStatus !== "string" || jobStatus === "") {
-      throw new Error(
-        `eBrief job ${jobId} reported no status — cannot tell whether it was already distributed`
-      );
-    }
-
     if (hatStatus(jobStatus, DISTRIBUTED_STATUSES)) {
       const art = artDerWiederholung(jobId, session.id);
       const daten = {
@@ -388,6 +387,64 @@ export async function POST(request: Request) {
         }
       );
       return NextResponse.json({ empfangen: true });
+    }
+
+    /**
+     * The gate. Everything above answers a question about a status we
+     * recognise; this is the one that decides whether money becomes a physical
+     * letter, and it asks positively: distribute only for a status positively
+     * known to sit BEFORE distribution.
+     *
+     * Everything else lands here — an unknown string, a status eBrief adds
+     * later, a spelling we have not seen, and no status at all (`JobStatus` is
+     * a nullable free string in the specification, and the live API has already
+     * answered `COMITTED` where it documents `COMMITTED`). The deny-list this
+     * replaced would have read every one of those as "not distributed yet" and
+     * posted a second letter for a job already on its way — irreversible, and
+     * billed by eBrief either way.
+     *
+     * 500, so Stripe retries on its own backoff for up to three days. Weighed
+     * against the alternative:
+     *
+     *  - 200 stops the retries and drops a paid letter on the floor. Nothing
+     *    else in this system knows the customer paid — there is no database —
+     *    so the console line below would be the only trace, and a line nobody
+     *    greps for is a refund nobody issues. That is the outcome to rule out.
+     *  - 500 keeps the delivery alive, and here the retries are not futile.
+     *    The two likely causes of an unrecognised status are a new intermediate
+     *    stage of eBrief's pipeline, which the job leaves by itself, and a new
+     *    spelling of a state we do know, which a human adds to
+     *    VOR_VERTEILUNG_STATUSES and deploys well inside the three-day window.
+     *    In both cases a later delivery dispatches correctly and nobody has to
+     *    replay a payment by hand.
+     *  - It is also what fetches the human: a Stripe endpoint that keeps
+     *    answering 5xx is flagged in the dashboard and mailed to the account
+     *    owner. A 200 raises nothing anywhere.
+     *
+     * The price is repetition — on the order of a dozen deliveries per affected
+     * payment. That is deliberate, and the same treatment every other "paid but
+     * not sent yet" failure gets here. Suppressing the retries is only right
+     * for a failure known to be permanent, which is exactly what the terminal
+     * branch above is for; a status nobody recognises is by definition not
+     * known to be permanent.
+     */
+    if (!hatStatus(jobStatus, VOR_VERTEILUNG_STATUSES)) {
+      console.error(
+        "URGENT: unrecognised eBrief job status — payment received, letter NOT dispatched, Stripe will retry",
+        {
+          eventId: event.id,
+          eventTyp: event.type,
+          sessionId: session.id,
+          paymentIntent: paymentIntentId(session),
+          amountTotal: session.amount_total,
+          jobId,
+          ebriefStatus: jobStatus ?? null,
+        }
+      );
+      return NextResponse.json(
+        { fehler: "unbekannter_job_status" },
+        { status: 500 }
+      );
     }
 
     if (jobStatus === "USER_CONFIRMATION_REQUESTED") {

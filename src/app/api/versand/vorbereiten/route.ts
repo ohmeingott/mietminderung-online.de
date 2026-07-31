@@ -8,6 +8,7 @@ import {
 } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
 import { versandToken, versandTokenKonfiguriert } from "@/lib/versandToken";
+import { stripeKonfiguriert } from "@/lib/stripe";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import { AnschriftZuLangError, versandPdfBase64 } from "@/lib/briefPdf";
 import type { VersandPdfErgebnis } from "@/lib/briefPdf";
@@ -73,7 +74,16 @@ export async function POST(request: Request) {
   // simply keeps working as a free download. Refusing without the secret is
   // deliberate: the follow-up routes are only safe because of the token, so a
   // job that cannot be handed one must not be created in the first place.
-  if (!ebriefKonfiguriert() || !versandTokenKonfiguriert()) {
+  //
+  // Stripe belongs in this gate even though this route never calls it: without
+  // it the checkout at the end of the flow cannot succeed, so preparing a job
+  // here would put an order on the eBrief account that can never be paid for
+  // and walk the user through an address check only to fail them at the till.
+  if (
+    !ebriefKonfiguriert() ||
+    !versandTokenKonfiguriert() ||
+    !stripeKonfiguriert()
+  ) {
     return NextResponse.json(
       { fehler: "versand_nicht_konfiguriert" },
       { status: 503 }

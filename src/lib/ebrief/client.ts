@@ -222,6 +222,17 @@ export function distribute(jobId: number): Promise<void> {
   return callVoid("/Jobs/distribution", { method: "POST", body: { Ids: [jobId] } });
 }
 
+/**
+ * `POST /Jobs/payment` — eBrief's own shopping step. The spec accepts it only
+ * for jobs in `USER_WAIT_FOR_SHOPPING`, which is exactly where a committed job
+ * comes to rest, so it may be a required stage before distribution rather than
+ * an alternative to it. Which of the two it is was measured, not assumed —
+ * see docs/ebrief/API-SCHEMA.md.
+ */
+export function payJob(jobId: number): Promise<void> {
+  return callVoid("/Jobs/payment", { method: "POST", body: { Ids: [jobId] } });
+}
+
 /** `POST /Docs/confirmation` — releases documents held by the address check. */
 export function confirmDocs(docIds: number[]): Promise<void> {
   return callVoid("/Docs/confirmation", { method: "POST", body: { Ids: docIds } });

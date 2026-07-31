@@ -333,6 +333,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Der Brief wird noch verarbeitet. Bitte warten Sie einen Moment und versuchen Sie es dann noch einmal.",
     "dispatch.error.bereits_versendet":
       "Diese Mängelanzeige wurde bereits versendet. Es wird nichts erneut berechnet.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Dieser Versandvorgang lässt sich nicht bezahlen. Bitte starten Sie den Versand noch einmal — es wurde nichts berechnet.",
     "dispatch.error.checkout_fehler":
       "Die Bezahlseite konnte nicht geöffnet werden. Bitte versuchen Sie es noch einmal — es wurde nichts berechnet.",
     "dispatch.error.zeitueberschreitung":
@@ -641,6 +643,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "The letter is still being processed. Please wait a moment and try again.",
     "dispatch.error.bereits_versendet":
       "This defect notice has already been sent. You will not be charged again.",
+    "dispatch.error.versand_nicht_moeglich":
+      "This dispatch cannot be paid for. Please start the dispatch again — nothing has been charged.",
     "dispatch.error.checkout_fehler":
       "The payment page could not be opened. Please try again — nothing was charged.",
     "dispatch.error.zeitueberschreitung":
@@ -910,6 +914,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Mektup hâlâ işleniyor. Lütfen biraz bekleyip tekrar deneyin.",
     "dispatch.error.bereits_versendet":
       "Bu kusur bildirimi zaten gönderildi. Yeniden ücret alınmayacaktır.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Bu gönderim işlemi için ödeme yapılamıyor. Lütfen gönderimi yeniden başlatın — herhangi bir ücret alınmadı.",
     "dispatch.error.checkout_fehler":
       "Ödeme sayfası açılamadı. Lütfen tekrar deneyin — hiçbir ücret alınmadı.",
     "dispatch.error.zeitueberschreitung":
@@ -1178,6 +1184,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Лист ще обробляється. Зачекайте, будь ласка, хвилинку та спробуйте ще раз.",
     "dispatch.error.bereits_versendet":
       "Це повідомлення вже надіслано. Повторна оплата не стягується.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Оплатити це відправлення неможливо. Будь ласка, розпочніть відправлення ще раз — кошти не стягнуто.",
     "dispatch.error.checkout_fehler":
       "Не вдалося відкрити сторінку оплати. Спробуйте, будь ласка, ще раз — нічого не списано.",
     "dispatch.error.zeitueberschreitung":
@@ -1444,6 +1452,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Письмо ещё обрабатывается. Пожалуйста, подождите немного и попробуйте ещё раз.",
     "dispatch.error.bereits_versendet":
       "Это уведомление уже отправлено. Повторная оплата не взимается.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Оплатить эту отправку невозможно. Пожалуйста, начните отправку заново — деньги не списаны.",
     "dispatch.error.checkout_fehler":
       "Не удалось открыть страницу оплаты. Пожалуйста, попробуйте ещё раз — ничего не списано.",
     "dispatch.error.zeitueberschreitung":
@@ -1707,6 +1717,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "لا يزال الخطاب قيد المعالجة. يرجى الانتظار قليلاً ثم المحاولة مرة أخرى.",
     "dispatch.error.bereits_versendet":
       "تم إرسال إشعار العيب هذا بالفعل. ولن يتم تحصيل أي مبلغ إضافي.",
+    "dispatch.error.versand_nicht_moeglich":
+      "لا يمكن دفع رسوم هذا الإرسال. يرجى بدء الإرسال من جديد — لم يتم تحصيل أي مبلغ.",
     "dispatch.error.checkout_fehler":
       "تعذّر فتح صفحة الدفع. يرجى المحاولة مرة أخرى — لم يتم تحصيل أي مبلغ.",
     "dispatch.error.zeitueberschreitung":
@@ -1972,6 +1984,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "List jest jeszcze przetwarzany. Odczekaj chwilę i spróbuj ponownie.",
     "dispatch.error.bereits_versendet":
       "To zgłoszenie zostało już wysłane. Nie zostanie naliczona kolejna opłata.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Tej wysyłki nie można opłacić. Prosimy rozpocząć wysyłkę jeszcze raz — nie naliczono żadnej opłaty.",
     "dispatch.error.checkout_fehler":
       "Nie udało się otworzyć strony płatności. Spróbuj ponownie — nic nie zostało pobrane.",
     "dispatch.error.zeitueberschreitung":

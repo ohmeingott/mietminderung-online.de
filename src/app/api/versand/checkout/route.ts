@@ -2,7 +2,11 @@ import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getJob } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
-import { DISTRIBUTED_STATUSES, hatStatus } from "@/lib/ebrief/types";
+import {
+  DISTRIBUTED_STATUSES,
+  VOR_VERTEILUNG_STATUSES,
+  hatStatus,
+} from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import type { ProduktId } from "@/lib/ebrief/produkte";
 import { pruefeZugang, versandTokenKonfiguriert } from "@/lib/versandToken";
@@ -251,10 +255,43 @@ export async function POST(request: Request) {
 
   try {
     const job = await getJob(gepruefteJobId);
-    if (hatStatus(job.JobStatus, DISTRIBUTED_STATUSES)) {
-      // The letter is already on its way. A second payment page for it could
-      // only take money for something that cannot be sent twice.
-      return NextResponse.json({ fehler: "bereits_versendet" }, { status: 409 });
+
+    /**
+     * A payment page is only opened for a job that can still be posted, asked
+     * the positive way round for the same reason as in the Stripe webhook: the
+     * two outcomes are not symmetrical.
+     *
+     * Refusing a job that would in fact have been fine costs the user a failed
+     * click. Nothing is charged, the free download is still there, and starting
+     * the dispatch again builds a new job.
+     *
+     * Opening the page for a job that is already on its way, or that eBrief has
+     * failed on, takes real money for a letter that will not be posted — the
+     * webhook then has nothing left to do but log it and wait for a human to
+     * refund by hand. Since `COMITTED` proved that eBrief's spellings are not
+     * the documented ones, "it is not in DISTRIBUTED_STATUSES" is no longer
+     * evidence that a job has not been distributed, and asking that way round
+     * would be exactly the mistake being removed from the webhook.
+     */
+    if (!hatStatus(job.JobStatus, VOR_VERTEILUNG_STATUSES)) {
+      // Recognised as already on its way: say so plainly, it is the one case
+      // where the user is better off knowing nothing further is needed.
+      if (hatStatus(job.JobStatus, DISTRIBUTED_STATUSES)) {
+        return NextResponse.json({ fehler: "bereits_versendet" }, { status: 409 });
+      }
+
+      // Everything else: a failed or deleted job, or a status this code cannot
+      // place. Both are worth a log line — the second one is how anyone finds
+      // out that eBrief has introduced a status, before it starts blocking
+      // payments at scale.
+      console.warn("Checkout refused: eBrief job is not in a payable state", {
+        jobId: gepruefteJobId,
+        ebriefStatus: job.JobStatus ?? null,
+      });
+      return NextResponse.json(
+        { fehler: "versand_nicht_moeglich" },
+        { status: 409 }
+      );
     }
 
     const basis = basisUrl(request);
