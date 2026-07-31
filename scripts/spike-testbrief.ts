@@ -12,8 +12,23 @@ import { generateVersandPdf } from "../src/lib/briefPdf";
 
 const ZIEL = process.argv[2] ?? "spike-testbrief.pdf";
 
-// Put your own postal address in as the recipient before running the spike —
-// staging should not post anything, but if it ever does, it should reach you.
+/**
+ * Sender and recipient come from .env.local so nobody has to edit this file
+ * to run the spike. Real addresses matter: eBrief checks the recipient
+ * against an address database, so an invented one produces a warning instead
+ * of a clean pass, and the run then says less than it could.
+ */
+const ABSENDER =
+  process.env.SPIKE_ABSENDER ??
+  "Erika Mustermann, Beispielweg 12, 12345 Musterstadt";
+const EMPFAENGER = (
+  process.env.SPIKE_EMPFAENGER ??
+  "Hausverwaltung Mustermann GmbH|Verwaltungsstraße 8|12347 Musterstadt"
+)
+  .split("|")
+  .map((zeile) => zeile.trim())
+  .filter(Boolean);
+
 const doc = generateVersandPdf({
   text: `Musterstadt, den 30.07.2026
 
@@ -36,13 +51,11 @@ Das mir zustehende Mietminderungsrecht gemäß § 536 Abs. 1 BGB behalte ich mir
 Mit freundlichen Grüßen
 
 Erika Mustermann`,
-  absenderZeile: "Erika Mustermann, Beispielweg 12, 12345 Musterstadt",
-  empfaenger: [
-    "Hausverwaltung Mustermann GmbH",
-    "Verwaltungsstraße 8",
-    "12347 Musterstadt",
-  ],
+  absenderZeile: ABSENDER,
+  empfaenger: EMPFAENGER,
 });
 
 writeFileSync(ZIEL, Buffer.from(doc.output("arraybuffer")));
 console.log(`Written: ${ZIEL}`);
+console.log(`  Sender:    ${ABSENDER}`);
+console.log(`  Recipient: ${EMPFAENGER.join(" / ")}`);
