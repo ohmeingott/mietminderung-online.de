@@ -5,7 +5,6 @@ import {
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
-  Check,
   CheckCircle2,
   Copy,
   Download,
@@ -16,6 +15,7 @@ import {
 } from "lucide-react";
 import SignaturePad from "signature_pad";
 import type { Mangel } from "@/data/maengel";
+import FormProgress from "@/components/FormProgress";
 import { generatePdf } from "@/lib/generatePdf";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { mangelDescKey, mangelLabelKey } from "@/i18n/content";
@@ -390,52 +390,14 @@ ${mieter.name}`;
           <p className="mt-3 text-base text-ink-600 sm:text-lg">{t("letter.subtitle")}</p>
         </div>
 
-        {/* Step indicator - dots + current label on mobile, full rail from sm up */}
+        {/* Same rail as the eligibility check. The letter is the second
+            chapter of one journey, not a different kind of tool. */}
         <div className="mt-8 sm:mt-10">
-          <div className="flex items-center justify-center gap-1.5 sm:hidden">
-            {stepLabels.map((label, i) => (
-              <span
-                key={label}
-                className={`h-1.5 rounded-full transition-all ${
-                  i === step
-                    ? "w-6 bg-brand-600"
-                    : i < step
-                      ? "w-1.5 bg-brand-400"
-                      : "w-1.5 bg-ink-200"
-                }`}
-              />
-            ))}
-          </div>
-          <p className="mt-2.5 text-center text-sm font-medium text-ink-600 sm:hidden">
-            {t("check.step")} {step + 1} {t("check.of")} {TOTAL_STEPS}: {stepLabels[step]}
-          </p>
-
-          <ol className="hidden items-center justify-center sm:flex">
-            {stepLabels.map((label, i) => (
-              <li key={label} className="flex items-center">
-                <span
-                  className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-                    i <= step ? "bg-brand-700 text-white" : "bg-ink-200 text-ink-500"
-                  }`}
-                >
-                  {i < step ? <Check className="h-4 w-4" aria-hidden /> : i + 1}
-                </span>
-                <span
-                  className={`ms-2 text-xs font-medium ${
-                    i <= step ? "text-brand-700" : "text-ink-400"
-                  }`}
-                >
-                  {label}
-                </span>
-                {i < TOTAL_STEPS - 1 && (
-                  <span
-                    className={`mx-3 h-px w-6 ${i < step ? "bg-brand-500" : "bg-ink-200"}`}
-                    aria-hidden
-                  />
-                )}
-              </li>
-            ))}
-          </ol>
+          <FormProgress
+            steps={stepLabels}
+            currentStep={step}
+            complete={step === TOTAL_STEPS - 1}
+          />
         </div>
 
         <div className="mt-6 rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-5 shadow-[var(--shadow-raise)] sm:p-10">
