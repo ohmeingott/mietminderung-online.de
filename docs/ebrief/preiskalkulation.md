@@ -55,17 +55,22 @@ variable Kostenposition, und bei diesen Beträgen ist sie nicht klein: Für
 europäische Karten fallen typischerweise **1,5 % + 0,25 €** an, außerhalb
 Europas mehr.
 
+Auf die Gebühr kommen 19 % obendrauf, die nicht abziehbar sind — siehe
+[Reverse Charge](#reverse-charge-auf-die-stripe-gebühren) unten.
+
 | | Brief | Einwurf-Einschreiben |
 |---|---:|---:|
 | Verkaufspreis | 2,49 € | 6,99 € |
 | eBrief (brutto) | −0,88 € | −4,15 € |
-| Stripe (1,5 % + 0,25 €) | −0,29 € | −0,36 € |
-| **Deckungsbeitrag** | **1,32 €** | **2,48 €** |
+| Stripe (1,5 % + 0,25 €) | −0,29 € | −0,35 € |
+| Reverse-Charge-USt darauf (19 %) | −0,05 € | −0,07 € |
+| **Deckungsbeitrag** | **1,27 €** | **2,42 €** |
 
-Beim Brief frisst die Zahlungsgebühr damit **18 % der Rohmarge**, überwiegend
-durch die Fixgebühr von 25 Cent. Das ist der Grund, warum ein Preis unter
-etwa 2 € wirtschaftlich nicht funktioniert, und warum ein Mengenrabatt bei
-eBrief die Rechnung weniger verbessert, als es die Prozentzahl vermuten lässt.
+Beim Brief frisst die Zahlungsabwicklung damit **21 % der Rohmarge**,
+überwiegend durch die Fixgebühr von 25 Cent. Das ist der Grund, warum ein
+Preis unter etwa 2 € wirtschaftlich nicht funktioniert, und warum ein
+Mengenrabatt bei eBrief die Rechnung weniger verbessert, als es die
+Prozentzahl vermuten lässt.
 
 ## Mehrblättrige Briefe
 
@@ -107,17 +112,62 @@ Dienstleistungsvertrags darf PIN AG die Preisliste mit vier Wochen Vorlauf
 ändern. Widerspruch ist binnen zwei Wochen möglich, berechtigt die Gegenseite
 dann aber zur Kündigung. Jede Änderung gehört gegen diese Tabelle gerechnet.
 
-## Steuerlich zu klären
+## Umsatzsteuer
 
-Zwei Punkte für die Steuerberatung, bevor der Verkauf startet:
+Recherchestand Juli 2026, keine Steuerberatung. Die Punkte unten gehören
+einmal von einer Steuerberatung bestätigt — insbesondere die Einordnung der
+Stripe-Gebühr, die international uneinheitlich beurteilt wird.
 
-- **Reverse Charge auf die Stripe-Gebühren.** Stripe rechnet aus Irland ohne
-  Umsatzsteuer ab. Der Leistungsempfänger schuldet die Steuer nach § 13b UStG,
-  und § 19 Abs. 1 UStG nimmt Kleinunternehmer davon nicht aus — ein
-  Vorsteuerabzug steht ihnen aber nicht zu. Das wäre eine zusätzliche
-  Kostenposition von 19 % auf die Gebühren und setzt eine USt-IdNr. voraus.
-- **Die Kleinunternehmergrenze.** Bei Überschreiten der Umsatzgrenze fällt die
-  Regelbesteuerung an. `STEUERMODUS=regel` schaltet das im Code um, aber die
-  Verkaufspreise müssten dann neu gerechnet werden: Aus 2,49 € brutto würden
-  2,09 € netto, während der Vorsteuerabzug im Gegenzug den Einkauf um 19 %
-  verbilligt.
+### Reverse Charge auf die Stripe-Gebühren
+
+Stripe rechnet seine Gebühren seit dem 1. Juli 2025 über die Stripe Payments
+Europe Ltd. aus **Irland** ab, bei innergemeinschaftlichen B2B-Leistungen ohne
+Umsatzsteuerausweis. Der Leistungsort liegt nach § 3a Abs. 2 UStG in
+Deutschland, der Leistungsempfänger schuldet die Steuer nach § 13b UStG.
+
+Anders als bei PayPal greift die Steuerbefreiung für Finanzdienstleistungen
+hier **nicht**: Stripe gilt umsatzsteuerlich als Zahlungsabwickler, nicht als
+Finanzdienstleister. Die Gebühr trägt also Umsatzsteuer.
+
+Für Kleinunternehmer bedeutet das die ungünstige Kombination: Die Steuer ist
+geschuldet, ein Vorsteuerabzug steht nicht zu. Die 19 % sind echte Kosten und
+stehen deshalb oben in der Deckungsbeitragsrechnung.
+
+**Die USt-IdNr. gehört bei Stripe hinterlegt.** Ohne sie behandelt Stripe das
+Konto als Privatkunden und stellt 23 % irische Umsatzsteuer in Rechnung — die
+ebenfalls nicht abziehbar wäre und höher liegt als die deutschen 19 %. Die
+Zuteilung einer USt-IdNr. kostet den Kleinunternehmerstatus nicht: Wer
+§ 19 Abs. 1 UStG erfüllt, bleibt Kleinunternehmer, auch mit USt-IdNr.
+
+### Meldepflicht
+
+Nach § 18 Abs. 4a UStG muss auch ein Kleinunternehmer eine
+Umsatzsteuer-Voranmeldung abgeben für jeden Zeitraum, in dem er nach § 13b
+UStG Steuerschuldner geworden ist — Frist ist der 10. Tag des Folgemonats. Da
+Stripe monatlich abrechnet, entsteht diese Pflicht ab dem ersten
+Verkaufsmonat dauerhaft.
+
+Sie besteht allerdings **schon heute**, unabhängig vom Postversand: Vercel
+(USA) und Google Ireland (Gemini-API) lösen dieselbe Rechtsfolge aus. Der
+Verkaufsstart schafft die Pflicht also nicht, er macht sie nur sichtbar.
+
+### Kleinunternehmer bleiben oder zur Regelbesteuerung wechseln?
+
+Bei Verkauf an Verbraucher ist die Kleinunternehmerregelung die bessere
+Variante, weil die Umsatzsteuer beim Endkunden nicht durchgereicht werden
+kann, sondern die Marge kürzt:
+
+| je Brief | Kleinunternehmer | Regelbesteuerung |
+|---|---:|---:|
+| Erlös nach USt | 2,49 € | 2,09 € |
+| eBrief | −0,88 € (brutto) | −0,72 € (netto) |
+| Stripe inkl. USt-Effekt | −0,34 € | −0,29 € (abziehbar) |
+| **Deckungsbeitrag** | **1,27 €** | **1,08 €** |
+
+Der Vorsteuerabzug wiegt den Erlösverlust nicht auf. Beim Einschreiben ist der
+Abstand mit 2,42 € gegen 2,05 € noch deutlicher.
+
+Relevant wird der Wechsel erst beim Überschreiten der Grenzen aus § 19 UStG
+(seit 2025: 25 000 € Vorjahr, 100 000 € laufendes Jahr). Dann schaltet
+`STEUERMODUS=regel` den Code um — die Verkaufspreise müssten in diesem Zug
+angehoben werden, sonst sinkt die Marge um die oben gezeigte Differenz.
