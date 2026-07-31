@@ -141,6 +141,9 @@ test.describe("Legal pages", () => {
       "Möller Druck",
       "Office Data Service",
       "Stripe",
+      // Added with the order confirmation and initially forgotten here: a
+      // processor that sees buyer email addresses has to be named.
+      "Resend",
     ]) {
       expect(datenschutz, `datenschutz omits ${empfaenger}`).toContain(empfaenger);
     }
