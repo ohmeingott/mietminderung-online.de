@@ -19,6 +19,7 @@ import FormProgress from "@/components/FormProgress";
 import { generatePdf } from "@/lib/generatePdf";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { mangelDescKey, mangelLabelKey } from "@/i18n/content";
+import VersandKarte from "./VersandKarte";
 
 interface MaengelanzeigeProps {
   selectedMaengel: Mangel[];
@@ -52,6 +53,13 @@ interface MangelDetails {
 
 const TOTAL_STEPS = 5;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+/*
+ * The return from the payment page is not handled here. Stripe sends the payer
+ * to /versand/erfolg and /versand/abbruch, which are pages of their own — this
+ * wizard's state does not survive a full-page navigation, so there is nothing
+ * for it to return to. See src/app/versand/VersandErgebnis.tsx.
+ */
 
 const inputClasses =
   "w-full min-h-[3rem] rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 py-3 text-ink-900 transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:outline-none";
@@ -771,6 +779,24 @@ ${mieter.name}`;
                   </button>
                 </div>
               </div>
+
+              {/*
+                The paid alternative, below the free download and never instead
+                of it: if dispatch is unavailable the user still has the letter.
+              */}
+              <VersandKarte
+                text={editedBriefText}
+                signatureDataUrl={signatureData || undefined}
+                mieter={{
+                  name: mieter.name,
+                  strasse: mieter.strasse,
+                  plz: mieter.plz,
+                  ort: mieter.ort,
+                  email: mieter.email,
+                }}
+                vermieter={vermieter}
+                onAdresseKorrigieren={() => setStep(1)}
+              />
 
               <div className="mt-6 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4">
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-caution-600" aria-hidden />
