@@ -44,17 +44,26 @@ export default function Datenschutz() {
             Server erreichen. Die Anspruchsprüfung, die Berechnung der
             Minderungsquote sowie das Erzeugen und Herunterladen der
             Mängelanzeige (PDF, Textdatei) laufen{" "}
-            <strong>vollständig in Ihrem Browser</strong> ab. Ihre Angaben zu
-            Ihrer Person, Ihrer Wohnung und Ihrem Vermieter werden dabei{" "}
-            <strong>nicht an uns übertragen</strong> und von uns nicht
+            <strong>vollständig in Ihrem Browser</strong> ab. Ohne Ihr aktives
+            Zutun werden Ihre Angaben zu Ihrer Person, Ihrer Wohnung und Ihrem
+            Vermieter <strong>nicht an uns übertragen</strong> und nicht
             gespeichert.
           </p>
           <p>
-            Eine Übermittlung findet nur statt, wenn Sie eine der unten
-            beschriebenen optionalen Funktionen aktiv auslösen. Das gilt
-            insbesondere für den kostenpflichtigen Postversand: Erst wenn Sie
-            ihn auslösen, verlassen der Brieftext und die Anschriften Ihren
-            Browser.
+            Eine Übermittlung und Speicherung findet nur statt, wenn Sie eine
+            der unten beschriebenen optionalen Funktionen aktiv auslösen. Das
+            betrifft zwei Fälle: die freiwillige{" "}
+            <strong>Fallspeicherung mit Frist-Erinnerung</strong>, in die Sie
+            im letzten Schritt des Assistenten einwilligen können, und den{" "}
+            <strong>kostenpflichtigen Postversand</strong>.
+          </p>
+          <p>
+            Die beiden unterscheiden sich darin, was sie übermitteln: Bei der
+            Fallspeicherung bleiben Ihre Unterschrift und die Daten Ihres
+            Vermieters in Ihrem Browser und werden zu keinem Zeitpunkt bei uns
+            gespeichert. Beim Postversand verlassen Brieftext und Anschriften
+            Ihren Browser notwendigerweise — ohne sie lässt sich kein Brief
+            drucken und zustellen.
           </p>
         </>
       ),
@@ -203,29 +212,167 @@ export default function Datenschutz() {
       ),
     },
     {
-      heading: "E-Mail-Verteiler (freiwilliges Opt-in)",
+      heading: "Fallspeicherung und Frist-Erinnerung (freiwilliges Opt-in)",
       body: (
         <>
           <p>
-            Im Formular können Sie freiwillig ankreuzen, dass wir Sie über
-            Neuigkeiten informieren dürfen. Nur dann werden{" "}
-            <strong>Ihr Name und Ihre E-Mail-Adresse</strong> zusammen mit dem
-            Zeitpunkt der Anmeldung an einen von uns betriebenen
-            Google-Sheets-Webhook (Google Ireland Limited) übermittelt und dort
-            gespeichert.
+            Im letzten Schritt des Assistenten können Sie freiwillig ankreuzen,
+            dass wir Ihren Fall speichern und Sie per E-Mail an den Ablauf der
+            in Ihrer Mängelanzeige gesetzten Frist erinnern. Nur dann speichern
+            wir folgende Daten in einer Datenbank in der EU (Region Frankfurt
+            am Main):
           </p>
           <ul>
+            <li>
+              <strong>Ihr Name und Ihre E-Mail-Adresse</strong> sowie
+              Postleitzahl und Ort,
+            </li>
+            <li>die von Ihnen gewählte Sprache der Benutzeroberfläche,</li>
+            <li>
+              Ihre <strong>Falldaten</strong>: die ausgewählten Mängel
+              einschließlich Ihrer Freitext-Beschreibungen, betroffener Raum und
+              Beginn des Mangels, Ihre Miete, die berechnete Minderungsquote,
+              das Fristdatum Ihrer Mängelanzeige und Ihre Antworten aus der
+              Anspruchsprüfung,
+            </li>
+            <li>
+              <strong>Einwilligungsdaten</strong>: Zeitpunkt der Einwilligung,
+              Version des Einwilligungstextes und Zeitpunkt Ihrer Bestätigung
+              (Doppel-Opt-in).
+            </li>
+          </ul>
+          <p>
+            <strong>Nicht gespeichert</strong> werden Ihre Unterschrift, Ihre
+            Straßenanschrift, Ihre Telefonnummer und die Daten Ihres
+            Vermieters.
+          </p>
+          <p>
+            Nach dem Absenden erhalten Sie zunächst eine Bestätigungs-E-Mail
+            (<strong>Doppel-Opt-in</strong>). Erst wenn Sie den darin
+            enthaltenen Link anklicken, wird Ihr Fall aktiviert. Anschließend
+            erinnern wir Sie per E-Mail an den Fristablauf und fragen nach, ob
+            Ihr Vermieter reagiert hat. Hat Ihr Vermieter nicht reagiert,
+            weisen wir Sie auf die Möglichkeit einer kostenlosen anwaltlichen
+            Ersteinschätzung hin; eine Weitergabe Ihrer Daten erfolgt dabei nur
+            mit Ihrer gesonderten Einwilligung (Abschnitt 8).
+          </p>
+          <ul>
+            <li>
+              <strong>Zweck:</strong> Speicherung Ihres Falls, Versand der
+              Bestätigungs- und Erinnerungs-E-Mails, Nachverfolgung des
+              Fristablaufs
+            </li>
             <li>
               <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO
               (Einwilligung)
             </li>
             <li>
-              <strong>Speicherdauer:</strong> bis zum Widerruf Ihrer Einwilligung
+              <strong>Speicherdauer:</strong> Bestätigen Sie das Doppel-Opt-in
+              nicht, löschen wir die Anfrage automatisch nach 7 Tagen.
+              Bestätigte Fälle löschen wir spätestens 6 Monate nach Abschluss
+              des Falls (bei angefragter anwaltlicher Ersteinschätzung: 12
+              Monate) — und unverzüglich, wenn Sie Ihre Einwilligung widerrufen
+              oder die Löschung verlangen.
             </li>
             <li>
-              <strong>Widerruf:</strong> jederzeit formlos per E-Mail an{" "}
-              <a href={mailto}>{site.operator.email}</a>. Die Rechtmäßigkeit der
-              bis zum Widerruf erfolgten Verarbeitung bleibt unberührt.
+              <strong>Widerruf:</strong> jederzeit mit Wirkung für die Zukunft
+              (Art. 7 Abs. 3 DSGVO) — über den Lösch-Link in jeder E-Mail oder
+              formlos per E-Mail an <a href={mailto}>{site.operator.email}</a>.
+              Ihr Fall wird dann sofort gelöscht. Die Rechtmäßigkeit der bis
+              zum Widerruf erfolgten Verarbeitung bleibt unberührt.
+            </li>
+          </ul>
+          <p>
+            Die Datenbank betreibt der Anbieter Neon über den Vercel
+            Marketplace, der E-Mail-Versand erfolgt über Resend; Einzelheiten
+            und Drittlandbezug siehe Abschnitt 11. Bitte tragen Sie in die
+            Freitextfelder keine Angaben ein, die Sie nicht speichern lassen
+            möchten — insbesondere keine Gesundheitsdaten oder Daten Dritter.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Weitergabe an Rechtsanwälte (gesonderte Einwilligung)",
+      body: (
+        <>
+          <p>
+            Wenn Ihr Vermieter auf Ihre Mängelanzeige nicht reagiert hat,
+            bieten wir Ihnen eine kostenlose anwaltliche Ersteinschätzung an.
+            Ihre Daten geben wir dafür <strong>ausschließlich</strong> weiter,
+            wenn Sie zuvor auf einer gesonderten Seite ausdrücklich eingewilligt
+            haben. Ohne diese zweite, eigenständige Einwilligung findet keine
+            Weitergabe statt — auch nicht auf Grundlage der Einwilligung aus
+            Abschnitt 7.
+          </p>
+          <ul>
+            <li>
+              <strong>Empfänger:</strong> eine in Deutschland zugelassene
+              Partner-Rechtsanwältin bzw. ein Partner-Rechtsanwalt oder eine
+              Partnerkanzlei. Der Empfänger ist datenschutzrechtlich
+              eigenständig verantwortlich und unterliegt der anwaltlichen
+              Verschwiegenheitspflicht (§ 43a Abs. 2 BRAO).
+            </li>
+            <li>
+              <strong>Übermittelte Daten:</strong> Ihr Name, Ihre
+              E-Mail-Adresse, Postleitzahl und Ort sowie Ihre Falldaten (Mängel
+              einschließlich Ihrer Beschreibungen, Miete, berechnete
+              Minderungsquote, Fristverlauf und der von Ihnen mitgeteilte
+              Reaktionsstatus des Vermieters)
+            </li>
+            <li>
+              <strong>Zweck:</strong> Kontaktaufnahme durch die Kanzlei zur
+              kostenlosen und unverbindlichen Ersteinschätzung Ihres Falls
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO
+              (gesonderte Einwilligung). Die Einwilligung ist freiwillig; alle
+              übrigen Funktionen dieses Dienstes stehen Ihnen auch ohne sie
+              uneingeschränkt zur Verfügung.
+            </li>
+            <li>
+              <strong>Widerruf:</strong> jederzeit mit Wirkung für die Zukunft
+              (Art. 7 Abs. 3 DSGVO), formlos per E-Mail an{" "}
+              <a href={mailto}>{site.operator.email}</a> oder über die Links in
+              unseren E-Mails. Eine bereits erfolgte Übermittlung an die
+              Kanzlei bleibt davon unberührt; Ihre Rechte gegenüber der Kanzlei
+              richten sich nach deren Datenschutzhinweisen.
+            </li>
+          </ul>
+        </>
+      ),
+    },
+    {
+      heading: "Anonyme Nutzungsstatistik (eigene Erhebung)",
+      body: (
+        <>
+          <p>
+            Zusätzlich zählen wir serverseitig, welche Schritte des Assistenten
+            erreicht werden (z. B. „Prüfung gestartet“, „Brief
+            heruntergeladen“). Erfasst werden dabei nur der Name des
+            Ereignisses, die gewählte Sprache und eine zufällige
+            Sitzungsnummer, die beim Laden der Seite in Ihrem Browser erzeugt
+            und ausschließlich im Arbeitsspeicher gehalten wird. Sie wird nicht
+            in Cookies oder im <code>localStorage</code> abgelegt und beim
+            Schließen oder Neuladen der Seite verworfen. Ihre IP-Adresse wird
+            mit den Ereignissen <strong>nicht gespeichert</strong>; eine
+            Wiedererkennung über die Sitzung hinaus ist nicht möglich.
+          </p>
+          <ul>
+            <li>
+              <strong>Zweck:</strong> Verständnis, an welchen Stellen Nutzer den
+              Assistenten abbrechen; Verbesserung des Angebots
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO
+              (berechtigtes Interesse an einer datensparsamen Statistik). Eine
+              Einwilligung nach § 25 Abs. 1 TDDDG ist nicht erforderlich, da
+              keine Informationen auf Ihrem Endgerät gespeichert oder
+              ausgelesen werden.
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> Löschung der Ereignisdaten nach
+              90 Tagen
             </li>
           </ul>
         </>
@@ -368,8 +515,29 @@ export default function Datenschutz() {
                 </tr>
                 <tr>
                   <td>Google Ireland Limited</td>
-                  <td>KI-Textverbesserung, E-Mail-Verteiler</td>
+                  <td>KI-Textverbesserung</td>
                   <td>Irland (EU)</td>
+                </tr>
+                <tr>
+                  <td>Neon, Inc. (über den Vercel Marketplace)</td>
+                  <td>Datenbank für gespeicherte Fälle (nur bei Opt-in)</td>
+                  <td>USA (Datenhaltung EU/Frankfurt)</td>
+                </tr>
+                <tr>
+                  <td>Resend (Plus Five Five, Inc.)</td>
+                  <td>
+                    Versand der Bestätigungs- und Erinnerungs-E-Mails (nur bei
+                    Opt-in)
+                  </td>
+                  <td>USA</td>
+                </tr>
+                <tr>
+                  <td>Partner-Rechtsanwältin/-Rechtsanwalt bzw. Partnerkanzlei</td>
+                  <td>
+                    Kostenlose Ersteinschätzung (nur bei gesonderter
+                    Einwilligung, Abschnitt 8)
+                  </td>
+                  <td>Deutschland</td>
                 </tr>
                 <tr>
                   <td>PIN AG</td>
@@ -393,9 +561,21 @@ export default function Datenschutz() {
             </table>
           </div>
           <p>
+            Mit Vercel (einschließlich der über den Vercel Marketplace
+            bereitgestellten Datenbank des Anbieters Neon, Inc.), mit Resend
+            und mit der PIN AG bestehen Auftragsverarbeitungsverträge nach
+            Art. 28 DSGVO; die Verarbeitung beim Postversand findet
+            ausschließlich in der EU bzw. dem EWR statt. Die
+            Falldaten werden in der EU (Frankfurt am Main) gespeichert; soweit
+            im Einzelfall Daten in die USA übermittelt werden — insbesondere
+            beim E-Mail-Versand über Resend —, stützt sich die Übermittlung auf
+            Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO.
+          </p>
+          <p>
             Eine darüber hinausgehende Weitergabe Ihrer Daten an Dritte findet
-            nicht statt. Wir verkaufen keine Daten und betreiben keine Werbe-
-            oder Profilbildung.
+            nicht statt. An Rechtsanwälte geben wir Ihre Daten ausschließlich
+            auf Grundlage Ihrer gesonderten Einwilligung weiter (Abschnitt 8).
+            Wir betreiben keine Werbe- oder Profilbildung.
           </p>
         </>
       ),
@@ -433,7 +613,10 @@ export default function Datenschutz() {
           </ul>
           <p>
             Zur Ausübung genügt eine formlose Nachricht an{" "}
-            <a href={mailto}>{site.operator.email}</a>.
+            <a href={mailto}>{site.operator.email}</a>. Ihre Einwilligung zur
+            Fallspeicherung können Sie außerdem selbst ausüben: Über den Link
+            in jeder unserer E-Mails gelangen Sie auf eine Seite, auf der Sie
+            Ihren Fall mit sofortiger Wirkung löschen können (Art. 17 DSGVO).
           </p>
         </>
       ),

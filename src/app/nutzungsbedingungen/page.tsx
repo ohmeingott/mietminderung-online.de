@@ -63,6 +63,16 @@ export default function Nutzungsbedingungen() {
               <strong>sprachliche Überarbeitung</strong> Ihrer Mangelbeschreibung
               durch ein KI-Sprachmodell, einschließlich Übersetzung ins Deutsche.
             </li>
+            <li>
+              eine optionale <strong>Fallspeicherung mit Erinnerungs-E-Mails</strong>{" "}
+              zum Fristablauf Ihrer Mängelanzeige (nur mit Ihrer Einwilligung,
+              jederzeit widerruflich).
+            </li>
+            <li>
+              auf Wunsch die <strong>Vermittlung einer kostenlosen anwaltlichen
+              Ersteinschätzung</strong> durch eine Partnerkanzlei (nur mit
+              gesonderter Einwilligung).
+            </li>
           </ul>
           <p>
             <strong>
@@ -161,6 +171,14 @@ export default function Nutzungsbedingungen() {
             konsultieren. Die Nutzung der Webseite begründet kein Mandats- oder
             Beratungsverhältnis.
           </p>
+          <p>
+            Auch die optionale Vermittlung einer anwaltlichen Ersteinschätzung
+            ist keine Rechtsdienstleistung von uns: Die Ersteinschätzung
+            erbringt ausschließlich die von Ihnen kontaktierte Rechtsanwältin
+            bzw. der Rechtsanwalt in eigener Verantwortung; ein etwaiges Mandat
+            kommt allein zwischen Ihnen und der Kanzlei zustande. Sie sind
+            nicht verpflichtet, ein Mandat zu erteilen.
+          </p>
         </>
       ),
     },
@@ -245,7 +263,8 @@ export default function Nutzungsbedingungen() {
           Wie wir mit Ihren Daten umgehen, beschreibt unsere{" "}
           <a href="/datenschutz">Datenschutzerklärung</a>. Kurz gefasst: Ihre
           Eingaben zur Mängelanzeige werden im Browser verarbeitet und erreichen
-          unseren Server nur, wenn Sie eine optionale Funktion aktiv auslösen.
+          unseren Server nur, wenn Sie eine optionale Funktion aktiv auslösen —
+          etwa die freiwillige Fallspeicherung mit Erinnerungs-E-Mails.
         </p>
       ),
     },

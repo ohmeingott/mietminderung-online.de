@@ -33,6 +33,8 @@ import {
 import FormProgress from "@/components/FormProgress";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { katKey, mangelDescKey, mangelLabelKey } from "@/i18n/content";
+import { track } from "@/lib/track";
+import type { CheckResult } from "@/types/case";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Thermometer,
@@ -49,15 +51,6 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   HeartPulse,
   Wind,
 };
-
-interface CheckResult {
-  eligible: boolean | null;
-  selectedMaengel: Mangel[];
-  totalMinderungMin: number;
-  totalMinderungMax: number;
-  totalMinderungTypical: number;
-  bruttowarmmiete: number;
-}
 
 interface MietminderungCheckProps {
   onComplete?: (result: CheckResult) => void;
@@ -78,11 +71,12 @@ export default function MietminderungCheck({
   const [bruttowarmmiete, setBruttowarmmiete] = useState("");
   const [isNotEligible, setIsNotEligible] = useState(false);
   const [notEligibleQuestionId, setNotEligibleQuestionId] = useState("");
-  const { t, tc } = useTranslation();
+  const { t, tc, locale } = useTranslation();
 
   const handleEligibilityAnswer = useCallback(
     (questionId: string, value: string, eligible: boolean | null) => {
       setAnswers({ ...answers, [questionId]: value });
+      track("check_started", locale);
 
       if (eligible === false) {
         setIsNotEligible(true);
@@ -93,10 +87,11 @@ export default function MietminderungCheck({
       if (eligibilityStep < eligibilityQuestions.length - 1) {
         setEligibilityStep(eligibilityStep + 1);
       } else {
+        track("eligibility_done", locale);
         setStep(1);
       }
     },
-    [answers, eligibilityStep],
+    [answers, eligibilityStep, locale],
   );
 
   const toggleMangel = (mangel: Mangel) => {
@@ -128,6 +123,7 @@ export default function MietminderungCheck({
   const savingsTypical = (rent * totalTypical) / 100;
 
   const handleComplete = () => {
+    track("letter_started", locale);
     onComplete?.({
       eligible: true,
       selectedMaengel,
@@ -135,6 +131,7 @@ export default function MietminderungCheck({
       totalMinderungMax: totalMax,
       totalMinderungTypical: totalTypical,
       bruttowarmmiete: rent,
+      eligibilityAnswers: answers,
     });
   };
 
@@ -428,7 +425,10 @@ export default function MietminderungCheck({
               <button
                 type="button"
                 data-testid="check-next"
-                onClick={() => setStep(2)}
+                onClick={() => {
+                  track("defects_selected", locale);
+                  setStep(2);
+                }}
                 disabled={selectedMaengel.length === 0}
                 className="inline-flex min-h-[3rem] items-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-40"
               >
@@ -495,7 +495,11 @@ export default function MietminderungCheck({
                 <button
                   type="button"
                   data-testid="check-submit"
-                  onClick={() => setStep(3)}
+                  onClick={() => {
+                    track("rent_entered", locale);
+                    track("result_viewed", locale);
+                    setStep(3);
+                  }}
                   disabled={!bruttowarmmiete || rent <= 0}
                   className="inline-flex min-h-[3rem] items-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-40"
                 >

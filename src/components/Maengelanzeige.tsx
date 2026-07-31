@@ -19,12 +19,15 @@ import FormProgress from "@/components/FormProgress";
 import { generatePdf } from "@/lib/generatePdf";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { mangelDescKey, mangelLabelKey } from "@/i18n/content";
+import { track } from "@/lib/track";
+import CaseOptInCard from "@/components/CaseOptInCard";
 import VersandKarte from "./VersandKarte";
 
 interface MaengelanzeigeProps {
   selectedMaengel: Mangel[];
   bruttowarmmiete: number;
   minderungsquote: number;
+  eligibilityAnswers?: Record<string, string>;
 }
 
 interface MieterDaten {
@@ -68,6 +71,7 @@ export default function Maengelanzeige({
   selectedMaengel,
   bruttowarmmiete,
   minderungsquote,
+  eligibilityAnswers = {},
 }: MaengelanzeigeProps) {
   const [step, setStep] = useState(0); // 0=mieter 1=vermieter 2=details 3=preview 4=delivery
   const [mieter, setMieter] = useState<MieterDaten>({
@@ -97,7 +101,6 @@ export default function Maengelanzeige({
   const [copied, setCopied] = useState(false);
   const [enhancing, setEnhancing] = useState(false);
   const [editedBriefText, setEditedBriefText] = useState("");
-  const [emailOptIn, setEmailOptIn] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const signaturePadRef = useRef<SignaturePad | null>(null);
@@ -114,10 +117,22 @@ export default function Maengelanzeige({
 
   const heuteDatum = () => formatDate(new Date());
 
-  const fristDatum = () => {
+  const fristDate = () => {
     const d = new Date();
     d.setDate(d.getDate() + 14);
-    return formatDate(d);
+    return d;
+  };
+
+  const fristDatum = () => formatDate(fristDate());
+
+  /**
+   * Same +14-days deadline as the letter, as ISO yyyy-mm-dd for the saved
+   * case — one source, so letter and database can never diverge.
+   */
+  const fristDatumIso = () => {
+    const d = fristDate();
+    const pad = (n: number) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   };
 
   const aktuellerMonat = () =>
@@ -297,6 +312,7 @@ ${mieter.name}`;
   };
 
   const handleDownloadPdf = () => {
+    track("pdf_downloaded", locale);
     generatePdf(letterPdfOptions()).save(`${fileBase}.pdf`);
   };
 
@@ -461,29 +477,10 @@ ${mieter.name}`;
                 })}
               </div>
 
-              <label className="mt-6 flex cursor-pointer items-start gap-3">
-                <input
-                  type="checkbox"
-                  checked={emailOptIn}
-                  onChange={(e) => setEmailOptIn(e.target.checked)}
-                  className="mt-0.5 h-5 w-5 shrink-0 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
-                />
-                <span className="text-sm text-ink-600">{t("letter.emailOptIn")}</span>
-              </label>
-
               <div className="mt-7 flex justify-end">
                 <button
                   type="button"
-                  onClick={() => {
-                    if (emailOptIn) {
-                      fetch("/api/save-email", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email: mieter.email, name: mieter.name }),
-                      }).catch(() => {});
-                    }
-                    setStep(1);
-                  }}
+                  onClick={() => setStep(1)}
                   data-testid="letter-next"
                   disabled={!mieterValid}
                   className="inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
@@ -727,7 +724,10 @@ ${mieter.name}`;
                 <button
                   type="button"
                   data-testid="letter-delivery"
-                  onClick={() => setStep(4)}
+                  onClick={() => {
+                    track("letter_completed", locale);
+                    setStep(4);
+                  }}
                   className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
                 >
                   {t("letter.deliveryOptions")}
@@ -804,6 +804,26 @@ ${mieter.name}`;
                   <strong>{t("common.note")}:</strong> {t("letter.warning")}
                 </p>
               </div>
+
+              <CaseOptInCard
+                defaultEmail={mieter.email}
+                tenantName={mieter.name}
+                tenantCity={mieter.ort}
+                tenantPlz={mieter.plz}
+                bruttowarmmiete={bruttowarmmiete}
+                deadlineDateIso={fristDatumIso()}
+                deadlineDateDisplay={fristDatum()}
+                eligibilityAnswers={eligibilityAnswers}
+                maengel={selectedMaengel.map((m) => {
+                  const details = mangelDetails.find((d) => d.mangelId === m.id);
+                  return {
+                    id: m.id,
+                    raum: details?.raum ?? "",
+                    seit: details?.seit ?? "",
+                    beschreibung: details?.beschreibung ?? "",
+                  };
+                })}
+              />
 
               <div className="mt-6">{backButton(3, t("letter.backPreview"))}</div>
             </div>

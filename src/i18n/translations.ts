@@ -151,7 +151,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.aptNr": "Wohnungsnummer (optional)",
     "letter.phone": "Telefonnummer",
     "letter.email": "E-Mail-Adresse",
-    "letter.emailOptIn": "Ich bin damit einverstanden, dass meine E-Mail-Adresse gespeichert wird, um mich über Neuigkeiten rund um Mietminderung zu informieren. Ich kann diese Einwilligung jederzeit widerrufen.",
     "letter.landlordData": "Angaben zum Vermieter",
     "letter.landlordName": "Name des Vermieters / der Hausverwaltung",
     "letter.describeDefects": "Mängel beschreiben",
@@ -180,6 +179,84 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copied": "Kopiert!",
     "letter.warning":
       "Versenden Sie die Mängelanzeige immer nachweisbar, am besten per Einwurf-Einschreiben. Eine einfache E-Mail reicht als Zugangsnachweis nicht aus.",
+
+    // Case saving & reminder emails (opt-in)
+    "case.optinTitle": "Frist im Blick behalten?",
+    "case.optinPitch":
+      "Ihr Vermieter hat bis zum {frist} Zeit, die Mängel zu beseitigen. Auf Wunsch speichern wir Ihren Fall und melden uns genau dann, wenn es darauf ankommt.",
+    "case.optinBenefit1": "Erinnerung per E-Mail, sobald die Frist am {frist} abgelaufen ist",
+    "case.optinBenefit2": "Kurze Statusabfrage mit einem Klick: Hat Ihr Vermieter reagiert?",
+    "case.optinBenefit3":
+      "Falls sich nichts tut: mögliche nächste Schritte — auf Wunsch auch eine kostenlose anwaltliche Ersteinschätzung",
+    "case.optinEmailLabel": "Ihre E-Mail-Adresse",
+    "case.optinConsent":
+      "Ich willige ein, dass mietminderung-online.de meinen Namen, meine E-Mail-Adresse, PLZ und Ort sowie meine Falldaten (Mängel mit Beschreibungen, Miete, Minderungsquote, Fristdatum, Antworten der Anspruchsprüfung) speichert, um mir eine Bestätigungs-E-Mail und Erinnerungen zu senden. Straße, Telefonnummer, Unterschrift und Vermieterdaten werden nicht gespeichert. Ich kann diese Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen — dann werden meine Daten gelöscht. Details:",
+    "case.optinPrivacy": "Datenschutzerklärung",
+    "case.optinSubmit": "Erinnerung aktivieren",
+    "case.optinSubmitting": "Wird gespeichert…",
+    "case.optinSuccessTitle": "Fast geschafft — bitte bestätigen Sie Ihre E-Mail-Adresse.",
+    "case.optinSuccessText":
+      "Wir haben eine Bestätigungs-E-Mail an {email} geschickt. Erst nach Ihrem Klick auf den Bestätigungslink speichern wir Ihren Fall dauerhaft und senden Erinnerungen. Keine E-Mail erhalten? Prüfen Sie bitte auch den Spam-Ordner.",
+    "case.optinErrorTitle": "Das hat leider nicht geklappt.",
+    "case.optinErrorText":
+      "Ihre Anmeldung konnte gerade nicht gespeichert werden. Bitte versuchen Sie es in einem Moment erneut — Ihre Mängelanzeige und Ihr Download sind davon nicht betroffen.",
+    "case.optinErrorRate": "Zu viele Versuche. Bitte warten Sie einen Moment und versuchen Sie es dann erneut.",
+    "case.optinRetry": "Erneut versuchen",
+    "case.confirmTitle": "E-Mail-Adresse bestätigen",
+    "case.confirmIntro": "Mit einem Klick aktivieren Sie die Frist-Erinnerung zu Ihrer Mängelanzeige.",
+    "case.confirmButton": "Jetzt bestätigen",
+    "case.confirmWorking": "Wird bestätigt…",
+    "case.confirmSuccessTitle": "Erinnerung aktiv — Ihr Fall ist gespeichert.",
+    "case.confirmSuccessText":
+      "Vielen Dank! Wir melden uns kurz nach Ablauf der Frist Ihrer Mängelanzeige und fragen, ob Ihr Vermieter reagiert hat. Bis dahin müssen Sie nichts weiter tun.",
+    "case.confirmDeleteHint":
+      "Sie können Ihren Fall jederzeit löschen — den Link dazu finden Sie in jeder unserer E-Mails.",
+    "case.confirmInvalid":
+      "Dieser Link ist ungültig oder abgelaufen. Wenn Sie die Erinnerung nutzen möchten, melden Sie sich bitte über eine neue Mängelanzeige erneut an.",
+    "case.statusTitle": "Ihr Fall",
+    "case.statusLoading": "Ihr Fall wird geladen…",
+    "case.statusInvalid": "Dieser Link ist ungültig oder der Fall wurde bereits gelöscht.",
+    "case.statusDeadline": "Frist an den Vermieter",
+    "case.statusQuota": "Minderungsquote (Orientierung)",
+    "case.statusQuestion": "Hat Ihr Vermieter reagiert?",
+    "case.statusAnswerResolved": "Ja, Mängel behoben",
+    "case.statusAnswerPartly": "Teilweise behoben",
+    "case.statusAnswerNone": "Keine Reaktion",
+    "case.statusThanks": "Danke für Ihre Rückmeldung!",
+    "case.statusResolvedTitle": "Das freut uns — Ihr Vermieter hat gehandelt.",
+    "case.statusResolvedText":
+      "Gut zu wissen: Für den Zeitraum, in dem die Mängel bestanden, war Ihre Miete kraft Gesetzes gemindert (§ 536 BGB). Haben Sie unter Vorbehalt voll gezahlt, können Sie zu viel gezahlte Miete zurückfordern.",
+    "case.statusPartlyTitle": "Ein Anfang — aber noch nicht genug.",
+    "case.statusPartlyText":
+      "Solange Mängel bestehen, bleibt Ihre Miete anteilig gemindert. Sinnvoll ist jetzt: die verbleibenden Mängel schriftlich anmahnen, eine Nachfrist setzen und weiter unter Vorbehalt zahlen.",
+    "case.statusNoneTitle": "Das müssen Sie nicht hinnehmen.",
+    "case.statusNoneText":
+      "Ihr Vermieter hat die Frist verstreichen lassen. Zahlen Sie weiterhin unter Vorbehalt und dokumentieren Sie die Mängel (Fotos, Datum, Zeugen).",
+    "case.statusGuideLink": "Zum Ratgeber",
+    "case.statusLawyerTeaser":
+      "Auf Wunsch kann ein Anwalt für Mietrecht Ihren Fall kostenlos und unverbindlich einschätzen.",
+    "case.statusLawyerLink": "Mehr zur kostenlosen Ersteinschätzung",
+    "case.statusError": "Das hat leider nicht geklappt — bitte versuchen Sie es erneut.",
+    "case.deleteTitle": "Fall löschen & Einwilligung widerrufen",
+    "case.deleteText":
+      "Damit werden Ihr gespeicherter Fall und Ihre E-Mail-Adresse endgültig gelöscht. Sie erhalten keine weiteren Erinnerungen.",
+    "case.deleteButton": "Fall löschen",
+    "case.deleteConfirmText": "Wirklich löschen? Dieser Schritt kann nicht rückgängig gemacht werden.",
+    "case.deleteConfirmButton": "Ja, endgültig löschen",
+    "case.deletedTitle": "Ihre Daten wurden gelöscht.",
+    "case.deletedText":
+      "Ihr Fall und Ihre E-Mail-Adresse sind aus unserem System entfernt. Wenn Sie später erneut Unterstützung möchten, können Sie jederzeit eine neue Mängelanzeige erstellen.",
+    "case.lawyerTitle": "Kostenlose anwaltliche Ersteinschätzung",
+    "case.lawyerIntro":
+      "Eine in Deutschland zugelassene Partnerkanzlei prüft Ihren Fall kostenlos und unverbindlich und meldet sich per E-Mail bei Ihnen. Sie gehen damit keine Verpflichtung ein — ob Sie danach ein Mandat erteilen, entscheiden allein Sie.",
+    "case.lawyerConsent":
+      "Ich willige ein, dass mietminderung-online.de meinen Namen, meine E-Mail-Adresse, PLZ und Ort sowie meine Falldaten (Mängel einschließlich Beschreibungen, Miete, Minderungsquote, Fristverlauf und Reaktionsstatus des Vermieters) an eine Partner-Rechtsanwältin / einen Partner-Rechtsanwalt übermittelt, damit diese/dieser mich für eine kostenlose und unverbindliche Ersteinschätzung kontaktieren kann. Diese Einwilligung ist freiwillig und jederzeit mit Wirkung für die Zukunft widerruflich. Details:",
+    "case.lawyerSubmit": "Ersteinschätzung anfragen",
+    "case.lawyerWorking": "Wird übermittelt…",
+    "case.lawyerSuccessTitle": "Anfrage erhalten!",
+    "case.lawyerSuccessText":
+      "Vielen Dank — eine Partnerkanzlei wird sich in den nächsten Tagen per E-Mail bei Ihnen melden.",
+    "case.lawyerInvalid": "Dieser Link ist ungültig oder der Fall wurde bereits gelöscht.",
 
     // Teaser
     "teaser.title": "Mängelanzeige erstellen",
@@ -471,7 +548,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.aptNr": "Apartment number (optional)",
     "letter.phone": "Phone number",
     "letter.email": "Email address",
-    "letter.emailOptIn": "I agree that my email address may be stored to inform me about news relating to rent reduction. I can withdraw this consent at any time.",
     "letter.landlordData": "Landlord details",
     "letter.landlordName": "Name of the landlord / property management",
     "letter.describeDefects": "Describe the defects",
@@ -500,6 +576,84 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copied": "Copied!",
     "letter.warning":
       "Always send the defect notice in a way you can prove — ideally by registered mail (Einwurf-Einschreiben). A simple email is not sufficient proof of receipt.",
+
+    // Case saving & reminder emails (opt-in)
+    "case.optinTitle": "Keep an eye on the deadline?",
+    "case.optinPitch":
+      "Your landlord has until {frist} to fix the defects. If you like, we'll save your case and get back to you exactly when it matters.",
+    "case.optinBenefit1": "Email reminder as soon as the deadline expires on {frist}",
+    "case.optinBenefit2": "Quick one-click status check: Has your landlord responded?",
+    "case.optinBenefit3":
+      "If nothing happens: possible next steps — including a free initial assessment by a lawyer, if you wish",
+    "case.optinEmailLabel": "Your email address",
+    "case.optinConsent":
+      "I consent to mietminderung-online.de storing my name, email address, postcode and city as well as my case data (defects with descriptions, rent, reduction quota, deadline date, answers from the eligibility check) in order to send me a confirmation email and reminders. Street address, phone number, signature and landlord details are not stored. I can withdraw this consent at any time with effect for the future — my data will then be deleted. Details:",
+    "case.optinPrivacy": "Privacy policy",
+    "case.optinSubmit": "Activate reminder",
+    "case.optinSubmitting": "Saving…",
+    "case.optinSuccessTitle": "Almost done — please confirm your email address.",
+    "case.optinSuccessText":
+      "We've sent a confirmation email to {email}. Only after you click the confirmation link will we permanently save your case and send reminders. No email? Please also check your spam folder.",
+    "case.optinErrorTitle": "That didn't work, unfortunately.",
+    "case.optinErrorText":
+      "Your sign-up couldn't be saved just now. Please try again in a moment — your defect notice and your download are not affected.",
+    "case.optinErrorRate": "Too many attempts. Please wait a moment and then try again.",
+    "case.optinRetry": "Try again",
+    "case.confirmTitle": "Confirm your email address",
+    "case.confirmIntro": "One click activates the deadline reminder for your defect notice.",
+    "case.confirmButton": "Confirm now",
+    "case.confirmWorking": "Confirming…",
+    "case.confirmSuccessTitle": "Reminder active — your case has been saved.",
+    "case.confirmSuccessText":
+      "Thank you! We'll get in touch shortly after the deadline of your defect notice expires and ask whether your landlord has responded. Until then there's nothing you need to do.",
+    "case.confirmDeleteHint":
+      "You can delete your case at any time — you'll find the link in every email we send.",
+    "case.confirmInvalid":
+      "This link is invalid or has expired. If you'd like to use the reminder, please sign up again via a new defect notice.",
+    "case.statusTitle": "Your case",
+    "case.statusLoading": "Loading your case…",
+    "case.statusInvalid": "This link is invalid or the case has already been deleted.",
+    "case.statusDeadline": "Deadline given to the landlord",
+    "case.statusQuota": "Reduction quota (guideline)",
+    "case.statusQuestion": "Has your landlord responded?",
+    "case.statusAnswerResolved": "Yes, defects fixed",
+    "case.statusAnswerPartly": "Partly fixed",
+    "case.statusAnswerNone": "No response",
+    "case.statusThanks": "Thank you for your feedback!",
+    "case.statusResolvedTitle": "Good news — your landlord took action.",
+    "case.statusResolvedText":
+      "Good to know: for the period during which the defects existed, your rent was reduced by operation of law (§ 536 BGB). If you paid in full under reservation, you can claim back the overpaid rent.",
+    "case.statusPartlyTitle": "A start — but not enough yet.",
+    "case.statusPartlyText":
+      "As long as defects remain, your rent stays proportionally reduced. What makes sense now: demand the remaining repairs in writing, set a further deadline and keep paying under reservation.",
+    "case.statusNoneTitle": "You don't have to accept this.",
+    "case.statusNoneText":
+      "Your landlord let the deadline pass. Keep paying under reservation and document the defects (photos, dates, witnesses).",
+    "case.statusGuideLink": "Read the guide",
+    "case.statusLawyerTeaser":
+      "If you wish, a tenancy-law attorney can assess your case free of charge and without obligation.",
+    "case.statusLawyerLink": "More about the free initial assessment",
+    "case.statusError": "That didn't work, unfortunately — please try again.",
+    "case.deleteTitle": "Delete case & withdraw consent",
+    "case.deleteText":
+      "This permanently deletes your saved case and your email address. You will receive no further reminders.",
+    "case.deleteButton": "Delete case",
+    "case.deleteConfirmText": "Really delete? This step cannot be undone.",
+    "case.deleteConfirmButton": "Yes, delete permanently",
+    "case.deletedTitle": "Your data has been deleted.",
+    "case.deletedText":
+      "Your case and your email address have been removed from our system. If you'd like support again later, you can create a new defect notice at any time.",
+    "case.lawyerTitle": "Free initial assessment by a lawyer",
+    "case.lawyerIntro":
+      "A partner law firm admitted in Germany will review your case free of charge and without obligation and contact you by email. This does not commit you to anything — whether you engage them afterwards is entirely up to you.",
+    "case.lawyerConsent":
+      "I consent to mietminderung-online.de passing on my name, email address, postcode and city as well as my case data (defects including descriptions, rent, reduction quota, deadline history and the landlord's response status) to a partner attorney so that they can contact me for a free, non-binding initial assessment. This consent is voluntary and can be withdrawn at any time with effect for the future. Details:",
+    "case.lawyerSubmit": "Request initial assessment",
+    "case.lawyerWorking": "Submitting…",
+    "case.lawyerSuccessTitle": "Request received!",
+    "case.lawyerSuccessText":
+      "Thank you — a partner law firm will contact you by email within the next few days.",
+    "case.lawyerInvalid": "This link is invalid or the case has already been deleted.",
 
     // Teaser
     "teaser.title": "Create a defect notice",
@@ -762,7 +916,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.aptNr": "Daire numarası (opsiyonel)",
     "letter.phone": "Telefon numarası",
     "letter.email": "E-posta adresi",
-    "letter.emailOptIn": "E-posta adresimin kira indirimi hakkında haberler göndermek için saklanmasına izin veriyorum. Bu onayı istediğim zaman geri çekebilirim.",
     "letter.landlordData": "Ev sahibi bilgileri",
     "letter.landlordName": "Ev sahibi / Yönetim şirketi adı",
     "letter.describeDefects": "Kusurları açıklayın",
@@ -789,6 +942,84 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copyText": "Metni kopyala",
     "letter.copied": "Kopyalandı!",
     "letter.warning": "Kusur bildirimini her zaman kanıtlanabilir şekilde gönderin, en iyisi taahhütlü posta ile.",
+
+    // Case saving & reminder emails (opt-in)
+    "case.optinTitle": "Süreyi takip etmek ister misiniz?",
+    "case.optinPitch":
+      "Ev sahibinizin kusurları gidermek için {frist} tarihine kadar süresi var. İsterseniz vakanızı kaydeder ve tam zamanında size haber veririz.",
+    "case.optinBenefit1": "Süre {frist} tarihinde dolduğunda e-posta ile hatırlatma",
+    "case.optinBenefit2": "Tek tıkla kısa durum sorgusu: Ev sahibiniz yanıt verdi mi?",
+    "case.optinBenefit3":
+      "Hiçbir şey olmazsa: olası sonraki adımlar — isteğinize bağlı olarak ücretsiz avukat ön değerlendirmesi",
+    "case.optinEmailLabel": "E-posta adresiniz",
+    "case.optinConsent":
+      "mietminderung-online.de'nin adımı, e-posta adresimi, posta kodumu ve şehrimi ile vaka verilerimi (açıklamalarıyla kusurlar, kira, indirim oranı, süre tarihi, hak kontrolü yanıtları) bana onay e-postası ve hatırlatmalar göndermek için kaydetmesine izin veriyorum. Sokak adresi, telefon numarası, imza ve ev sahibi verileri kaydedilmez. Bu onayı istediğim zaman geleceğe dönük olarak geri çekebilirim — verilerim o zaman silinir. Ayrıntılar:",
+    "case.optinPrivacy": "Gizlilik politikası",
+    "case.optinSubmit": "Hatırlatmayı etkinleştir",
+    "case.optinSubmitting": "Kaydediliyor…",
+    "case.optinSuccessTitle": "Neredeyse tamam — lütfen e-posta adresinizi onaylayın.",
+    "case.optinSuccessText":
+      "{email} adresine bir onay e-postası gönderdik. Vakanızı ancak onay bağlantısına tıkladıktan sonra kalıcı olarak kaydeder ve hatırlatma göndeririz. E-posta gelmedi mi? Lütfen spam klasörünü de kontrol edin.",
+    "case.optinErrorTitle": "Maalesef işlem başarısız oldu.",
+    "case.optinErrorText":
+      "Kaydınız şu anda yapılamadı. Lütfen birazdan tekrar deneyin — kusur bildiriminiz ve indirmeniz bundan etkilenmez.",
+    "case.optinErrorRate": "Çok fazla deneme. Lütfen biraz bekleyip tekrar deneyin.",
+    "case.optinRetry": "Tekrar dene",
+    "case.confirmTitle": "E-posta adresini onayla",
+    "case.confirmIntro": "Tek tıkla kusur bildiriminizin süre hatırlatmasını etkinleştirirsiniz.",
+    "case.confirmButton": "Şimdi onayla",
+    "case.confirmWorking": "Onaylanıyor…",
+    "case.confirmSuccessTitle": "Hatırlatma etkin — vakanız kaydedildi.",
+    "case.confirmSuccessText":
+      "Teşekkürler! Kusur bildiriminizin süresi dolduktan kısa süre sonra size ulaşıp ev sahibinizin yanıt verip vermediğini soracağız. O zamana kadar yapmanız gereken bir şey yok.",
+    "case.confirmDeleteHint":
+      "Vakanızı istediğiniz zaman silebilirsiniz — bağlantıyı her e-postamızda bulabilirsiniz.",
+    "case.confirmInvalid":
+      "Bu bağlantı geçersiz veya süresi dolmuş. Hatırlatmayı kullanmak isterseniz lütfen yeni bir kusur bildirimiyle tekrar kaydolun.",
+    "case.statusTitle": "Vakanız",
+    "case.statusLoading": "Vakanız yükleniyor…",
+    "case.statusInvalid": "Bu bağlantı geçersiz veya vaka zaten silinmiş.",
+    "case.statusDeadline": "Ev sahibine verilen süre",
+    "case.statusQuota": "İndirim oranı (yaklaşık)",
+    "case.statusQuestion": "Ev sahibiniz yanıt verdi mi?",
+    "case.statusAnswerResolved": "Evet, kusurlar giderildi",
+    "case.statusAnswerPartly": "Kısmen giderildi",
+    "case.statusAnswerNone": "Yanıt yok",
+    "case.statusThanks": "Geri bildiriminiz için teşekkürler!",
+    "case.statusResolvedTitle": "Buna sevindik — ev sahibiniz harekete geçti.",
+    "case.statusResolvedText":
+      "Bilmenizde fayda var: Kusurların var olduğu dönem için kiranız yasa gereği indirilmişti (§ 536 BGB). Çekince ile tam ödeme yaptıysanız, fazla ödediğiniz kirayı geri isteyebilirsiniz.",
+    "case.statusPartlyTitle": "Bir başlangıç — ama henüz yeterli değil.",
+    "case.statusPartlyText":
+      "Kusurlar devam ettiği sürece kiranız orantılı olarak indirimli kalır. Şimdi yapılması gereken: kalan kusurları yazılı olarak bildirmek, ek süre vermek ve çekince ile ödemeye devam etmek.",
+    "case.statusNoneTitle": "Bunu kabullenmek zorunda değilsiniz.",
+    "case.statusNoneText":
+      "Ev sahibiniz süreyi yanıtsız geçirdi. Çekince ile ödemeye devam edin ve kusurları belgelendirin (fotoğraf, tarih, tanıklar).",
+    "case.statusGuideLink": "Rehbere git",
+    "case.statusLawyerTeaser":
+      "İsterseniz bir kira hukuku avukatı vakanızı ücretsiz ve bağlayıcı olmadan değerlendirebilir.",
+    "case.statusLawyerLink": "Ücretsiz ön değerlendirme hakkında",
+    "case.statusError": "Maalesef işlem başarısız oldu — lütfen tekrar deneyin.",
+    "case.deleteTitle": "Vakayı sil ve onayı geri çek",
+    "case.deleteText":
+      "Bununla kayıtlı vakanız ve e-posta adresiniz kalıcı olarak silinir. Başka hatırlatma almazsınız.",
+    "case.deleteButton": "Vakayı sil",
+    "case.deleteConfirmText": "Gerçekten silinsin mi? Bu adım geri alınamaz.",
+    "case.deleteConfirmButton": "Evet, kalıcı olarak sil",
+    "case.deletedTitle": "Verileriniz silindi.",
+    "case.deletedText":
+      "Vakanız ve e-posta adresiniz sistemimizden kaldırıldı. Daha sonra tekrar destek isterseniz, istediğiniz zaman yeni bir kusur bildirimi oluşturabilirsiniz.",
+    "case.lawyerTitle": "Ücretsiz avukat ön değerlendirmesi",
+    "case.lawyerIntro":
+      "Almanya'da ruhsatlı bir partner hukuk bürosu vakanızı ücretsiz ve bağlayıcı olmadan inceler ve size e-posta ile ulaşır. Hiçbir yükümlülük altına girmezsiniz — sonrasında vekalet verip vermemek tamamen size kalmış.",
+    "case.lawyerConsent":
+      "mietminderung-online.de'nin adımı, e-posta adresimi, posta kodumu ve şehrimi ile vaka verilerimi (açıklamalar dahil kusurlar, kira, indirim oranı, süre durumu ve ev sahibinin yanıt durumu) bir partner avukata iletmesine izin veriyorum; böylece avukat ücretsiz ve bağlayıcı olmayan bir ön değerlendirme için benimle iletişime geçebilir. Bu onay isteğe bağlıdır ve geleceğe dönük olarak istediğim zaman geri çekilebilir. Ayrıntılar:",
+    "case.lawyerSubmit": "Ön değerlendirme iste",
+    "case.lawyerWorking": "İletiliyor…",
+    "case.lawyerSuccessTitle": "Talebiniz alındı!",
+    "case.lawyerSuccessText":
+      "Teşekkürler — bir partner hukuk bürosu önümüzdeki günlerde e-posta ile size ulaşacak.",
+    "case.lawyerInvalid": "Bu bağlantı geçersiz veya vaka zaten silinmiş.",
     "teaser.title": "Kusur bildirimi oluştur",
     "teaser.desc":
       "Ev sahibinize yasal olarak geçerli bir kusur bildirimi oluşturun. Önce hakkınızı ve kira indirimi miktarını belirlemek için kontrolümüzü kullanın.",
@@ -1030,7 +1261,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.aptNr": "Номер квартири (необов'язково)",
     "letter.phone": "Номер телефону",
     "letter.email": "Електронна пошта",
-    "letter.emailOptIn": "Я згоден/згодна на збереження моєї електронної адреси для отримання новин щодо зменшення орендної плати. Я можу відкликати цю згоду в будь-який час.",
     "letter.landlordData": "Дані орендодавця",
     "letter.landlordName": "Ім'я орендодавця / Управляючої компанії",
     "letter.describeDefects": "Опишіть дефекти",
@@ -1057,6 +1287,84 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copyText": "Копіювати текст",
     "letter.copied": "Скопійовано!",
     "letter.warning": "Завжди надсилайте повідомлення з підтвердженням отримання, найкраще рекомендованим листом.",
+
+    // Case saving & reminder emails (opt-in)
+    "case.optinTitle": "Тримати строк під контролем?",
+    "case.optinPitch":
+      "Ваш орендодавець має час до {frist}, щоб усунути дефекти. За бажанням ми збережемо вашу справу і нагадаємо саме тоді, коли це важливо.",
+    "case.optinBenefit1": "Нагадування електронною поштою, щойно строк спливе {frist}",
+    "case.optinBenefit2": "Коротке опитування одним кліком: чи відреагував орендодавець?",
+    "case.optinBenefit3":
+      "Якщо нічого не змінюється: можливі наступні кроки — за бажанням безкоштовна попередня оцінка юриста",
+    "case.optinEmailLabel": "Ваша електронна адреса",
+    "case.optinConsent":
+      "Я погоджуюся, що mietminderung-online.de зберігає моє ім'я, електронну адресу, поштовий індекс і місто, а також дані справи (дефекти з описами, орендну плату, відсоток зниження, дату строку, відповіді перевірки права), щоб надсилати мені лист-підтвердження та нагадування. Вулиця, номер телефону, підпис і дані орендодавця не зберігаються. Я можу відкликати цю згоду в будь-який час на майбутнє — тоді мої дані буде видалено. Деталі:",
+    "case.optinPrivacy": "Політика конфіденційності",
+    "case.optinSubmit": "Увімкнути нагадування",
+    "case.optinSubmitting": "Зберігається…",
+    "case.optinSuccessTitle": "Майже готово — підтвердіть, будь ласка, свою електронну адресу.",
+    "case.optinSuccessText":
+      "Ми надіслали лист-підтвердження на {email}. Лише після натискання на посилання підтвердження ми остаточно збережемо вашу справу та надсилатимемо нагадування. Не отримали лист? Перевірте також папку «Спам».",
+    "case.optinErrorTitle": "На жаль, не вдалося.",
+    "case.optinErrorText":
+      "Наразі не вдалося зберегти вашу реєстрацію. Спробуйте, будь ласка, за мить ще раз — це не впливає на ваше повідомлення про дефект і завантаження.",
+    "case.optinErrorRate": "Забагато спроб. Зачекайте, будь ласка, трохи і спробуйте знову.",
+    "case.optinRetry": "Спробувати ще раз",
+    "case.confirmTitle": "Підтвердити електронну адресу",
+    "case.confirmIntro": "Одним кліком ви активуєте нагадування про строк вашого повідомлення про дефект.",
+    "case.confirmButton": "Підтвердити зараз",
+    "case.confirmWorking": "Підтверджується…",
+    "case.confirmSuccessTitle": "Нагадування активне — вашу справу збережено.",
+    "case.confirmSuccessText":
+      "Дякуємо! Невдовзі після закінчення строку вашого повідомлення ми запитаємо, чи відреагував орендодавець. До того часу вам нічого не потрібно робити.",
+    "case.confirmDeleteHint":
+      "Ви можете будь-коли видалити свою справу — посилання є в кожному нашому листі.",
+    "case.confirmInvalid":
+      "Це посилання недійсне або застаріле. Якщо хочете скористатися нагадуванням, зареєструйтеся, будь ласка, знову через нове повідомлення про дефект.",
+    "case.statusTitle": "Ваша справа",
+    "case.statusLoading": "Справа завантажується…",
+    "case.statusInvalid": "Це посилання недійсне або справу вже видалено.",
+    "case.statusDeadline": "Строк для орендодавця",
+    "case.statusQuota": "Відсоток зниження (орієнтовно)",
+    "case.statusQuestion": "Чи відреагував ваш орендодавець?",
+    "case.statusAnswerResolved": "Так, дефекти усунено",
+    "case.statusAnswerPartly": "Частково усунено",
+    "case.statusAnswerNone": "Немає реакції",
+    "case.statusThanks": "Дякуємо за ваш відгук!",
+    "case.statusResolvedTitle": "Раді за вас — орендодавець вжив заходів.",
+    "case.statusResolvedText":
+      "Варто знати: за період, коли існували дефекти, ваша орендна плата була знижена за законом (§ 536 BGB). Якщо ви платили повністю із застереженням, можете вимагати повернення переплати.",
+    "case.statusPartlyTitle": "Початок є — але цього ще недостатньо.",
+    "case.statusPartlyText":
+      "Поки дефекти існують, ваша орендна плата залишається пропорційно зниженою. Зараз доцільно: письмово нагадати про решту дефектів, встановити додатковий строк і далі платити із застереженням.",
+    "case.statusNoneTitle": "Ви не зобов'язані з цим миритися.",
+    "case.statusNoneText":
+      "Ваш орендодавець пропустив строк. Продовжуйте платити із застереженням і документуйте дефекти (фото, дати, свідки).",
+    "case.statusGuideLink": "До порадника",
+    "case.statusLawyerTeaser":
+      "За бажанням юрист з орендного права може безкоштовно та без зобов'язань оцінити вашу справу.",
+    "case.statusLawyerLink": "Докладніше про безкоштовну оцінку",
+    "case.statusError": "На жаль, не вдалося — спробуйте, будь ласка, ще раз.",
+    "case.deleteTitle": "Видалити справу та відкликати згоду",
+    "case.deleteText":
+      "Вашу збережену справу та електронну адресу буде остаточно видалено. Ви більше не отримуватимете нагадувань.",
+    "case.deleteButton": "Видалити справу",
+    "case.deleteConfirmText": "Справді видалити? Цю дію не можна скасувати.",
+    "case.deleteConfirmButton": "Так, видалити остаточно",
+    "case.deletedTitle": "Ваші дані видалено.",
+    "case.deletedText":
+      "Вашу справу та електронну адресу вилучено з нашої системи. Якщо пізніше знову знадобиться підтримка, ви завжди можете створити нове повідомлення про дефект.",
+    "case.lawyerTitle": "Безкоштовна попередня оцінка юриста",
+    "case.lawyerIntro":
+      "Партнерська юридична фірма, допущена до практики в Німеччині, безкоштовно та без зобов'язань перевірить вашу справу і зв'яжеться з вами електронною поштою. Ви нічим не зобов'язані — чи давати доручення далі, вирішуєте лише ви.",
+    "case.lawyerConsent":
+      "Я погоджуюся, що mietminderung-online.de передає моє ім'я, електронну адресу, поштовий індекс і місто, а також дані справи (дефекти з описами, орендну плату, відсоток зниження, перебіг строку та статус реакції орендодавця) партнерському адвокату, щоб він міг зв'язатися зі мною для безкоштовної та незобов'язальної попередньої оцінки. Ця згода добровільна, і я можу відкликати її в будь-який час на майбутнє. Деталі:",
+    "case.lawyerSubmit": "Запросити оцінку",
+    "case.lawyerWorking": "Передається…",
+    "case.lawyerSuccessTitle": "Запит отримано!",
+    "case.lawyerSuccessText":
+      "Дякуємо — партнерська юридична фірма зв'яжеться з вами електронною поштою найближчими днями.",
+    "case.lawyerInvalid": "Це посилання недійсне або справу вже видалено.",
     "teaser.title": "Створити повідомлення про дефект",
     "teaser.desc":
       "Створіть юридично обґрунтоване повідомлення для орендодавця. Спочатку скористайтеся перевіркою для визначення права та розміру зниження.",
@@ -1297,7 +1605,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.aptNr": "Номер квартиры (необязательно)",
     "letter.phone": "Номер телефона",
     "letter.email": "Электронная почта",
-    "letter.emailOptIn": "Я согласен/согласна на сохранение моего адреса электронной почты для получения новостей о снижении арендной платы. Я могу отозвать это согласие в любое время.",
     "letter.landlordData": "Данные арендодателя",
     "letter.landlordName": "Имя арендодателя / Управляющей компании",
     "letter.describeDefects": "Опишите дефекты",
@@ -1324,6 +1631,84 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copyText": "Копировать текст",
     "letter.copied": "Скопировано!",
     "letter.warning": "Всегда отправляйте уведомление с подтверждением получения, лучше всего заказным письмом.",
+
+    // Case saving & reminder emails (opt-in)
+    "case.optinTitle": "Держать срок под контролем?",
+    "case.optinPitch":
+      "У вашего арендодателя есть время до {frist}, чтобы устранить дефекты. По желанию мы сохраним ваше дело и напомним именно тогда, когда это важно.",
+    "case.optinBenefit1": "Напоминание по электронной почте, как только срок истечёт {frist}",
+    "case.optinBenefit2": "Короткий опрос одним кликом: отреагировал ли арендодатель?",
+    "case.optinBenefit3":
+      "Если ничего не происходит: возможные следующие шаги — по желанию бесплатная предварительная оценка юриста",
+    "case.optinEmailLabel": "Ваш адрес электронной почты",
+    "case.optinConsent":
+      "Я соглашаюсь, что mietminderung-online.de сохраняет моё имя, адрес электронной почты, почтовый индекс и город, а также данные дела (дефекты с описаниями, арендную плату, процент снижения, дату срока, ответы проверки права), чтобы отправлять мне письмо-подтверждение и напоминания. Улица, номер телефона, подпись и данные арендодателя не сохраняются. Я могу отозвать это согласие в любое время на будущее — тогда мои данные будут удалены. Подробности:",
+    "case.optinPrivacy": "Политика конфиденциальности",
+    "case.optinSubmit": "Включить напоминание",
+    "case.optinSubmitting": "Сохраняется…",
+    "case.optinSuccessTitle": "Почти готово — подтвердите, пожалуйста, свой адрес электронной почты.",
+    "case.optinSuccessText":
+      "Мы отправили письмо-подтверждение на {email}. Только после нажатия на ссылку подтверждения мы окончательно сохраним ваше дело и будем отправлять напоминания. Не получили письмо? Проверьте также папку «Спам».",
+    "case.optinErrorTitle": "К сожалению, не получилось.",
+    "case.optinErrorText":
+      "Вашу регистрацию сейчас не удалось сохранить. Пожалуйста, попробуйте ещё раз через мгновение — это не влияет на ваше уведомление о дефекте и загрузку.",
+    "case.optinErrorRate": "Слишком много попыток. Подождите, пожалуйста, немного и попробуйте снова.",
+    "case.optinRetry": "Попробовать ещё раз",
+    "case.confirmTitle": "Подтвердить адрес электронной почты",
+    "case.confirmIntro": "Одним кликом вы активируете напоминание о сроке вашего уведомления о дефекте.",
+    "case.confirmButton": "Подтвердить сейчас",
+    "case.confirmWorking": "Подтверждается…",
+    "case.confirmSuccessTitle": "Напоминание активно — ваше дело сохранено.",
+    "case.confirmSuccessText":
+      "Спасибо! Вскоре после истечения срока вашего уведомления мы спросим, отреагировал ли арендодатель. До этого вам ничего не нужно делать.",
+    "case.confirmDeleteHint":
+      "Вы можете в любой момент удалить своё дело — ссылка есть в каждом нашем письме.",
+    "case.confirmInvalid":
+      "Эта ссылка недействительна или устарела. Если хотите использовать напоминание, зарегистрируйтесь, пожалуйста, снова через новое уведомление о дефекте.",
+    "case.statusTitle": "Ваше дело",
+    "case.statusLoading": "Дело загружается…",
+    "case.statusInvalid": "Эта ссылка недействительна или дело уже удалено.",
+    "case.statusDeadline": "Срок для арендодателя",
+    "case.statusQuota": "Процент снижения (ориентировочно)",
+    "case.statusQuestion": "Отреагировал ли ваш арендодатель?",
+    "case.statusAnswerResolved": "Да, дефекты устранены",
+    "case.statusAnswerPartly": "Частично устранены",
+    "case.statusAnswerNone": "Нет реакции",
+    "case.statusThanks": "Спасибо за ваш ответ!",
+    "case.statusResolvedTitle": "Рады за вас — арендодатель принял меры.",
+    "case.statusResolvedText":
+      "Полезно знать: за период существования дефектов ваша арендная плата была снижена по закону (§ 536 BGB). Если вы платили полностью с оговоркой, можете потребовать возврата переплаты.",
+    "case.statusPartlyTitle": "Начало есть — но этого пока недостаточно.",
+    "case.statusPartlyText":
+      "Пока дефекты существуют, ваша арендная плата остаётся пропорционально сниженной. Сейчас разумно: письменно напомнить об оставшихся дефектах, установить дополнительный срок и продолжать платить с оговоркой.",
+    "case.statusNoneTitle": "Вы не обязаны с этим мириться.",
+    "case.statusNoneText":
+      "Ваш арендодатель пропустил срок. Продолжайте платить с оговоркой и документируйте дефекты (фото, даты, свидетели).",
+    "case.statusGuideLink": "К справочнику",
+    "case.statusLawyerTeaser":
+      "По желанию юрист по арендному праву может бесплатно и без обязательств оценить ваше дело.",
+    "case.statusLawyerLink": "Подробнее о бесплатной оценке",
+    "case.statusError": "К сожалению, не получилось — попробуйте, пожалуйста, ещё раз.",
+    "case.deleteTitle": "Удалить дело и отозвать согласие",
+    "case.deleteText":
+      "Ваше сохранённое дело и адрес электронной почты будут окончательно удалены. Вы больше не будете получать напоминания.",
+    "case.deleteButton": "Удалить дело",
+    "case.deleteConfirmText": "Действительно удалить? Это действие нельзя отменить.",
+    "case.deleteConfirmButton": "Да, удалить окончательно",
+    "case.deletedTitle": "Ваши данные удалены.",
+    "case.deletedText":
+      "Ваше дело и адрес электронной почты удалены из нашей системы. Если позже снова понадобится поддержка, вы всегда можете создать новое уведомление о дефекте.",
+    "case.lawyerTitle": "Бесплатная предварительная оценка юриста",
+    "case.lawyerIntro":
+      "Партнёрская юридическая фирма, допущенная к практике в Германии, бесплатно и без обязательств проверит ваше дело и свяжется с вами по электронной почте. Вы ни к чему не обязаны — давать ли поручение дальше, решаете только вы.",
+    "case.lawyerConsent":
+      "Я соглашаюсь, что mietminderung-online.de передаёт моё имя, адрес электронной почты, почтовый индекс и город, а также данные дела (дефекты с описаниями, арендную плату, процент снижения, ход срока и статус реакции арендодателя) партнёрскому адвокату, чтобы он мог связаться со мной для бесплатной и необязательной предварительной оценки. Это согласие добровольно, и я могу отозвать его в любое время на будущее. Подробности:",
+    "case.lawyerSubmit": "Запросить оценку",
+    "case.lawyerWorking": "Передаётся…",
+    "case.lawyerSuccessTitle": "Запрос получен!",
+    "case.lawyerSuccessText":
+      "Спасибо — партнёрская юридическая фирма свяжется с вами по электронной почте в ближайшие дни.",
+    "case.lawyerInvalid": "Эта ссылка недействительна или дело уже удалено.",
     "teaser.title": "Создать уведомление о дефекте",
     "teaser.desc": "Создайте юридически обоснованное уведомление для арендодателя.",
     "teaser.feat1": "Юридический шаблон согласно § 536c BGB",
@@ -1563,7 +1948,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.aptNr": "رقم الشقة (اختياري)",
     "letter.phone": "رقم الهاتف",
     "letter.email": "البريد الإلكتروني",
-    "letter.emailOptIn": "أوافق على حفظ عنوان بريدي الإلكتروني لإرسال أخبار حول تخفيض الإيجار. يمكنني سحب هذه الموافقة في أي وقت.",
     "letter.landlordData": "بيانات المؤجر",
     "letter.landlordName": "اسم المؤجر / شركة الإدارة",
     "letter.describeDefects": "صف العيوب",
@@ -1590,6 +1974,84 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copyText": "نسخ النص",
     "letter.copied": "تم النسخ!",
     "letter.warning": "أرسل الإشعار دائماً بطريقة يمكن إثباتها، والأفضل بالبريد المسجل.",
+
+    // Case saving & reminder emails (opt-in)
+    "case.optinTitle": "هل تريد متابعة المهلة؟",
+    "case.optinPitch":
+      "لدى مؤجرك مهلة حتى {frist} لإصلاح العيوب. إذا رغبت، نحفظ حالتك ونذكّرك في الوقت المناسب تماماً.",
+    "case.optinBenefit1": "تذكير عبر البريد الإلكتروني فور انتهاء المهلة في {frist}",
+    "case.optinBenefit2": "استفسار قصير بنقرة واحدة: هل استجاب المؤجر؟",
+    "case.optinBenefit3":
+      "إذا لم يحدث شيء: الخطوات التالية الممكنة — وعند الرغبة تقييم أولي مجاني من محامٍ",
+    "case.optinEmailLabel": "بريدك الإلكتروني",
+    "case.optinConsent":
+      "أوافق على أن يحفظ mietminderung-online.de اسمي وبريدي الإلكتروني والرمز البريدي والمدينة وبيانات حالتي (العيوب مع الأوصاف، الإيجار، نسبة التخفيض، تاريخ المهلة، إجابات فحص الاستحقاق) لإرسال رسالة تأكيد وتذكيرات لي. لا يتم حفظ الشارع ورقم الهاتف والتوقيع وبيانات المؤجر. يمكنني سحب هذه الموافقة في أي وقت بأثر مستقبلي — وعندها تُحذف بياناتي. التفاصيل:",
+    "case.optinPrivacy": "سياسة الخصوصية",
+    "case.optinSubmit": "تفعيل التذكير",
+    "case.optinSubmitting": "جارٍ الحفظ…",
+    "case.optinSuccessTitle": "اقتربنا — يرجى تأكيد بريدك الإلكتروني.",
+    "case.optinSuccessText":
+      "أرسلنا رسالة تأكيد إلى {email}. لن نحفظ حالتك نهائياً ونرسل التذكيرات إلا بعد نقرك على رابط التأكيد. لم تصلك الرسالة؟ يرجى التحقق من مجلد الرسائل غير المرغوب فيها أيضاً.",
+    "case.optinErrorTitle": "للأسف لم ينجح ذلك.",
+    "case.optinErrorText":
+      "تعذّر حفظ تسجيلك الآن. يرجى المحاولة مرة أخرى بعد قليل — إشعارك بالعيب والتنزيل لا يتأثران بذلك.",
+    "case.optinErrorRate": "محاولات كثيرة جداً. يرجى الانتظار قليلاً ثم المحاولة مرة أخرى.",
+    "case.optinRetry": "المحاولة مرة أخرى",
+    "case.confirmTitle": "تأكيد البريد الإلكتروني",
+    "case.confirmIntro": "بنقرة واحدة تفعّل تذكير المهلة الخاص بإشعارك بالعيب.",
+    "case.confirmButton": "التأكيد الآن",
+    "case.confirmWorking": "جارٍ التأكيد…",
+    "case.confirmSuccessTitle": "التذكير مفعّل — تم حفظ حالتك.",
+    "case.confirmSuccessText":
+      "شكراً لك! بعد انتهاء مهلة إشعارك بقليل سنسألك عمّا إذا كان المؤجر قد استجاب. حتى ذلك الحين لا يلزمك فعل أي شيء.",
+    "case.confirmDeleteHint":
+      "يمكنك حذف حالتك في أي وقت — تجد الرابط في كل رسالة من رسائلنا.",
+    "case.confirmInvalid":
+      "هذا الرابط غير صالح أو منتهي الصلاحية. إذا أردت استخدام التذكير، يرجى التسجيل مجدداً عبر إشعار جديد بالعيب.",
+    "case.statusTitle": "حالتك",
+    "case.statusLoading": "جارٍ تحميل حالتك…",
+    "case.statusInvalid": "هذا الرابط غير صالح أو تم حذف الحالة بالفعل.",
+    "case.statusDeadline": "المهلة الممنوحة للمؤجر",
+    "case.statusQuota": "نسبة التخفيض (استرشادية)",
+    "case.statusQuestion": "هل استجاب مؤجرك؟",
+    "case.statusAnswerResolved": "نعم، تم إصلاح العيوب",
+    "case.statusAnswerPartly": "تم الإصلاح جزئياً",
+    "case.statusAnswerNone": "لا استجابة",
+    "case.statusThanks": "شكراً على ردك!",
+    "case.statusResolvedTitle": "يسعدنا ذلك — لقد تصرّف مؤجرك.",
+    "case.statusResolvedText":
+      "من المفيد معرفته: خلال فترة وجود العيوب كان إيجارك مخفضاً بقوة القانون (§ 536 BGB). إذا دفعت كاملاً مع التحفظ، يمكنك استرداد ما دفعته زيادة.",
+    "case.statusPartlyTitle": "بداية جيدة — لكنها لا تكفي بعد.",
+    "case.statusPartlyText":
+      "ما دامت العيوب قائمة يبقى إيجارك مخفضاً نسبياً. من المناسب الآن: المطالبة كتابياً بإصلاح العيوب المتبقية، وتحديد مهلة إضافية، ومواصلة الدفع مع التحفظ.",
+    "case.statusNoneTitle": "لست مضطراً لقبول ذلك.",
+    "case.statusNoneText":
+      "ترك مؤجرك المهلة تمر دون رد. واصل الدفع مع التحفظ ووثّق العيوب (صور، تواريخ، شهود).",
+    "case.statusGuideLink": "إلى الدليل",
+    "case.statusLawyerTeaser":
+      "عند الرغبة يمكن لمحامٍ متخصص في قانون الإيجار تقييم حالتك مجاناً ودون التزام.",
+    "case.statusLawyerLink": "المزيد عن التقييم المجاني",
+    "case.statusError": "للأسف لم ينجح ذلك — يرجى المحاولة مرة أخرى.",
+    "case.deleteTitle": "حذف الحالة وسحب الموافقة",
+    "case.deleteText":
+      "بذلك تُحذف حالتك المحفوظة وبريدك الإلكتروني نهائياً. لن تتلقى أي تذكيرات أخرى.",
+    "case.deleteButton": "حذف الحالة",
+    "case.deleteConfirmText": "هل تريد الحذف فعلاً؟ لا يمكن التراجع عن هذه الخطوة.",
+    "case.deleteConfirmButton": "نعم، الحذف نهائياً",
+    "case.deletedTitle": "تم حذف بياناتك.",
+    "case.deletedText":
+      "أُزيلت حالتك وبريدك الإلكتروني من نظامنا. إذا احتجت الدعم لاحقاً، يمكنك إنشاء إشعار جديد بالعيب في أي وقت.",
+    "case.lawyerTitle": "تقييم أولي مجاني من محامٍ",
+    "case.lawyerIntro":
+      "يفحص مكتب محاماة شريك مرخّص في ألمانيا حالتك مجاناً ودون التزام ويتواصل معك عبر البريد الإلكتروني. لا يترتب عليك أي التزام — وقرار التوكيل بعد ذلك يعود إليك وحدك.",
+    "case.lawyerConsent":
+      "أوافق على أن يرسل mietminderung-online.de اسمي وبريدي الإلكتروني والرمز البريدي والمدينة وبيانات حالتي (العيوب مع الأوصاف، الإيجار، نسبة التخفيض، مسار المهلة وحالة استجابة المؤجر) إلى محامٍ شريك ليتمكن من التواصل معي لتقييم أولي مجاني وغير ملزم. هذه الموافقة طوعية ويمكن سحبها في أي وقت بأثر مستقبلي. التفاصيل:",
+    "case.lawyerSubmit": "طلب التقييم الأولي",
+    "case.lawyerWorking": "جارٍ الإرسال…",
+    "case.lawyerSuccessTitle": "تم استلام طلبك!",
+    "case.lawyerSuccessText":
+      "شكراً لك — سيتواصل معك مكتب محاماة شريك عبر البريد الإلكتروني خلال الأيام القادمة.",
+    "case.lawyerInvalid": "هذا الرابط غير صالح أو تم حذف الحالة بالفعل.",
     "teaser.title": "إنشاء إشعار بالعيب",
     "teaser.desc": "أنشئ إشعاراً قانونياً للمؤجر.",
     "teaser.feat1": "قالب قانوني وفقاً لـ § 536c BGB",
@@ -1826,7 +2288,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.aptNr": "Numer mieszkania (opcjonalnie)",
     "letter.phone": "Numer telefonu",
     "letter.email": "Adres e-mail",
-    "letter.emailOptIn": "Wyrażam zgodę na zapisanie mojego adresu e-mail w celu przesyłania informacji o obniżeniu czynszu. Mogę w każdej chwili wycofać tę zgodę.",
     "letter.landlordData": "Dane wynajmującego",
     "letter.landlordName": "Nazwa wynajmującego / Zarządzającego",
     "letter.describeDefects": "Opisz usterki",
@@ -1853,6 +2314,84 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copyText": "Kopiuj tekst",
     "letter.copied": "Skopiowano!",
     "letter.warning": "Zawsze wysyłaj zgłoszenie w sposób udokumentowany, najlepiej listem poleconym.",
+
+    // Case saving & reminder emails (opt-in)
+    "case.optinTitle": "Chcesz mieć termin pod kontrolą?",
+    "case.optinPitch":
+      "Twój wynajmujący ma czas do {frist} na usunięcie usterek. Na życzenie zapiszemy Twoją sprawę i odezwiemy się dokładnie wtedy, gdy będzie to ważne.",
+    "case.optinBenefit1": "Przypomnienie e-mailem, gdy termin upłynie {frist}",
+    "case.optinBenefit2": "Krótkie pytanie o status jednym kliknięciem: czy wynajmujący zareagował?",
+    "case.optinBenefit3":
+      "Jeśli nic się nie dzieje: możliwe kolejne kroki — na życzenie także bezpłatna wstępna ocena prawnika",
+    "case.optinEmailLabel": "Twój adres e-mail",
+    "case.optinConsent":
+      "Wyrażam zgodę na zapisanie przez mietminderung-online.de mojego imienia i nazwiska, adresu e-mail, kodu pocztowego i miejscowości oraz danych sprawy (usterki z opisami, czynsz, stawka obniżki, data terminu, odpowiedzi z weryfikacji uprawnienia) w celu wysłania mi e-maila potwierdzającego i przypomnień. Ulica, numer telefonu, podpis i dane wynajmującego nie są zapisywane. Mogę w każdej chwili wycofać tę zgodę ze skutkiem na przyszłość — moje dane zostaną wtedy usunięte. Szczegóły:",
+    "case.optinPrivacy": "Polityka prywatności",
+    "case.optinSubmit": "Włącz przypomnienie",
+    "case.optinSubmitting": "Zapisywanie…",
+    "case.optinSuccessTitle": "Prawie gotowe — potwierdź proszę swój adres e-mail.",
+    "case.optinSuccessText":
+      "Wysłaliśmy e-mail potwierdzający na {email}. Dopiero po kliknięciu linku potwierdzającego zapiszemy Twoją sprawę na stałe i będziemy wysyłać przypomnienia. Brak wiadomości? Sprawdź też folder spam.",
+    "case.optinErrorTitle": "Niestety się nie udało.",
+    "case.optinErrorText":
+      "Nie udało się teraz zapisać Twojego zgłoszenia. Spróbuj proszę za chwilę ponownie — Twoje zgłoszenie usterki i pobieranie nie są tym objęte.",
+    "case.optinErrorRate": "Zbyt wiele prób. Odczekaj proszę chwilę i spróbuj ponownie.",
+    "case.optinRetry": "Spróbuj ponownie",
+    "case.confirmTitle": "Potwierdź adres e-mail",
+    "case.confirmIntro": "Jednym kliknięciem aktywujesz przypomnienie o terminie Twojego zgłoszenia usterki.",
+    "case.confirmButton": "Potwierdź teraz",
+    "case.confirmWorking": "Potwierdzanie…",
+    "case.confirmSuccessTitle": "Przypomnienie aktywne — Twoja sprawa jest zapisana.",
+    "case.confirmSuccessText":
+      "Dziękujemy! Krótko po upływie terminu Twojego zgłoszenia zapytamy, czy wynajmujący zareagował. Do tego czasu nie musisz nic robić.",
+    "case.confirmDeleteHint":
+      "Możesz w każdej chwili usunąć swoją sprawę — link znajdziesz w każdym naszym e-mailu.",
+    "case.confirmInvalid":
+      "Ten link jest nieprawidłowy lub wygasł. Jeśli chcesz korzystać z przypomnienia, zarejestruj się proszę ponownie poprzez nowe zgłoszenie usterki.",
+    "case.statusTitle": "Twoja sprawa",
+    "case.statusLoading": "Ładowanie sprawy…",
+    "case.statusInvalid": "Ten link jest nieprawidłowy lub sprawa została już usunięta.",
+    "case.statusDeadline": "Termin dla wynajmującego",
+    "case.statusQuota": "Stawka obniżki (orientacyjnie)",
+    "case.statusQuestion": "Czy wynajmujący zareagował?",
+    "case.statusAnswerResolved": "Tak, usterki usunięte",
+    "case.statusAnswerPartly": "Częściowo usunięte",
+    "case.statusAnswerNone": "Brak reakcji",
+    "case.statusThanks": "Dziękujemy za odpowiedź!",
+    "case.statusResolvedTitle": "Cieszymy się — wynajmujący zadziałał.",
+    "case.statusResolvedText":
+      "Warto wiedzieć: za okres istnienia usterek Twój czynsz był obniżony z mocy prawa (§ 536 BGB). Jeśli płaciłeś/aś w pełnej wysokości z zastrzeżeniem, możesz żądać zwrotu nadpłaty.",
+    "case.statusPartlyTitle": "Dobry początek — ale to jeszcze za mało.",
+    "case.statusPartlyText":
+      "Dopóki usterki istnieją, czynsz pozostaje proporcjonalnie obniżony. Teraz warto: pisemnie upomnieć się o pozostałe usterki, wyznaczyć dodatkowy termin i dalej płacić z zastrzeżeniem.",
+    "case.statusNoneTitle": "Nie musisz się z tym godzić.",
+    "case.statusNoneText":
+      "Wynajmujący pozwolił terminowi upłynąć. Płać dalej z zastrzeżeniem i dokumentuj usterki (zdjęcia, daty, świadkowie).",
+    "case.statusGuideLink": "Do poradnika",
+    "case.statusLawyerTeaser":
+      "Na życzenie prawnik od prawa najmu może bezpłatnie i niewiążąco ocenić Twoją sprawę.",
+    "case.statusLawyerLink": "Więcej o bezpłatnej ocenie",
+    "case.statusError": "Niestety się nie udało — spróbuj proszę ponownie.",
+    "case.deleteTitle": "Usuń sprawę i wycofaj zgodę",
+    "case.deleteText":
+      "Twoja zapisana sprawa i adres e-mail zostaną trwale usunięte. Nie otrzymasz kolejnych przypomnień.",
+    "case.deleteButton": "Usuń sprawę",
+    "case.deleteConfirmText": "Na pewno usunąć? Tego kroku nie można cofnąć.",
+    "case.deleteConfirmButton": "Tak, usuń trwale",
+    "case.deletedTitle": "Twoje dane zostały usunięte.",
+    "case.deletedText":
+      "Twoja sprawa i adres e-mail zostały usunięte z naszego systemu. Jeśli później znów będziesz potrzebować wsparcia, możesz w każdej chwili utworzyć nowe zgłoszenie usterki.",
+    "case.lawyerTitle": "Bezpłatna wstępna ocena prawnika",
+    "case.lawyerIntro":
+      "Partnerska kancelaria dopuszczona do wykonywania zawodu w Niemczech bezpłatnie i niewiążąco sprawdzi Twoją sprawę i skontaktuje się z Tobą e-mailem. Nie wiąże się to z żadnym zobowiązaniem — o udzieleniu pełnomocnictwa decydujesz wyłącznie Ty.",
+    "case.lawyerConsent":
+      "Wyrażam zgodę na przekazanie przez mietminderung-online.de mojego imienia i nazwiska, adresu e-mail, kodu pocztowego i miejscowości oraz danych sprawy (usterki z opisami, czynsz, stawka obniżki, przebieg terminu i status reakcji wynajmującego) partnerskiemu adwokatowi, aby mógł skontaktować się ze mną w sprawie bezpłatnej i niewiążącej wstępnej oceny. Zgoda jest dobrowolna i mogę ją w każdej chwili wycofać ze skutkiem na przyszłość. Szczegóły:",
+    "case.lawyerSubmit": "Poproś o ocenę",
+    "case.lawyerWorking": "Przekazywanie…",
+    "case.lawyerSuccessTitle": "Otrzymaliśmy Twoje zapytanie!",
+    "case.lawyerSuccessText":
+      "Dziękujemy — partnerska kancelaria skontaktuje się z Tobą e-mailem w najbliższych dniach.",
+    "case.lawyerInvalid": "Ten link jest nieprawidłowy lub sprawa została już usunięta.",
     "teaser.title": "Utwórz zgłoszenie usterki",
     "teaser.desc": "Utwórz prawnie wiążące zgłoszenie dla wynajmującego.",
     "teaser.feat1": "Szablon prawny zgodny z § 536c BGB",
