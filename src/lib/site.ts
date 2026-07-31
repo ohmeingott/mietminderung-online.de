@@ -61,14 +61,31 @@ const siteUrl = toOrigin(rawSiteUrl);
 const siteHost = new URL(siteUrl).host;
 
 const operator = {
-  name: "Paul Ohm",
+  /**
+   * The contracting party, and therefore the provider named on every legal
+   * page. It has to be the same entity that signs the eBrief service contract
+   * (customer number D01039646) — a tenant who orders from one name while the
+   * letter is commissioned by another has no counterparty they can hold to it.
+   */
+  name: "Animals of Cologne",
+  /**
+   * Named separately because a business name alone does not satisfy § 5 DDG:
+   * behind a Geschäftsbezeichnung without a legal form there must be a natural
+   * person, and § 18 Abs. 2 MStV wants that person for the content as well.
+   */
+  owner: "Maximilian Marowsky",
   street: "Holzgasse 8",
   zip: "50676",
   city: "Köln",
   country: "Deutschland",
   /** ISO 3166-1 alpha-2, for structured data. */
   countryCode: "DE",
-  email: "pjhohm@gmail.com",
+  /**
+   * Reachable by the contracting party, not by a predecessor: withdrawal
+   * declarations, Art. 15 requests and order questions all arrive here, and
+   * every one of them is a deadline running against us.
+   */
+  email: "info@animals-of-cologne.de",
 } as const;
 
 /** Operator details and legal metadata used across the legal pages. */
