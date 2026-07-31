@@ -128,6 +128,36 @@ entfällt.
 `Id` und `CreatedAt` statt `DateCreated`. Die drei Job-Darstellungen der API
 sind untereinander nicht feldgleich.
 
+## Nicht genutzte Endpunkte, die relevant werden könnten
+
+**`POST /Jobs/payment`** — „Sent job(s) for further processing and sends it for
+payment. **Only jobs that are in status `USER_WAIT_FOR_SHOPPING` are possible
+to process.**" Body wie bei der Distribution: `{ Ids: [int] }`.
+
+eBrief hat also ein eigenes Bezahl-/Warenkorb-Konzept. Unser Webhook ruft nach
+der Stripe-Zahlung direkt `POST /Jobs/distribution`. Landet ein Job stattdessen
+in `USER_WAIT_FOR_SHOPPING`, könnte davor `POST /Jobs/payment` nötig sein.
+**Das ist am Statusverlauf des Staging-Laufs abzulesen** — erreicht ein
+committeter Job diesen Status, muss der Webhook den Schritt ergänzen.
+
+**`GET /Docs/{docId}/ProcessedFile`** — „Document generated PDF file". Das ist
+das PDF, das tatsächlich gedruckt wird. Als Vorschau vor der Zahlung
+aussagekräftiger als das markierte PNG, wenn es darum geht, dem Nutzer zu
+zeigen, was ankommt; `FileWithMark` bleibt die bessere Wahl, wenn es um die
+erkannte Adresszone geht.
+
+**`GET /Docs/{docId}/events`** und **`GET /Docs/shipments/{shipmentNumber}`** —
+Sendungsverfolgung nach dem Versand. Interessant, falls später ein
+Sendungsstatus im Nutzerkonto gezeigt werden soll; aktuell nicht im Umfang.
+
+**`PUT /Jobs/status`**, **`GET|POST /Jobs/{jobId}/attributes`**,
+**`POST /Jobs/small`** — Statusänderung von außen, nachträgliches Ändern der
+Job-Attribute, vereinfachte Suche. Alle ungenutzt.
+
+Im Suchergebnis heißt das Adressfeld **`AdressInformation`** (ein d), während
+`DocumentDetailsInfo` **`AddressInformation`** schreibt. Kein Tippfehler
+unsererseits — die API ist an dieser Stelle inkonsistent.
+
 ## Anfrageschemata
 
 - `PUT /Jobs/{id}`: `{ "IsRollback": false }`
