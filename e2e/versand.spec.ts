@@ -56,6 +56,14 @@ async function expectFreeDownloadIntact(page: Page) {
   await expect(page.getByTestId("dispatch-card")).toBeVisible();
 }
 
+/**
+ * The § 356 Abs. 4 BGB declaration gates the order button, so every path that
+ * reaches checkout has to make it — exactly as a real user would.
+ */
+async function zustimmen(page: Page) {
+  await page.getByTestId("dispatch-consent").check();
+}
+
 /** The switcher's aria-label is itself translated, so target it by test id. */
 async function switchLanguage(page: Page, code: string) {
   await page.getByTestId("language-switcher").click();
@@ -110,6 +118,49 @@ test.describe("Postversand (eBrief)", () => {
     );
   });
 
+  test("keeps the order button locked until the withdrawal declaration is made", async ({
+    page,
+  }) => {
+    const stub = await stubVersandApi(page, { status: "bereit" });
+    await reachDispatchCard(page);
+
+    // Unticked on arrival. A pre-selected box is not the "ausdrückliche
+    // Zustimmung" § 356 Abs. 4 BGB asks for, and the whole declaration would
+    // be worthless if the user never had to make it.
+    const kasten = page.getByTestId("dispatch-consent");
+    await expect(kasten).not.toBeChecked();
+    await expect(page.getByTestId("dispatch-submit")).toBeDisabled();
+
+    // Both halves of the declaration have to be on the page, not just a link
+    // to them: the request to start early, and the loss of the right.
+    const karte = await page.getByTestId("dispatch-card").innerText();
+    expect(karte).toContain("Ich verlange ausdrücklich");
+    expect(karte).toContain("Widerrufsrecht erlischt");
+
+    await kasten.check();
+    await expect(page.getByTestId("dispatch-submit")).toBeEnabled();
+
+    // And it is revocable right up to the order — unticking locks it again.
+    await kasten.uncheck();
+    await expect(page.getByTestId("dispatch-submit")).toBeDisabled();
+
+    expect(stub.checkout).toHaveLength(0);
+    await expectFreeDownloadIntact(page);
+  });
+
+  test("links the withdrawal terms from the dispatch card", async ({ page }) => {
+    await stubVersandApi(page);
+    await reachDispatchCard(page);
+
+    const link = page
+      .getByTestId("dispatch-card")
+      .getByRole("link", { name: "Widerrufsbelehrung" });
+    // A new tab: the letter lives in React state and does not survive a
+    // navigation, so reading the terms must not cost the tenant their draft.
+    await expect(link).toHaveAttribute("href", "/widerruf");
+    await expect(link).toHaveAttribute("target", "_blank");
+  });
+
   test("prepares the job, waits for the ready status and opens the payment page", async ({
     page,
   }) => {
@@ -117,6 +168,7 @@ test.describe("Postversand (eBrief)", () => {
     await reachDispatchCard(page);
     await expectFreeDownloadIntact(page);
 
+    await zustimmen(page);
     await page.getByTestId("dispatch-submit").click();
     await page.waitForURL(/checkout\.stripe\.test/);
     expect(page.url()).toBe(STRIPE_STUB_URL);
@@ -145,6 +197,9 @@ test.describe("Postversand (eBrief)", () => {
       jobId: VERSAND_JOB_ID,
       produktId: "brief",
       token: VERSAND_TOKEN,
+      // Without this the server refuses the session — the letter would go out
+      // while the tenant still had fourteen days to withdraw.
+      zustimmung: true,
     });
   });
 
@@ -155,6 +210,7 @@ test.describe("Postversand (eBrief)", () => {
     await reachDispatchCard(page);
 
     await page.getByTestId("dispatch-option-einwurfEinschreiben").check();
+    await zustimmen(page);
     await page.getByTestId("dispatch-submit").click();
 
     const warnung = page.getByTestId("dispatch-address-warning");
@@ -184,6 +240,7 @@ test.describe("Postversand (eBrief)", () => {
       jobId: VERSAND_JOB_ID,
       produktId: "einwurfEinschreiben",
       token: VERSAND_TOKEN,
+      zustimmung: true,
     });
   });
 
@@ -194,6 +251,7 @@ test.describe("Postversand (eBrief)", () => {
       vorbereitenFehler: { status: 422, slug: "anschrift_zu_lang" },
     });
     await reachDispatchCard(page);
+    await zustimmen(page);
     await page.getByTestId("dispatch-submit").click();
 
     const fehler = page.getByTestId("dispatch-error");
@@ -214,6 +272,7 @@ test.describe("Postversand (eBrief)", () => {
       vorbereitenFehler: { status: 500, slug: "voellig_unbekannter_slug" },
     });
     await reachDispatchCard(page);
+    await zustimmen(page);
     await page.getByTestId("dispatch-submit").click();
 
     const fehler = page.getByTestId("dispatch-error");
@@ -235,6 +294,7 @@ test.describe("Postversand (eBrief)", () => {
     // the box used to render as an alert icon with no text next to it.
     await stubVersandApi(page, { vorbereitenFehler: { abbruch: true } });
     await reachDispatchCard(page);
+    await zustimmen(page);
     await page.getByTestId("dispatch-submit").click();
 
     const fehler = page.getByTestId("dispatch-error");
@@ -255,6 +315,7 @@ test.describe("Postversand (eBrief)", () => {
       checkoutFehler: { status: 502, slug: "checkout_fehler" },
     });
     await reachDispatchCard(page);
+    await zustimmen(page);
     await page.getByTestId("dispatch-submit").click();
 
     const fehler = page.getByTestId("dispatch-error");
@@ -317,6 +378,7 @@ test.describe("Postversand (eBrief)", () => {
       "Ücretli olarak gönder"
     );
 
+    await zustimmen(page);
     await page.getByTestId("dispatch-submit").click();
     await expect(page.getByTestId("dispatch-address-warning")).toContainText(
       "Ev sahibinin adresi kesin olarak doğrulanamadı"

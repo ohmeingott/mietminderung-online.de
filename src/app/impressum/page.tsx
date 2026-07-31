@@ -20,6 +20,8 @@ export default function Impressum() {
         <address>
           {site.operator.name}
           <br />
+          Inhaber: {site.operator.owner}
+          <br />
           {site.operator.street}
           <br />
           {site.operator.zip} {site.operator.city}
@@ -41,9 +43,11 @@ export default function Impressum() {
         </p>
       </LegalSection>
 
+      {/* A natural person, not the business name: the provision asks who is
+          answerable for the content, and a Geschäftsbezeichnung cannot be. */}
       <LegalSection heading="Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV">
         <address>
-          {site.operator.name}
+          {site.operator.owner}
           <br />
           {site.operator.street}
           <br />

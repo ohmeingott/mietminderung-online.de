@@ -20,6 +20,8 @@ export default function Datenschutz() {
           <address>
             {site.operator.name}
             <br />
+            Inhaber: {site.operator.owner}
+            <br />
             {site.operator.street}
             <br />
             {site.operator.zip} {site.operator.city}
@@ -49,7 +51,10 @@ export default function Datenschutz() {
           </p>
           <p>
             Eine Übermittlung findet nur statt, wenn Sie eine der unten
-            beschriebenen optionalen Funktionen aktiv auslösen.
+            beschriebenen optionalen Funktionen aktiv auslösen. Das gilt
+            insbesondere für den kostenpflichtigen Postversand: Erst wenn Sie
+            ihn auslösen, verlassen der Brieftext und die Anschriften Ihren
+            Browser.
           </p>
         </>
       ),
@@ -227,6 +232,107 @@ export default function Datenschutz() {
       ),
     },
     {
+      heading: "Postversand der Mängelanzeige (kostenpflichtig)",
+      body: (
+        <>
+          <p>
+            Nur wenn Sie den kostenpflichtigen Postversand auslösen, verlässt
+            Ihre Mängelanzeige den Browser. Übermittelt werden dann{" "}
+            <strong>
+              der vollständige Brieftext, Ihr Name und Ihre Anschrift, Name und
+              Anschrift Ihres Vermieters, Ihre E-Mail-Adresse für die
+              Versandbestätigung sowie Ihre Unterschrift
+            </strong>
+            , sofern Sie eine gezeichnet haben. Ohne diese Angaben lässt sich
+            kein Brief drucken und zustellen.
+          </p>
+          <p>
+            Empfänger ist die <strong>PIN AG</strong>, Alt-Moabit 91, 10559
+            Berlin, die für uns als Auftragsverarbeiterin nach Art. 28 DSGVO
+            tätig wird. Sie setzt für Druck und Kuvertierung ihrerseits folgende
+            Unterauftragnehmer ein: BC Directgroup GmbH (Rigistraße 9, 12277
+            Berlin), Möller Druck &amp; Verlag GmbH (Zeppelinstraße 9, 16356
+            Ahrensfelde) und ODS – Office Data Service GmbH (Ehrenbergstraße
+            16A, 10245 Berlin).
+          </p>
+          <ul>
+            <li>
+              <strong>Zweck:</strong> Druck, Kuvertierung, Frankierung und
+              postalische Zustellung Ihrer Mängelanzeige
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO
+              (Erfüllung des von Ihnen geschlossenen Versandvertrags)
+            </li>
+            <li>
+              <strong>Ort der Verarbeitung:</strong> ausschließlich innerhalb
+              der EU bzw. des EWR
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> Haben Sie den Versand begonnen,
+              aber nicht bezahlt, wird der Auftrag nach spätestens 24 Stunden
+              automatisch gelöscht. Versendete Aufträge werden von der PIN AG
+              spätestens 28 Tage nach Beendigung der Leistungserbringung
+              gelöscht; davon unberührt bleiben gesetzliche
+              Aufbewahrungspflichten für Rechnungsbelege.
+            </li>
+          </ul>
+          <p>
+            Eine <strong>Pseudonymisierung findet nicht statt</strong>: Namen
+            und Anschriften müssen im Klartext vorliegen, weil ein Brief sonst
+            nicht zugestellt werden kann. Wir selbst speichern weder den
+            Brieftext noch die Anschriften; wir führen keine Datenbank über
+            Ihren Vorgang.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Zahlungsabwicklung: Stripe",
+      body: (
+        <>
+          <p>
+            Die Bezahlung des Postversands wickelt die{" "}
+            <strong>Stripe Payments Europe, Limited</strong>, 1 Grand Canal
+            Street Lower, Grand Canal Dock, Dublin, Irland ab. Sie werden dafür
+            auf eine von Stripe betriebene Bezahlseite weitergeleitet.
+          </p>
+          <ul>
+            <li>
+              <strong>Was dort anfällt:</strong> Ihre Zahlungsdaten geben Sie
+              unmittelbar bei Stripe ein. Wir erhalten sie nicht und speichern
+              sie nicht — uns erreicht nur die Information, ob eine Zahlung
+              erfolgreich war, sowie der Betrag und eine Vorgangsnummer.
+            </li>
+            <li>
+              <strong>Zweck:</strong> Abwicklung Ihrer Zahlung und Zuordnung zum
+              richtigen Briefauftrag
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> Der Zahlungsvorgang bleibt bei
+              Stripe im Rahmen der handels- und steuerrechtlichen
+              Aufbewahrungsfristen gespeichert.
+            </li>
+          </ul>
+          <p>
+            Stripe kann Daten an die Muttergesellschaft in den USA übermitteln.
+            Einzelheiten:{" "}
+            <a
+              href="https://stripe.com/de/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              stripe.com/de/privacy
+            </a>
+            .
+          </p>
+        </>
+      ),
+    },
+    {
       heading: "Lokale Speicherung im Browser",
       body: (
         <p>
@@ -263,6 +369,24 @@ export default function Datenschutz() {
                 <tr>
                   <td>Google Ireland Limited</td>
                   <td>KI-Textverbesserung, E-Mail-Verteiler</td>
+                  <td>Irland (EU)</td>
+                </tr>
+                <tr>
+                  <td>PIN AG</td>
+                  <td>Druck und Zustellung beim Postversand</td>
+                  <td>Deutschland (EU)</td>
+                </tr>
+                <tr>
+                  <td>
+                    BC Directgroup GmbH, Möller Druck &amp; Verlag GmbH, ODS –
+                    Office Data Service GmbH
+                  </td>
+                  <td>Druckdienstleister der PIN AG (Unterauftragnehmer)</td>
+                  <td>Deutschland (EU)</td>
+                </tr>
+                <tr>
+                  <td>Stripe Payments Europe, Limited</td>
+                  <td>Zahlungsabwicklung beim Postversand</td>
                   <td>Irland (EU)</td>
                 </tr>
               </tbody>
