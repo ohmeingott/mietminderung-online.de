@@ -6,7 +6,7 @@ test.describe("Landing page and navigation", () => {
     await page.goto("/");
 
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Weniger Miete zahlen"
+      "Schimmel, Lärm, kaputte Heizung?"
     );
     await expect(page.locator("#so-funktionierts")).toBeVisible();
     await expect(page.locator("#pruefung")).toBeVisible();

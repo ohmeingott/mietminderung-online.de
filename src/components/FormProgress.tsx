@@ -1,89 +1,51 @@
 "use client";
 
-import { Check } from "lucide-react";
-
 interface FormProgressProps {
-  /** Short label per phase, in order. */
-  steps: string[];
-  /** Index of the phase the user is currently in. */
-  currentStep: number;
+  /** Screens the user has finished. */
+  completed: number;
+  /** Screens that make up the whole form. */
+  total: number;
   /**
-   * Fraction (0–1) of the current phase already completed, for phases made up
-   * of several screens. Phases without sub-screens leave this at 0.
+   * Names the current position for assistive technology, which has no bar to
+   * look at. Not rendered.
    */
-  subProgress?: number;
-  /** Renders every segment as filled: the user has nothing left to do. */
-  complete?: boolean;
+  label: string;
 }
 
 /**
- * Segmented progress rail: one bar per phase, the active one filling up as the
- * user works through its screens. Replaces separate question/step counters:
- * the segments themselves communicate how far along the form is.
+ * The top edge of a form card, filling as the user works through the form.
+ *
+ * Render it as the first child of the card, which needs `overflow-hidden` so
+ * the bar picks up the rounded corners. Standing on its own between the
+ * headline and the card it read as a divider rather than as part of the form,
+ * which is why it lives on the card itself.
+ *
+ * It measures screens, not phases. A phase-based bar crawls through a phase
+ * built of several screens and then jumps, which reads as if answering did
+ * nothing. Both forms on the landing page use it, so the letter reads as the
+ * next chapter of one journey rather than a second kind of tool.
  */
 export default function FormProgress({
-  steps,
-  currentStep,
-  subProgress = 0,
-  complete = false,
+  completed,
+  total,
+  label,
 }: FormProgressProps) {
-  const fillOf = (index: number) => {
-    if (complete || index < currentStep) return 1;
-    if (index > currentStep) return 0;
-    return Math.min(Math.max(subProgress, 0), 1);
-  };
-
-  const percent = Math.round(
-    (steps.reduce((sum, _, i) => sum + fillOf(i), 0) / steps.length) * 100,
-  );
+  const done = Math.min(Math.max(completed, 0), Math.max(total, 0));
+  const percent = total > 0 ? Math.round((done / total) * 100) : 0;
 
   return (
     <div
+      className="h-1 w-full overflow-hidden bg-ink-200"
       role="progressbar"
       aria-valuenow={percent}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-valuetext={`${steps[currentStep]}, ${percent}%`}
+      aria-valuetext={`${label}, ${percent}%`}
     >
-      <ol className="flex gap-2">
-        {steps.map((label, i) => {
-          const done = complete || i < currentStep;
-          const active = !complete && i === currentStep;
-
-          return (
-            <li key={label} className="min-w-0 flex-1">
-              <div
-                className={`mb-1.5 hidden items-center gap-1 text-xs sm:flex ${
-                  active
-                    ? "font-semibold text-brand-700"
-                    : done
-                      ? "text-ink-500"
-                      : "text-ink-400"
-                }`}
-              >
-                {done && <Check className="h-3.5 w-3.5 shrink-0" aria-hidden />}
-                <span className="truncate">{label}</span>
-              </div>
-              <div
-                className={`h-1.5 w-full overflow-hidden rounded-full ${
-                  active ? "bg-brand-100" : "bg-ink-200"
-                }`}
-              >
-                <div
-                  className="progress-fill h-full rounded-full bg-brand-600"
-                  style={{ width: `${fillOf(i) * 100}%` }}
-                />
-              </div>
-            </li>
-          );
-        })}
-      </ol>
-
-      {/* Truncated labels would hurt most on the phase the user is actually in,
-          so mobile shows only that one, at full width. */}
-      <p className="mt-2.5 text-center text-sm font-medium text-brand-700 sm:hidden">
-        {steps[complete ? steps.length - 1 : currentStep]}
-      </p>
+      <div
+        className="progress-fill h-full rounded-e-full bg-brand-600"
+        style={{ width: `${percent}%` }}
+      />
     </div>
   );
 }
