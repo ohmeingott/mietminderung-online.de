@@ -110,7 +110,10 @@ export default function CaseOptInCard(props: CaseOptInCardProps) {
   }
 
   return (
-    <div className="mt-6 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-5">
+    <div
+      data-testid="case-optin-card"
+      className="mt-6 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-5"
+    >
       <div className="flex items-start gap-3">
         <BellRing className="mt-0.5 h-5 w-5 shrink-0 text-brand-700" aria-hidden />
         <div className="min-w-0 flex-1">

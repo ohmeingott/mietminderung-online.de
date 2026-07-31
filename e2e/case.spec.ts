@@ -105,11 +105,19 @@ test.describe("Case opt-in card (delivery step)", () => {
     await expect(page.getByTestId("case-optin-success")).toHaveCount(0);
   });
 
-  test("keeps the delivery step free of price patterns", async ({ page }) => {
+  test("keeps the case opt-in free of price patterns", async ({ page }) => {
     await reachDeliveryStep(page);
-    const section = await page.locator("#maengelanzeige").innerText();
-    expect(section).not.toMatch(/\d[.,]\d{2}\s*€/);
-    expect(section.toLowerCase()).not.toContain("zahlungspflichtig");
+
+    // Scoped to the opt-in card, not to the whole step. The step also carries
+    // the paid postal dispatch, which names its prices on purpose — asserting
+    // over the step would now forbid that. What must stay true is narrower and
+    // still worth guarding: saving a case and being reminded of the deadline
+    // is free, and nothing in this card may suggest otherwise.
+    const card = await page.getByTestId("case-optin-card").innerText();
+    expect(card).not.toMatch(/\d[.,]\d{2}\s*€/);
+    expect(card.toLowerCase()).not.toContain("zahlungspflichtig");
+    expect(card.toLowerCase()).not.toContain("kostenpflichtig");
+
     await expectNoHorizontalOverflow(page);
   });
 });
