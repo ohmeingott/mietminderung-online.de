@@ -23,11 +23,26 @@ Zwei Schlüsse:
    ausdrücklich weitergereicht wird. Die Annahme, auf der der gesamte
    Zahlungsablauf steht, hält.
 2. **Der Endzustand ist `USER_WAIT_FOR_SHOPPING`** — genau der Status, den
-   `POST /Jobs/payment` laut Spezifikation als einzigen akzeptiert. eBriefs
-   eigener Warenkorbschritt liegt also in unserem Pfad. Ob
-   `POST /Jobs/distribution` aus diesem Status heraus direkt funktioniert oder
-   ob `POST /Jobs/payment` davor nötig ist, ist **noch offen** und der letzte
-   ungeprüfte Schritt der Kette.
+   `POST /Jobs/payment` laut Spezifikation als einzigen akzeptiert.
+
+**Der Versandschritt, gemessen** (`scripts/ebrief-spike-versand.ts`, derselbe
+Tag):
+
+```
+USER_WAIT_FOR_SHOPPING --POST /Jobs/distribution--> DISTRIBUTION_READY_FOR
+```
+
+`POST /Jobs/distribution` wirkt **direkt** aus `USER_WAIT_FOR_SHOPPING`.
+`POST /Jobs/payment` ist trotz seiner Statusbedingung **nicht** erforderlich —
+eBriefs Warenkorbschritt ist ein alternativer Weg, kein vorgeschalteter. Der
+Stripe-Webhook ist damit so richtig, wie er gebaut ist.
+
+`payJob()` bleibt im Client, wird aber von der Anwendung nicht aufgerufen; es
+existiert nur noch als Instrument, um diese Messung wiederholen zu können,
+falls eBrief den Ablauf ändert.
+
+Die real auftretenden Status `COMITTED` und `USER_WAIT_FOR_SHOPPING` stehen
+beide in `VOR_VERTEILUNG_STATUSES`, die Erlaubnisliste greift also.
 
 **Adresserkennung: fehlerfrei.** Aus unserem Layout gelesen:
 
