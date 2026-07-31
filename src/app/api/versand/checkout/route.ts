@@ -30,6 +30,22 @@ const PRODUKTNAMEN: Record<ProduktId, string> = {
 };
 
 /**
+ * What the payer sees on their bank statement, appended to the account's
+ * shortened descriptor as "<PREFIX>* MIETMINDERUNG".
+ *
+ * The Stripe account belongs to Animals of Cologne and carries other services,
+ * so its default descriptor is the company — which is precisely the name a
+ * tenant who bought on mietminderung-online.de would not recognise weeks later
+ * on a statement. An unrecognised line is what a chargeback is made of, and at
+ * this price a single one costs the margin of roughly a dozen letters.
+ *
+ * Stripe allows 22 characters for prefix + "* " + suffix together. With a
+ * three-character prefix this leaves seventeen; the constant below uses
+ * thirteen, so the prefix may grow to seven without truncation.
+ */
+const STATEMENT_SUFFIX = "MIETMINDERUNG";
+
+/**
  * Where the payment page sends the payer back to, and the origin that goes
  * into the idempotency key below.
  *
@@ -100,6 +116,7 @@ function idempotenzSchluessel(merkmale: {
   preisCent: number;
   taxBehavior: string | undefined;
   basisUrl: string;
+  statementSuffix: string;
 }): string {
   const roh = [
     merkmale.jobId,
@@ -107,6 +124,7 @@ function idempotenzSchluessel(merkmale: {
     merkmale.preisCent,
     merkmale.taxBehavior ?? "ohne",
     merkmale.basisUrl,
+    merkmale.statementSuffix,
   ].join("|");
   return `versand-${createHash("sha256").update(roh).digest("hex")}`;
 }
@@ -286,6 +304,9 @@ export async function POST(request: Request) {
         // has no business in a third party's dashboard.
         success_url: `${basis}/versand/erfolg`,
         cancel_url: `${basis}/versand/abbruch`,
+        // Set on the PaymentIntent rather than the session: the descriptor
+        // belongs to the charge, and Checkout passes this through.
+        payment_intent_data: { statement_descriptor_suffix: STATEMENT_SUFFIX },
       },
       {
         idempotencyKey: idempotenzSchluessel({
@@ -294,6 +315,10 @@ export async function POST(request: Request) {
           preisCent: produkt.preisCent,
           taxBehavior,
           basisUrl: basis,
+          // In the key for the same reason as the price: changing the suffix
+          // under a live key would make Stripe reject the reuse, and the user
+          // would see "checkout_fehler" for a deployment detail.
+          statementSuffix: STATEMENT_SUFFIX,
         }),
       }
     );
