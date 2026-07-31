@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import SignaturePad from "signature_pad";
 import type { Mangel } from "@/data/maengel";
-import FormProgress from "@/components/FormProgress";
+import FormCard from "@/components/FormCard";
 import { generatePdf } from "@/lib/generatePdf";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { mangelDescKey, mangelLabelKey } from "@/i18n/content";
@@ -390,17 +390,16 @@ ${mieter.name}`;
           <p className="mt-3 text-base text-ink-600 sm:text-lg">{t("letter.subtitle")}</p>
         </div>
 
-        {/* Same rail as the eligibility check. The letter is the second
-            chapter of one journey, not a different kind of tool. */}
-        <div className="mt-8 sm:mt-10">
-          <FormProgress
-            steps={stepLabels}
-            currentStep={step}
-            complete={step === TOTAL_STEPS - 1}
-          />
-        </div>
-
-        <div className="mt-6 rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-5 shadow-[var(--shadow-raise)] sm:p-10">
+        {/* Same card as the eligibility check, progress on its top edge. The
+            letter is the second chapter of one journey, not a different kind of
+            tool. The last step is the finished letter, so the four before it
+            are the work. */}
+        <FormCard
+          completed={step}
+          total={TOTAL_STEPS - 1}
+          label={stepLabels[step]}
+          className="mt-8 sm:mt-10"
+        >
           {/* ------------------------------------------------ step 0: tenant */}
           {step === 0 && (
             <div className="animate-fade-in-up mx-auto max-w-md">
@@ -808,7 +807,7 @@ ${mieter.name}`;
               <div className="mt-6">{backButton(3, t("letter.backPreview"))}</div>
             </div>
           )}
-        </div>
+        </FormCard>
 
         {/* Calculation reminder - keeps the numbers from the check visible */}
         <p className="mt-5 text-center text-sm text-ink-500">
