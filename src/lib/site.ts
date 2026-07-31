@@ -80,7 +80,12 @@ const operator = {
   country: "Deutschland",
   /** ISO 3166-1 alpha-2, for structured data. */
   countryCode: "DE",
-  email: "pjhohm@gmail.com",
+  /**
+   * Reachable by the contracting party, not by a predecessor: withdrawal
+   * declarations, Art. 15 requests and order questions all arrive here, and
+   * every one of them is a deadline running against us.
+   */
+  email: "info@animals-of-cologne.de",
 } as const;
 
 /** Operator details and legal metadata used across the legal pages. */

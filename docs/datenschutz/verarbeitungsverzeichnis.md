@@ -16,7 +16,7 @@ Datenarten oder Löschfristen
 | Name | Animals of Cologne |
 | Inhaber | Maximilian Marowsky |
 | Anschrift | Holzgasse 8, 50676 Köln, Deutschland |
-| E-Mail | pjhohm@gmail.com — **noch zu ersetzen**, siehe offene Punkte |
+| E-Mail | info@animals-of-cologne.de |
 | eBrief-Kundennummer | D01039646 |
 | Datenschutzbeauftragter | nicht bestellt — die Voraussetzungen des § 38 Abs. 1 BDSG (mind. 20 Personen mit ständiger automatisierter Verarbeitung) liegen nicht vor |
 
@@ -134,12 +134,12 @@ auch die TOM der PIN AG, Ziffer 1.4.
 
 ## Offene Punkte
 
-- [ ] **Kontaktadresse ersetzen.** In `src/lib/site.ts` steht noch
-      `pjhohm@gmail.com` aus der Zeit, als Paul Ohm als Betreiber geführt war.
-      Vertragspartei ist seit dem Dienstleistungsvertrag mit der PIN AG
-      Animals of Cologne; die Impressums- und Auskunftsadresse muss dieser
-      Partei gehören, sonst laufen Betroffenenanfragen an einen Dritten.
 - [ ] AVV mit der PIN AG unterzeichnen — bis dahin kein Live-Versand
+- [ ] **Absenderdomäne für Transaktionsmails festlegen** (betrifft die
+      Bestellbestätigung nach § 312f BGB). Empfang und Versand sind zwei
+      Probleme: Für den Versand braucht die gewählte Domain SPF, DKIM und
+      DMARC beim Mailanbieter, sonst landen Bestätigungen im Spam — und eine
+      Bestätigung, die nicht ankommt, erfüllt die Pflicht nicht.
 - [ ] Prüfen, ob der Auftragsverarbeitungsvertrag mit Google (Gemini, Sheets)
       in unterzeichneter Fassung vorliegt
 - [ ] Prüfen, ob mit Vercel ein DPA abgeschlossen ist
