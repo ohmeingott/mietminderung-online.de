@@ -18,7 +18,7 @@ test.describe("Language switching", () => {
     await switchLanguage(page, "tr");
 
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Daha az kira ödemek"
+      "kira indirimi"
     );
 
     // The defect catalogue lives in the data file and is translated separately -
@@ -65,10 +65,14 @@ test.describe("Language switching", () => {
   test("persists the choice across a reload and across pages", async ({ page }) => {
     await page.goto("/");
     await switchLanguage(page, "ru");
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Платить меньше");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      "снижение арендной платы"
+    );
 
     await page.reload();
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Платить меньше");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      "снижение арендной платы"
+    );
 
     await page.goto("/faq");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(

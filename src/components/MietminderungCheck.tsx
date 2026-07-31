@@ -30,7 +30,7 @@ import {
   type MangelKategorie,
   type Mangel,
 } from "@/data/maengel";
-import FormProgress from "@/components/FormProgress";
+import FormCard from "@/components/FormCard";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { katKey, mangelDescKey, mangelLabelKey } from "@/i18n/content";
 
@@ -148,9 +148,9 @@ export default function MietminderungCheck({
             <div className="mx-auto mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full bg-alert-50">
               <XCircle className="h-8 w-8 text-alert-600" aria-hidden />
             </div>
-            <h3 className="text-xl font-bold text-ink-900 sm:text-2xl">
+            <h2 className="text-xl font-bold text-ink-900 sm:text-2xl">
               {t("check.notEligibleTitle")}
-            </h3>
+            </h2>
             <p className="mx-auto mt-3 max-w-lg text-ink-600">
               {t(reasonKey) !== reasonKey
                 ? t(reasonKey)
@@ -191,39 +191,39 @@ export default function MietminderungCheck({
     t("check.result"),
   ];
 
+  // One screen per eligibility question, then defects, rent and the result.
+  const totalScreens = eligibilityQuestions.length + 3;
+  const completedScreens =
+    step === 0
+      ? eligibilityStep
+      : step === 1
+        ? eligibilityQuestions.length
+        : step === 2
+          ? eligibilityQuestions.length + 1
+          : totalScreens;
+
   const question = eligibilityQuestions[eligibilityStep];
 
   return (
-    <section id="pruefung" className="scroll-mt-24 pt-6 pb-16 sm:pt-8 sm:pb-24">
+    <section id="pruefung" className="scroll-mt-24 pt-2 pb-16 sm:pt-3 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl">
-            {t("check.title")}
-          </h2>
-          <p className="mt-3 text-base text-ink-600 sm:text-lg">
-            {t("check.subtitle")}
-          </p>
-        </div>
-
-        {/* Progress */}
-        <div className="mt-8 sm:mt-10">
-          <FormProgress
-            steps={phaseLabels}
-            currentStep={step}
-            subProgress={
-              step === 0 ? eligibilityStep / eligibilityQuestions.length : 0
-            }
-            complete={step === 3}
-          />
-        </div>
+        {/* No section heading: the hero above already states what this is, and
+            the question itself says where the user stands. Progress rides on
+            each card's top edge, so it belongs to the form it measures. */}
 
         {/* -------------------------------------------------- step 0: eligibility */}
         {step === 0 && (
-          <div className={`animate-fade-in-up mt-6 ${cardClasses} p-5 sm:p-10`}>
-            <div className="mx-auto max-w-xl">
-              <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
+          <FormCard
+            completed={completedScreens}
+            total={totalScreens}
+            label={phaseLabels[step]}
+            className="animate-fade-in-up"
+            contentClassName="mx-auto max-w-xl"
+          >
+            <>
+              <h2 className="text-lg font-bold text-ink-900 sm:text-xl">
                 {t(`eq.${question.id}.q`)}
-              </h3>
+              </h2>
               <p className="mt-2 text-sm text-ink-500 sm:text-base">
                 {t(`eq.${question.id}.desc`)}
               </p>
@@ -265,16 +265,21 @@ export default function MietminderungCheck({
                   {t("check.back")}
                 </button>
               )}
-            </div>
-          </div>
+            </>
+          </FormCard>
         )}
 
         {/* ---------------------------------------------- step 1: select defects */}
         {step === 1 && (
-          <div className={`animate-fade-in-up mt-6 ${cardClasses} p-5 sm:p-10`}>
-            <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
+          <FormCard
+            completed={completedScreens}
+            total={totalScreens}
+            label={phaseLabels[step]}
+            className="animate-fade-in-up"
+          >
+            <h2 className="text-lg font-bold text-ink-900 sm:text-xl">
               {t("check.whichDefects")}
-            </h3>
+            </h2>
             <p className="mt-1.5 text-sm text-ink-500 sm:text-base">
               {t("check.whichDefectsDesc")}
             </p>
@@ -326,9 +331,9 @@ export default function MietminderungCheck({
                   <ArrowLeft className="h-4 w-4 rtl:rotate-180" aria-hidden />
                   {t("check.allCategories")}
                 </button>
-                <h4 className="mb-3 font-semibold text-ink-800">
+                <h3 className="mb-3 font-semibold text-ink-800">
                   {tc(katKey(selectedKategorie.id), selectedKategorie.label)}
-                </h4>
+                </h3>
                 <div className="space-y-2">
                   {selectedKategorie.maengel.map((mangel) => {
                     const isSelected = selectedMaengel.some(
@@ -436,16 +441,22 @@ export default function MietminderungCheck({
                 <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
               </button>
             </div>
-          </div>
+          </FormCard>
         )}
 
         {/* ------------------------------------------------- step 2: rent input */}
         {step === 2 && (
-          <div className={`animate-fade-in-up mt-6 ${cardClasses} p-5 sm:p-10`}>
-            <div className="mx-auto max-w-md">
-              <h3 className="text-lg font-bold text-ink-900 sm:text-xl">
+          <FormCard
+            completed={completedScreens}
+            total={totalScreens}
+            label={phaseLabels[step]}
+            className="animate-fade-in-up"
+            contentClassName="mx-auto max-w-md"
+          >
+            <>
+              <h2 className="text-lg font-bold text-ink-900 sm:text-xl">
                 {t("check.rentTitle")}
-              </h3>
+              </h2>
               <p className="mt-1.5 text-sm text-ink-500 sm:text-base">
                 {t("check.rentDesc")}
               </p>
@@ -503,20 +514,25 @@ export default function MietminderungCheck({
                   <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
                 </button>
               </div>
-            </div>
-          </div>
+            </>
+          </FormCard>
         )}
 
         {/* ----------------------------------------------------- step 3: result */}
         {step === 3 && (
-          <div className={`animate-fade-in-up mt-6 ${cardClasses} p-5 sm:p-10`}>
+          <FormCard
+            completed={completedScreens}
+            total={totalScreens}
+            label={phaseLabels[step]}
+            className="animate-fade-in-up"
+          >
             <div className="mb-7 text-center">
               <div className="mx-auto mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-signal-50">
                 <CheckCircle2 className="h-8 w-8 text-signal-600" aria-hidden />
               </div>
-              <h3 className="text-xl font-bold text-ink-900 sm:text-2xl">
+              <h2 className="text-xl font-bold text-ink-900 sm:text-2xl">
                 {t("check.resultTitle")}
-              </h3>
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -556,9 +572,9 @@ export default function MietminderungCheck({
             </div>
 
             <div className="mt-7">
-              <h4 className="mb-3 font-semibold text-ink-800">
+              <h3 className="mb-3 font-semibold text-ink-800">
                 {t("check.yourDefects")}
-              </h4>
+              </h3>
               <ul className="divide-y divide-ink-200 overflow-hidden rounded-[var(--radius-field)] border border-ink-200">
                 {selectedMaengel.map((m) => (
                   <li
@@ -598,7 +614,7 @@ export default function MietminderungCheck({
                 {t("check.editDefects")}
               </button>
             </div>
-          </div>
+          </FormCard>
         )}
       </div>
     </section>
