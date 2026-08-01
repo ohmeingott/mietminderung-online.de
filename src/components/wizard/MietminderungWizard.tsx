@@ -402,7 +402,7 @@ export default function MietminderungWizard() {
         The letter is no longer a place of its own, but the links to it are,
         so the inner container carries the second anchor.
       */}
-      <section id="pruefung" className="scroll-mt-24 pt-2 pb-16 sm:pt-3 sm:pb-24">
+      <section id="pruefung" className="scroll-mt-24 pt-6 pb-16 sm:pt-8 sm:pb-24">
         <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8">
           {state.notEligibleQuestionId ? (
             <div id="maengelanzeige">

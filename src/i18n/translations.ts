@@ -36,6 +36,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title1": "Schimmel, Lärm, kaputte Heizung? So viel",
     "hero.title2": "Mietminderung",
     "hero.title3": "steht Ihnen zu.",
+    "hero.subtitle":
+      "Mängelanzeige in 2 Minuten erstellen und kostenlos herunterladen. Auf Wunsch direkt per Brief oder Einschreiben verschicken.",
     "hero.cta1": "Anspruch kostenlos prüfen",
     "hero.cta2": "Mängelanzeige erstellen",
     "hero.selectLang": "Sprache wählen",
@@ -60,7 +62,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Aus Ihren Angaben generieren wir eine rechtssichere Mängelanzeige nach § 536c BGB.",
     "how.s4.title": "Brief herunterladen",
     "how.s4.desc":
-      "Laden Sie die fertige Mängelanzeige als PDF oder Textdatei herunter, kostenlos und ohne Registrierung. Den Versand an Ihren Vermieter übernehmen Sie selbst.",
+      "Laden Sie die fertige Mängelanzeige als PDF oder Textdatei herunter, kostenlos und ohne Registrierung. Oder lassen Sie sie von uns per Brief oder Einwurf-Einschreiben an Ihren Vermieter senden.",
 
     // Check
     "check.phase.eligibility": "Prüfung",
@@ -400,6 +402,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title1": "Mould, noise, broken heating? This is how much",
     "hero.title2": "rent reduction",
     "hero.title3": "you are entitled to.",
+    "hero.subtitle":
+      "Create your defect notice in 2 minutes and download it free of charge. Have it sent directly by letter or Einwurf-Einschreiben if you like.",
     "hero.cta1": "Check your claim for free",
     "hero.cta2": "Create defect notice",
     "hero.selectLang": "Select language",
@@ -424,7 +428,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "From your details we generate a legally sound defect notice under Section 536c BGB.",
     "how.s4.title": "Download the letter",
     "how.s4.desc":
-      "Download the finished defect notice as a PDF or text file — free and without registration. You send it to your landlord yourself.",
+      "Download the finished defect notice as a PDF or text file — free and without registration. Or have us send it to your landlord by letter or Einwurf-Einschreiben.",
 
     // Check
     "check.phase.eligibility": "Eligibility",
@@ -749,6 +753,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title1": "Küf, gürültü, bozuk kalorifer? Ne kadar",
     "hero.title2": "kira indirimi",
     "hero.title3": "hakkınız var?",
+    "hero.subtitle":
+      "Kusur bildirimini 2 dakikada oluşturun ve ücretsiz indirin. İsterseniz doğrudan mektup veya Einwurf-Einschreiben olarak gönderin.",
     "hero.cta1": "Hakkınızı ücretsiz kontrol edin",
     "hero.cta2": "Kusur bildirimi oluştur",
     "hero.selectLang": "Dil seçin",
@@ -768,7 +774,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s3.desc": "Bilgilerinizden § 536c BGB'ye uygun yasal bir kusur bildirimi oluşturuyoruz.",
     "how.s4.title": "Mektubu indir",
     "how.s4.desc":
-      "Hazır kusur bildirimini PDF veya metin dosyası olarak indirin, ücretsiz ve kayıt gerektirmez. Ev sahibinize göndermeyi kendiniz yaparsınız.",
+      "Hazır kusur bildirimini PDF veya metin dosyası olarak indirin, ücretsiz ve kayıt gerektirmez. Ya da ev sahibinize mektup veya Einwurf-Einschreiben olarak bizim göndermemizi sağlayın.",
     "check.phase.eligibility": "Kontrol",
     "check.phase.defects": "Kusurlar",
     "check.phase.rent": "Kira",
@@ -1062,6 +1068,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title1": "Пліснява, шум, зламане опалення? Ось яке",
     "hero.title2": "зниження орендної плати",
     "hero.title3": "вам належить.",
+    "hero.subtitle":
+      "Створіть повідомлення про дефект за 2 хвилини та завантажте безкоштовно. За бажанням надішліть його одразу листом або як Einwurf-Einschreiben.",
     "hero.cta1": "Безкоштовно перевірити право",
     "hero.cta2": "Створити повідомлення про дефект",
     "hero.selectLang": "Обрати мову",
@@ -1081,7 +1089,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s3.desc": "З ваших даних ми генеруємо юридично обґрунтоване повідомлення згідно § 536c BGB.",
     "how.s4.title": "Завантажте лист",
     "how.s4.desc":
-      "Завантажте готове повідомлення про недоліки у форматі PDF або текстового файлу, безкоштовно й без реєстрації. Надсилання орендодавцю ви виконуєте самостійно.",
+      "Завантажте готове повідомлення про недоліки у форматі PDF або текстового файлу, безкоштовно й без реєстрації. Або доручіть нам надіслати його орендодавцю листом чи як Einwurf-Einschreiben.",
     "check.phase.eligibility": "Перевірка",
     "check.phase.defects": "Дефекти",
     "check.phase.rent": "Оренда",
@@ -1374,6 +1382,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title1": "Плесень, шум, сломанное отопление? Вот какое",
     "hero.title2": "снижение арендной платы",
     "hero.title3": "вам полагается.",
+    "hero.subtitle":
+      "Создайте уведомление о дефекте за 2 минуты и скачайте бесплатно. По желанию отправьте его сразу письмом или как Einwurf-Einschreiben.",
     "hero.cta1": "Бесплатно проверить право",
     "hero.cta2": "Создать уведомление о дефекте",
     "hero.selectLang": "Выбрать язык",
@@ -1393,7 +1403,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s3.desc": "Из ваших данных мы генерируем юридически обоснованное уведомление согласно § 536c BGB.",
     "how.s4.title": "Скачайте письмо",
     "how.s4.desc":
-      "Скачайте готовое уведомление о недостатках в формате PDF или текстового файла, бесплатно и без регистрации. Отправку арендодателю вы выполняете сами.",
+      "Скачайте готовое уведомление о недостатках в формате PDF или текстового файла, бесплатно и без регистрации. Или поручите нам отправить его арендодателю письмом или как Einwurf-Einschreiben.",
     "check.phase.eligibility": "Проверка",
     "check.phase.defects": "Дефекты",
     "check.phase.rent": "Аренда",
@@ -1684,6 +1694,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title1": "عفن، ضجيج، تدفئة معطلة؟ إليك مقدار",
     "hero.title2": "تخفيض الإيجار",
     "hero.title3": "الذي تستحقه.",
+    "hero.subtitle":
+      "أنشئ إشعار العيب خلال دقيقتين وحمّله مجاناً. وإن رغبت، أرسله مباشرة كخطاب عادي أو كـ Einwurf-Einschreiben.",
     "hero.cta1": "تحقق من حقك مجاناً",
     "hero.cta2": "إنشاء إشعار بالعيب",
     "hero.selectLang": "اختر اللغة",
@@ -1703,7 +1715,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s3.desc": "من بياناتك ننشئ إشعاراً قانونياً وفقاً لـ § 536c BGB.",
     "how.s4.title": "حمّل الرسالة",
     "how.s4.desc":
-      "حمّل إشعار العيوب الجاهز بصيغة PDF أو ملف نصي، مجاناً ودون تسجيل. أنت من يتولى إرساله إلى المؤجر.",
+      "حمّل إشعار العيوب الجاهز بصيغة PDF أو ملف نصي، مجاناً ودون تسجيل. أو دعنا نرسله إلى المؤجر كخطاب عادي أو كـ Einwurf-Einschreiben.",
     "check.phase.eligibility": "التحقق",
     "check.phase.defects": "العيوب",
     "check.phase.rent": "الإيجار",
@@ -1991,6 +2003,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hero.title1": "Pleśń, hałas, zepsute ogrzewanie? Oto, jaka",
     "hero.title2": "obniżka czynszu",
     "hero.title3": "Ci przysługuje.",
+    "hero.subtitle":
+      "Utwórz zgłoszenie usterki w 2 minuty i pobierz bezpłatnie. Na życzenie wyślij je od razu listem lub jako Einwurf-Einschreiben.",
     "hero.cta1": "Bezpłatnie sprawdź prawo",
     "hero.cta2": "Utwórz zgłoszenie usterki",
     "hero.selectLang": "Wybierz język",
@@ -2010,7 +2024,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s3.desc": "Z Twoich danych wygenerujemy prawnie wiążące zgłoszenie zgodnie z § 536c BGB.",
     "how.s4.title": "Pobierz list",
     "how.s4.desc":
-      "Pobierz gotowe zgłoszenie wad w formacie PDF lub pliku tekstowego, bezpłatnie i bez rejestracji. Wysyłkę do wynajmującego wykonujesz samodzielnie.",
+      "Pobierz gotowe zgłoszenie wad w formacie PDF lub pliku tekstowego, bezpłatnie i bez rejestracji. Albo zleć nam wysyłkę do wynajmującego listem lub jako Einwurf-Einschreiben.",
     "check.phase.eligibility": "Sprawdzenie",
     "check.phase.defects": "Usterki",
     "check.phase.rent": "Czynsz",
