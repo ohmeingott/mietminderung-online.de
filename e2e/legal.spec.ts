@@ -11,11 +11,15 @@ const LEGAL_PAGES = [
     footerLink: "Impressum",
     heading: "Impressum",
     // The provider named here has to be the party that signs the eBrief
-    // contract — the business name for § 5 DDG, and the natural person behind
-    // it, which a Geschäftsbezeichnung cannot stand in for.
+    // contract — the registered name including the legal form for § 5 DDG, and
+    // every vertretungsberechtigter Gesellschafter, because a GbR has no
+    // Inhaber and no single partner stands in for the other two.
     mustContain: [
-      "Animals of Cologne",
+      "Animals of Cologne GbR",
+      "Vertretungsberechtigte Gesellschafter",
       "Maximilian Marowsky",
+      "Paul Ohm",
+      "Philipp Weiß",
       "Holzgasse 8",
       "50676",
       "§ 5 DDG",
@@ -125,6 +129,28 @@ test.describe("Legal pages", () => {
     // § 14c UStG.
     expect(body).toContain("§ 19 UStG");
     expect(body.toLowerCase()).not.toContain("mwst");
+  });
+
+  test("no legal page promises a print cut-off time", async ({ page }) => {
+    // Both pages stated that payment received Mo–Fr before 14:30 was printed
+    // and franked the same day. Nothing sourced it and the first live order
+    // refuted it: paid 21:58, handed to print 22:00 the same evening. It is a
+    // binding performance promise to consumers, so no clock time may return.
+    // The order confirmation carries the same guard in check-bestellbestaetigung.
+    for (const path of ["/nutzungsbedingungen", "/widerruf"]) {
+      await page.goto(path);
+      const body = await page.locator("article").innerText();
+      expect(body, `${path} states a clock time as a promise`).not.toMatch(
+        /\b\d{1,2}[:.]\d{2}\s*Uhr/i,
+      );
+    }
+
+    // Dropping the timing must not drop the legal statement it was quoted for:
+    // /widerruf has to keep saying when the right lapses.
+    await page.goto("/widerruf");
+    const widerruf = await page.locator("article").innerText();
+    expect(widerruf).toContain("§ 356 Abs. 4 BGB");
+    expect(widerruf).toContain("Vollständig erbracht");
   });
 
   test("the legal pages disclose the dispatch processor and its subprocessors", async ({

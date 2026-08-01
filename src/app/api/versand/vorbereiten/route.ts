@@ -13,6 +13,7 @@ import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import { AnschriftZuLangError, versandPdfBase64 } from "@/lib/briefPdf";
 import type { VersandPdfErgebnis } from "@/lib/briefPdf";
 import { clientIp, rateLimit } from "@/lib/rateLimit";
+import { site } from "@/lib/site";
 
 const LIMIT_PRO_STUNDE = 10;
 const STUNDE_MS = 60 * 60 * 1000;
@@ -33,6 +34,14 @@ interface VorbereitenBody {
   produktId?: unknown;
   text?: unknown;
   signatureDataUrl?: unknown;
+  /**
+   * `email` is still required below, but this route no longer sends it
+   * anywhere: it used to be eBrief's NotificationMail, and the order
+   * confirmation goes to the address Stripe Checkout collects. It is kept as a
+   * precondition because the wizard cannot reach this point without a valid
+   * one, and dropping the check would let a request through that the rest of
+   * the flow assumes has an address behind it.
+   */
   mieter?: Anschrift & { email?: unknown };
   vermieter?: Anschrift;
 }
@@ -157,7 +166,21 @@ export async function POST(request: Request) {
       // Address warnings must surface instead of being waved through — with
       // "true" eBrief would post to an address its own check objected to.
       SilentConfirm: "false",
-      NotificationMail: mieter.email,
+      /**
+       * The operator, never the tenant. eBrief mails this address on its own
+       * account — an unbranded B2B "Auftragseingang" carrying our eBrief
+       * customer number, our company name under "Kundeninformationen" and
+       * eBrief's internal article numbers. That is operational information
+       * about our supplier relationship, addressed to whoever is named here.
+       *
+       * The first live order had the tenant's address here, so two minutes
+       * after our own confirmation the customer received a notice from a
+       * company they had never contracted with, disclosing our account
+       * details. It reads like a data leak and tells the buyer nothing they
+       * need: what they are owed is the § 312f confirmation the Stripe webhook
+       * sends, which is written for them.
+       */
+      NotificationMail: site.operator.email,
     });
     jobId = job.Id;
 

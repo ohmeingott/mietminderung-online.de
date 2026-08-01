@@ -84,7 +84,16 @@ async function sendeBestellbestaetigung(kontext: {
   empfaenger: string | null | undefined;
   produktId: string | undefined;
   betragCent: number | null;
+  /**
+   * The customer-facing reference. This is the eBrief job id, not the Checkout
+   * session id: the session id is 66 characters the customer cannot read back,
+   * and it is not what a support request is looked up by. The Stripe ids stay
+   * in the log lines here, which carry both, so nothing is lost by keeping them
+   * out of the customer's mail.
+   */
   referenz: string;
+  /** When the payment completed — printed as "Bestellt am". */
+  bestelltAm: Date;
   jobId: number;
   eventId: string;
 }): Promise<void> {
@@ -114,6 +123,7 @@ async function sendeBestellbestaetigung(kontext: {
         produktId: kontext.produktId ?? "",
         betragCent,
         referenz,
+        bestelltAm: kontext.bestelltAm,
       }),
     });
     if (!ergebnis.ok) {
@@ -490,7 +500,13 @@ export async function POST(request: Request) {
       empfaenger: session.customer_details?.email,
       produktId,
       betragCent: session.amount_total,
-      referenz: session.id,
+      referenz: String(jobId),
+      // The event's own timestamp, not the session's: the session is created
+      // when the customer opens Checkout, while this event is emitted when the
+      // payment is confirmed — which for a delayed method can be days later,
+      // and it is the confirmed payment that concludes the contract the
+      // fourteen-day withdrawal period runs from.
+      bestelltAm: new Date(event.created * 1000),
       jobId,
       eventId: event.id,
     });

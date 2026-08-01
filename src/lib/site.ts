@@ -67,13 +67,15 @@ const operator = {
    * (customer number D01039646) — a tenant who orders from one name while the
    * letter is commissioned by another has no counterparty they can hold to it.
    */
-  name: "Animals of Cologne",
+  name: "Animals of Cologne GbR",
   /**
-   * Named separately because a business name alone does not satisfy § 5 DDG:
-   * behind a Geschäftsbezeichnung without a legal form there must be a natural
-   * person, and § 18 Abs. 2 MStV wants that person for the content as well.
+   * All three partners, and a list rather than a single name because a GbR has
+   * no proprietor. § 5 Abs. 1 Nr. 1 DDG wants the legal form in the name and
+   * the vertretungsberechtigte Gesellschafter next to it, and § 18 Abs. 2 MStV
+   * wants natural persons answerable for the content — for a partnership that
+   * is this list, not one of them standing in for the other two.
    */
-  owner: "Maximilian Marowsky",
+  partners: ["Maximilian Marowsky", "Paul Ohm", "Philipp Weiß"],
   street: "Holzgasse 8",
   zip: "50676",
   city: "Köln",
@@ -87,6 +89,19 @@ const operator = {
    */
   email: "info@animals-of-cologne.de",
 } as const;
+
+/**
+ * The partners as one German enumeration — "A, B und C".
+ *
+ * Every consumer that names them in running text (the Impressum's provider
+ * block, the controller block of the privacy policy, the one-line identity
+ * footer of the order confirmation) needs exactly the same string. Joining the
+ * list at each call site is how one of them ends up listing two partners.
+ */
+export const gesellschafterListe: string = new Intl.ListFormat("de-DE", {
+  style: "long",
+  type: "conjunction",
+}).format(operator.partners);
 
 /** Operator details and legal metadata used across the legal pages. */
 export const site = {
@@ -111,6 +126,11 @@ export const siteConfig = {
   /** The same operator record, under the schema.org names the JSON-LD needs. */
   publisher: {
     name: operator.name,
+    /**
+     * Kept as a list, not pre-joined: schema.org has no "partners" string, so
+     * the emitter maps each partner to its own `Person` node under `member`.
+     */
+    partners: operator.partners,
     streetAddress: operator.street,
     postalCode: operator.zip,
     addressLocality: operator.city,

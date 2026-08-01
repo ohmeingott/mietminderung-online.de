@@ -108,12 +108,12 @@ export default function Nutzungsbedingungen() {
             keine Umsatzsteuer berechnet und daher auch nicht ausgewiesen.
           </p>
           <p>
-            <strong>Ausführung.</strong> Sendungen, deren Zahlung montags bis
-            freitags bis 14:30 Uhr eingeht, werden in der Regel noch am selben
-            Tag gedruckt und frankiert, andernfalls am folgenden Werktag. Die
-            Zustellung erfolgt anschließend durch das beauftragte
-            Postunternehmen. Auf die Zustelldauer haben wir keinen Einfluss; ein
-            bestimmter Zustelltag wird nicht geschuldet.
+            <strong>Ausführung.</strong> Unmittelbar nach Ihrer Zahlung geben
+            wir die Sendung zum Druck. Gedruckt, kuvertiert und frankiert wird
+            sie dort; die Zustellung erfolgt anschließend durch das beauftragte
+            Postunternehmen. Auf den Zeitpunkt des Drucks und auf die
+            Zustelldauer haben wir keinen Einfluss; ein bestimmter Druck- oder
+            Zustelltag wird nicht geschuldet.
           </p>
           <p>
             <strong>Einwurf-Einschreiben.</strong> Beim Einwurf-Einschreiben

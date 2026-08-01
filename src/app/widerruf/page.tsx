@@ -50,19 +50,22 @@ export default function Widerruf() {
 
       <LegalSection heading="Vorzeitiges Erlöschen des Widerrufsrechts">
         <p>
-          Damit Ihr Brief noch am selben Werktag in den Druck geht, müssen wir
-          mit der Ausführung vor Ablauf der Widerrufsfrist beginnen. Deshalb
-          bitten wir Sie vor der Bestellung um Ihre ausdrückliche Zustimmung
-          dazu und um die Bestätigung, dass Sie Ihr Widerrufsrecht mit der
-          vollständigen Erbringung verlieren.
+          Damit Ihr Brief ohne Wartezeit in den Druck geht, müssen wir mit der
+          Ausführung vor Ablauf der Widerrufsfrist beginnen. Deshalb bitten wir
+          Sie vor der Bestellung um Ihre ausdrückliche Zustimmung dazu und um
+          die Bestätigung, dass Sie Ihr Widerrufsrecht mit der vollständigen
+          Erbringung verlieren.
         </p>
         <p>{erloeschenHinweis}</p>
         <p>
           Vollständig erbracht ist die Leistung, sobald Ihr Brief gedruckt,
-          kuvertiert, frankiert und in die Zustellung gegeben wurde. In der
-          Praxis erfolgt der Druck bei einem Zahlungseingang montags bis
-          freitags bis 14:30 Uhr noch am selben Tag, andernfalls am folgenden
-          Werktag.
+          kuvertiert, frankiert und in die Zustellung gegeben wurde. Zum Druck
+          geben wir ihn unmittelbar nach Ihrer Zahlung; gedruckt, kuvertiert und
+          frankiert wird er von unserem Druckdienstleister, die Zustellung
+          übernimmt anschließend die PIN AG. Wann der Druckdienstleister diese
+          Schritte abschließt, liegt nicht in unserer Hand — mit ihrem Abschluss
+          erlischt Ihr Widerrufsrecht nach § 356 Abs. 4 BGB, in aller Regel also
+          kurz nach Ihrer Bestellung. Bis dahin können Sie widerrufen.
         </p>
         <p>
           Wenn Sie diese Zustimmung nicht erteilen möchten, können Sie die

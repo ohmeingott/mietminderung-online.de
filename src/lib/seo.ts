@@ -109,8 +109,22 @@ export function organizationSchema() {
       height: 512,
     },
     description: siteConfig.description,
+    /**
+     * The registered name including the legal form, next to the brand `name`
+     * above. schema.org keeps them apart, and § 5 DDG is about this one.
+     */
+    legalName: siteConfig.publisher.name,
     email: siteConfig.publisher.email,
-    founder: { "@type": "Person", name: siteConfig.publisher.name },
+    /**
+     * The GbR's partners, one `Person` node each. `member` and not `founder`:
+     * founding is a claim about history that we have no source for, whereas
+     * membership is exactly what a Gesellschafter is. This used to be a single
+     * `founder` carrying the company name as if it were a person.
+     */
+    member: siteConfig.publisher.partners.map((name) => ({
+      "@type": "Person",
+      name,
+    })),
     address: {
       "@type": "PostalAddress",
       streetAddress: siteConfig.publisher.streetAddress,
