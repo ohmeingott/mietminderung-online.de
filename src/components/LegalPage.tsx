@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { localeHref } from "@/i18n/routing";
 
 /**
  * Shared chrome for the legal pages. The legal texts themselves stay German:
@@ -24,6 +25,8 @@ export default function LegalPage({
   children: ReactNode;
 }) {
   const { t, locale } = useTranslation();
+  // Back to the homepage of the language being read, not always the German one.
+  const home = localeHref(locale, "/");
 
   return (
     <div className="min-h-screen">
@@ -32,7 +35,7 @@ export default function LegalPage({
       <main className="pt-24 pb-16 sm:pt-32 sm:pb-24">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <Link
-            href="/"
+            href={home}
             className="inline-flex min-h-[2.75rem] items-center gap-2 text-sm font-medium text-brand-700 transition-colors hover:text-brand-900"
           >
             <ArrowLeft className="h-4 w-4 rtl:rotate-180" aria-hidden />

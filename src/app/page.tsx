@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import HowItWorks from "@/components/HowItWorks";
-import HomeCheckFlow from "@/components/HomeCheckFlow";
-import InfoSection from "@/components/InfoSection";
-import FAQSection from "@/components/FAQSection";
-import Footer from "@/components/Footer";
+import HomeView from "@/components/HomeView";
 import JsonLd from "@/components/JsonLd";
-import VersandTeaser from "@/components/VersandTeaser";
-import PopularLinks from "@/components/content/PopularLinks";
 import { faqs } from "@/data/maengel";
+import { DEFAULT_LOCALE } from "@/i18n/routing";
 import { alleMaengel } from "@/lib/mangelIndex";
 import {
   buildMetadata,
@@ -32,6 +25,7 @@ export const metadata: Metadata = buildMetadata({
     "Miete mindern",
     "Mietminderungstabelle",
   ],
+  alternateLocales: true,
 });
 
 export default function Home() {
@@ -44,20 +38,7 @@ export default function Home() {
           faqSchema(faqs)
         )}
       />
-
-      <div className="min-h-screen">
-        <Header />
-        <main>
-          <Hero />
-          <HomeCheckFlow />
-          <HowItWorks />
-          <VersandTeaser />
-          <InfoSection />
-          <PopularLinks />
-          <FAQSection />
-        </main>
-        <Footer />
-      </div>
+      <HomeView locale={DEFAULT_LOCALE} />
     </>
   );
 }

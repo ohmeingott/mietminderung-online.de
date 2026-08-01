@@ -4,26 +4,59 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
+import type { Locale } from "@/i18n/translations";
 import { VERSAND_PATH } from "@/lib/seo";
 import BrandMark from "./BrandMark";
 import LanguageSwitcher from "./LanguageSwitcher";
 
-const navLinks = [
-  { href: "/#pruefung", key: "nav.check" },
-  { href: "/#maengelanzeige", key: "nav.letter" },
-  // Directly after the letter, because that is the order the user meets them
-  // in: first the notice is written, then it has to reach the landlord.
-  { href: VERSAND_PATH, key: "nav.send" },
-  { href: "/#so-funktionierts", key: "nav.how" },
-  { href: "/faq", key: "nav.faq" },
-  { href: "/mietminderungstabelle", key: "nav.table" },
-  { href: "/ratgeber", key: "nav.guide" },
-] as const;
+/**
+ * The navigation of the language currently being served.
+ *
+ * In-page anchors and the FAQ follow the locale, because both exist in every
+ * language. The defect table, the guides and the dispatch page do not — they
+ * are German-only content — so they are offered only to German readers rather
+ * than dropping a Turkish visitor into a German page.
+ */
+function navLinksFor(locale: Locale) {
+  // "/" + "#x" is "/#x"; "/tr" + "#x" is "/tr#x". No trailing slash on either,
+  // which would cost a redirect hop before the anchor resolves.
+  const home = localeHref(locale, "/");
+  const anchor = (hash: string) => `${home}${hash}`;
+
+  const shared = [
+    { href: anchor("#pruefung"), key: "nav.check" },
+    { href: anchor("#maengelanzeige"), key: "nav.letter" },
+  ];
+
+  const germanOnly = [
+    // Directly after the letter, because that is the order the user meets them
+    // in: first the notice is written, then it has to reach the landlord.
+    { href: VERSAND_PATH, key: "nav.send" },
+  ];
+
+  const rest = [
+    { href: anchor("#so-funktionierts"), key: "nav.how" },
+    { href: localeHref(locale, "/faq"), key: "nav.faq" },
+  ];
+
+  const germanContent = [
+    { href: "/mietminderungstabelle", key: "nav.table" },
+    { href: "/ratgeber", key: "nav.guide" },
+  ];
+
+  return locale === DEFAULT_LOCALE
+    ? [...shared, ...germanOnly, ...rest, ...germanContent]
+    : [...shared, ...rest];
+}
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  const navLinks = navLinksFor(locale);
+  const homeHref = localeHref(locale, "/");
+  const checkHref = `${homeHref}#pruefung`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -51,7 +84,7 @@ export default function Header() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-3">
           <Link
-            href="/"
+            href={homeHref}
             className="flex shrink-0 items-center gap-2"
             aria-label="Mietminderung-online"
           >
@@ -78,7 +111,7 @@ export default function Header() {
             <LanguageSwitcher />
 
             <Link
-              href="/#pruefung"
+              href={checkHref}
               className="hidden h-11 items-center whitespace-nowrap rounded-full bg-brand-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-800 xl:inline-flex"
             >
               {t("nav.cta")}
@@ -122,7 +155,7 @@ export default function Header() {
               ))}
             </ul>
             <Link
-              href="/#pruefung"
+              href={checkHref}
               className="mt-3 flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-5 text-base font-semibold text-white transition-colors hover:bg-brand-800"
               onClick={() => setMobileOpen(false)}
             >

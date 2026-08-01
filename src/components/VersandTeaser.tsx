@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslation } from "@/i18n/LanguageContext";
+import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
 import { PRODUKTE } from "@/lib/ebrief/produkte";
 import { VERSAND_PATH } from "@/lib/seo";
 
@@ -6,31 +10,45 @@ import { VERSAND_PATH } from "@/lib/seo";
  * The homepage section that says the quiet part out loud: this site does not
  * only tell you whether you have a claim, it puts the letter in the post.
  *
- * German-only and server-rendered, like `PopularLinks` — its job is to carry
- * the "Mängelanzeige versenden" vocabulary and the internal link on the page
- * with the most authority. The translated wizard further up still offers the
- * dispatch in every language; this block is the crawlable statement of it.
+ * Written against the `dispatch.*` keys the wizard's own dispatch card already
+ * carries in all seven languages, so the offer reads the same wherever the
+ * visitor meets it and no sentence had to be translated twice. That matters
+ * more here than on most sections: for someone who does not write German
+ * fluently, having us produce and post a formal letter to a landlord is worth
+ * more than it is to a native speaker, not less.
+ *
+ * A client component, but still server-rendered into the initial HTML like any
+ * other - the crawlable text is unaffected.
  *
  * Prices come from `PRODUKTE`, the record the checkout charges from.
  */
 
+/**
+ * Prices are always shown in German formatting, matching `VersandKarte`: the
+ * amount is charged in euros by a German operator, and a locale-specific
+ * rendering would make the figure here and the figure on the Stripe page look
+ * like different numbers.
+ */
 const euro = (cent: number) =>
   (cent / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
-const optionen = [
-  {
-    titel: "Als Brief",
-    preis: euro(PRODUKTE.brief.preisCent),
-    text: "Wir drucken die Mängelanzeige und geben sie zur Post. Sie brauchen weder Drucker noch Briefmarke.",
-  },
-  {
-    titel: "Als Einwurf-Einschreiben",
-    preis: euro(PRODUKTE.einwurfEinschreiben.preisCent),
-    text: "Zusätzlich wird der Einwurf in den Briefkasten dokumentiert — der Nachweis, auf den es im Streitfall ankommt.",
-  },
-];
-
 export default function VersandTeaser() {
+  const { t, locale, dir } = useTranslation();
+  const home = localeHref(locale, "/");
+
+  const optionen = [
+    {
+      titel: t("dispatch.brief"),
+      preis: euro(PRODUKTE.brief.preisCent),
+      text: t("dispatch.subtitle"),
+    },
+    {
+      titel: t("dispatch.einschreiben"),
+      preis: euro(PRODUKTE.einwurfEinschreiben.preisCent),
+      text: t("dispatch.einschreibenHint"),
+    },
+  ];
+
   return (
     <section
       id="versenden"
@@ -41,40 +59,41 @@ export default function VersandTeaser() {
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wider text-brand-600">
-              Nicht nur prüfen — erledigen
+              {t("versand.teaser.eyebrow")}
             </p>
             <h2
               id="versenden-titel"
               className="mt-2 text-2xl font-bold tracking-tight text-ink-900 sm:text-4xl"
             >
-              Wir verschicken Ihre Mängelanzeige an den Vermieter
+              {t("dispatch.title")}
             </h2>
             <p className="mt-4 text-base leading-relaxed text-ink-600 sm:text-lg">
-              Die meisten Mietminderungen scheitern nicht am Recht, sondern
-              daran, dass der Brief nie geschrieben oder nie abgeschickt wird.
-              Deshalb hört es hier nicht mit dem Ergebnis auf: Sie erstellen die
-              Mängelanzeige kostenlos, und auf Wunsch drucken wir sie und geben
-              sie an Ihren Vermieter zur Post — nachweisbar, wenn Sie das
-              Einwurf-Einschreiben wählen.
+              {t("dispatch.subtitle")}
             </p>
             <p className="mt-4 text-base leading-relaxed text-ink-600">
-              Der Download als PDF bleibt in jedem Fall kostenlos. Bezahlt wird
-              nur der Versand, und nur wenn Sie ihn wollen.
+              {t("dispatch.freeStays")}
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/#pruefung"
+                href={`${home === "/" ? "" : home}/#pruefung`}
                 className="inline-flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
               >
-                Anspruch kostenlos prüfen
+                {t("hero.cta1")}
               </Link>
-              <Link
-                href={VERSAND_PATH}
-                className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
-              >
-                So funktioniert der Versand
-              </Link>
+              {/*
+                The detail page is German-only, so it is offered only to German
+                readers. Sending a Turkish visitor from a Turkish page into a
+                German one is a worse answer than not offering the link.
+              */}
+              {locale === DEFAULT_LOCALE && (
+                <Link
+                  href={VERSAND_PATH}
+                  className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
+                >
+                  {t("versand.teaser.more")}
+                </Link>
+              )}
             </div>
           </div>
 
@@ -88,7 +107,10 @@ export default function VersandTeaser() {
                   <h3 className="text-base font-bold text-ink-900 sm:text-lg">
                     {option.titel}
                   </h3>
-                  <p className="shrink-0 text-lg font-extrabold text-brand-700">
+                  <p
+                    className="shrink-0 text-lg font-extrabold text-brand-700"
+                    dir={dir === "rtl" ? "ltr" : undefined}
+                  >
                     {option.preis}
                   </p>
                 </div>
@@ -98,15 +120,7 @@ export default function VersandTeaser() {
               </li>
             ))}
             <li className="text-xs leading-relaxed text-ink-400">
-              Endpreise. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.
-              Details und häufige Fragen auf der{" "}
-              <Link
-                href={VERSAND_PATH}
-                className="font-medium text-brand-700 hover:underline"
-              >
-                Seite zum Versand
-              </Link>
-              .
+              {t("dispatch.taxNote")}
             </li>
           </ul>
         </div>

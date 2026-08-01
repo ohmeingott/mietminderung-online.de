@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
+import { locales, type Locale } from "@/i18n/translations";
 import { PRODUKTE } from "./ebrief/produkte";
 import { absoluteUrl, siteConfig } from "./site";
 
@@ -20,6 +22,42 @@ interface BuildMetadataInput {
    * routes that ship their own `opengraph-image` file, so Next can inject it.
    */
   ogImage?: string | null;
+  /**
+   * The language this page is served in. Drives `og:locale` and, together with
+   * `path`, the canonical URL.
+   */
+  locale?: Locale;
+  /**
+   * Set on pages that exist in every language. Emits a reciprocal `hreflang`
+   * set for all seven locales plus `x-default`.
+   *
+   * Deliberately opt-in rather than derived: `hreflang` has to be reciprocal to
+   * be honoured at all, so declaring it for a page whose translations do not
+   * exist is worse than declaring nothing. The defect pages, guides, dispatch
+   * page and legal texts are German-only and must leave this off.
+   */
+  alternateLocales?: boolean;
+}
+
+/**
+ * The `hreflang` map for a page that exists in every language.
+ *
+ * `x-default` points at the German version: it is the fallback for a visitor
+ * whose language we do not serve, and German is the language of the
+ * jurisdiction this whole site is about.
+ */
+function languageAlternates(basePath: string): Record<string, string> {
+  const entries = locales.map((l) => [
+    // Region-free codes on purpose. The audience for the Turkish version are
+    // tenants in Germany, not visitors from Turkey, so "tr" is right and
+    // "tr-TR" would be a claim about the country we do not mean to make.
+    l.code,
+    absoluteUrl(localeHref(l.code, basePath)),
+  ]);
+  return {
+    ...Object.fromEntries(entries),
+    "x-default": absoluteUrl(localeHref(DEFAULT_LOCALE, basePath)),
+  };
 }
 
 const DEFAULT_OG_IMAGE = {
@@ -43,8 +81,11 @@ export function buildMetadata({
   publishedTime,
   modifiedTime,
   ogImage,
+  locale = DEFAULT_LOCALE,
+  alternateLocales = false,
 }: BuildMetadataInput): Metadata {
-  const url = absoluteUrl(path);
+  // `path` is always the German path; the locale decides where it is served.
+  const url = absoluteUrl(localeHref(locale, path));
 
   const images =
     ogImage === null
@@ -53,11 +94,16 @@ export function buildMetadata({
         ? [{ url: ogImage, width: 1200, height: 630, alt: title }]
         : [DEFAULT_OG_IMAGE];
 
+  const localeInfo = locales.find((l) => l.code === locale) ?? locales[0];
+
   return {
     title,
     description,
     ...(keywords?.length ? { keywords } : {}),
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      ...(alternateLocales ? { languages: languageAlternates(path) } : {}),
+    },
     robots: {
       index,
       follow: true,
@@ -74,7 +120,7 @@ export function buildMetadata({
       description,
       url,
       siteName: siteConfig.name,
-      locale: siteConfig.locale,
+      locale: locale === DEFAULT_LOCALE ? siteConfig.locale : localeInfo.code,
       type,
       ...(type === "article" && publishedTime ? { publishedTime } : {}),
       ...(type === "article" && modifiedTime ? { modifiedTime } : {}),

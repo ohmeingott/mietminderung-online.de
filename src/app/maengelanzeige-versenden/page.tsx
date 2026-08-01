@@ -419,6 +419,22 @@ export default function MaengelanzeigeVersendenPage() {
                 <ul className="mt-4 space-y-3 text-sm">
                   <li>
                     <Link
+                      href="/ratgeber/maengelanzeige-zustellen"
+                      className="text-blue-700 hover:underline"
+                    >
+                      Mängelanzeige zustellen: Was als Nachweis zählt
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/ratgeber/vermieter-reagiert-nicht"
+                      className="text-blue-700 hover:underline"
+                    >
+                      Vermieter reagiert nicht: Was Sie tun können
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/ratgeber/maengelanzeige-schreiben"
                       className="text-blue-700 hover:underline"
                     >

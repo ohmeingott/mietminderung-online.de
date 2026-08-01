@@ -2,6 +2,13 @@
 
 Stand: 1. August 2026
 
+> **Umsetzungsstand.** Abschnitt 2 und 4.1 sind erledigt: der Briefversand hat
+> eine eigene Landingpage, und die Mehrsprachigkeit ist auf URL-Routen mit
+> vollständigem `hreflang` umgestellt. Ebenfalls erledigt: Speed Insights,
+> Vorbereitung der Search-Console-Verifizierung, zwei neue Ratgeberartikel.
+> Offen und **nicht** von uns umsetzbar: die Urteilsrecherche (4.4 / 5.1) —
+> siehe den Hinweis dort.
+
 Dieses Dokument beschreibt, wo die Seite technisch steht, was in diesem Schritt
 umgesetzt wurde und was als Nächstes den größten Unterschied macht. Es ist in
 zwei Hälften geteilt: **technische Aufgaben** (Code) und **Aufgaben für uns**
@@ -81,9 +88,9 @@ Preisnennung die Abschreckung.
 
 ## 4. Technische Roadmap
 
-### 4.1 Mehrsprachigkeit indexierbar machen — mit Abstand Priorität 1
+### 4.1 Mehrsprachigkeit indexierbar machen — ✅ umgesetzt
 
-**Problem.** Die Seite ist vollständig in sieben Sprachen übersetzt: Deutsch,
+**Problem (behoben).** Die Seite ist vollständig in sieben Sprachen übersetzt: Deutsch,
 Englisch, Türkisch, Ukrainisch, Russisch, Arabisch, Polnisch — UI *und*
 Mängelkatalog, 220 UI-Schlüssel und 153 Inhaltsschlüssel pro Sprache. Diese
 Arbeit ist bezahlt und fertig. Und sie bringt **null** organischen Traffic:
@@ -108,37 +115,59 @@ zudem besonders hoch — was den bezahlten Versand für sie *wertvoller* macht a
 für deutsche Muttersprachler. Das ist die Nische, in der wir ohne echte
 Konkurrenz auf Platz 1 stehen können.
 
-**Umsetzung.**
+**Was umgesetzt wurde.**
 
-1. Locale als Routensegment: `/en/...`, `/tr/...`, `/uk/...`. Deutsch bleibt auf
-   der Wurzel ohne Präfix, damit keine einzige bestehende URL umzieht — das ist
-   die Bedingung, unter der das Projekt risikolos ist.
-2. `generateStaticParams` über die Locales; die Seiten sind ohnehin statisch.
-3. `alternates.languages` in `buildMetadata()` füllen, inklusive `x-default` auf
-   die deutsche Fassung. Das ist eine Ergänzung an einer einzigen Stelle, weil
-   alle Seiten durch diese Funktion laufen.
-4. `<html lang>` und `dir` serverseitig aus dem Routensegment setzen statt im
-   Effekt.
-5. `LanguageSwitcher` wird von einem `localStorage`-Schalter zu echten `<Link>`s
-   auf die Sprachvariante derselben Seite.
-6. **Keine automatische Weiterleitung** anhand von `Accept-Language`. Sie
-   verhindert, dass Crawler die anderen Fassungen überhaupt sehen, und ist der
-   klassische Weg, sich die eigene Mehrsprachigkeit kaputtzumachen. Die
-   gespeicherte Präferenz darf höchstens einen Hinweisbanner auslösen.
-7. Übersetzte Metadaten (Title/Description) pro Sprache — hier entsteht die
-   eigentliche Textarbeit, weil die 220 UI-Schlüssel die SEO-Titel noch nicht
-   enthalten.
+1. Die Sprache ist ein Routensegment: `/en`, `/tr`, `/uk`, `/ru`, `/ar`, `/pl`.
+   Deutsch bleibt auf der bloßen Wurzel — **keine einzige bestehende URL ist
+   umgezogen**, was die Bedingung dafür war, dass die Umstellung die bereits
+   rankenden Seiten nicht anfassen kann.
+2. `/tr` und `/tr/faq` werden statisch vorgerendert und liefern Türkisch im
+   ausgelieferten HTML, ohne dass ein Crawler JavaScript ausführen muss.
+   Nachgeprüft: null deutsche Rückstände auf der türkischen Seite.
+3. Vollständiges, reziprokes `hreflang` — sieben Sprachen plus `x-default` auf
+   die deutsche Fassung, sowohl im `<head>` als auch in der Sitemap, weil Google
+   beide als dasselbe Signal wertet und Übereinstimmung sie festigt.
+4. `LanguageSwitcher` sind jetzt echte `<Link>`s. Die Sprache wird **nirgends**
+   mehr gespeichert: eine gespeicherte Präferenz, die die URL überstimmt, ist
+   genau der Weg, auf dem ein Besucher auf `/tr` Deutsch zu sehen bekommt und
+   ein Crawler eine andere Seite ausgeliefert bekommt als die indexierte.
+5. **Keine automatische Weiterleitung** nach `Accept-Language`, aus demselben
+   Grund.
+6. Übersetzte `<title>`/`description` pro Sprache, als eigene SEO-Texte statt
+   als Übersetzung des deutschen Titels — jeder Markt formuliert die Suchanfrage
+   anders („kira indirimi“, „zniżka czynszu“).
+7. Sprachreine Navigation: Auf `/tr` verschwinden Ratgeber, Tabelle und
+   Versandseite aus Kopf- und Fußzeile. Sie existieren nur auf Deutsch, und ein
+   Link dorthin würde Leser wie Crawler aus der Sprache herausführen, in der die
+   Seite zu sein behauptet. Ein e2e-Test hält das fest.
+8. Die Rechtstexte gibt es unter jedem Sprachpräfix (`/tr/impressum` …) — mit
+   **deutschem Text**, denn nur die deutsche Fassung ist rechtsverbindlich, und
+   das steht auch als Hinweis darauf. Ohne diese Routen wäre der
+   Impressums-Link, den § 5 DDG auf jeder Seite verlangt, eine Einbahnstraße aus
+   dem Türkischen ins Deutsche gewesen. Sie stehen auf `noindex`: siebenmal
+   identischer deutscher Text gehört nicht siebenmal in den Index.
 
-**Nebeneffekt, der für sich schon lohnt.** `Hero`, `HowItWorks` und
-`InfoSection` sind heute nur deshalb `"use client"`, weil sie `t()` brauchen.
-Kommt die Sprache aus der Route, können sie Server-Komponenten werden. Das holt
-sie aus dem Client-Bundle und hilft LCP und INP auf der wichtigsten Seite der
-Domain.
+**Zwei bewusste Kompromisse.**
 
-**Aufwand:** geschätzt 2–4 Tage. **Erwarteter Ertrag:** der mit Abstand größte
-Posten dieser Liste.
+- **`<html lang>` wird weiterhin clientseitig gesetzt.** Serverseitig ginge das
+  nur mit einem Root-Layout pro Sprache über Route Groups, und das verträgt sich
+  nicht mit dem globalen `not-found.tsx`. Der Verlust ist gering: Google leitet
+  die Sprache aus dem Inhalt ab, nicht aus diesem Attribut, und `hreflang` —
+  das serverseitig und pro Sprache ausgeliefert wird — ist das Signal, das die
+  Übersetzungen tatsächlich adressiert. Betroffen ist Assistenztechnologie beim
+  ersten Rendern, weshalb der Effekt weiterhin läuft.
+- **Ein Sprachwechsel mitten im Formular setzt die Antworten zurück**, weil er
+  jetzt eine Navigation ist. Das ist der Preis dafür, dass jede Übersetzung
+  verlinkbar, teilbar und indexierbar ist. Er trifft einen seltenen Fall und ist
+  nach zwei Fragen wieder aufgeholt.
 
-### 4.2 Search Console und Bing Webmaster Tools einrichten
+**Was das noch nicht ist.** Übersetzt sind Startseite und FAQ — also der
+Rechner, der Mängelkatalog und der Briefgenerator. Die 58 Mangelseiten, die
+Ratgeber und die Tabelle bleiben Deutsch. Wenn die Sprachversionen Traffic
+bringen, ist die Übersetzung der 15 wichtigsten Mangelseiten der logische
+nächste Schritt — dann existiert die Infrastruktur bereits.
+
+### 4.2 Search Console und Bing Webmaster Tools einrichten — vorbereitet, Rest bei euch
 
 Ohne Search Console arbeiten wir blind: keine Daten zu Impressionen,
 Positionen, Indexierungsproblemen oder Core Web Vitals aus Felddaten. Konkret:
@@ -153,18 +182,34 @@ Positionen, Indexierungsproblemen oder Core Web Vitals aus Felddaten. Konkret:
 Das ist eine Stunde Arbeit und die Voraussetzung dafür, dass alles Weitere
 messbar wird.
 
-### 4.3 Core Web Vitals messen, bevor wir optimieren
+Die Codeseite ist vorbereitet: `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` und
+`NEXT_PUBLIC_BING_SITE_VERIFICATION` setzen die jeweiligen Meta-Tags, sobald ihr
+sie in den Produktions-Umgebungsvariablen hinterlegt (siehe `.env.example`).
+Ohne Wert wird kein Tag ausgegeben — ein leeres Token würde die Verifizierung
+scheitern lassen statt nichts zu tun. **Setzt sie nur auf Produktion**, nicht auf
+Preview-Deployments.
 
-Vercel Analytics ist installiert, Speed Insights noch nicht. Erst messen, dann
-handeln — insbesondere:
+Wo möglich ist die DNS-TXT-Methode trotzdem die bessere: Sie deckt alle
+Subdomains und Protokolle ab und überlebt ein Deployment, das die Variablen
+verliert.
+
+### 4.3 Core Web Vitals messen, bevor wir optimieren — ✅ Messung installiert
+
+`@vercel/speed-insights` ist eingebunden und sammelt ab dem nächsten Deployment
+Felddaten. Erst messen, dann handeln — insbesondere:
 
 - LCP der Startseite (der Wizard ist eine große Client-Komponente).
 - INP beim Durchklicken der Mängelauswahl.
 - CLS beim Nachladen der Inter-Schrift.
 
-Wenn 4.1 umgesetzt ist, wird ein Teil davon ohnehin besser. Danach neu messen.
+Sobald zwei bis drei Wochen Daten vorliegen, lohnt der Blick. Ein naheliegender
+Hebel ist dann, `Hero`, `HowItWorks` und `InfoSection` zu Server-Komponenten zu
+machen — sie sind nur deshalb `"use client"`, weil sie `t()` brauchen, und seit
+die Sprache aus der Route kommt, ließe sich das serverseitig auflösen. Das
+verkleinert das Client-Bundle der wichtigsten Seite der Domain. Vorher messen,
+ob es sich lohnt.
 
-### 4.4 Gerichtsurteile als strukturierte Daten
+### 4.4 Gerichtsurteile als strukturierte Daten — bewusst nicht umgesetzt
 
 Auf keiner der 58 Mangelseiten steht heute ein einziges Aktenzeichen —
 `src/data/seoContent.ts` enthält keins, und auch die Vorrecherche in
@@ -182,6 +227,16 @@ Technisch: Feld `urteile` in `src/data/seoContent.ts` ergänzen, im
 `articleSchema` über `citation` ausgeben, auf der Seite als Quellenblock
 rendern. Der Aufwand liegt fast vollständig in der Recherche (siehe 5.1), nicht
 im Code.
+
+> **Warum das hier nicht mit umgesetzt wurde.** Aktenzeichen sind überprüfbare
+> Tatsachenbehauptungen über konkrete Gerichtsentscheidungen. Sie lassen sich
+> nicht aus dem Gedächtnis rekonstruieren, und ein plausibel aussehendes, aber
+> erfundenes Aktenzeichen auf einer Rechtsseite wäre schlimmer als gar keine
+> Quelle: Es würde Leser in die Irre führen, die sich darauf verlassen, und
+> beim ersten Nachprüfen die Glaubwürdigkeit der ganzen Domain kosten. Das ist
+> ein Schritt, der eine Recherche in den Urteilsdatenbanken braucht — mit
+> nachgelesenen Entscheidungen, nicht mit generierten. Sobald die Daten
+> vorliegen, ist die technische Seite eine Stunde Arbeit.
 
 ### 4.5 Kleinere technische Punkte
 
@@ -234,14 +289,14 @@ Grenze zwischen Seite 1 und Seite 3.
 
 Themen mit Suchvolumen, die wir noch nicht bedienen:
 
-| Thema | Warum |
+| Thema | Status |
 | --- | --- |
-| „Mängelanzeige Vorlage / Muster zum Download“ | Sehr hohes Volumen. Unsere Antwort ist besser als eine Word-Datei (wir füllen sie aus und verschicken sie) — aber wir ranken für den Begriff nicht, weil wir ihn nicht bedienen. |
-| „Mietminderung selbst schreiben oder machen lassen“ | Vergleichsseite. Klassische Seite mit Kaufabsicht, führt direkt auf den Versand. |
-| „Vermieter reagiert nicht auf Mängelanzeige“ | Die Folgefrage nach unserem Produkt. Wer sie stellt, hat den Brief geschickt und braucht den nächsten Schritt. |
-| „Mietminderung Frist / wie lange rückwirkend“ | Teilweise im Ratgeber abgedeckt, verdient eine eigene Seite. |
-| „Zugang Einschreiben Beweis“ | Genau unser Verkaufsargument, bisher nur ein Absatz. |
-| Saisonales | Heizungsthemen von Oktober bis April vorbereiten, Baulärm und Hitze für den Sommer. Zwei Monate vorher veröffentlichen, nicht mittendrin. |
+| „Zugang Einschreiben Beweis“ | ✅ Neuer Ratgeber `/ratgeber/maengelanzeige-zustellen`: Vergleichstabelle aller Zustellwege, warum das Übergabe-Einschreiben die schlechtere Wahl ist, an wen zugestellt werden muss. Das ist unser Verkaufsargument als Sachinformation. |
+| „Vermieter reagiert nicht auf Mängelanzeige“ | ✅ Neuer Ratgeber `/ratgeber/vermieter-reagiert-nicht`: Minderung, Zurückbehaltung, Selbstvornahme nach § 536a Abs. 2 BGB, Klage, fristlose Kündigung — mit den Risiken jeder Stufe. Die Folgefrage nach unserem Produkt. |
+| „Mängelanzeige Vorlage / Muster zum Download“ | Offen. `maengelanzeige-schreiben` deckt den Begriff teilweise ab; eine eigene Seite mit echtem Download wäre besser. Unsere Antwort ist ohnehin stärker als eine Word-Datei — wir füllen sie aus und verschicken sie. |
+| „Mietminderung selbst schreiben oder machen lassen“ | Offen. Vergleichsseite mit Kaufabsicht, führt direkt auf den Versand. |
+| „Mietminderung Frist / wie lange rückwirkend“ | Offen. Teilweise durch `mietminderung-rueckwirkend` abgedeckt. |
+| Saisonales | Offen. Heizungsthemen von Oktober bis April vorbereiten, Baulärm und Hitze für den Sommer. Zwei Monate vorher veröffentlichen, nicht mittendrin. |
 
 **Was wir bewusst nicht tun:** Städteseiten („Mietminderung Berlin“,
 „Mietminderung München“ …). Der Inhalt wäre auf allen 300 Seiten identisch, weil
@@ -299,10 +354,22 @@ tatsächlich Käufe bringt oder nur Besuche.
 
 ## 7. Reihenfolge
 
-1. **Search Console einrichten** — eine Stunde, danach ist alles messbar.
-2. **Urteilsrecherche für die Top-15-Mängel** — parallel, keine Codeabhängigkeit.
-3. **Mehrsprachigkeit indexierbar machen** (4.1) — der große technische Posten.
-4. **Fehlende Inhaltsseiten** (5.3), beginnend mit „Muster/Vorlage“ und
-   „selbst schreiben oder machen lassen“.
-5. **Juristische Prüfinstanz benennen** (5.2) — braucht Vorlauf, früh anfangen.
+Erledigt: Versand-Landingpage, strukturierte Daten für den Versand,
+Mehrsprachigkeit auf URL-Routen mit `hreflang`, Speed Insights, zwei
+Ratgeberartikel, Vorbereitung der Verifizierungs-Tags.
+
+Als Nächstes:
+
+1. **Search Console und Bing Webmaster Tools einrichten** — eine Stunde, danach
+   ist alles Weitere messbar. Der Code wartet nur noch auf die Tokens.
+2. **Sitemap einreichen** und nach zwei Wochen prüfen, ob `/tr`, `/en` und die
+   übrigen Sprachfassungen tatsächlich indexiert werden. Das ist die eine Zahl,
+   die sagt, ob sich der Umbau gelohnt hat.
+3. **Urteilsrecherche für die Top-15-Mängel** (5.1) — keine Codeabhängigkeit,
+   und der Inhalt, den kein Wettbewerber ohne dieselbe Arbeit kopiert.
+4. **Juristische Prüfinstanz benennen** (5.2) — braucht Vorlauf, früh anfangen.
+5. **Restliche Inhaltsseiten** (5.3), beginnend mit „Muster/Vorlage“.
 6. **Verlinkungen und Datengeschichte** (5.4).
+
+Wenn die Sprachfassungen Traffic bringen: die 15 wichtigsten Mangelseiten
+übersetzen. Die Infrastruktur dafür steht seit 4.1.
