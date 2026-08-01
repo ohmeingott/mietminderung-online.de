@@ -1907,6 +1907,8 @@ git commit -m "Show the dispatch result after returning from Stripe"
 
 ## Vor dem Livegang
 
+> **Stand 31.07.2026: der Versand ist live.** Alle Umgebungsvariablen stehen in Production, `main` enthält die Sicherheitskorrekturen aus dem Staging-Lauf (PR #28), und die Endpunkte antworten in Produktion wie vorgesehen. Was unten noch offen ist, blockiert den Betrieb nicht mehr — es sind Nacharbeiten.
+
 Diese Punkte sind bewusst nicht Teil der Tasks, weil sie Zugangsdaten oder Entscheidungen außerhalb des Codes brauchen:
 
 - [ ] **Übersetzungen muttersprachlich prüfen lassen — mindestens Arabisch und Türkisch.** Die Versandtexte erklären einen rechtlich relevanten Schritt Menschen, die sich auf ihre eigene Sprache verlassen. Sie sind nicht maschinell übersetzt, aber auch von keinem Muttersprachler gegengelesen. Vorrang haben der Steuerhinweis und die Anweisung bei zu langer Vermieteradresse. Fachbegriffe bleiben bewusst deutsch (*Einwurf-Einschreiben*, *Übergabe-Einschreiben*, *§ 19 UStG*), weil der Mieter genau sie auf dem Postbeleg und im Gesetz wiederfindet.
@@ -1918,7 +1920,7 @@ Diese Punkte sind bewusst nicht Teil der Tasks, weil sie Zugangsdaten oder Entsc
 
 - [ ] Verkaufspreise festlegen und in `src/lib/ebrief/produkte.ts` setzen (einzige Stelle; die E2E-Erwartungen in `e2e/versand.spec.ts` auf „2,49" und „6,99" dann mitziehen)
 - [x] ~~`EBRIEF_BASE_URL` in der Produktion auf `https://api.ebrief.de` stellen~~ — gesetzt, zusammen mit `EBRIEF_USER` und `EBRIEF_PASSWORD`, verschlüsselt und **nur in Production**, damit Preview-Deployments das Livesystem nicht erreichen.
-- [ ] **Stripe: `STRIPE_SECRET_KEY` und `STRIPE_WEBHOOK_SECRET` setzen.** Beide stammen aus dem Stripe-Konto und lassen sich nicht von außen erzeugen. Webhook-Endpunkt: `https://mietminderung-online.de/api/stripe/webhook`, Ereignisse **`checkout.session.completed` und `checkout.session.async_payment_succeeded`** — das zweite ist nicht optional: bei Zahlarten mit verzögerter Bestätigung kommt die Zahlung erst darüber an. Solange die Keys fehlen, antwortet die Checkout-Route mit 503 und es kann nichts versendet werden.
+- [x] ~~**Stripe: `STRIPE_SECRET_KEY` und `STRIPE_WEBHOOK_SECRET` setzen.**~~ — beide gesetzt (Production, Live-Konto `acct_1T95jZ3Y3oX9nyww`). Webhook `we_1TzLH33Y3oX9nywwx0LGCk7A` mit `checkout.session.completed` **und** `checkout.session.async_payment_succeeded`. Nach dem Redeployment in Produktion verifiziert: Webhook ohne Signatur → `400 signatur_fehlt`, mit falscher → `400 signatur_ungueltig`, Statusroute ohne Token → `403`.
 - [x] ~~`CRON_SECRET` setzen~~ — gesetzt (32 Byte Zufall), Production. Zusätzlich `STEUERMODUS=kleinunternehmer` ausdrücklich gesetzt statt auf dem Default belassen.
 - [ ] AGB und Widerrufsbelehrung um den kostenpflichtigen Versand ergänzen — der Download war bisher kostenlos, die bestehenden Rechtstexte unter `src/app/nutzungsbedingungen` und `src/app/widerruf` gehen von einem unentgeltlichen Angebot aus. **Das ist ein rechtlicher Punkt, kein technischer: hier ist anwaltliche Prüfung angeraten, nicht meine Einschätzung.**
 - [ ] Einen echten Testbrief über die Produktionsumgebung an die eigene Adresse senden und das Druckergebnis prüfen. **Die Adresserkennung ist bereits belegt** (`spike-adresserkennung-2026-07-31.png`), offen bleibt nur das physische Druckbild.

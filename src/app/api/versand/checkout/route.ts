@@ -301,6 +301,15 @@ export async function POST(request: Request) {
     const session = await stripe().checkout.sessions.create(
       {
         mode: "payment",
+        // The dispatch card quotes a euro price straight from the catalogue,
+        // in every one of the seven locales. Stripe's adaptive pricing would
+        // convert that into the payer's own currency on the payment page, so
+        // someone paying with a foreign card would be quoted one figure and
+        // charged another — which German price-quoting rules do not allow, and
+        // which would also settle a converted amount against a margin
+        // calculated in euros. Off explicitly rather than by account setting,
+        // because an account setting is one click away from being flipped back.
+        adaptive_pricing: { enabled: false },
         line_items: [
           {
             quantity: 1,
