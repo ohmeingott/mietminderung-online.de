@@ -1,5 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { expectNoHorizontalOverflow } from "./helpers";
+import {
+  completeCheck,
+  expectNoHorizontalOverflow,
+  openLetterWizard,
+  reachPreview,
+  stubEnhanceApi,
+} from "./helpers";
 
 test.describe("Landing page and navigation", () => {
   test("renders every section", async ({ page }) => {
@@ -35,6 +41,41 @@ test.describe("Landing page and navigation", () => {
 
     await page.getByTestId("eq-mietvertrag-ja").click();
     await expect(page.getByTestId("eq-mangel_bekannt-nein")).toBeVisible();
+  });
+
+  test("the benefit chips name the price below the first question", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const chips = page.getByTestId("trust-chips");
+    await expect(chips).toContainText("kostenlos");
+
+    // They used to sit between the headline and the card, which pushed the
+    // first question off the first screen. Below it they cost the form nothing.
+    const chipsBox = await chips.boundingBox();
+    const firstAnswer = await page.getByTestId("eq-mietvertrag-ja").boundingBox();
+    expect(chipsBox!.y).toBeGreaterThan(firstAnswer!.y);
+  });
+
+  test("the benefit chips retreat before the paid dispatch card", async ({
+    page,
+  }) => {
+    await stubEnhanceApi(page);
+    await page.goto("/#pruefung");
+    await completeCheck(page);
+    await openLetterWizard(page);
+    await reachPreview(page);
+
+    // Still free up to here, so the chips still hold.
+    await expect(page.getByTestId("trust-chips")).toBeVisible();
+
+    await page.getByTestId("letter-delivery").click();
+    await expect(page.getByTestId("dispatch-card")).toBeVisible();
+
+    // "Keine versteckten Kosten" directly above a price list would read against
+    // the page - postage costs money and the card says so.
+    await expect(page.getByTestId("trust-chips")).toHaveCount(0);
   });
 
   test("every in-page anchor target exists", async ({ page }) => {
