@@ -68,15 +68,23 @@
 --------------------------------------------------------------------------- */
 html {
   scroll-behavior: smooth;
-  /* Never let a wide child scroll the whole page sideways on mobile. */
-  overflow-x: hidden;
+  /*
+   * Never let a wide child scroll the whole page sideways on mobile.
+   *
+   * `clip`, not `hidden`: `overflow-x: hidden` computes `overflow-y` to
+   * `auto`, which turns the element into a scroll container - and every
+   * `position: sticky` descendant on the page then resolves against it
+   * instead of against the viewport and silently stops sticking. `clip`
+   * prevents the sideways scroll without creating that container.
+   */
+  overflow-x: clip;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   color: var(--color-ink-900);
   background: var(--color-paper);
-  overflow-x: hidden;
+  overflow-x: clip;
   font-feature-settings: "cv05" 1, "ss01" 1;
   text-rendering: optimizeLegibility;
 }

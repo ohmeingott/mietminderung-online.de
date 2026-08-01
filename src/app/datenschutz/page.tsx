@@ -387,16 +387,35 @@ export default function Datenschutz() {
     {
       heading: "Lokale Speicherung im Browser",
       body: (
-        <p>
-          Wir speichern Ihre gewählte Sprache (z. B. „de“, „tr“) im{" "}
-          <code>localStorage</code> Ihres Browsers unter dem Schlüssel{" "}
-          <code>locale</code>. Diese Speicherung ist unbedingt erforderlich, um
-          den von Ihnen ausdrücklich gewünschten Dienst in der gewählten Sprache
-          bereitzustellen (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist dafür
-          nicht erforderlich. Es werden keine <strong>Cookies</strong> gesetzt.
-          Sie können den Eintrag jederzeit über die Einstellungen Ihres Browsers
-          löschen.
-        </p>
+        <>
+          <p>
+            Wir speichern Ihre gewählte Sprache (z. B. „de“, „tr“) im{" "}
+            <code>localStorage</code> Ihres Browsers unter dem Schlüssel{" "}
+            <code>locale</code>. Diese Speicherung ist unbedingt erforderlich, um
+            den von Ihnen ausdrücklich gewünschten Dienst in der gewählten Sprache
+            bereitzustellen (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist dafür
+            nicht erforderlich. Es werden keine <strong>Cookies</strong> gesetzt.
+            Sie können den Eintrag jederzeit über die Einstellungen Ihres Browsers
+            löschen.
+          </p>
+          <p>
+            Während Sie die Prüfung und die Mängelanzeige ausfüllen, halten wir
+            Ihren Zwischenstand im <code>sessionStorage</code> Ihres Browsers
+            unter dem Schlüssel <code>mangelflow</code> fest. Darin stehen Ihre
+            Antworten auf die Anspruchsfragen, die gewählten Mängel, Ihre Miete,
+            Ihre Beschreibungen, die Anschriften von Ihnen und Ihrem Vermieter,
+            die gewählte Frist sowie eine von Ihnen gezeichnete Unterschrift.
+            Diese Daten <strong>verlassen Ihr Gerät nicht</strong> und werden
+            nicht an uns übertragen. Sie dienen ausschließlich dazu, dass Ihr
+            Entwurf einen versehentlichen Neuladen der Seite oder den Wechsel zur
+            Bezahlseite übersteht, und sind damit für den von Ihnen gewünschten
+            Dienst unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG). Der{" "}
+            <code>sessionStorage</code> wird von Ihrem Browser{" "}
+            <strong>automatisch geleert, sobald Sie den Tab schließen</strong>;
+            ein neuer Tab beginnt stets ohne Ihre Daten. Sie können den Eintrag
+            außerdem jederzeit über die Einstellungen Ihres Browsers löschen.
+          </p>
+        </>
       ),
     },
     {

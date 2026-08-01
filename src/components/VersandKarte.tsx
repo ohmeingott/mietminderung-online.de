@@ -14,6 +14,9 @@ import { PRODUKTE, type ProduktId } from "@/lib/ebrief/produkte";
  * same place — a divergence between the two would be a price the user never
  * agreed to.
  */
+/** Same shape the tenant screen validates against, so the two never disagree. */
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 interface Anschrift {
   name: string;
   strasse: string;
@@ -27,6 +30,12 @@ interface VersandKarteProps {
   signatureDataUrl?: string;
   mieter: Anschrift & { email: string };
   vermieter: Anschrift;
+  /**
+   * Writes the address back into the wizard. The tenant screen no longer
+   * demands one - the free download does not need it - so dispatch has to be
+   * able to ask for it here, where it is genuinely required.
+   */
+  onEmailChange?: (email: string) => void;
   /**
    * Takes the user back to the landlord step. eBrief's address check can only
    * be answered by correcting the address, which lives in the wizard, not here.
@@ -168,6 +177,7 @@ export default function VersandKarte({
   signatureDataUrl,
   mieter,
   vermieter,
+  onEmailChange,
   onAdresseKorrigieren,
 }: VersandKarteProps) {
   const { t } = useTranslation();
@@ -539,6 +549,36 @@ export default function VersandKarte({
       )}
 
       {/*
+        Asked at the point of need rather than four screens earlier: the
+        confirmation and the tracking mail have to go somewhere, and
+        /api/versand/vorbereiten refuses a job without an address.
+      */}
+      {onEmailChange && !EMAIL_PATTERN.test(mieter.email) && (
+        <div className="mt-5">
+          <label
+            htmlFor="dispatch-email"
+            className="mb-1.5 block text-sm font-medium text-ink-700"
+          >
+            {t("dispatch.emailLabel")}
+            <span className="text-alert-600"> *</span>
+          </label>
+          <input
+            id="dispatch-email"
+            data-testid="dispatch-email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            value={mieter.email}
+            disabled={beschaeftigt}
+            onChange={(e) => onEmailChange(e.target.value)}
+            placeholder="max@beispiel.de"
+            className="w-full min-h-[3rem] rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 py-3 text-ink-900 transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:outline-none"
+          />
+          <p className="mt-1.5 text-xs text-ink-500">{t("dispatch.emailWhy")}</p>
+        </div>
+      )}
+
+      {/*
         § 356 Abs. 4 BGB. Sits directly above the order button, unticked, and
         gates it: the declaration has to be made before the order, not after,
         and it has to be the user's own act. The link opens in a new tab so
@@ -575,7 +615,8 @@ export default function VersandKarte({
       <button
         type="button"
         data-testid="dispatch-submit"
-        disabled={beschaeftigt || !zustimmung}
+        // Never let the browser ask for a job the route will refuse.
+        disabled={beschaeftigt || !zustimmung || !EMAIL_PATTERN.test(mieter.email)}
         onClick={() => {
           if (phase === "warnung" && vorgang) {
             void bezahlen(vorgang, "warnung", zustimmung);

@@ -38,9 +38,14 @@ interface VorbereitenBody {
    * `email` is still required below, but this route no longer sends it
    * anywhere: it used to be eBrief's NotificationMail, and the order
    * confirmation goes to the address Stripe Checkout collects. It is kept as a
-   * precondition because the wizard cannot reach this point without a valid
-   * one, and dropping the check would let a request through that the rest of
-   * the flow assumes has an address behind it.
+   * precondition because the rest of the flow assumes there is an address
+   * behind a prepared job.
+   *
+   * The tenant screen no longer demands one - the free download does not need
+   * an address, and requiring it there cost completions. The dispatch card
+   * asks for it instead, and disables its own button until the address is
+   * valid, so a request without one is a client that has gone wrong rather
+   * than a reader who simply left the field empty.
    */
   mieter?: Anschrift & { email?: unknown };
   vermieter?: Anschrift;
