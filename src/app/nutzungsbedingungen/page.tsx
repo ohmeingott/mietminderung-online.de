@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
@@ -132,7 +133,7 @@ export default function Nutzungsbedingungen() {
             <strong>Widerrufsrecht.</strong> Als Verbraucher steht Ihnen ein
             gesetzliches Widerrufsrecht zu. Die Einzelheiten und die Bedingungen
             seines vorzeitigen Erlöschens finden Sie in unserer{" "}
-            <a href="/widerruf">Widerrufsbelehrung</a>.
+            <Link href="/widerruf">Widerrufsbelehrung</Link>.
           </p>
         </>
       ),
@@ -243,7 +244,7 @@ export default function Nutzungsbedingungen() {
       body: (
         <p>
           Wie wir mit Ihren Daten umgehen, beschreibt unsere{" "}
-          <a href="/datenschutz">Datenschutzerklärung</a>. Kurz gefasst: Ihre
+          <Link href="/datenschutz">Datenschutzerklärung</Link>. Kurz gefasst: Ihre
           Eingaben zur Mängelanzeige werden im Browser verarbeitet und erreichen
           unseren Server nur, wenn Sie eine optionale Funktion aktiv auslösen.
         </p>

@@ -27,6 +27,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Tabelle",
     "nav.guide": "Ratgeber",
+    "nav.send": "Brief versenden",
+    "versand.teaser.eyebrow": "Nicht nur prüfen — erledigen",
+    "versand.teaser.more": "So funktioniert der Versand",
+
+    // SEO metadata for the pages that exist in every language
+    "seo.home.title":
+      "Mietminderung berechnen & Mängelanzeige senden (kostenlos prüfen)",
+    "seo.home.description":
+      "Kostenlos prüfen, ob Sie die Miete mindern dürfen: Minderungsquote berechnen, Mängelanzeige nach § 536c BGB erstellen und direkt an den Vermieter senden lassen.",
+    "seo.faq.title":
+      "Mietminderung FAQ: Die wichtigsten Fragen & Antworten",
+    "seo.faq.description":
+      "Antworten auf die wichtigsten Fragen zur Mietminderung: Wie hoch darf sie sein, ab wann gilt sie und muss der Vermieter zustimmen? Erklärt auf Basis des BGB.",
     "nav.cta": "Jetzt prüfen",
 
     // Hero
@@ -407,6 +420,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Table",
     "nav.guide": "Guides",
+    "nav.send": "Send letter",
+    "versand.teaser.eyebrow": "Not just check — get it done",
+    "versand.teaser.more": "How the dispatch works",
+
+    // SEO metadata for the pages that exist in every language
+    "seo.home.title":
+      "Rent Reduction in Germany: Check Your Claim & Send the Letter",
+    "seo.home.description":
+      "Free check of whether you can reduce your rent in Germany: calculate the reduction, create a defect notice under § 536c BGB and have us post it to your landlord.",
+    "seo.faq.title":
+      "Rent Reduction in Germany: Frequently Asked Questions",
+    "seo.faq.description":
+      "The key questions about reducing rent in Germany: how much you may withhold, when the reduction starts and whether the landlord has to agree. Based on the German Civil Code.",
     "nav.cta": "Check now",
 
     // Hero
@@ -772,6 +798,18 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "SSS",
     "nav.table": "Tablo",
     "nav.guide": "Rehber",
+    "nav.send": "Mektup gönder",
+    "versand.teaser.eyebrow": "Sadece kontrol değil — hallet",
+    "versand.teaser.more": "Gönderim nasıl işliyor",
+
+    // SEO metadata for the pages that exist in every language
+    "seo.home.title":
+      "Almanya'da Kira İndirimi: Hakkınızı Kontrol Edin ve Mektubu Gönderin",
+    "seo.home.description":
+      "Almanya'da kiranızı düşürüp düşüremeyeceğinizi ücretsiz kontrol edin: indirim oranını hesaplayın, § 536c BGB'ye uygun kusur bildirimi hazırlayın ve ev sahibinize postalatın.",
+    "seo.faq.title": "Almanya'da Kira İndirimi: Sık Sorulan Sorular",
+    "seo.faq.description":
+      "Kira indirimi hakkındaki temel sorular: ne kadar indirim yapabilirsiniz, indirim ne zaman başlar ve ev sahibinin onayı gerekir mi? Alman Medeni Kanunu'na dayalı açıklamalar.",
     "nav.cta": "Şimdi kontrol et",
     "hero.badge": "§ 536 BGB'ye dayalı: yasal hakkınız",
     "hero.title1": "Küf, gürültü, bozuk kalorifer? Ne kadar",
@@ -1102,6 +1140,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Таблиця",
     "nav.guide": "Порадник",
+    "nav.send": "Надіслати лист",
+    "versand.teaser.eyebrow": "Не лише перевірити — зробити",
+    "versand.teaser.more": "Як працює надсилання",
+
+    // SEO metadata for the pages that exist in every language
+    "seo.home.title":
+      "Зниження орендної плати в Німеччині: перевірте право та надішліть лист",
+    "seo.home.description":
+      "Безкоштовно перевірте, чи можете ви зменшити орендну плату в Німеччині: розрахуйте розмір зниження, складіть повідомлення про дефекти за § 536c BGB і замовте його надсилання орендодавцю.",
+    "seo.faq.title":
+      "Зниження орендної плати в Німеччині: часті запитання",
+    "seo.faq.description":
+      "Головні запитання про зниження орендної плати: на скільки можна зменшити, з якого моменту діє зниження і чи потрібна згода орендодавця. На основі німецького цивільного кодексу.",
     "nav.cta": "Перевірити зараз",
     "hero.badge": "На основі § 536 BGB: ваше законне право",
     "hero.title1": "Пліснява, шум, зламане опалення? Ось яке",
@@ -1431,6 +1482,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Таблица",
     "nav.guide": "Справочник",
+    "nav.send": "Отправить письмо",
+    "versand.teaser.eyebrow": "Не только проверить — сделать",
+    "versand.teaser.more": "Как работает отправка",
+
+    // SEO metadata for the pages that exist in every language
+    "seo.home.title":
+      "Снижение арендной платы в Германии: проверьте право и отправьте письмо",
+    "seo.home.description":
+      "Бесплатно проверьте, можете ли вы снизить арендную плату в Германии: рассчитайте размер снижения, составьте уведомление о недостатках по § 536c BGB и закажите его отправку арендодателю.",
+    "seo.faq.title":
+      "Снижение арендной платы в Германии: частые вопросы",
+    "seo.faq.description":
+      "Главные вопросы о снижении арендной платы: насколько можно снизить, с какого момента оно действует и нужно ли согласие арендодателя. На основе Гражданского кодекса Германии.",
     "nav.cta": "Проверить сейчас",
     "hero.badge": "На основании § 536 BGB: ваше законное право",
     "hero.title1": "Плесень, шум, сломанное отопление? Вот какое",
@@ -1758,6 +1822,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "الأسئلة الشائعة",
     "nav.table": "الجدول",
     "nav.guide": "الدليل",
+    "nav.send": "إرسال الخطاب",
+    "versand.teaser.eyebrow": "لا تكتفِ بالتحقق — أنجز الأمر",
+    "versand.teaser.more": "كيف يتم الإرسال",
+
+    // SEO metadata for the pages that exist in every language
+    "seo.home.title":
+      "تخفيض الإيجار في ألمانيا: تحقق من حقك وأرسل الخطاب",
+    "seo.home.description":
+      "تحقق مجانًا مما إذا كان بإمكانك تخفيض إيجارك في ألمانيا: احسب نسبة التخفيض، وأنشئ إخطارًا بالعيوب وفق المادة 536c من القانون المدني الألماني، ودعنا نرسله إلى المؤجر بالبريد.",
+    "seo.faq.title":
+      "تخفيض الإيجار في ألمانيا: الأسئلة الشائعة",
+    "seo.faq.description":
+      "أهم الأسئلة حول تخفيض الإيجار: كم يمكنك أن تخفض، ومتى يبدأ التخفيض، وهل يلزم موافقة المؤجر؟ استنادًا إلى القانون المدني الألماني.",
     "nav.cta": "تحقق الآن",
     "hero.badge": "بموجب § 536 BGB: حقك القانوني",
     "hero.title1": "عفن، ضجيج، تدفئة معطلة؟ إليك مقدار",
@@ -2082,6 +2159,19 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Tabela",
     "nav.guide": "Poradnik",
+    "nav.send": "Wyślij pismo",
+    "versand.teaser.eyebrow": "Nie tylko sprawdź — załatw",
+    "versand.teaser.more": "Jak działa wysyłka",
+
+    // SEO metadata for the pages that exist in every language
+    "seo.home.title":
+      "Obniżka czynszu w Niemczech: sprawdź swoje prawo i wyślij pismo",
+    "seo.home.description":
+      "Sprawdź bezpłatnie, czy możesz obniżyć czynsz w Niemczech: oblicz wysokość obniżki, przygotuj zgłoszenie wad zgodnie z § 536c BGB i zleć nam wysyłkę do wynajmującego.",
+    "seo.faq.title":
+      "Obniżka czynszu w Niemczech: najczęstsze pytania",
+    "seo.faq.description":
+      "Najważniejsze pytania o obniżkę czynszu: o ile można obniżyć, od kiedy obowiązuje i czy potrzebna jest zgoda wynajmującego. Na podstawie niemieckiego kodeksu cywilnego.",
     "nav.cta": "Sprawdź teraz",
     "hero.badge": "Na podstawie § 536 BGB: Twoje ustawowe prawo",
     "hero.title1": "Pleśń, hałas, zepsute ogrzewanie? Oto, jaka",

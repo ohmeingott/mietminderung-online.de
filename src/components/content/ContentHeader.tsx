@@ -1,9 +1,11 @@
 import Link from "next/link";
 import BrandMark from "@/components/BrandMark";
+import { VERSAND_PATH } from "@/lib/seo";
 
 const navLinks = [
   { href: "/mietminderung", label: "Mängel A–Z" },
   { href: "/mietminderungstabelle", label: "Mietminderungstabelle" },
+  { href: VERSAND_PATH, label: "Brief versenden" },
   { href: "/ratgeber", label: "Ratgeber" },
   { href: "/faq", label: "FAQ" },
 ];

@@ -19,6 +19,7 @@ import {
   buildMetadata,
   faqSchema,
   jsonLdGraph,
+  VERSAND_PATH,
   type Crumb,
 } from "@/lib/seo";
 
@@ -447,11 +448,14 @@ export default async function MangelPage({ params }: { params: Params }) {
               />
 
               <div className="rounded-2xl bg-blue-700 p-6 text-white">
-                <h2 className="text-lg font-bold">Mängelanzeige erstellen</h2>
+                <h2 className="text-lg font-bold">
+                  Mängelanzeige erstellen — und verschicken
+                </h2>
                 <p className="mt-2 text-sm text-blue-100 leading-relaxed">
                   Prüfen Sie in wenigen Minuten Ihren Anspruch und erstellen Sie
                   ein fertiges Schreiben mit allen Pflichtangaben nach § 536c
-                  BGB. Kostenlos und ohne Registrierung.
+                  BGB. Kostenlos und ohne Registrierung. Auf Wunsch drucken wir
+                  es und geben es an Ihren Vermieter zur Post.
                 </p>
                 <Link
                   href="/#pruefung"
@@ -459,6 +463,11 @@ export default async function MangelPage({ params }: { params: Params }) {
                 >
                   Jetzt kostenlos prüfen
                 </Link>
+                <p className="mt-3 text-center text-xs text-blue-100">
+                  <Link href={VERSAND_PATH} className="underline hover:text-white">
+                    Versand per Brief oder Einwurf-Einschreiben
+                  </Link>
+                </p>
               </div>
 
               <div className="rounded-2xl border border-gray-200 bg-white p-6">

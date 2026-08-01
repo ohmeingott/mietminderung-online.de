@@ -85,6 +85,7 @@ test.describe("canonical host", () => {
     const paths = [
       "/",
       "/mietminderungstabelle",
+      "/maengelanzeige-versenden",
       "/faq",
       "/impressum",
       // First category hub and first defect page the sitemap happens to list.
@@ -124,5 +125,88 @@ test.describe("canonical host", () => {
         .getAttribute("content");
       expect(robots ?? "", `${path} is noindex`).not.toContain("noindex");
     }
+  });
+});
+
+/**
+ * The paid dispatch is the only thing on this site that earns money, and for a
+ * long time it existed only as a step inside a client-side wizard with no URL
+ * of its own - unrankable, and invisible to anyone searching for it. These
+ * checks fail if it ever loses its own indexable page again, or if the prices
+ * shown there drift away from the ones the checkout charges.
+ */
+test.describe("dispatch service is discoverable", () => {
+  const VERSAND_PATH = "/maengelanzeige-versenden";
+
+  /** Reads every JSON-LD block on the page, flattened out of its @graph. */
+  async function jsonLdNodes(page: import("@playwright/test").Page) {
+    const blocks = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    return blocks.flatMap((raw) => {
+      const parsed = JSON.parse(raw);
+      return (parsed["@graph"] ?? [parsed]) as Record<string, unknown>[];
+    });
+  }
+
+  test("the landing page is in the sitemap and indexable", async ({ page }) => {
+    const res = await page.request.get("/sitemap.xml");
+    const locations = sitemapLocations(await res.text());
+    expect(
+      locations,
+      "the dispatch landing page is missing from the sitemap",
+    ).toContain(`${EXPECTED_ORIGIN}${VERSAND_PATH}`);
+
+    await page.goto(VERSAND_PATH);
+    await expect(page.locator("h1")).toContainText("versenden");
+  });
+
+  test("Service JSON-LD carries both products with real prices", async ({
+    page,
+  }) => {
+    await page.goto(VERSAND_PATH);
+    const nodes = await jsonLdNodes(page);
+
+    const service = nodes.find((n) => n["@type"] === "Service");
+    expect(service, "no Service node on the dispatch page").toBeTruthy();
+
+    const offers = service?.offers as { price?: string }[] | undefined;
+    expect(offers?.length, "Service has no offers").toBe(2);
+
+    // Mirrors src/lib/ebrief/produkte.ts. A price that changes there without
+    // changing here means the page and the checkout disagree.
+    const prices = offers?.map((o) => o.price).sort();
+    expect(prices).toEqual(["2.49", "6.99"]);
+  });
+
+  test("the homepage links to the dispatch page and says it costs money", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    // Server-rendered, so the link is in the HTML rather than behind a wizard.
+    await expect(
+      page.locator(`a[href="${VERSAND_PATH}"]`).first(),
+    ).toBeAttached();
+
+    const teaser = page.locator("#versenden");
+    await expect(teaser).toContainText("2,49");
+    await expect(teaser).toContainText("6,99");
+  });
+
+  test("the free check is not advertised as covering the paid dispatch", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const nodes = await jsonLdNodes(page);
+
+    const webapp = nodes.find((n) => n["@type"] === "WebApplication");
+    const features = (webapp?.featureList ?? []) as string[];
+    // The zero-price offer on this node must not list posting a letter, which
+    // is chargeable. That combination reads as "we post it for free".
+    expect(
+      features.filter((f) => /versand|versenden|brief/i.test(f)),
+      "the price-0 WebApplication node advertises the paid dispatch",
+    ).toHaveLength(0);
   });
 });
