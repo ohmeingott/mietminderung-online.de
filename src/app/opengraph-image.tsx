@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { BRAND_MARK_ON_DARK, brandMarkDataUri } from "@/lib/brandMark";
 
 // No edge runtime: this lets Next generate the image at build time so it is
 // served as a static, cacheable asset instead of being rendered per request.
@@ -29,20 +30,13 @@ export default function OGImage() {
             marginBottom: "40px",
           }}
         >
-          <div
-            style={{
-              width: "64px",
-              height: "64px",
-              borderRadius: "16px",
-              background: "white",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "36px",
-            }}
-          >
-            🛡️
-          </div>
+          {/* Inlined as a data URI: satori cannot resolve a relative URL. */}
+          <img
+            src={brandMarkDataUri(BRAND_MARK_ON_DARK)}
+            width={64}
+            height={64}
+            alt=""
+          />
           <span
             style={{
               fontSize: "32px",
@@ -50,7 +44,7 @@ export default function OGImage() {
               color: "white",
             }}
           >
-            Mietminderung.online
+            Mietminderung-online
           </span>
         </div>
         <h1

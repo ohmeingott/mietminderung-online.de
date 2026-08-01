@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import BrandMark from "@/components/BrandMark";
 
 const navLinks = [
   { href: "/mietminderung", label: "Mängel A–Z" },
@@ -18,13 +18,7 @@ export default function ContentHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <Image
-              src="/logo.png"
-              alt="Mietminderung Online"
-              width={36}
-              height={36}
-              className="w-9 h-9"
-            />
+            <BrandMark className="w-9 h-9" />
             <span className="text-lg sm:text-xl font-extrabold tracking-tight text-gray-900">
               Mietminderung<span className="text-blue-600">-online</span>
             </span>
