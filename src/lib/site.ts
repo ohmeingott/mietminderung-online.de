@@ -116,7 +116,13 @@ export const site = {
 
 export const siteConfig = {
   url: siteUrl,
-  name: "Mietminderung Online",
+  /**
+   * The wordmark, spelled exactly as the header and footer render it. It is the
+   * hyphenated domain without the TLD, not a prose variant with a space - the
+   * schema.org `name`, the OG `siteName` and the page titles all read from here,
+   * so a second spelling would put two brand names in front of the same user.
+   */
+  name: "Mietminderung-online",
   brand: siteHost,
   lang: "de",
   locale: "de_DE",

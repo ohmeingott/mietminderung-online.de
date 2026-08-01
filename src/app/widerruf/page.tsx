@@ -9,7 +9,7 @@ import {
 } from "@/lib/widerrufstext";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Widerrufsrecht | Mietminderung Online",
+  title: "Widerrufsrecht | Mietminderung-online",
   description: `Widerrufsbelehrung und Muster-Widerrufsformular für den kostenpflichtigen Postversand der Mängelanzeige über ${site.name}.`,
   path: "/widerruf",
 });
