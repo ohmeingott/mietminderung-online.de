@@ -205,7 +205,7 @@ export default function MietminderungCheck({
   const question = eligibilityQuestions[eligibilityStep];
 
   return (
-    <section id="pruefung" className="scroll-mt-24 pt-2 pb-16 sm:pt-3 sm:pb-24">
+    <section id="pruefung" className="scroll-mt-24 pt-6 pb-16 sm:pt-8 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* No section heading: the hero above already states what this is, and
             the question itself says where the user stands. Progress rides on
