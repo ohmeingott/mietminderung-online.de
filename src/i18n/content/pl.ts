@@ -229,6 +229,9 @@ const pl: Record<string, string> = {
   "faq.q11": "Jak to wygląda przy modernizacji energetycznej?",
   "faq.a11":
     "Przy działaniach modernizacyjnych poprawiających efektywność energetyczną (np. ocieplenie) obniżka czynszu jest wyłączona przez 3 miesiące (§ 536 ust. 1a BGB). Po tym okresie możesz obniżyć czynsz. Dotyczy to wyłącznie działań energetycznych, a nie ogólnej modernizacji.",
+  "faq.q12": "Jak długo muszę czekać na odpowiedź po zgłoszeniu usterek?",
+  "faq.a12":
+    "Nie ma ustawowego terminu na odpowiedź właściciela. Decyduje termin, który sam wyznaczysz na usunięcie usterki: zwykle 14 dni, przy pilnych usterkach takich jak awaria ogrzewania zimą 3 do 7 dni, a w nagłych wypadkach jak pęknięta rura natychmiast. Termin biegnie od doręczenia listu, a nie od dnia nadania — doliczyć trzeba jeden do dwóch dni roboczych. Jeśli upłynie, a usterka nie zostanie usunięta, właściciel jest w zwłoce: możesz obniżyć czynsz, wysłać drugie pismo z ostatnim terminem i żądać odszkodowania lub wykonania zastępczego na podstawie § 536a BGB. Jeśli od zgłoszenia płacisz czynsz z zastrzeżeniem, nadpłatę możesz później odzyskać.",
 };
 
 export default pl;

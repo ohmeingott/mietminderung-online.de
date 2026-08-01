@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import {
+  chooseDeadline,
   completeCheck,
   expectNoHorizontalOverflow,
   fillLandlord,
@@ -19,7 +20,7 @@ test.describe("Mängelanzeige wizard", () => {
     await openLetterWizard(page);
   });
 
-  test("requires tenant fields and a valid email before continuing", async ({ page }) => {
+  test("requires the tenant address but not an email", async ({ page }) => {
     const next = page.getByTestId("letter-next");
     await expect(next).toBeDisabled();
 
@@ -27,10 +28,16 @@ test.describe("Mängelanzeige wizard", () => {
     await page.getByTestId("mieter-strasse").fill(TENANT.street);
     await page.getByTestId("mieter-plz").fill(TENANT.zip);
     await page.getByTestId("mieter-ort").fill(TENANT.city);
-    await expect(next).toBeDisabled();
+    // The free download needs no address, so this alone is enough to go on.
+    await expect(next).toBeEnabled();
 
+    // A malformed one still blocks - an empty field is a choice, a typo is not.
     await page.getByTestId("mieter-email").fill("keine-email");
     await expect(next).toBeDisabled();
+
+    // Clearing it again unblocks, which a naive !PATTERN.test() would not.
+    await page.getByTestId("mieter-email").fill("");
+    await expect(next).toBeEnabled();
 
     await page.getByTestId("mieter-email").fill(TENANT.email);
     await expect(next).toBeEnabled();
@@ -60,6 +67,7 @@ test.describe("Mängelanzeige wizard", () => {
       .fill("Die Heizung ist seit Anfang Mai vollständig ausgefallen.");
 
     await page.getByTestId("letter-preview").click();
+    const frist = await chooseDeadline(page);
 
     const preview = page.getByTestId("brieftext");
     await expect(preview).not.toHaveValue("");
@@ -74,6 +82,8 @@ test.describe("Mängelanzeige wizard", () => {
     expect(text).toContain("§ 536 Abs. 1 BGB");
     expect(text).toContain("§ 536a BGB");
     expect(text).toContain("Die Heizung ist seit Anfang Mai vollständig ausgefallen.");
+    // The deadline is chosen, not hard-coded at fourteen days any more.
+    expect(text).toContain(`bis spätestens zum ${frist}`);
   });
 
   test("falls back to the typed text when the AI endpoint fails", async ({ page }) => {
@@ -87,6 +97,7 @@ test.describe("Mängelanzeige wizard", () => {
     await page.getByTestId("letter-next").click();
     await page.getByTestId("detail-beschreibung-0").fill("Mein eigener Text bleibt.");
     await page.getByTestId("letter-preview").click();
+    await chooseDeadline(page);
 
     await expect(page.getByTestId("brieftext")).toHaveValue(
       /Mein eigener Text bleibt\./
@@ -159,7 +170,8 @@ test.describe("Mängelanzeige wizard", () => {
     await page.mouse.move(box.x + box.width - 20, box.y + box.height / 2, { steps: 12 });
     await page.mouse.up();
 
-    await page.getByTestId("signature-save").click();
+    // No "save" step: the stroke itself commits. The button it replaces was a
+    // trap - draw, move on, and the PDF came out unsigned with nothing said.
     await expect(page.getByTestId("signature-saved")).toBeVisible();
 
     await page.getByTestId("signature-clear").click();
@@ -207,6 +219,9 @@ test.describe("Mängelanzeige wizard", () => {
   test("the back button walks the wizard in reverse", async ({ page }) => {
     await reachPreview(page);
     await page.getByTestId("letter-back").click();
+    await expect(page.getByTestId("frist-14")).toBeVisible();
+
+    await page.getByTestId("letter-back").click();
     await expect(page.getByTestId("detail-raum-0")).toBeVisible();
 
     await page.getByTestId("letter-back").click();
@@ -214,6 +229,15 @@ test.describe("Mängelanzeige wizard", () => {
 
     await page.getByTestId("letter-back").click();
     await expect(page.getByTestId("mieter-name")).toHaveValue(TENANT.name);
+
+    // Across what used to be the boundary between two page sections: the
+    // whole point of the merge is that this is just another step back, into
+    // the result and on into the rent, with every value still there.
+    await page.getByTestId("letter-back").click();
+    await expect(page.getByTestId("check-create-letter")).toBeVisible();
+
+    await page.getByTestId("check-back").click();
+    await expect(page.getByTestId("rent-input")).toHaveValue("1000");
   });
 
   test("stays within the viewport across all wizard steps", async ({ page }) => {
@@ -228,6 +252,9 @@ test.describe("Mängelanzeige wizard", () => {
     await expectNoHorizontalOverflow(page);
 
     await page.getByTestId("letter-preview").click();
+    await expectNoHorizontalOverflow(page);
+
+    await chooseDeadline(page);
     await expectNoHorizontalOverflow(page);
 
     await page.getByTestId("letter-delivery").click();
