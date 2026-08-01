@@ -15,7 +15,15 @@ import { site } from "@/lib/site";
 
 const anbieter = `${site.operator.name}, ${site.operator.street}, ${site.operator.zip} ${site.operator.city}`;
 
-/** Postal address plus mailbox, as the model instruction requires it. */
+/**
+ * Postal address plus mailbox, as the model instruction requires it.
+ *
+ * No telephone number, deliberately. Anlage 1 zu Art. 246a § 1 Abs. 2 EGBGB
+ * asks for one "soweit verfügbar", and the operator has no business line —
+ * so there is nothing to omit. Should one ever be set up, it belongs here:
+ * "verfügbar" means it exists, not that we chose to publish it. An email
+ * address satisfies § 5 DDG's requirement for a fast channel on its own.
+ */
 export const widerrufsadresse = `${anbieter}, ${site.operator.email}`;
 
 /** The notice itself, one string per paragraph, in the statutory order. */
