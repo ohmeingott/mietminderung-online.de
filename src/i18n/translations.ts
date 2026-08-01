@@ -27,6 +27,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Tabelle",
     "nav.guide": "Ratgeber",
+    "nav.send": "Brief versenden",
     "nav.cta": "Jetzt prüfen",
 
     // Hero
@@ -346,6 +347,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Table",
     "nav.guide": "Guides",
+    "nav.send": "Send letter",
     "nav.cta": "Check now",
 
     // Hero
@@ -650,6 +652,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "SSS",
     "nav.table": "Tablo",
     "nav.guide": "Rehber",
+    "nav.send": "Mektup gönder",
     "nav.cta": "Şimdi kontrol et",
     "hero.badge": "§ 536 BGB'ye dayalı: yasal hakkınız",
     "hero.title1": "Küf, gürültü, bozuk kalorifer? Ne kadar",
@@ -916,6 +919,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Таблиця",
     "nav.guide": "Порадник",
+    "nav.send": "Надіслати лист",
     "nav.cta": "Перевірити зараз",
     "hero.badge": "На основі § 536 BGB: ваше законне право",
     "hero.title1": "Пліснява, шум, зламане опалення? Ось яке",
@@ -1181,6 +1185,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Таблица",
     "nav.guide": "Справочник",
+    "nav.send": "Отправить письмо",
     "nav.cta": "Проверить сейчас",
     "hero.badge": "На основании § 536 BGB: ваше законное право",
     "hero.title1": "Плесень, шум, сломанное отопление? Вот какое",
@@ -1444,6 +1449,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "الأسئلة الشائعة",
     "nav.table": "الجدول",
     "nav.guide": "الدليل",
+    "nav.send": "إرسال الخطاب",
     "nav.cta": "تحقق الآن",
     "hero.badge": "بموجب § 536 BGB: حقك القانوني",
     "hero.title1": "عفن، ضجيج، تدفئة معطلة؟ إليك مقدار",
@@ -1704,6 +1710,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Tabela",
     "nav.guide": "Poradnik",
+    "nav.send": "Wyślij pismo",
     "nav.cta": "Sprawdź teraz",
     "hero.badge": "Na podstawie § 536 BGB: Twoje ustawowe prawo",
     "hero.title1": "Pleśń, hałas, zepsute ogrzewanie? Oto, jaka",

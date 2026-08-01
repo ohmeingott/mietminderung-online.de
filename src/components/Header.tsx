@@ -4,12 +4,16 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { VERSAND_PATH } from "@/lib/seo";
 import BrandMark from "./BrandMark";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const navLinks = [
   { href: "/#pruefung", key: "nav.check" },
   { href: "/#maengelanzeige", key: "nav.letter" },
+  // Directly after the letter, because that is the order the user meets them
+  // in: first the notice is written, then it has to reach the landlord.
+  { href: VERSAND_PATH, key: "nav.send" },
   { href: "/#so-funktionierts", key: "nav.how" },
   { href: "/faq", key: "nav.faq" },
   { href: "/mietminderungstabelle", key: "nav.table" },

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { kategorieIndex } from "@/lib/mangelIndex";
 import { ratgeberArtikel } from "@/data/ratgeber";
+import { VERSAND_PATH } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 /**
@@ -27,6 +28,16 @@ export default function ContentFooter() {
             >
               Mietminderung prüfen
             </Link>
+            <p className="mt-4 text-sm">
+              Fertige Mängelanzeige?{" "}
+              <Link
+                href={VERSAND_PATH}
+                className="font-medium text-blue-400 hover:text-white transition-colors"
+              >
+                Wir versenden sie an den Vermieter
+              </Link>
+              .
+            </p>
           </div>
 
           <div className="md:col-span-2">

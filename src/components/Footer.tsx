@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { ratgeberArtikel } from "@/data/ratgeber";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { VERSAND_PATH } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 import BrandMark from "./BrandMark";
 
 const serviceLinks = [
   { href: "/#pruefung", key: "nav.check" },
   { href: "/#maengelanzeige", key: "nav.letter" },
+  { href: VERSAND_PATH, key: "nav.send" },
   { href: "/#so-funktionierts", key: "nav.how" },
   { href: "/faq", key: "nav.faq" },
 ] as const;
