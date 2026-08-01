@@ -32,6 +32,11 @@ import FertigScreen from "@/components/wizard/screens/FertigScreen";
 import { eligibilityQuestions } from "@/data/maengel";
 import type { Mangel } from "@/data/maengel";
 import { alleMaengel } from "@/lib/mangelIndex";
+import {
+  effektiveQuote,
+  gesamtQuote,
+  wohnflaechenAbweichung,
+} from "@/lib/minderung";
 import { mangelDescKey, mangelLabelKey } from "@/i18n/content";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { generateBriefText } from "@/lib/brief/generateBriefText";
@@ -168,32 +173,55 @@ export default function MietminderungWizard() {
     [state.selectedMangelIds]
   );
 
+  // Selecting a defect clears the ones it rules out, so mutually exclusive
+  // states (heating fully out vs. partly out) can never stack into the total.
   const toggleMangel = useCallback(
     (mangel: Mangel) => {
       const drin = state.selectedMangelIds.includes(mangel.id);
-      setState({
-        selectedMangelIds: drin
-          ? state.selectedMangelIds.filter((id) => id !== mangel.id)
-          : [...state.selectedMangelIds, mangel.id],
+      if (drin) {
+        setState({
+          selectedMangelIds: state.selectedMangelIds.filter((id) => id !== mangel.id),
+        });
+        return;
+      }
+      const kollidiert = new Set(mangel.excludes ?? []);
+      const bereinigt = state.selectedMangelIds.filter((id) => {
+        if (kollidiert.has(id)) return false;
+        const anderer = alleMaengel.find((e) => e.mangel.id === id)?.mangel;
+        return !(anderer?.excludes ?? []).includes(mangel.id);
       });
+      setState({ selectedMangelIds: [...bereinigt, mangel.id] });
     },
     [setState, state.selectedMangelIds]
   );
 
+  /* ------------------------------------------------------------ floor area */
+
+  const flaecheAbweichung = wohnflaechenAbweichung(
+    parseFloat(state.flaecheVereinbart),
+    parseFloat(state.flaecheTatsaechlich)
+  );
+  const quoteFuer = useCallback(
+    (m: Mangel) => effektiveQuote(m, { wohnflaecheAbweichung: flaecheAbweichung }),
+    [flaecheAbweichung]
+  );
+  const flaecheMangel = selectedMaengel.find((m) => m.berechnet === "wohnflaeche");
+  const setFlaecheVereinbart = useCallback(
+    (wert: string) => setState({ flaecheVereinbart: wert }),
+    [setState]
+  );
+  const setFlaecheTatsaechlich = useCallback(
+    (wert: string) => setState({ flaecheTatsaechlich: wert }),
+    [setState]
+  );
+
   /* ------------------------------------------------------------------ money */
 
-  const quoteMin = Math.min(
-    selectedMaengel.reduce((s, m) => s + m.minderung_min, 0),
-    100
-  );
-  const quoteMax = Math.min(
-    selectedMaengel.reduce((s, m) => s + m.minderung_max, 0),
-    100
-  );
-  const quoteTypisch = Math.min(
-    selectedMaengel.reduce((s, m) => s + m.minderung_typical, 0),
-    100
-  );
+  // Courts weigh the overall loss of usability rather than adding quotas up,
+  // so the total stays below the plain sum of the individual figures.
+  const quoteMin = gesamtQuote(selectedMaengel.map((m) => quoteFuer(m).min));
+  const quoteMax = gesamtQuote(selectedMaengel.map((m) => quoteFuer(m).max));
+  const quoteTypisch = gesamtQuote(selectedMaengel.map((m) => quoteFuer(m).typical));
   const miete = parseFloat(state.bruttowarmmiete) || 0;
 
   /* ------------------------------------------------------------------ forms */
@@ -340,6 +368,11 @@ export default function MietminderungWizard() {
     neuStarten,
     selectedMaengel,
     toggleMangel,
+    quoteFuer,
+    flaecheMangel,
+    flaecheAbweichung,
+    setFlaecheVereinbart,
+    setFlaecheTatsaechlich,
     selectedKategorie,
     setSelectedKategorie,
     setBruttowarmmiete: (wert) => setState({ bruttowarmmiete: wert }),

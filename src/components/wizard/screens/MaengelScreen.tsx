@@ -59,6 +59,11 @@ export default function MaengelScreen() {
     setSelectedKategorie,
     quoteMin,
     quoteMax,
+    quoteFuer,
+    flaecheMangel,
+    flaecheAbweichung,
+    setFlaecheVereinbart,
+    setFlaecheTatsaechlich,
     mangelLabel,
     mangelDesc,
   } = useWizard();
@@ -221,6 +226,84 @@ export default function MaengelScreen() {
               </li>
             ))}
           </ul>
+          {selectedMaengel.length > 1 && (
+            <p className="mt-3 text-xs leading-relaxed text-brand-800">
+              {t("check.gesamtbetrachtungHint")}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* The floor-area shortfall is not an estimated range: above the 10 %
+          threshold the rent drops by exactly the deviation, so we ask for the
+          two areas instead of guessing. */}
+      {flaecheMangel && (
+        <div
+          data-testid="wohnflaeche-panel"
+          className="mt-4 rounded-[var(--radius-field)] border border-ink-200 bg-paper-sunken p-4"
+        >
+          <h4 className="font-semibold text-ink-800">{t("check.flaecheTitle")}</h4>
+          <p className="mt-1 text-sm text-ink-600">{t("check.flaecheDesc")}</p>
+          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label
+                htmlFor="flaeche-vereinbart"
+                className="block text-sm font-medium text-ink-700"
+              >
+                {t("check.flaecheVereinbart")}
+              </label>
+              <input
+                id="flaeche-vereinbart"
+                data-testid="flaeche-vereinbart"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step="0.01"
+                value={state.flaecheVereinbart}
+                onChange={(e) => setFlaecheVereinbart(e.target.value)}
+                className="mt-1.5 h-12 w-full rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 font-semibold text-ink-900 tabular-nums focus:border-brand-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="flaeche-tatsaechlich"
+                className="block text-sm font-medium text-ink-700"
+              >
+                {t("check.flaecheTatsaechlich")}
+              </label>
+              <input
+                id="flaeche-tatsaechlich"
+                data-testid="flaeche-tatsaechlich"
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step="0.01"
+                value={state.flaecheTatsaechlich}
+                onChange={(e) => setFlaecheTatsaechlich(e.target.value)}
+                className="mt-1.5 h-12 w-full rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 font-semibold text-ink-900 tabular-nums focus:border-brand-500 focus:outline-none"
+              />
+            </div>
+          </div>
+          {flaecheAbweichung !== null && (
+            <p
+              data-testid="flaeche-ergebnis"
+              className={`mt-3 text-sm font-medium ${
+                quoteFuer(flaecheMangel).typical > 0 ? "text-brand-800" : "text-ink-600"
+              }`}
+            >
+              {quoteFuer(flaecheMangel).typical > 0
+                ? t("check.flaecheMangel")
+                    .replace("{abweichung}", flaecheAbweichung.toFixed(1).replace(".", ","))
+                    .replace(
+                      "{quote}",
+                      quoteFuer(flaecheMangel).typical.toString().replace(".", ",")
+                    )
+                : t("check.flaecheKeinMangel").replace(
+                    "{abweichung}",
+                    Math.max(flaecheAbweichung, 0).toFixed(1).replace(".", ",")
+                  )}
+            </p>
+          )}
         </div>
       )}
     </div>

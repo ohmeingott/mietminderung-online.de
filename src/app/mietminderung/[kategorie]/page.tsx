@@ -46,7 +46,7 @@ function buildFaqs(entry: KategorieEntry) {
   return [
     {
       question: `Wie viel Mietminderung ist bei Mängeln der Kategorie ${entry.kategorie.label} möglich?`,
-      answer: `Die anerkannten Minderungsquoten in dieser Kategorie reichen von ${min} bis ${max} Prozent der Bruttowarmmiete. Die höchste Quote entfällt auf „${hoechster.mangel.label}“ mit bis zu ${hoechster.mangel.minderung_max} Prozent. Maßgeblich sind stets Dauer, Intensität und Ausmaß der Beeinträchtigung im Einzelfall.`,
+      answer: `Die Orientierungswerte in dieser Kategorie reichen von ${min} bis ${max} Prozent der Bruttowarmmiete. Die höchste Quote entfällt auf „${hoechster.mangel.label}“ mit bis zu ${hoechster.mangel.minderung_max} Prozent. Maßgeblich sind stets Dauer, Intensität und Ausmaß der Beeinträchtigung im Einzelfall.`,
     },
     {
       question: `Welche Mängel gehören zur Kategorie ${entry.kategorie.label}?`,

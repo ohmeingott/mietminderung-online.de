@@ -54,9 +54,8 @@ const tr: Record<string, string> = {
     "Bodrum nemli veya ıslak (bodrum kira sözleşmesine dâhilse).",
 
   // --- Noise -----------------------------------------------------------------
-  "m.baulaerm_haus.l": "Binada / komşu binada inşaat gürültüsü",
-  "m.baulaerm_haus.d":
-    "Binada veya bina çevresindeki inşaat çalışmalarından kaynaklanan ciddi gürültü.",
+  "m.baulaerm_haus.l": "Kendi binanızdaki inşaat gürültüsü",
+  "m.baulaerm_haus.d": "Kendi binanızdaki veya binanızda yapılan çalışmalardan kaynaklanan ciddi gürültü, örneğin çatı katı yapımı veya tadilat. Enerji verimliliği tadilatlarında indirim üç ay boyunca hariç tutulur (BGB § 536 f. 1a).",
   "m.strassenlaerm.l": "Artan sokak gürültüsü (ör. şantiye)",
   "m.strassenlaerm.d":
     "Örneğin bir şantiye nedeniyle olağan seviyenin üzerinde sokak gürültüsü.",
@@ -73,8 +72,8 @@ const tr: Record<string, string> = {
   // --- Pests -----------------------------------------------------------------
   "m.kakerlaken.l": "Hamam böceği",
   "m.kakerlaken.d": "Dairede hamam böceği istilası.",
-  "m.ratten.l": "Dairede / binada fare (sıçan)",
-  "m.ratten.d": "Dairede veya binada gerçek sıçan istilası.",
+  "m.ratten.l": "Dairenin içinde fare (sıçan)",
+  "m.ratten.d": "Sıçanlar yaşam alanlarına giriyor veya odalar ilaçlama nedeniyle kapatılmış durumda.",
   "m.maeuse.l": "Fare istilası",
   "m.maeuse.d": "Dairede fare istilası.",
   "m.bettwanzen.l": "Tahta kurusu",
@@ -99,10 +98,10 @@ const tr: Record<string, string> = {
   "m.klingel_defekt.d": "Kapı zili veya diyafon çalışmıyor.",
 
   // --- Bathroom --------------------------------------------------------------
-  "m.toilette_defekt.l": "Tuvalet kullanılamıyor",
-  "m.toilette_defekt.d": "Tek tuvalet arızalı ve kullanılamıyor.",
-  "m.dusche_defekt.l": "Duş arızalı",
-  "m.dusche_defekt.d": "Duş çalışmıyor veya kullanılamıyor.",
+  "m.toilette_defekt.l": "Tek tuvalet kullanılamıyor",
+  "m.toilette_defekt.d": "Dairenin tek tuvaleti bozuk ve uzun süredir kullanılamıyor.",
+  "m.dusche_defekt.l": "Duş bozuk (küvet mevcut)",
+  "m.dusche_defekt.d": "Duş çalışmıyor, ancak küvet gibi başka bir yıkanma imkânı var.",
   "m.wasserdruck_niedrig.l": "Su basıncı çok düşük",
   "m.wasserdruck_niedrig.d": "Banyoda veya mutfakta su basıncı çok düşük.",
   "m.bad_belueftung.l": "Banyo havalandırılamıyor",
@@ -140,11 +139,10 @@ const tr: Record<string, string> = {
   "m.kabel_defekt.d": "Sözleşmede yer alan kablo bağlantısı çalışmıyor.",
 
   // --- Floor area ------------------------------------------------------------
-  "m.wohnflaeche_10.l": "Konut alanı sözleşmedekinden %10'dan fazla küçük",
-  "m.wohnflaeche_10.d":
-    "Gerçek konut alanı, sözleşmede belirtilenden %10'dan fazla küçük.",
-  "m.hitze_dach.l": "Yazın aşırı sıcak (26 °C üzeri)",
-  "m.hitze_dach.d": "Daire (ör. çatı katı) 26 °C'nin üzerine ısınıyor.",
+  "m.wohnflaeche_10.l": "Konut alanı sözleşmedekinden küçük",
+  "m.wohnflaeche_10.d": "Gerçek konut alanı, kararlaştırılan alanın altında. Sapma %10'u aştığında kira tam olarak bu oranda azalır; %10 ve altında kusur yoktur.",
+  "m.hitze_dach.l": "Yaz aşırı ısınması (ısı yalıtımı kusuru)",
+  "m.hitze_dach.d": "Daire yazın aşırı ısınıyor. Bu ancak binanın yapıldığı dönemde geçerli yaz ısı koruması standardına uymaması hâlinde kusurdur. Çatı katı ve eski binalarda daha yüksek sıcaklıklara katlanmak gerekir.",
   "m.undichtes_dach.l": "Akan çatı / akan tavan",
   "m.undichtes_dach.d": "Çatıdan veya tavandan su sızıyor.",
 
@@ -163,8 +161,8 @@ const tr: Record<string, string> = {
     "İskele ışık girişini kısıtlıyor ve hırsızlık riski oluşturuyor.",
 
   // --- Health hazards --------------------------------------------------------
-  "m.asbest.l": "Dairede asbest",
-  "m.asbest.d": "Dairede asbest tespit edildi (ör. kırık levhalar).",
+  "m.asbest.l": "Asbest hasarlı / lif salınımı",
+  "m.asbest.d": "Asbest içeren yapı elemanları hasarlı veya lif salınımı riski var, örneğin kırık levhalar ya da asbestli gece depolamalı sobalar. Havadaki sınır değerlerin aşıldığının kanıtlanması gerekmez.",
   "m.legionellen.l": "İçme suyunda lejyonella",
   "m.legionellen.d": "Lejyonella sınır değerlerinin aşılması.",
   "m.bleirohre.l": "Kurşun borular (sınır değer aşımı)",
@@ -188,41 +186,46 @@ const tr: Record<string, string> = {
   "faq.a0":
     "Kira indirimi, dairenizde yaşam kalitesini olumsuz etkileyen kusurlar varsa kiracı olarak daha az kira ödeyebilmeniz anlamına gelir. Bu hak doğrudan Alman Medeni Kanunu'nun § 536 maddesinden doğar; ayrıca bir izin almanız gerekmez. Kusur devam ettiği sürece kira, kanun gereği kendiliğinden azalmış sayılır.",
   "faq.q1": "Ev sahibinin kira indirimini onaylaması gerekir mi?",
-  "faq.a1":
-    "Hayır! Önemli bir kusur mevcutsa ve bunu ev sahibine bildirdiyseniz kira indirimi kanun gereği kendiliğinden devreye girer. Onaya ihtiyacınız yoktur. Ancak kusuru önceden ev sahibine bildirmeniz gerekir (kusur bildirimi).",
+  "faq.a1": "Hayır! Kira indirimi, önemli bir kusur ortaya çıktığı anda kendiliğinden (kanun gereği) devreye girer. Ne onaya ne de beyana ihtiyacınız var. Kusur bildirimi indirimin doğması için şart değildir; ancak onu uygulamanız ve ispatlamanız için gereklidir.",
   "faq.q2": "Kira indiriminin tutarını nasıl hesaplarım?",
   "faq.a2":
     "Kira indirimi brüt sıcak kira üzerinden hesaplanır, yani soğuk kira artı tüm yan giderler. Tutar, kusurun türüne ve ağırlığına göre belirlenir. Örnek: 1.000 € brüt sıcak kira ve %20 indirim oranında yalnızca 800 € ödersiniz. Oran, benzer davalardaki mahkeme kararlarından çıkar.",
   "faq.q3": "Kusur bildirimi nedir ve neden gereklidir?",
-  "faq.a3":
-    "Kusur bildirimi, kusuru tarif ettiğiniz ve giderilmesini talep ettiğiniz, ev sahibinize yazılı olarak yaptığınız bildirimdir. Kanunen zorunludur (§ 536c BGB). Kusur bildirimi olmadan kira indirimi yapamazsınız ve hatta tazminat riski altına girersiniz. Bu bildirimi hukuka uygun şekilde hazırlamanıza yardımcı oluyoruz.",
+  "faq.a3": "Kusur bildirimi, ev sahibinize kusuru anlattığınız ve giderilmesini talep ettiğiniz yazılı bildirimdir. BGB § 536c f. 1 sizi kusurları gecikmeksizin bildirmeye zorunlu kılar. Bildirmezseniz, indirim hakkınızı yalnızca ev sahibinin tam da bu eksik bildirim yüzünden gideremediği ölçüde kaybedersiniz. Kusuru zaten biliyorsa bildirim yükümlülüğü ortadan kalkar. Bildirimi hukuken sağlam biçimde hazırlamanıza yardımcı oluyoruz.",
   "faq.q4": "Kirayı fazla indirirsem ne olur?",
-  "faq.a4":
-    "Dikkat: Kirayı çok fazla indirir ve iki aylık kira tutarında birikmiş borç oluşursa, ev sahibi sözleşmeyi derhal feshedebilir (§ 543 Abs. 2 Nr. 3 BGB). Tavsiyemiz: Önce kiranın tamamını çekince koyarak ödeyin ve farkı sonradan geri talep edin. Böylece güvende olursunuz.",
+  "faq.a4": "Dikkat: Risk çoğu kişinin sandığından daha erken başlar. Ev sahibi, üst üste iki ödeme tarihinde kiranın önemsiz sayılmayacak bir kısmını ödemediğinizde derhal fesih yapabilir (BGB § 543 f. 2 c. 1 No. 3 bent a). BGB § 569 f. 3 No. 1'e göre 'önemsiz sayılmayacak' zaten bir aylık kiradan fazlası demektir. İki aylık kira eşiği ancak daha uzun bir dönem için geçerlidir. Tavsiyemiz: Önce kirayı çekince koyarak tam ödeyin ve farkı sonra geri isteyin.",
   "faq.q5": "Ev sahibi kira indirimini sözleşmede hariç tutabilir mi?",
   "faq.a5":
     "Hayır. Konut kiralarında kira indirimi hakkından sözleşmeyle vazgeçilemez (§ 536 Abs. 4 BGB). Kira sözleşmesinde indirim hakkını ortadan kaldıran maddeler geçersizdir.",
   "faq.q6": "Kirayı ne zamandan itibaren indirebilirim?",
-  "faq.a6":
-    "Kira indirimi, ev sahibinin kusuru öğrendiği andan itibaren geçerlidir, yani kural olarak kusur bildiriminin ulaştığı tarihten itibaren. Öncesindeki dönem için genellikle indirim yapılamaz; çekince koyarak ödeme yapmış olmanız hâli istisnadır.",
+  "faq.a6": "İndirim, kusurun ortaya çıkmasıyla başlar, bildirimle değil. Bu arada kirayı tam ödediyseniz, fazla ödediğiniz kısmı BGB § 812 uyarınca geri isteyebilirsiniz. Bu yalnızca tam ödemekle yükümlü olmadığınızı kesin olarak biliyorsanız engellenir (BGB § 814). İndirimin ev sahibinin onayına bağlı olduğunu sanan kişide bu bilgi yoktur.",
   "faq.q7": "Küf durumunda her zaman indirim yapabilir miyim?",
-  "faq.a7":
-    "Her zaman değil. Küf sizin davranışınızdan kaynaklanıyorsa (yanlış havalandırma/ısıtma), indirim hakkı ortadan kalkar. Ancak ispat yükü ev sahibindedir: küfe sizin sebep olduğunuzu kanıtlaması gerekir. Çoğu durumda nedeni yapısal kusurlardır.",
+  "faq.a7": "Mutlaka değil. Küf sizin davranışınızdan (yanlış havalandırma/ısıtma) kaynaklanıyorsa indirim hakkı düşer. İspat yükü önce ev sahibindedir: Yapısal nedenleri dışlaması gerekir. Ancak küf ısı köprülerinden kaynaklanıyor ve bina yapıldığı dönemin kurallarına uygunsa kusur yoktur.",
   "faq.q8": "Kira indirimi ne kadar süre geçerlidir?",
   "faq.a8":
     "Kira indirimi, kusurun devam ettiği tüm süre boyunca geçerlidir. Kusur giderildiğinde yeniden kiranın tamamını ödemeniz gerekir. Süre bakımından bir üst sınır yoktur.",
   "faq.q9": "„Çekince koyarak ödemek\" ne demektir?",
-  "faq.a9":
-    "Kirayı „çekince koyarak\" öderseniz, fazla ödediğiniz kirayı geri talep etme hakkınızı saklı tutmuş olursunuz. Havale açıklamasına şunu yazın: „Kusur nedeniyle çekince ile ödeme [açıklama]\". Böylece derhal fesihten korunur ve farkı sonradan geri isteyebilirsiniz.",
+  "faq.a9": "Kirayı 'çekince ile' öderseniz, fazla ödenen kirayı geri isteme hakkınızı saklı tutarsınız. Açıklama kısmına şunu yazın: 'Kusur nedeniyle çekinceli ödeme [açıklama]'. Bu sizi derhal fesihten korur ve farkı sonra geri almanızı sağlar. Federal Adalet Divanı da kiracılara bu yolu göstermektedir.",
   "faq.q10": "Uzun süre hiçbir şey yapmazsam indirim hakkımı kaybeder miyim?",
-  "faq.a10":
-    "Evet, bu mümkündür. Kusuru bilmenize rağmen yaklaşık 6 ay boyunca çekince koymadan kiranın tamamını öderseniz, indirim hakkı düşmüş sayılabilir. Bu nedenle bir kusuru fark ettiğinizde vakit kaybetmeden harekete geçin.",
+  "faq.a10": "Yaklaşık altı ay çekincesiz ödeme sonrası indirim hakkının düştüğüne dair yaygın görüş, 2001'de yürürlükten kalkan eski BGB § 539'a dayanıyordu ve bu biçimiyle artık geçerli değil. BGB § 242 uyarınca hak düşümü ancak istisnai hâllerde söz konusudur ve hem zaman hem de davranış unsurunu birlikte gerektirir. Yine de delil durumu ve üç yıllık zamanaşımı nedeniyle hızlı hareket etmelisiniz.",
   "faq.q11": "Enerji verimliliği modernizasyonunda durum nedir?",
   "faq.a11":
     "Enerji verimliliğine yönelik modernizasyon çalışmalarında (ör. ısı yalıtımı) kira indirimi 3 ay boyunca uygulanamaz (§ 536 Abs. 1a BGB). Bu süreden sonra indirim yapabilirsiniz. Bu kural yalnızca enerji verimliliği çalışmaları için geçerlidir, genel modernizasyonlar için değil.",
+  "m.baulaerm_nachbar.l": "Komşu parselden gelen inşaat gürültüsü",
+  "m.baulaerm_nachbar.d": "Başkasına ait bir arsadaki şantiyeden gelen gürültü, Federal Adalet Divanı'na göre kural olarak kusur DEĞİLDİR. İndirim ancak kira sözleşmesinde aksi kararlaştırılmışsa veya ev sahibinin BGB § 906 uyarınca tazminat talebi varsa söz konusu olur.",
+  "m.ratten_umfeld.l": "Bodrumda, avluda veya bahçede sıçan",
+  "m.ratten_umfeld.d": "Binanın çevresinde, çöp konteynerlerinde, arka avluda, bahçede veya bodrumda sıçanlar var; daireye girmiyorlar.",
+  "m.toilette_zweit_wc.l": "Tuvalet bozuk (ikinci tuvalet var)",
+  "m.toilette_zweit_wc.d": "Bir tuvalet bozuk, ancak dairede sorunsuz kullanılabilen ikinci bir tuvalet mevcut.",
+  "m.dusche_einzige.l": "Tek yıkanma/banyo imkânı devre dışı",
+  "m.dusche_einzige.d": "Dairenin tek yıkanma ve banyo imkânı kullanılamıyor.",
+  "m.asbest_gebunden.l": "Asbest sıkı bağlı ve hasarsız",
+  "m.asbest_gebunden.d": "Sıkı bağlı, hasarsız asbest, örneğin sağlam vinil-asbest karolar. Yalnızca bulunması kural olarak kusur OLUŞTURMAZ; lif salınımına dair haklı bir endişe gerekir.",
   "faq.q12": "Kusur bildiriminden sonra yanıt için ne kadar beklemem gerekir?",
   "faq.a12":
     "Ev sahibinin yanıt vermesi için yasal bir süre yoktur. Belirleyici olan, kusurun giderilmesi için sizin belirlediğiniz süredir: olağan olarak 14 gün, kışın kombi arızası gibi acil kusurlarda 3 ila 7 gün, su borusu patlaması gibi acil durumlarda derhal. Süre, mektubun gönderildiği gün değil, ulaştığı gün başlar; teslimat için bir ila iki iş günü hesaplayın. Süre, kusur giderilmeden dolarsa ev sahibiniz temerrüde düşer: kirayı indirebilir, son bir süre tanıyan ikinci bir yazı gönderebilir ve § 536a BGB uyarınca tazminat ya da ikame ifa talep edebilirsiniz. Bildirimden itibaren kirayı ihtirazi kayıtla öderseniz, fazla ödediğinizi sonradan geri isteyebilirsiniz.",
+  "faq.q13": "Fazla indirim yaptıysam sonradan ödeme beni kurtarır mı?",
+  "faq.a13": "Yalnızca yarı yarıya. Tahliye davasının tebliğinden itibaren iki ay içinde borcu tamamen öderseniz derhal fesih geçersiz hâle gelir (BGB § 569 f. 3 No. 2). Ancak yedek olarak yapılan olağan fesih bundan etkilenmez. Uygulamada ev sahipleri düzenli olarak hem derhal hem de yedek olarak olağan fesih bildirir; bu nedenle tamamını ödeseniz bile daireyi kaybedebilirsiniz.",
 };
 
 export default tr;

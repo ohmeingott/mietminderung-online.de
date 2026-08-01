@@ -12,6 +12,9 @@ export interface FlowState {
   /** Ids, not objects: the state has to survive a JSON round trip. */
   selectedMangelIds: string[];
   bruttowarmmiete: string;
+  /** Agreed and actual floor area in m², for the computed area shortfall. */
+  flaecheVereinbart: string;
+  flaecheTatsaechlich: string;
   mieter: MieterDaten;
   vermieter: VermieterDaten;
   /** Keyed by `mangel.id`, never by position. */
@@ -55,6 +58,8 @@ export const LEERER_FLOW: FlowState = {
   notEligibleQuestionId: null,
   selectedMangelIds: [],
   bruttowarmmiete: "",
+  flaecheVereinbart: "",
+  flaecheTatsaechlich: "",
   mieter: LEERER_MIETER,
   vermieter: LEERER_VERMIETER,
   mangelDetails: {},

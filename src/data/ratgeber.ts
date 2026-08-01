@@ -229,7 +229,7 @@ Anlagen:
       {
         heading: "Berechnungsgrundlage ist immer die Bruttowarmmiete",
         paragraphs: [
-          "Der Bundesgerichtshof hat diese Frage 2005 geklärt (Urteil vom 6. April 2005, Az. XII ZR 225/03): Bemessungsgrundlage der Minderung ist die Bruttowarmmiete, nicht die Nettokaltmiete.",
+          "Der Bundesgerichtshof hat diese Frage 2005 geklärt: Bemessungsgrundlage der Minderung ist die Bruttowarmmiete, nicht die Nettokaltmiete. Für die Wohnraummiete ist das Urteil vom 20. Juli 2005 einschlägig (Az. VIII ZR 347/04); für die Gewerbemiete hatte der BGH bereits am 6. April 2005 ebenso entschieden (Az. XII ZR 225/03).",
           "Gemeint ist die Nettokaltmiete plus sämtliche Betriebskostenvorauszahlungen oder -pauschalen. Die Logik dahinter: Sie bezahlen die Wohnung als Gesamtpaket, also schmälert ein Mangel auch den Wert des Gesamtpakets.",
         ],
         table: {
@@ -270,19 +270,22 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
       {
         heading: "Mehrere Mängel gleichzeitig",
         paragraphs: [
-          "Treten mehrere Mängel gleichzeitig auf, werden die Quoten grundsätzlich addiert. Die Gesamtminderung kann jedoch nie mehr als 100 % betragen.",
-          "Eine Einschränkung gibt es. Beschreiben zwei Mängel im Kern dieselbe Beeinträchtigung, etwa der defekte Heizkörper und die deshalb zu kalte Wohnung, lassen sich die Quoten nicht einfach aufaddieren. Gerichte bewerten solche Fälle in einer Gesamtschau.",
+          "Hier hält sich ein hartnäckiger Irrtum: dass man die Quoten mehrerer Mängel einfach addieren dürfe. Gerichte tun das nicht. Sie fragen nach § 536 Abs. 1 BGB, wie stark die Wohnung als Ganzes in ihrer Tauglichkeit beeinträchtigt ist, und nehmen eine Gesamtbetrachtung vor. Die zuerkannte Gesamtquote liegt deshalb in aller Regel unter der Summe der Einzelwerte.",
+          "Die Summe der Tabellenwerte taugt daher nur als grobe Obergrenze, nicht als Ergebnis. Besonders deutlich wird das bei Mängeln, die im Kern dieselbe Beeinträchtigung beschreiben: der defekte Heizkörper und die deshalb zu kalte Wohnung werden nur einmal bewertet, nicht zweimal.",
         ],
         table: {
-          caption: "Beispiel: Addition mehrerer Mängel",
-          head: ["Mangel", "Quote"],
+          caption: "Beispiel: mehrere Mängel in der Gesamtbetrachtung",
+          head: ["Mangel", "Einzelquote"],
           rows: [
-            ["Schimmel in einem Raum", "8 %"],
-            ["Undichte Fenster im selben Raum", "10 %"],
+            ["Schimmel in einem Raum", "10 %"],
+            ["Undichte Fenster im selben Raum", "8 %"],
             ["Defekter Aufzug (4. Etage)", "10 %"],
-            ["Summe", "28 %"],
+            ["Summe der Einzelwerte (nur Orientierung)", "28 %"],
+            ["Realistische Gesamtquote", "unter 28 %"],
           ],
         },
+        note:
+          "Unser Rechner bildet das ab: Der höchste Einzelwert zählt voll, jeder weitere nur zur Hälfte. Auch das bleibt eine Schätzung, produziert aber nicht mehr die 100-%-Ergebnisse, zu denen eine schlichte Addition schon bei vier oder fünf Mängeln führt.",
       },
       {
         heading: "Auswirkung auf die Betriebskostenabrechnung",
@@ -307,7 +310,7 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
       {
         question: "Wird die Mietminderung von der Kalt- oder Warmmiete berechnet?",
         answer:
-          "Von der Bruttowarmmiete, also der Nettokaltmiete plus aller Betriebs- und Heizkostenvorauszahlungen. So hat es der Bundesgerichtshof mit Urteil vom 6. April 2005 entschieden (Az. XII ZR 225/03).",
+          "Von der Bruttowarmmiete, also der Nettokaltmiete plus aller Betriebs- und Heizkostenvorauszahlungen. Für die Wohnraummiete hat das der Bundesgerichtshof mit Urteil vom 20. Juli 2005 entschieden (Az. VIII ZR 347/04).",
       },
       {
         question: "Wie rechne ich, wenn der Mangel nur zwei Wochen bestand?",
@@ -317,7 +320,7 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
       {
         question: "Darf ich die Quoten mehrerer Mängel addieren?",
         answer:
-          "Grundsätzlich ja, begrenzt auf maximal 100 %. Betreffen mehrere Mängel dieselbe Beeinträchtigung, nehmen Gerichte allerdings eine Gesamtbetrachtung vor statt einer schlichten Addition.",
+          "Nein, jedenfalls nicht als Ergebnis. Gerichte addieren nicht, sondern bewerten in einer Gesamtbetrachtung, wie stark die Wohnung insgesamt beeinträchtigt ist. Die Summe der Einzelwerte ist nur eine grobe Obergrenze; die zuerkannte Quote liegt regelmäßig darunter und kann 100 % nie überschreiten.",
       },
       {
         question: "Muss die Mietminderung in der Betriebskostenabrechnung berücksichtigt werden?",
@@ -349,8 +352,8 @@ Beispiel: 1.000 € Warmmiete, 12 Tage Heizungsausfall, Quote 80 %
       {
         heading: "Das Risiko der direkten Kürzung",
         paragraphs: [
-          "Wer die Quote zu hoch ansetzt, baut einen Rückstand auf. Erreicht der zwei Monatsmieten, darf der Vermieter fristlos kündigen (§ 543 Abs. 2 Nr. 3 BGB). Dass Sie in gutem Glauben geschätzt haben, hilft Ihnen dann nur noch begrenzt.",
-          "Und so ein Rückstand entsteht schneller als gedacht. Wer fünf Monate lang 40 % einbehält, hat rechnerisch bereits zwei volle Monatsmieten offen.",
+          "Wer die Quote zu hoch ansetzt, baut einen Rückstand auf, und der wird schneller gefährlich als viele denken. Der Vermieter darf fristlos kündigen, wenn Sie an zwei aufeinanderfolgenden Terminen mit einem nicht unerheblichen Teil der Miete in Verzug sind (§ 543 Abs. 2 Satz 1 Nr. 3 Buchst. a BGB). „Nicht unerheblich“ bedeutet nach § 569 Abs. 3 Nr. 1 BGB bereits: mehr als eine Monatsmiete. Erst über einen längeren Zeitraum gilt die Schwelle von zwei Monatsmieten (Buchstabe b).",
+          "Wer 40 % einbehält, liegt schon nach drei Monaten über einer Monatsmiete. Auf guten Glauben können Sie sich dabei kaum berufen: Der BGH legt an einen unverschuldeten Rechtsirrtum des Mieters strenge Maßstäbe an und hat frühere Erleichterungen ausdrücklich aufgegeben. Wer sich bei der Quote im Graubereich bewegt, handelt fahrlässig.",
         ],
         note:
           "Genau hier setzt die Zahlung unter Vorbehalt an: Sie zahlen weiter in voller Höhe, verlieren aber Ihren Rückforderungsanspruch nicht.",
@@ -422,7 +425,7 @@ Im Schreiben an den Vermieter:
       {
         question: "Verliere ich mein Minderungsrecht, wenn ich voll zahle?",
         answer:
-          "Nur wenn Sie über längere Zeit vorbehaltlos zahlen. Nach etwa sechs Monaten kann das Minderungsrecht verwirkt sein. Genau davor schützt der ausdrückliche Vorbehalt bei jeder Zahlung.",
+          "Nur in Ausnahmefällen, und zwar über die Verwirkung nach § 242 BGB. Einen festen Richtwert von sechs Monaten gibt es entgegen einer verbreiteten Darstellung nicht. Der ausdrückliche Vorbehalt bei jeder Zahlung nimmt der Frage von vornherein die Schärfe.",
       },
     ],
   },
@@ -467,7 +470,7 @@ Im Schreiben an den Vermieter:
       {
         heading: "Verwirkung: Wenn zu langes Warten den Anspruch kostet",
         paragraphs: [
-          "Zahlen Sie über längere Zeit vorbehaltlos die volle Miete, obwohl Sie den Mangel kennen, kann das Minderungsrecht verwirken. Als Richtwert nennt die Rechtsprechung etwa sechs Monate.",
+          "Zahlen Sie über längere Zeit vorbehaltlos die volle Miete, obwohl Sie den Mangel kennen, kann das Minderungsrecht in Ausnahmefällen verwirken. Der früher verbreitete Richtwert von sechs Monaten stammt allerdings aus der Rechtsprechung zum 2001 aufgehobenen § 539 BGB a. F. und gilt so nicht mehr: Der BGH hat 2003 entschieden, dass vorbehaltlose Zahlung in Kenntnis des Mangels nicht entsprechend § 536b BGB zum Rechtsverlust führt.",
           "Juristisch braucht die Verwirkung zwei Zutaten. Das Zeitmoment: Es ist längere Zeit vergangen. Und das Umstandsmoment: Der Vermieter durfte aus Ihrem Verhalten schließen, dass Sie nicht mehr mindern werden. Erst beides zusammen kostet den Anspruch.",
         ],
       },
@@ -487,8 +490,8 @@ Im Schreiben an den Vermieter:
               "Entstehung des Anspruchs, unabhängig von Kenntnis",
             ],
             [
-              "Verwirkung des Minderungsrechts",
-              "ca. 6 Monate (Richtwert)",
+              "Verwirkung des Minderungsrechts (§ 242 BGB)",
+              "kein fester Richtwert, Ausnahmefall",
               "Kenntnis des Mangels bei vorbehaltloser Zahlung",
             ],
           ],
@@ -519,7 +522,7 @@ Im Schreiben an den Vermieter:
       {
         question: "Verliere ich mein Minderungsrecht, wenn ich lange nichts unternehme?",
         answer:
-          "Das ist möglich. Zahlen Sie den Mangel kennend über etwa sechs Monate vorbehaltlos die volle Miete, kann das Minderungsrecht verwirkt sein. Handeln Sie deshalb zeitnah nach Entdeckung eines Mangels.",
+          "Nur ausnahmsweise. Die früher genannte Sechs-Monats-Grenze beruhte auf aufgehobenem Recht; heute kommt eine Verwirkung nur über § 242 BGB in Betracht und setzt Zeit- und Umstandsmoment kumulativ voraus. Zeitnah handeln sollten Sie trotzdem, schon wegen der Beweislage und der dreijährigen Verjährung.",
       },
       {
         question: "Gilt bei falscher Wohnflächenangabe etwas anderes?",
@@ -575,7 +578,7 @@ Im Schreiben an den Vermieter:
           "Eine defekte Steckdose bei ausreichend vorhandenen weiteren",
         ],
         note:
-          "Als grobe Faustregel gilt: Kostet die Beseitigung weniger als etwa ein Prozent der Jahresmiete, wird der Mangel häufig als unerheblich eingestuft. Mehrere Bagatellmängel zusammen können allerdings die Erheblichkeitsschwelle überschreiten.",
+          "Maßgeblich ist die Beeinträchtigung des Gebrauchs, nicht der Preis der Reparatur: Ein billig zu behebender Mangel kann erheblich sein, ein teurer unerheblich. Mehrere Bagatellmängel zusammen können die Erheblichkeitsschwelle überschreiten.",
       },
       {
         heading: "4. Selbst verursachte Mängel",
@@ -587,7 +590,7 @@ Im Schreiben an den Vermieter:
       {
         heading: "5. Verwirkung durch langes Zuwarten",
         paragraphs: [
-          "Zahlen Sie über etwa sechs Monate vorbehaltlos die volle Miete, obwohl Sie den Mangel kennen, kann Ihr Minderungsrecht verwirkt sein. Erforderlich sind sowohl das Zeitmoment als auch ein schutzwürdiges Vertrauen des Vermieters.",
+          "Zahlen Sie über längere Zeit vorbehaltlos die volle Miete, obwohl Sie den Mangel kennen, kann Ihr Minderungsrecht ausnahmsweise verwirkt sein. Erforderlich sind kumulativ das Zeitmoment und ein schutzwürdiges Vertrauen des Vermieters; einen festen Richtwert wie „sechs Monate“ gibt es nicht.",
         ],
       },
       {
@@ -662,7 +665,7 @@ Im Schreiben an den Vermieter:
       {
         heading: "Fehler 2: Zu hoch mindern",
         paragraphs: [
-          "Erreicht der Rückstand zwei Monatsmieten, droht die fristlose Kündigung (§ 543 Abs. 2 Nr. 3 BGB). Und Tabellenwerte sind Spannen aus Einzelfällen, keine Garantien. Bleiben Sie am unteren Ende oder zahlen Sie gleich unter Vorbehalt.",
+          "Schon ein Rückstand von mehr als einer Monatsmiete an zwei aufeinanderfolgenden Terminen kann die fristlose Kündigung auslösen (§ 543 Abs. 2 Satz 1 Nr. 3 Buchst. a i. V. m. § 569 Abs. 3 Nr. 1 BGB). Und Tabellenwerte sind Spannen aus Einzelfällen, keine Garantien. Bleiben Sie am unteren Ende oder zahlen Sie gleich unter Vorbehalt.",
         ],
       },
       {
@@ -710,7 +713,7 @@ Im Schreiben an den Vermieter:
       {
         heading: "Fehler 9: Zu lange abwarten",
         paragraphs: [
-          "Nach etwa sechs Monaten vorbehaltloser Zahlung kann das Minderungsrecht verwirkt sein. Warten Sie deshalb nicht ab: Die Mängelanzeige sollte innerhalb weniger Tage nach der Entdeckung raus sein.",
+          "Je länger Sie warten, desto schwieriger wird der Nachweis, und in Ausnahmefällen droht die Verwirkung nach § 242 BGB. Warten Sie deshalb nicht ab: Die Mängelanzeige sollte innerhalb weniger Tage nach der Entdeckung raus sein.",
         ],
       },
       {
@@ -731,7 +734,7 @@ Im Schreiben an den Vermieter:
       {
         question: "Kann mir wegen einer Mietminderung gekündigt werden?",
         answer:
-          "Ja, wenn Sie zu hoch mindern und ein Rückstand von zwei Monatsmieten aufläuft. Dann ist eine fristlose Kündigung nach § 543 Abs. 2 Nr. 3 BGB möglich. Wer stattdessen unter Vorbehalt zahlt, schließt dieses Risiko aus.",
+          "Ja, und zwar früher als oft angenommen: Ein Rückstand von mehr als einer Monatsmiete an zwei aufeinanderfolgenden Terminen genügt für die fristlose Kündigung (§ 543 Abs. 2 Satz 1 Nr. 3 Buchst. a i. V. m. § 569 Abs. 3 Nr. 1 BGB). Eine spätere vollständige Nachzahlung heilt nur die fristlose, nicht die hilfsweise erklärte ordentliche Kündigung (§ 569 Abs. 3 Nr. 2 BGB). Wer unter Vorbehalt zahlt, schließt dieses Risiko von vornherein aus.",
       },
       {
         question: "Darf ich einen Mangel selbst beseitigen lassen?",
