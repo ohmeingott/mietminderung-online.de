@@ -1,0 +1,102 @@
+eBrief base URL in use: https://api.staging.ebrief.de
+Created job: Id=2543103766 JobStatus=UNPROCESSED
+Uploaded /tmp/testbrief.pdf as spike.pdf (155460 bytes)
+Committed job 2543103766
+[poll 1/30] JobStatus=COMITTED Documents=0
+[poll 2/30] JobStatus=USER_WAIT_FOR_SHOPPING Documents=1
+Reached stable state: USER_WAIT_FOR_SHOPPING
+
+=== Job price (the job's own figures) ===
+  PriceBrutto: 0.8806
+  PriceNetto: 0.74
+  Vat: 0.1406
+  DateCreated: 2026-07-31T12:05:48.457155Z
+
+=== ADDRESS AS EBRIEF READ IT (1 document(s)) ===
+--- Document 1: Id=2543103772 ---
+  DocumentStatus: OK
+  NumberPagesPhysical: 1
+  NumberPagesLogical: 1
+  PriceBrutto: 0.88
+  DocumentErrorCode: 
+  Street: Holzgasse
+  HouseNumber: 8
+  Zip: 50676
+  City: Köln
+  Country: DE
+  ExtractedTextFromDocument:
+    | Paul Ohm|Holzgasse 8|50676 Köln
+
+Wrote /tmp/testbrief-eBrief-markiert.png (image/png, 212772 bytes) — open it and check the marked zone sits on the recipient address.
+
+=== Price (plain letter, isTracking=false) ===
+  TotalSumBrutto: 0.93
+  TotalSumNetto: 0.78
+  TotalSumVat: 0.15
+{
+  "TotalSumBrutto": 0.93,
+  "TotalSumNetto": 0.78,
+  "TotalSumVat": 0.15,
+  "TotalSumShipmentBrutto": 0.93,
+  "TotalSumShipmentNetto": 0.78,
+  "TotalSumShipmentVat": 0.15,
+  "Prices": [
+    {
+      "PriceBrutto": 0.88,
+      "PriceNetto": 0.74,
+      "Vat": 0.14,
+      "Type": "eBrief-Standard inkl. 1 Blatt s/w Simplex",
+      "ArticleNumber": null,
+      "ArticleName": null
+    },
+    {
+      "PriceBrutto": 0.05,
+      "PriceNetto": 0.04,
+      "Vat": 0.01,
+      "Type": "Zusatzblatt s/w Simplex",
+      "ArticleNumber": null,
+      "ArticleName": null
+    }
+  ]
+}
+
+=== Price (registered letter, isTracking=true) ===
+  TotalSumBrutto: 4.2
+  TotalSumNetto: 3.53
+  TotalSumVat: 0.67
+{
+  "TotalSumBrutto": 4.2,
+  "TotalSumNetto": 3.53,
+  "TotalSumVat": 0.67,
+  "TotalSumShipmentBrutto": 4.2,
+  "TotalSumShipmentNetto": 3.53,
+  "TotalSumShipmentVat": 0.67,
+  "Prices": [
+    {
+      "PriceBrutto": 0.88,
+      "PriceNetto": 0.74,
+      "Vat": 0.14,
+      "Type": "eBrief-Standard inkl. 1 Blatt s/w Simplex",
+      "ArticleNumber": null,
+      "ArticleName": null
+    },
+    {
+      "PriceBrutto": 0.05,
+      "PriceNetto": 0.04,
+      "Vat": 0.01,
+      "Type": "Zusatzblatt s/w Simplex",
+      "ArticleNumber": null,
+      "ArticleName": null
+    },
+    {
+      "PriceBrutto": 3.27,
+      "PriceNetto": 2.75,
+      "Vat": 0.52,
+      "Type": "Einschreiben-Einwurf",
+      "ArticleNumber": null,
+      "ArticleName": null
+    }
+  ]
+}
+
+Deleted job 2543103766. Per the eBrief docs, a deleted job is not printed, distributed, or invoiced.

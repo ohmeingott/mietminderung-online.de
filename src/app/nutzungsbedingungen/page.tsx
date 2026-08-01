@@ -2,12 +2,22 @@ import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
+import { PRODUKTE } from "@/lib/ebrief/produkte";
 
 export const metadata: Metadata = buildMetadata({
   title: "Nutzungsbedingungen & AGB | Mietminderung Online",
-  description: `Nutzungsbedingungen und AGB von ${site.name}: kostenloser Mietminderungs-Check, Mängelanzeige-Generator, Haftung und Gerichtsstand.`,
+  description: `Nutzungsbedingungen und AGB von ${site.name}: kostenloser Mietminderungs-Check, Mängelanzeige-Generator, kostenpflichtiger Postversand, Haftung und Gerichtsstand.`,
   path: "/nutzungsbedingungen",
 });
+
+/**
+ * The prices in the terms come from the same catalogue the checkout charges
+ * from. A hand-typed figure here would be a price the customer was shown and
+ * not the one taken — and the terms are exactly the document that would be
+ * held against us in that dispute.
+ */
+const preis = (cent: number) =>
+  (cent / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
 export default function Nutzungsbedingungen() {
   const sections = [
@@ -58,12 +68,71 @@ export default function Nutzungsbedingungen() {
             <strong>
               Diese Funktionen sind und bleiben kostenlos und erfordern keine
               Registrierung.
-            </strong>
+            </strong>{" "}
+            Sie können die Mängelanzeige jederzeit herunterladen und selbst an
+            Ihren Vermieter versenden.
           </p>
           <p>
-            Ein kostenpflichtiger Versand der Mängelanzeige wird derzeit nicht
-            angeboten. Sie laden das Dokument herunter und versenden es selbst an
-            Ihren Vermieter.
+            Darüber hinaus bieten wir als einzige kostenpflichtige Leistung den{" "}
+            <strong>Postversand der Mängelanzeige</strong> an. Die Einzelheiten
+            regelt der folgende Abschnitt.
+          </p>
+        </>
+      ),
+    },
+    {
+      heading: "Kostenpflichtiger Postversand",
+      body: (
+        <>
+          <p>
+            Auf Ihren Wunsch lassen wir die von Ihnen erstellte Mängelanzeige
+            drucken, kuvertieren, frankieren und an die von Ihnen angegebene
+            Anschrift Ihres Vermieters zustellen. Mit dem Druck und der
+            Zustellung beauftragen wir die PIN AG, Alt-Moabit 91, 10559 Berlin.
+          </p>
+          <p>
+            <strong>Vertragsschluss.</strong> Sie wählen die Versandart, geben
+            die Erklärung zum vorzeitigen Leistungsbeginn ab und gelangen über
+            die Schaltfläche zur Bezahlung auf die Seite unseres
+            Zahlungsdienstleisters. Der Vertrag kommt zustande, sobald Ihre
+            Zahlung dort erfolgreich abgeschlossen ist. Vorher wird nichts
+            gedruckt und nichts berechnet.
+          </p>
+          <p>
+            <strong>Preise.</strong> Der Versand als Brief kostet{" "}
+            {preis(PRODUKTE.brief.preisCent)}, der Versand als
+            Einwurf-Einschreiben{" "}
+            {preis(PRODUKTE.einwurfEinschreiben.preisCent)}, jeweils je Sendung
+            einschließlich Druck, Kuvertierung, Porto und Zustellung innerhalb
+            Deutschlands. Es handelt sich um Endpreise; gemäß § 19 UStG wird
+            keine Umsatzsteuer berechnet und daher auch nicht ausgewiesen.
+          </p>
+          <p>
+            <strong>Ausführung.</strong> Unmittelbar nach Ihrer Zahlung geben
+            wir die Sendung zum Druck. Gedruckt, kuvertiert und frankiert wird
+            sie dort; die Zustellung erfolgt anschließend durch das beauftragte
+            Postunternehmen. Auf den Zeitpunkt des Drucks und auf die
+            Zustelldauer haben wir keinen Einfluss; ein bestimmter Druck- oder
+            Zustelltag wird nicht geschuldet.
+          </p>
+          <p>
+            <strong>Einwurf-Einschreiben.</strong> Beim Einwurf-Einschreiben
+            wird der Einwurf in den Briefkasten dokumentiert. Es handelt sich
+            nicht um ein Übergabe-Einschreiben mit Unterschrift des Empfängers.
+          </p>
+          <p>
+            <strong>Ihre Angaben.</strong> Wir versenden den Text und die
+            Anschrift so, wie Sie sie eingegeben und in der Vorschau bestätigt
+            haben. Eine inhaltliche Prüfung findet nicht statt. Für eine falsche
+            oder unvollständige Empfängeranschrift können wir nicht einstehen;
+            ein deshalb nicht zustellbarer Brief begründet keinen
+            Erstattungsanspruch.
+          </p>
+          <p>
+            <strong>Widerrufsrecht.</strong> Als Verbraucher steht Ihnen ein
+            gesetzliches Widerrufsrecht zu. Die Einzelheiten und die Bedingungen
+            seines vorzeitigen Erlöschens finden Sie in unserer{" "}
+            <a href="/widerruf">Widerrufsbelehrung</a>.
           </p>
         </>
       ),

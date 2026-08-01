@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
-import { site } from "@/lib/site";
+import { gesellschafterListe, site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
   title: "Impressum | Mietminderung Online",
@@ -19,6 +19,8 @@ export default function Impressum() {
       <LegalSection heading="Diensteanbieter">
         <address>
           {site.operator.name}
+          <br />
+          Vertretungsberechtigte Gesellschafter: {gesellschafterListe}
           <br />
           {site.operator.street}
           <br />
@@ -41,10 +43,18 @@ export default function Impressum() {
         </p>
       </LegalSection>
 
+      {/* Natural persons, not the company: the provision asks who is answerable
+          for the content, and a GbR cannot be. All three partners, because all
+          three represent the company and none of them stands in for the
+          others. */}
       <LegalSection heading="Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV">
         <address>
-          {site.operator.name}
-          <br />
+          {site.operator.partners.map((partner) => (
+            <span key={partner}>
+              {partner}
+              <br />
+            </span>
+          ))}
           {site.operator.street}
           <br />
           {site.operator.zip} {site.operator.city}

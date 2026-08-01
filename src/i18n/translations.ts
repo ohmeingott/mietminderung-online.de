@@ -31,16 +31,13 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Hero
     "hero.badge": "Basierend auf § 536 BGB: Ihr gesetzliches Recht",
-    "hero.title1": "Wohnung hat Mängel?",
-    "hero.title2": "Weniger Miete zahlen",
-    "hero.title3": "ist Ihr Recht.",
-    "hero.subtitle":
-      "Prüfen Sie in 2 Minuten kostenlos, ob Sie Anspruch auf Mietminderung haben, und erstellen Sie direkt eine rechtssichere Mängelanzeige für Ihren Vermieter.",
+    // "So viel" is bound with a non-breaking space so the headline never breaks
+    // between them; the question then gets a line of its own on narrow screens.
+    "hero.title1": "Schimmel, Lärm, kaputte Heizung? So viel",
+    "hero.title2": "Mietminderung",
+    "hero.title3": "steht Ihnen zu.",
     "hero.cta1": "Anspruch kostenlos prüfen",
     "hero.cta2": "Mängelanzeige erstellen",
-    "hero.trust1": "100% kostenlos, keine versteckten Kosten",
-    "hero.trust2": "Keine Registrierung nötig",
-    "hero.trust3": "Mängelanzeige kostenlos erstellen",
     "hero.selectLang": "Sprache wählen",
     "hero.stat1label": "BGB: Ihr Rechtsanspruch",
     "hero.stat2": "bis 100%",
@@ -66,13 +63,9 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Laden Sie die fertige Mängelanzeige als PDF oder Textdatei herunter, kostenlos und ohne Registrierung. Den Versand an Ihren Vermieter übernehmen Sie selbst.",
 
     // Check
-    "check.title": "Haben Sie Anspruch auf Mietminderung?",
-    "check.subtitle": "Beantworten Sie ein paar Fragen. Wir prüfen Ihren Anspruch kostenlos.",
-    "check.question": "Frage",
-    "check.of": "von",
-    "check.step": "Schritt",
-    "check.selectDefects": "Mängel auswählen",
-    "check.enterRent": "Miete eingeben",
+    "check.phase.eligibility": "Prüfung",
+    "check.phase.defects": "Mängel",
+    "check.phase.rent": "Miete",
     "check.result": "Ergebnis",
     "check.back": "Zurück",
     "check.next": "Weiter",
@@ -142,7 +135,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.subtitle": "Erstellen Sie eine rechtssichere Mängelanzeige nach § 536c BGB.",
     "letter.step.data": "Ihre Daten",
     "letter.step.landlord": "Vermieter",
-    "letter.step.defects": "Mängel",
+    "letter.step.defects": "Beschreibung",
     "letter.step.preview": "Vorschau",
     "letter.step.send": "Download",
     "letter.yourData": "Ihre Angaben (Mieter)",
@@ -251,6 +244,96 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter - delivery
     "letter.basedOn":
       "Basiert auf Ihrer Prüfung: ca. {quote} % Minderung bei {rent} € Bruttowarmmiete.",
+
+    // Letter — dispatch by post (eBrief). The tax note replaces a VAT
+    // statement and must stay a "no VAT is charged" sentence: the operator is
+    // a small business under § 19 UStG, and an unwarranted tax statement would
+    // be owed under § 14c UStG.
+    "dispatch.title": "Direkt an den Vermieter senden",
+    "dispatch.subtitle":
+      "Wir drucken Ihre Mängelanzeige und geben sie zur Post — Sie brauchen weder Drucker noch Briefmarke.",
+    "dispatch.chooseProduct": "Versandart wählen",
+    "dispatch.brief": "Als Brief",
+    "dispatch.einschreiben": "Als Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "Beim Einwurf-Einschreiben wird der Einwurf in den Briefkasten dokumentiert. Es ist kein Übergabe-Einschreiben mit Unterschrift des Empfängers.",
+    "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
+    "dispatch.send": "Kostenpflichtig versenden",
+    // § 356 Abs. 4 BGB. The letter is printed and posted long before the
+    // 14-day withdrawal period ends, so the order needs both halves of the
+    // statutory declaration: the express request to start early, and the
+    // acknowledgement that the right expires once we are done. Without it the
+    // customer keeps a withdrawal right over a letter that is already in the
+    // landlord's mailbox — and we would owe the money back.
+    "dispatch.consent":
+      "Ich verlange ausdrücklich, dass Sie mit dem Versand sofort beginnen. Mir ist bekannt, dass mein Widerrufsrecht erlischt, sobald der Brief gedruckt und in die Zustellung gegeben ist.",
+    "dispatch.consentLink": "Widerrufsbelehrung",
+    "dispatch.error.zustimmung_fehlt":
+      "Bitte bestätigen Sie den sofortigen Versandbeginn — sonst dürfen wir den Brief vor Ablauf der Widerrufsfrist nicht verschicken.",
+    "dispatch.preparing": "Sendung wird vorbereitet...",
+    "dispatch.checkingAddress": "Adresse wird geprüft...",
+    "dispatch.redirecting": "Weiter zur Bezahlung...",
+    "dispatch.confirmSend": "Adresse ist richtig — kostenpflichtig versenden",
+    "dispatch.addressWarning":
+      "Die Anschrift des Vermieters konnte nicht eindeutig geprüft werden. Bitte kontrollieren Sie sie, bevor Sie kostenpflichtig versenden.",
+    "dispatch.showMarked": "Erkannte Adresse ansehen",
+    "dispatch.fixAddress": "Anschrift des Vermieters korrigieren",
+    "dispatch.freeStays":
+      "Der kostenlose Download bleibt Ihnen in jedem Fall erhalten.",
+    // The two pages Stripe returns the payer to (/versand/erfolg and
+    // /versand/abbruch). "erfolg" means Stripe accepted the payment; printing
+    // and posting happen afterwards in the webhook, so the wording must stay
+    // in the future tense — "wurde versendet" would promise more than is known
+    // at this moment. Both pages also say plainly that the draft is gone: the
+    // letter never leaves the browser tab, and the round trip to Stripe ends
+    // that tab's state.
+    "dispatch.result.erfolg.title": "Zahlung erfolgreich",
+    "dispatch.result.erfolg.text":
+      "Vielen Dank — Ihre Zahlung ist eingegangen. Ihre Mängelanzeige wird jetzt gedruckt und per Post an Ihren Vermieter versendet.",
+    "dispatch.result.erfolg.note":
+      "Die Bestätigung erhalten Sie per E-Mail an die Adresse, die Sie beim Versand angegeben haben. Sie müssen dafür nichts weiter tun. Ihre Mängelanzeige wird aus Datenschutzgründen nicht in Ihrem Browser gespeichert und lässt sich hier deshalb nicht noch einmal anzeigen.",
+    "dispatch.result.abbruch.title": "Zahlung abgebrochen",
+    "dispatch.result.abbruch.text":
+      "Es wurde nichts versendet und nichts berechnet.",
+    "dispatch.result.abbruch.note":
+      "Ihre Mängelanzeige wird aus Datenschutzgründen nicht in Ihrem Browser gespeichert und steht deshalb nicht mehr zur Verfügung. Wenn Sie sie versenden oder kostenlos herunterladen möchten, füllen Sie das Formular bitte noch einmal aus — das dauert nur wenige Minuten.",
+    "dispatch.result.restartCta": "Mängelanzeige neu erstellen",
+    "dispatch.hint.kopf":
+      "Der Briefkopf wurde nicht erkannt. Die Anschriften erscheinen deshalb möglicherweise zusätzlich im Brieftext.",
+    "dispatch.hint.datum":
+      "Im Brief wurde keine Datumszeile gefunden. Bitte prüfen Sie, ob das Datum im Text steht.",
+    "dispatch.hint.absender":
+      "Ihre Absenderzeile wurde gekürzt, damit sie in das Adressfeld passt.",
+    "dispatch.error.allgemein":
+      "Der Versand ist gerade nicht möglich. Bitte versuchen Sie es später noch einmal.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Der Postversand ist derzeit nicht verfügbar. Bitte laden Sie die Mängelanzeige oben herunter und versenden Sie sie selbst.",
+    "dispatch.error.zu_viele_anfragen":
+      "Es wurden zu viele Versandversuche gestartet. Bitte versuchen Sie es in einer Stunde noch einmal.",
+    "dispatch.error.unvollstaendig":
+      "Es fehlen Angaben. Bitte gehen Sie zurück und ergänzen Sie Ihre Adresse, Ihre E-Mail-Adresse und die Anschrift des Vermieters.",
+    "dispatch.error.anschrift_zu_lang":
+      "Die Anschrift des Vermieters ist zu lang für das Adressfeld. Bitte kürzen Sie Name, Straße oder Ort — etwa Zusätze wie „c/o“ oder die Rechtsform.",
+    "dispatch.error.pdf_fehler":
+      "Der Brief konnte nicht erzeugt werden. Bitte zeichnen Sie Ihre Unterschrift neu oder lassen Sie sie weg und versuchen Sie es noch einmal.",
+    "dispatch.error.ebrief_fehler":
+      "Unser Versanddienstleister antwortet gerade nicht. Bitte versuchen Sie es in einigen Minuten noch einmal — es wurde nichts berechnet.",
+    "dispatch.error.preis_unplausibel":
+      "Dieser Brief lässt sich zum angegebenen Preis nicht versenden, vermutlich weil er zu lang ist. Bitte kürzen Sie den Text und versuchen Sie es noch einmal.",
+    "dispatch.error.token_ungueltig":
+      "Der Versandvorgang ist abgelaufen. Bitte starten Sie den Versand noch einmal.",
+    "dispatch.error.jobId_ungueltig":
+      "Der Versandvorgang konnte nicht zugeordnet werden. Bitte starten Sie den Versand noch einmal.",
+    "dispatch.error.kein_dokument":
+      "Der Brief wird noch verarbeitet. Bitte warten Sie einen Moment und versuchen Sie es dann noch einmal.",
+    "dispatch.error.bereits_versendet":
+      "Diese Mängelanzeige wurde bereits versendet. Es wird nichts erneut berechnet.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Dieser Versandvorgang lässt sich nicht bezahlen. Bitte starten Sie den Versand noch einmal — es wurde nichts berechnet.",
+    "dispatch.error.checkout_fehler":
+      "Die Bezahlseite konnte nicht geöffnet werden. Bitte versuchen Sie es noch einmal — es wurde nichts berechnet.",
+    "dispatch.error.zeitueberschreitung":
+      "Der Vorgang dauert länger als erwartet. Bitte versuchen Sie es in einigen Minuten noch einmal — es wurde nichts berechnet.",
   },
 
   en: {
@@ -265,16 +348,11 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     // Hero
     "hero.badge": "Based on Section 536 of the German Civil Code (BGB) — your statutory right",
-    "hero.title1": "Defects in your apartment?",
-    "hero.title2": "Paying less rent",
-    "hero.title3": "is your right.",
-    "hero.subtitle":
-      "Check for free in 2 minutes whether you are entitled to a rent reduction. Create a legally sound defect notice (Mängelanzeige) — and have the letter sent directly to your landlord.",
+    "hero.title1": "Mould, noise, broken heating? This is how much",
+    "hero.title2": "rent reduction",
+    "hero.title3": "you are entitled to.",
     "hero.cta1": "Check your claim for free",
     "hero.cta2": "Create defect notice",
-    "hero.trust1": "100% free — no hidden costs",
-    "hero.trust2": "No registration required",
-    "hero.trust3": "Create your defect notice for free",
     "hero.selectLang": "Select language",
     "hero.stat1label": "BGB — your statutory right",
     "hero.stat2": "up to 100%",
@@ -300,13 +378,9 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Download the finished defect notice as a PDF or text file — free and without registration. You send it to your landlord yourself.",
 
     // Check
-    "check.title": "Are you entitled to a rent reduction?",
-    "check.subtitle": "Answer a few questions — we check your claim for free.",
-    "check.question": "Question",
-    "check.of": "of",
-    "check.step": "Step",
-    "check.selectDefects": "Select defects",
-    "check.enterRent": "Enter rent",
+    "check.phase.eligibility": "Eligibility",
+    "check.phase.defects": "Defects",
+    "check.phase.rent": "Rent",
     "check.result": "Result",
     "check.back": "Back",
     "check.next": "Next",
@@ -376,7 +450,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.subtitle": "Create a legally sound defect notice under Section 536c BGB.",
     "letter.step.data": "Your details",
     "letter.step.landlord": "Landlord",
-    "letter.step.defects": "Defects",
+    "letter.step.defects": "Description",
     "letter.step.preview": "Preview",
     "letter.step.send": "Download",
     "letter.yourData": "Your details (tenant)",
@@ -485,6 +559,84 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter — delivery
     "letter.basedOn":
       "Based on your check: approx. {quote}% reduction at {rent} € gross warm rent.",
+    // Letter — dispatch by post (eBrief). The tax note replaces a VAT
+    // statement and must stay a "no VAT is charged" sentence: the operator is
+    // a small business under § 19 UStG, and an unwarranted tax statement would
+    // be owed under § 14c UStG. The German legal and postal terms are kept
+    // untranslated because the tenant meets those exact words on the German
+    // postal receipt and in German law.
+    "dispatch.title": "Send it straight to your landlord",
+    "dispatch.subtitle":
+      "We print your defect notice and post it — you need neither a printer nor a stamp.",
+    "dispatch.chooseProduct": "Choose how to send it",
+    "dispatch.brief": "As a letter",
+    "dispatch.einschreiben": "As an Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "An Einwurf-Einschreiben documents the delivery into the letterbox. It is not an Übergabe-Einschreiben signed for by the recipient.",
+    "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
+    "dispatch.send": "Send (chargeable)",
+    "dispatch.consent":
+      "I expressly request that you begin sending immediately. I understand that I lose my right of withdrawal as soon as the letter has been printed and handed over for delivery.",
+    "dispatch.consentLink": "Right of withdrawal",
+    "dispatch.error.zustimmung_fehlt":
+      "Please confirm that we may start sending straight away — otherwise we may not post the letter before the withdrawal period ends.",
+    "dispatch.preparing": "Preparing your letter...",
+    "dispatch.checkingAddress": "Checking the address...",
+    "dispatch.redirecting": "Taking you to payment...",
+    "dispatch.confirmSend": "Address is correct — send (chargeable)",
+    "dispatch.addressWarning":
+      "Your landlord's address could not be verified with certainty. Please check it before you pay.",
+    "dispatch.showMarked": "View the detected address",
+    "dispatch.fixAddress": "Correct your landlord's address",
+    "dispatch.freeStays":
+      "The free download stays available to you either way.",
+    "dispatch.result.erfolg.title": "Payment successful",
+    "dispatch.result.erfolg.text":
+      "Thank you — your payment has arrived. Your defect notice will now be printed and posted to your landlord.",
+    "dispatch.result.erfolg.note":
+      "You will receive confirmation by email at the address you gave when sending. There is nothing further you need to do. For data protection reasons your defect notice is not stored in your browser, so it cannot be shown here again.",
+    "dispatch.result.abbruch.title": "Payment cancelled",
+    "dispatch.result.abbruch.text":
+      "Nothing was sent and nothing was charged.",
+    "dispatch.result.abbruch.note":
+      "For data protection reasons your defect notice is not stored in your browser, so it is no longer available. If you would like to send it or download it free of charge, please fill in the form once more — it only takes a few minutes.",
+    "dispatch.result.restartCta": "Create a new defect notice",
+    "dispatch.hint.kopf":
+      "The letterhead was not recognised, so the addresses may also appear inside the body of the letter.",
+    "dispatch.hint.datum":
+      "No date line was found in the letter. Please check that the date appears in the text.",
+    "dispatch.hint.absender":
+      "Your return address line was shortened so that it fits the address field.",
+    "dispatch.error.allgemein":
+      "Sending is not possible at the moment. Please try again later.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Postal dispatch is currently unavailable. Please download the defect notice above and send it yourself.",
+    "dispatch.error.zu_viele_anfragen":
+      "Too many send attempts have been started. Please try again in an hour.",
+    "dispatch.error.unvollstaendig":
+      "Some details are missing. Please go back and complete your address, your email address and your landlord's address.",
+    "dispatch.error.anschrift_zu_lang":
+      "Your landlord's address is too long for the address field. Please shorten the name, street or town — for example additions such as \u201Cc/o\u201D or the legal form.",
+    "dispatch.error.pdf_fehler":
+      "The letter could not be generated. Please draw your signature again or leave it out, then try once more.",
+    "dispatch.error.ebrief_fehler":
+      "Our dispatch provider is not responding right now. Please try again in a few minutes — nothing was charged.",
+    "dispatch.error.preis_unplausibel":
+      "This letter cannot be sent at the stated price, most likely because it is too long. Please shorten the text and try again.",
+    "dispatch.error.token_ungueltig":
+      "The dispatch session has expired. Please start sending again.",
+    "dispatch.error.jobId_ungueltig":
+      "The dispatch session could not be matched. Please start sending again.",
+    "dispatch.error.kein_dokument":
+      "The letter is still being processed. Please wait a moment and try again.",
+    "dispatch.error.bereits_versendet":
+      "This defect notice has already been sent. You will not be charged again.",
+    "dispatch.error.versand_nicht_moeglich":
+      "This dispatch cannot be paid for. Please start the dispatch again — nothing has been charged.",
+    "dispatch.error.checkout_fehler":
+      "The payment page could not be opened. Please try again — nothing was charged.",
+    "dispatch.error.zeitueberschreitung":
+      "This is taking longer than expected. Please try again in a few minutes — nothing was charged.",
   },
 
   tr: {
@@ -496,16 +648,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.guide": "Rehber",
     "nav.cta": "Şimdi kontrol et",
     "hero.badge": "§ 536 BGB'ye dayalı: yasal hakkınız",
-    "hero.title1": "Konut kusuru mu?",
-    "hero.title2": "Daha az kira ödemek",
-    "hero.title3": "sizin hakkınız.",
-    "hero.subtitle":
-      "2 dakikada ücretsiz olarak kira indirimi hakkınız olup olmadığını kontrol edin ve ev sahibiniz için hemen yasal olarak geçerli bir kusur bildirimi oluşturun.",
+    "hero.title1": "Küf, gürültü, bozuk kalorifer? Ne kadar",
+    "hero.title2": "kira indirimi",
+    "hero.title3": "hakkınız var?",
     "hero.cta1": "Hakkınızı ücretsiz kontrol edin",
     "hero.cta2": "Kusur bildirimi oluştur",
-    "hero.trust1": "100% ücretsiz, gizli maliyet yok",
-    "hero.trust2": "Kayıt gerekmez",
-    "hero.trust3": "Kusur bildirimi ücretsiz oluştur",
     "hero.selectLang": "Dil seçin",
     "hero.stat1label": "BGB: Yasal hakkınız",
     "hero.stat2": "%100'e kadar",
@@ -524,13 +671,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.title": "Mektubu indir",
     "how.s4.desc":
       "Hazır kusur bildirimini PDF veya metin dosyası olarak indirin, ücretsiz ve kayıt gerektirmez. Ev sahibinize göndermeyi kendiniz yaparsınız.",
-    "check.title": "Kira indirimi hakkınız var mı?",
-    "check.subtitle": "Birkaç soruyu yanıtlayın, hakkınızı ücretsiz kontrol edelim.",
-    "check.question": "Soru",
-    "check.of": "/",
-    "check.step": "Adım",
-    "check.selectDefects": "Kusur seçin",
-    "check.enterRent": "Kira girin",
+    "check.phase.eligibility": "Kontrol",
+    "check.phase.defects": "Kusurlar",
+    "check.phase.rent": "Kira",
     "check.result": "Sonuç",
     "check.back": "Geri",
     "check.next": "İleri",
@@ -593,7 +736,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.subtitle": "§ 536c BGB'ye uygun yasal bir kusur bildirimi oluşturun.",
     "letter.step.data": "Bilgileriniz",
     "letter.step.landlord": "Ev sahibi",
-    "letter.step.defects": "Kusurlar",
+    "letter.step.defects": "Açıklama",
     "letter.step.preview": "Önizleme",
     "letter.step.send": "İndirme",
     "letter.yourData": "Bilgileriniz (Kiracı)",
@@ -684,6 +827,80 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter - delivery
     "letter.basedOn":
       "Kontrolünüze dayanmaktadır: {rent} € brüt sıcak kirada yaklaşık %{quote} indirim.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "Doğrudan ev sahibine gönderin",
+    "dispatch.subtitle":
+      "Kusur bildiriminizi biz yazdırıp postaya veriyoruz — ne yazıcıya ne de pula ihtiyacınız var.",
+    "dispatch.chooseProduct": "Gönderim türünü seçin",
+    "dispatch.brief": "Normal mektup olarak",
+    "dispatch.einschreiben": "Einwurf-Einschreiben olarak",
+    "dispatch.einschreibenHint":
+      "Einwurf-Einschreiben'de mektubun posta kutusuna atılması belgelenir. Bu, alıcının imzasını gerektiren bir Übergabe-Einschreiben değildir.",
+    "dispatch.taxNote":
+      "§ 19 UStG uyarınca katma değer vergisi hesaplanmaz.",
+    "dispatch.send": "Ücretli olarak gönder",
+    "dispatch.consent":
+      "Gönderime hemen başlamanızı açıkça talep ediyorum. Mektup basılıp teslimata verildiğinde cayma hakkımı kaybedeceğimi biliyorum.",
+    "dispatch.consentLink": "Cayma hakkı",
+    "dispatch.error.zustimmung_fehlt":
+      "Lütfen gönderime hemen başlanmasını onaylayın; aksi hâlde mektubu cayma süresi dolmadan gönderemeyiz.",
+    "dispatch.preparing": "Gönderi hazırlanıyor...",
+    "dispatch.checkingAddress": "Adres kontrol ediliyor...",
+    "dispatch.redirecting": "Ödemeye yönlendiriliyorsunuz...",
+    "dispatch.confirmSend": "Adres doğru — ücretli olarak gönder",
+    "dispatch.addressWarning":
+      "Ev sahibinin adresi kesin olarak doğrulanamadı. Ücretli gönderimden önce lütfen adresi kontrol edin.",
+    "dispatch.showMarked": "Algılanan adresi görüntüle",
+    "dispatch.fixAddress": "Ev sahibinin adresini düzelt",
+    "dispatch.freeStays": "Ücretsiz indirme her durumda kullanılabilir kalır.",
+    "dispatch.result.erfolg.title": "Ödeme başarılı",
+    "dispatch.result.erfolg.text":
+      "Teşekkür ederiz — ödemeniz alındı. Kusur bildiriminiz şimdi yazdırılıp posta ile ev sahibinize gönderilecek.",
+    "dispatch.result.erfolg.note":
+      "Onayı, gönderim sırasında verdiğiniz e-posta adresine alacaksınız. Bunun için başka bir şey yapmanız gerekmiyor. Kusur bildiriminiz veri koruma nedeniyle tarayıcınızda saklanmaz, bu yüzden burada tekrar gösterilemez.",
+    "dispatch.result.abbruch.title": "Ödeme iptal edildi",
+    "dispatch.result.abbruch.text":
+      "Hiçbir şey gönderilmedi ve hiçbir ücret tahsil edilmedi.",
+    "dispatch.result.abbruch.note":
+      "Kusur bildiriminiz veri koruma nedeniyle tarayıcınızda saklanmaz ve bu nedenle artık kullanılamıyor. Göndermek veya ücretsiz indirmek isterseniz lütfen formu yeniden doldurun — bu yalnızca birkaç dakika sürer.",
+    "dispatch.result.restartCta": "Kusur bildirimini yeniden oluştur",
+    "dispatch.hint.kopf":
+      "Mektup başlığı tanınamadı. Bu nedenle adresler mektup metninde ikinci kez görünebilir.",
+    "dispatch.hint.datum":
+      "Mektupta tarih satırı bulunamadı. Lütfen tarihin metinde yer aldığını kontrol edin.",
+    "dispatch.hint.absender":
+      "Gönderen satırınız adres alanına sığması için kısaltıldı.",
+    "dispatch.error.allgemein":
+      "Gönderim şu anda mümkün değil. Lütfen daha sonra tekrar deneyin.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Posta gönderimi şu anda kullanılamıyor. Lütfen kusur bildirimini yukarıdan indirip kendiniz gönderin.",
+    "dispatch.error.zu_viele_anfragen":
+      "Çok fazla gönderim denemesi yapıldı. Lütfen bir saat sonra tekrar deneyin.",
+    "dispatch.error.unvollstaendig":
+      "Bilgiler eksik. Lütfen geri dönüp adresinizi, e-posta adresinizi ve ev sahibinin adresini tamamlayın.",
+    "dispatch.error.anschrift_zu_lang":
+      "Ev sahibinin adresi adres alanı için çok uzun. Lütfen adı, sokağı veya şehri kısaltın — örneğin „c/o“ gibi ekleri veya şirket türünü çıkarın.",
+    "dispatch.error.pdf_fehler":
+      "Mektup oluşturulamadı. Lütfen imzanızı yeniden çizin ya da imzasız devam edip tekrar deneyin.",
+    "dispatch.error.ebrief_fehler":
+      "Gönderim hizmet sağlayıcımız şu anda yanıt vermiyor. Lütfen birkaç dakika sonra tekrar deneyin — hiçbir ücret alınmadı.",
+    "dispatch.error.preis_unplausibel":
+      "Bu mektup belirtilen fiyata gönderilemiyor, muhtemelen çok uzun olduğu için. Lütfen metni kısaltıp tekrar deneyin.",
+    "dispatch.error.token_ungueltig":
+      "Gönderim işleminin süresi doldu. Lütfen gönderimi yeniden başlatın.",
+    "dispatch.error.jobId_ungueltig":
+      "Gönderim işlemi bulunamadı. Lütfen gönderimi yeniden başlatın.",
+    "dispatch.error.kein_dokument":
+      "Mektup hâlâ işleniyor. Lütfen biraz bekleyip tekrar deneyin.",
+    "dispatch.error.bereits_versendet":
+      "Bu kusur bildirimi zaten gönderildi. Yeniden ücret alınmayacaktır.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Bu gönderim işlemi için ödeme yapılamıyor. Lütfen gönderimi yeniden başlatın — herhangi bir ücret alınmadı.",
+    "dispatch.error.checkout_fehler":
+      "Ödeme sayfası açılamadı. Lütfen tekrar deneyin — hiçbir ücret alınmadı.",
+    "dispatch.error.zeitueberschreitung":
+      "İşlem beklenenden uzun sürüyor. Lütfen birkaç dakika sonra tekrar deneyin — hiçbir ücret alınmadı.",
   },
 
   uk: {
@@ -695,16 +912,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.guide": "Порадник",
     "nav.cta": "Перевірити зараз",
     "hero.badge": "На основі § 536 BGB: ваше законне право",
-    "hero.title1": "Дефект житла?",
-    "hero.title2": "Платити менше оренди",
-    "hero.title3": "це ваше право.",
-    "hero.subtitle":
-      "Перевірте безкоштовно за 2 хвилини, чи маєте ви право на зниження орендної плати, і одразу створіть юридично обґрунтоване повідомлення про дефект для орендодавця.",
+    "hero.title1": "Пліснява, шум, зламане опалення? Ось яке",
+    "hero.title2": "зниження орендної плати",
+    "hero.title3": "вам належить.",
     "hero.cta1": "Безкоштовно перевірити право",
     "hero.cta2": "Створити повідомлення про дефект",
-    "hero.trust1": "100% безкоштовно, без прихованих витрат",
-    "hero.trust2": "Реєстрація не потрібна",
-    "hero.trust3": "Створити повідомлення безкоштовно",
     "hero.selectLang": "Обрати мову",
     "hero.stat1label": "BGB: ваше законне право",
     "hero.stat2": "до 100%",
@@ -723,13 +935,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.title": "Завантажте лист",
     "how.s4.desc":
       "Завантажте готове повідомлення про недоліки у форматі PDF або текстового файлу, безкоштовно й без реєстрації. Надсилання орендодавцю ви виконуєте самостійно.",
-    "check.title": "Чи маєте ви право на зниження оренди?",
-    "check.subtitle": "Дайте відповідь на кілька запитань, і ми безкоштовно перевіримо ваше право.",
-    "check.question": "Питання",
-    "check.of": "з",
-    "check.step": "Крок",
-    "check.selectDefects": "Обрати дефекти",
-    "check.enterRent": "Введіть оренду",
+    "check.phase.eligibility": "Перевірка",
+    "check.phase.defects": "Дефекти",
+    "check.phase.rent": "Оренда",
     "check.result": "Результат",
     "check.back": "Назад",
     "check.next": "Далі",
@@ -791,7 +999,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.subtitle": "Створіть юридично обґрунтоване повідомлення згідно § 536c BGB.",
     "letter.step.data": "Ваші дані",
     "letter.step.landlord": "Орендодавець",
-    "letter.step.defects": "Дефекти",
+    "letter.step.defects": "Опис",
     "letter.step.preview": "Попередній перегляд",
     "letter.step.send": "Завантаження",
     "letter.yourData": "Ваші дані (Орендар)",
@@ -881,6 +1089,81 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter - delivery
     "letter.basedOn":
       "На основі вашої перевірки: близько {quote} % зменшення при оренді {rent} €.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "Надіслати безпосередньо орендодавцю",
+    "dispatch.subtitle":
+      "Ми надрукуємо ваше повідомлення про дефекти та відправимо його поштою — вам не потрібні ні принтер, ні марка.",
+    "dispatch.chooseProduct": "Оберіть спосіб надсилання",
+    "dispatch.brief": "Звичайним листом",
+    "dispatch.einschreiben": "Як Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "У разі Einwurf-Einschreiben документується вкидання листа до поштової скриньки. Це не Übergabe-Einschreiben із підписом отримувача.",
+    "dispatch.taxNote":
+      "Згідно з § 19 UStG податок на додану вартість не нараховується.",
+    "dispatch.send": "Надіслати платно",
+    "dispatch.consent":
+      "Я прямо вимагаю, щоб ви негайно розпочали відправлення. Мені відомо, що я втрачаю право на відмову, щойно лист буде надруковано та передано для доставки.",
+    "dispatch.consentLink": "Право на відмову",
+    "dispatch.error.zustimmung_fehlt":
+      "Будь ласка, підтвердьте негайний початок відправлення — інакше ми не можемо надіслати лист до закінчення строку відмови.",
+    "dispatch.preparing": "Відправлення готується...",
+    "dispatch.checkingAddress": "Перевіряємо адресу...",
+    "dispatch.redirecting": "Переходимо до оплати...",
+    "dispatch.confirmSend": "Адреса правильна — надіслати платно",
+    "dispatch.addressWarning":
+      "Адресу орендодавця не вдалося однозначно перевірити. Будь ласка, перевірте її перед платним надсиланням.",
+    "dispatch.showMarked": "Переглянути розпізнану адресу",
+    "dispatch.fixAddress": "Виправити адресу орендодавця",
+    "dispatch.freeStays":
+      "Безкоштовне завантаження залишається доступним у будь-якому разі.",
+    "dispatch.result.erfolg.title": "Оплата успішна",
+    "dispatch.result.erfolg.text":
+      "Дякуємо — ваш платіж надійшов. Ваше повідомлення про дефекти буде надруковано та надіслано поштою вашому орендодавцю.",
+    "dispatch.result.erfolg.note":
+      "Підтвердження ви отримаєте електронною поштою на адресу, яку вказали під час надсилання. Більше нічого робити не потрібно. З міркувань захисту даних ваше повідомлення про дефекти не зберігається у браузері, тому показати його тут ще раз неможливо.",
+    "dispatch.result.abbruch.title": "Оплату скасовано",
+    "dispatch.result.abbruch.text":
+      "Нічого не було надіслано і нічого не було нараховано.",
+    "dispatch.result.abbruch.note":
+      "З міркувань захисту даних ваше повідомлення про дефекти не зберігається у браузері й тому більше недоступне. Якщо ви хочете його надіслати або безкоштовно завантажити, будь ласка, заповніть форму ще раз — це займе лише кілька хвилин.",
+    "dispatch.result.restartCta": "Створити повідомлення про дефекти заново",
+    "dispatch.hint.kopf":
+      "Шапку листа не розпізнано. Тому адреси можуть з’явитися ще раз у тексті листа.",
+    "dispatch.hint.datum":
+      "У листі не знайдено рядка з датою. Будь ласка, перевірте, чи вказана дата в тексті.",
+    "dispatch.hint.absender":
+      "Рядок відправника скорочено, щоб він помістився в адресне поле.",
+    "dispatch.error.allgemein":
+      "Надсилання зараз неможливе. Спробуйте, будь ласка, пізніше.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Поштове надсилання наразі недоступне. Завантажте, будь ласка, повідомлення вище та надішліть його самостійно.",
+    "dispatch.error.zu_viele_anfragen":
+      "Забагато спроб надсилання. Спробуйте, будь ласка, за годину.",
+    "dispatch.error.unvollstaendig":
+      "Бракує даних. Поверніться, будь ласка, назад і доповніть свою адресу, електронну пошту та адресу орендодавця.",
+    "dispatch.error.anschrift_zu_lang":
+      "Адреса орендодавця задовга для адресного поля. Скоротіть, будь ласка, ім’я, вулицю або місто — наприклад, приберіть додатки на кшталт «c/o» чи правову форму.",
+    "dispatch.error.pdf_fehler":
+      "Лист не вдалося створити. Намалюйте, будь ласка, підпис ще раз або продовжте без нього та спробуйте знову.",
+    "dispatch.error.ebrief_fehler":
+      "Наш поштовий партнер зараз не відповідає. Спробуйте, будь ласка, за кілька хвилин — нічого не списано.",
+    "dispatch.error.preis_unplausibel":
+      "Цей лист неможливо надіслати за вказаною ціною, імовірно, він задовгий. Скоротіть, будь ласка, текст і спробуйте ще раз.",
+    "dispatch.error.token_ungueltig":
+      "Термін дії цього відправлення минув. Розпочніть, будь ласка, надсилання ще раз.",
+    "dispatch.error.jobId_ungueltig":
+      "Не вдалося знайти це відправлення. Розпочніть, будь ласка, надсилання ще раз.",
+    "dispatch.error.kein_dokument":
+      "Лист ще обробляється. Зачекайте, будь ласка, хвилинку та спробуйте ще раз.",
+    "dispatch.error.bereits_versendet":
+      "Це повідомлення вже надіслано. Повторна оплата не стягується.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Оплатити це відправлення неможливо. Будь ласка, розпочніть відправлення ще раз — кошти не стягнуто.",
+    "dispatch.error.checkout_fehler":
+      "Не вдалося відкрити сторінку оплати. Спробуйте, будь ласка, ще раз — нічого не списано.",
+    "dispatch.error.zeitueberschreitung":
+      "Операція триває довше, ніж очікувалося. Спробуйте, будь ласка, за кілька хвилин — нічого не списано.",
   },
 
   ru: {
@@ -892,16 +1175,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.guide": "Справочник",
     "nav.cta": "Проверить сейчас",
     "hero.badge": "На основании § 536 BGB: ваше законное право",
-    "hero.title1": "Дефект жилья?",
-    "hero.title2": "Платить меньше аренды",
-    "hero.title3": "это ваше право.",
-    "hero.subtitle":
-      "Проверьте бесплатно за 2 минуты, имеете ли вы право на снижение арендной платы, и сразу создайте юридически обоснованное уведомление о дефекте для арендодателя.",
+    "hero.title1": "Плесень, шум, сломанное отопление? Вот какое",
+    "hero.title2": "снижение арендной платы",
+    "hero.title3": "вам полагается.",
     "hero.cta1": "Бесплатно проверить право",
     "hero.cta2": "Создать уведомление о дефекте",
-    "hero.trust1": "100% бесплатно, без скрытых расходов",
-    "hero.trust2": "Регистрация не требуется",
-    "hero.trust3": "Создать уведомление бесплатно",
     "hero.selectLang": "Выбрать язык",
     "hero.stat1label": "BGB: ваше законное право",
     "hero.stat2": "до 100%",
@@ -920,13 +1198,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.title": "Скачайте письмо",
     "how.s4.desc":
       "Скачайте готовое уведомление о недостатках в формате PDF или текстового файла, бесплатно и без регистрации. Отправку арендодателю вы выполняете сами.",
-    "check.title": "Есть ли у вас право на снижение аренды?",
-    "check.subtitle": "Ответьте на несколько вопросов, и мы бесплатно проверим ваше право.",
-    "check.question": "Вопрос",
-    "check.of": "из",
-    "check.step": "Шаг",
-    "check.selectDefects": "Выбрать дефекты",
-    "check.enterRent": "Введите аренду",
+    "check.phase.eligibility": "Проверка",
+    "check.phase.defects": "Дефекты",
+    "check.phase.rent": "Аренда",
     "check.result": "Результат",
     "check.back": "Назад",
     "check.next": "Далее",
@@ -987,7 +1261,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.subtitle": "Создайте юридически обоснованное уведомление согласно § 536c BGB.",
     "letter.step.data": "Ваши данные",
     "letter.step.landlord": "Арендодатель",
-    "letter.step.defects": "Дефекты",
+    "letter.step.defects": "Описание",
     "letter.step.preview": "Предпросмотр",
     "letter.step.send": "Скачивание",
     "letter.yourData": "Ваши данные (Арендатор)",
@@ -1076,6 +1350,81 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter - delivery
     "letter.basedOn":
       "На основе вашей проверки: около {quote} % снижения при аренде {rent} €.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "Отправить напрямую арендодателю",
+    "dispatch.subtitle":
+      "Мы распечатаем ваше уведомление о дефектах и отправим его почтой — вам не нужны ни принтер, ни марка.",
+    "dispatch.chooseProduct": "Выберите способ отправки",
+    "dispatch.brief": "Обычным письмом",
+    "dispatch.einschreiben": "Как Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "При Einwurf-Einschreiben документируется опускание письма в почтовый ящик. Это не Übergabe-Einschreiben с подписью получателя.",
+    "dispatch.taxNote":
+      "Согласно § 19 UStG налог на добавленную стоимость не начисляется.",
+    "dispatch.send": "Отправить платно",
+    "dispatch.consent":
+      "Я прямо требую, чтобы вы немедленно приступили к отправке. Мне известно, что я теряю право на отказ, как только письмо будет напечатано и передано для доставки.",
+    "dispatch.consentLink": "Право на отказ",
+    "dispatch.error.zustimmung_fehlt":
+      "Пожалуйста, подтвердите немедленное начало отправки — иначе мы не можем отправить письмо до истечения срока отказа.",
+    "dispatch.preparing": "Отправление готовится...",
+    "dispatch.checkingAddress": "Проверяем адрес...",
+    "dispatch.redirecting": "Переходим к оплате...",
+    "dispatch.confirmSend": "Адрес верный — отправить платно",
+    "dispatch.addressWarning":
+      "Адрес арендодателя не удалось однозначно проверить. Пожалуйста, проверьте его перед платной отправкой.",
+    "dispatch.showMarked": "Посмотреть распознанный адрес",
+    "dispatch.fixAddress": "Исправить адрес арендодателя",
+    "dispatch.freeStays":
+      "Бесплатная загрузка остаётся доступной в любом случае.",
+    "dispatch.result.erfolg.title": "Оплата прошла успешно",
+    "dispatch.result.erfolg.text":
+      "Спасибо — ваш платёж получен. Ваше уведомление о дефектах будет напечатано и отправлено почтой вашему арендодателю.",
+    "dispatch.result.erfolg.note":
+      "Подтверждение вы получите по электронной почте на адрес, который указали при отправке. Больше ничего делать не нужно. В целях защиты данных ваше уведомление о дефектах не сохраняется в браузере, поэтому показать его здесь ещё раз невозможно.",
+    "dispatch.result.abbruch.title": "Оплата отменена",
+    "dispatch.result.abbruch.text":
+      "Ничего не было отправлено и ничего не было списано.",
+    "dispatch.result.abbruch.note":
+      "В целях защиты данных ваше уведомление о дефектах не сохраняется в браузере и поэтому больше недоступно. Если вы хотите его отправить или бесплатно скачать, пожалуйста, заполните форму ещё раз — это займёт всего несколько минут.",
+    "dispatch.result.restartCta": "Создать уведомление о дефектах заново",
+    "dispatch.hint.kopf":
+      "Шапка письма не распознана. Поэтому адреса могут появиться ещё раз в тексте письма.",
+    "dispatch.hint.datum":
+      "В письме не найдена строка с датой. Пожалуйста, проверьте, указана ли дата в тексте.",
+    "dispatch.hint.absender":
+      "Строка отправителя сокращена, чтобы поместиться в адресное поле.",
+    "dispatch.error.allgemein":
+      "Отправка сейчас невозможна. Пожалуйста, попробуйте позже.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Почтовая отправка сейчас недоступна. Пожалуйста, скачайте уведомление выше и отправьте его самостоятельно.",
+    "dispatch.error.zu_viele_anfragen":
+      "Слишком много попыток отправки. Пожалуйста, попробуйте через час.",
+    "dispatch.error.unvollstaendig":
+      "Не хватает данных. Пожалуйста, вернитесь назад и дополните свой адрес, адрес электронной почты и адрес арендодателя.",
+    "dispatch.error.anschrift_zu_lang":
+      "Адрес арендодателя слишком длинный для адресного поля. Пожалуйста, сократите имя, улицу или город — например, уберите добавления вроде «c/o» или организационно-правовую форму.",
+    "dispatch.error.pdf_fehler":
+      "Письмо не удалось создать. Пожалуйста, нарисуйте подпись заново или продолжите без неё и попробуйте ещё раз.",
+    "dispatch.error.ebrief_fehler":
+      "Наш почтовый партнёр сейчас не отвечает. Пожалуйста, попробуйте через несколько минут — ничего не списано.",
+    "dispatch.error.preis_unplausibel":
+      "Это письмо нельзя отправить по указанной цене, вероятно, оно слишком длинное. Пожалуйста, сократите текст и попробуйте ещё раз.",
+    "dispatch.error.token_ungueltig":
+      "Срок действия этой отправки истёк. Пожалуйста, начните отправку заново.",
+    "dispatch.error.jobId_ungueltig":
+      "Не удалось найти эту отправку. Пожалуйста, начните отправку заново.",
+    "dispatch.error.kein_dokument":
+      "Письмо ещё обрабатывается. Пожалуйста, подождите немного и попробуйте ещё раз.",
+    "dispatch.error.bereits_versendet":
+      "Это уведомление уже отправлено. Повторная оплата не взимается.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Оплатить эту отправку невозможно. Пожалуйста, начните отправку заново — деньги не списаны.",
+    "dispatch.error.checkout_fehler":
+      "Не удалось открыть страницу оплаты. Пожалуйста, попробуйте ещё раз — ничего не списано.",
+    "dispatch.error.zeitueberschreitung":
+      "Операция занимает больше времени, чем ожидалось. Пожалуйста, попробуйте через несколько минут — ничего не списано.",
   },
 
   ar: {
@@ -1087,16 +1436,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.guide": "الدليل",
     "nav.cta": "تحقق الآن",
     "hero.badge": "بموجب § 536 BGB: حقك القانوني",
-    "hero.title1": "عيب في السكن؟",
-    "hero.title2": "دفع إيجار أقل",
-    "hero.title3": "هو حقك.",
-    "hero.subtitle":
-      "تحقق مجاناً خلال دقيقتين مما إذا كان لديك الحق في تخفيض الإيجار، وأنشئ فوراً إشعاراً قانونياً بالعيب للمؤجر.",
+    "hero.title1": "عفن، ضجيج، تدفئة معطلة؟ إليك مقدار",
+    "hero.title2": "تخفيض الإيجار",
+    "hero.title3": "الذي تستحقه.",
     "hero.cta1": "تحقق من حقك مجاناً",
     "hero.cta2": "إنشاء إشعار بالعيب",
-    "hero.trust1": "مجاني 100%، بدون تكاليف مخفية",
-    "hero.trust2": "لا يلزم التسجيل",
-    "hero.trust3": "إنشاء إشعار بالعيب مجاناً",
     "hero.selectLang": "اختر اللغة",
     "hero.stat1label": "BGB: حقك القانوني",
     "hero.stat2": "حتى 100%",
@@ -1115,13 +1459,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.title": "حمّل الرسالة",
     "how.s4.desc":
       "حمّل إشعار العيوب الجاهز بصيغة PDF أو ملف نصي، مجاناً ودون تسجيل. أنت من يتولى إرساله إلى المؤجر.",
-    "check.title": "هل لديك الحق في تخفيض الإيجار؟",
-    "check.subtitle": "أجب عن بعض الأسئلة، ونتحقق من حقك مجاناً.",
-    "check.question": "السؤال",
-    "check.of": "من",
-    "check.step": "الخطوة",
-    "check.selectDefects": "اختر العيوب",
-    "check.enterRent": "أدخل الإيجار",
+    "check.phase.eligibility": "التحقق",
+    "check.phase.defects": "العيوب",
+    "check.phase.rent": "الإيجار",
     "check.result": "النتيجة",
     "check.back": "رجوع",
     "check.next": "التالي",
@@ -1182,7 +1522,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.subtitle": "أنشئ إشعاراً قانونياً وفقاً لـ § 536c BGB.",
     "letter.step.data": "بياناتك",
     "letter.step.landlord": "المؤجر",
-    "letter.step.defects": "العيوب",
+    "letter.step.defects": "الوصف",
     "letter.step.preview": "معاينة",
     "letter.step.send": "التحميل",
     "letter.yourData": "بياناتك (المستأجر)",
@@ -1271,6 +1611,78 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter - delivery
     "letter.basedOn":
       "بناءً على فحصك: نحو {quote} ٪ تخفيض عند إيجار إجمالي قدره {rent} €.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "أرسل الخطاب مباشرة إلى المؤجر",
+    "dispatch.subtitle":
+      "نطبع إشعار العيب ونرسله بالبريد — لا تحتاج إلى طابعة ولا إلى طابع بريد.",
+    "dispatch.chooseProduct": "اختر طريقة الإرسال",
+    "dispatch.brief": "كخطاب عادي",
+    "dispatch.einschreiben": "كـ Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "في Einwurf-Einschreiben يُوثَّق إيداع الخطاب في صندوق البريد. وهو ليس Übergabe-Einschreiben الذي يوقّع عليه المستلم.",
+    "dispatch.taxNote": "وفقاً لـ § 19 UStG لا تُحتسب ضريبة القيمة المضافة.",
+    "dispatch.send": "إرسال مقابل رسوم",
+    "dispatch.consent":
+      "أطلب صراحةً أن تبدؤوا الإرسال فوراً. وأعلم أنني أفقد حقي في الانسحاب بمجرد طباعة الخطاب وتسليمه للتوزيع.",
+    "dispatch.consentLink": "الحق في الانسحاب",
+    "dispatch.error.zustimmung_fehlt":
+      "يرجى تأكيد البدء الفوري بالإرسال، وإلا فلن نتمكن من إرسال الخطاب قبل انتهاء مهلة الانسحاب.",
+    "dispatch.preparing": "جارٍ تجهيز الإرسال...",
+    "dispatch.checkingAddress": "جارٍ التحقق من العنوان...",
+    "dispatch.redirecting": "جارٍ الانتقال إلى الدفع...",
+    "dispatch.confirmSend": "العنوان صحيح — إرسال مقابل رسوم",
+    "dispatch.addressWarning":
+      "تعذّر التحقق من عنوان المؤجر بشكل مؤكد. يرجى مراجعته قبل الإرسال المدفوع.",
+    "dispatch.showMarked": "عرض العنوان الذي تم التعرف عليه",
+    "dispatch.fixAddress": "تصحيح عنوان المؤجر",
+    "dispatch.freeStays": "يبقى التنزيل المجاني متاحاً في كل الأحوال.",
+    "dispatch.result.erfolg.title": "تم الدفع بنجاح",
+    "dispatch.result.erfolg.text":
+      "شكراً لك — تم استلام دفعتك. سيتم الآن طباعة إشعار العيب وإرساله بالبريد إلى مالك العقار.",
+    "dispatch.result.erfolg.note":
+      "ستصلك رسالة التأكيد عبر البريد الإلكتروني على العنوان الذي أدخلته عند الإرسال. لا يلزمك فعل أي شيء آخر. لأسباب تتعلق بحماية البيانات لا يُحفظ إشعار العيب في متصفحك، ولذلك لا يمكن عرضه هنا مرة أخرى.",
+    "dispatch.result.abbruch.title": "تم إلغاء الدفع",
+    "dispatch.result.abbruch.text": "لم يتم إرسال أي شيء ولم يتم خصم أي مبلغ.",
+    "dispatch.result.abbruch.note":
+      "لأسباب تتعلق بحماية البيانات لا يُحفظ إشعار العيب في متصفحك، ولذلك لم يعد متاحاً. إذا كنت تريد إرساله أو تنزيله مجاناً، يرجى تعبئة النموذج من جديد — لن يستغرق ذلك سوى بضع دقائق.",
+    "dispatch.result.restartCta": "إنشاء إشعار العيب من جديد",
+    "dispatch.hint.kopf":
+      "تعذّر التعرف على ترويسة الخطاب، لذلك قد تظهر العناوين مرة أخرى داخل نص الخطاب.",
+    "dispatch.hint.datum":
+      "لم يُعثر على سطر التاريخ في الخطاب. يرجى التأكد من وجود التاريخ في النص.",
+    "dispatch.hint.absender":
+      "تم اختصار سطر المرسِل ليتّسع في حقل العنوان.",
+    "dispatch.error.allgemein":
+      "الإرسال غير ممكن حالياً. يرجى المحاولة لاحقاً.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "الإرسال البريدي غير متاح حالياً. يرجى تنزيل إشعار العيب أعلاه وإرساله بنفسك.",
+    "dispatch.error.zu_viele_anfragen":
+      "تم إجراء محاولات إرسال كثيرة. يرجى المحاولة بعد ساعة.",
+    "dispatch.error.unvollstaendig":
+      "هناك بيانات ناقصة. يرجى العودة واستكمال عنوانك وبريدك الإلكتروني وعنوان المؤجر.",
+    "dispatch.error.anschrift_zu_lang":
+      "عنوان المؤجر أطول من حقل العنوان. يرجى اختصار الاسم أو الشارع أو المدينة — مثلاً بحذف إضافات مثل «c/o» أو الشكل القانوني للشركة.",
+    "dispatch.error.pdf_fehler":
+      "تعذّر إنشاء الخطاب. يرجى رسم التوقيع من جديد أو المتابعة بدونه ثم المحاولة مرة أخرى.",
+    "dispatch.error.ebrief_fehler":
+      "مزود خدمة الإرسال لا يستجيب حالياً. يرجى المحاولة بعد بضع دقائق — لم يتم تحصيل أي مبلغ.",
+    "dispatch.error.preis_unplausibel":
+      "لا يمكن إرسال هذا الخطاب بالسعر المذكور، غالباً لأنه طويل جداً. يرجى اختصار النص والمحاولة مرة أخرى.",
+    "dispatch.error.token_ungueltig":
+      "انتهت صلاحية عملية الإرسال. يرجى بدء الإرسال من جديد.",
+    "dispatch.error.jobId_ungueltig":
+      "تعذّر العثور على عملية الإرسال. يرجى بدء الإرسال من جديد.",
+    "dispatch.error.kein_dokument":
+      "لا يزال الخطاب قيد المعالجة. يرجى الانتظار قليلاً ثم المحاولة مرة أخرى.",
+    "dispatch.error.bereits_versendet":
+      "تم إرسال إشعار العيب هذا بالفعل. ولن يتم تحصيل أي مبلغ إضافي.",
+    "dispatch.error.versand_nicht_moeglich":
+      "لا يمكن دفع رسوم هذا الإرسال. يرجى بدء الإرسال من جديد — لم يتم تحصيل أي مبلغ.",
+    "dispatch.error.checkout_fehler":
+      "تعذّر فتح صفحة الدفع. يرجى المحاولة مرة أخرى — لم يتم تحصيل أي مبلغ.",
+    "dispatch.error.zeitueberschreitung":
+      "تستغرق العملية وقتاً أطول من المتوقع. يرجى المحاولة بعد بضع دقائق — لم يتم تحصيل أي مبلغ.",
   },
 
   pl: {
@@ -1282,16 +1694,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.guide": "Poradnik",
     "nav.cta": "Sprawdź teraz",
     "hero.badge": "Na podstawie § 536 BGB: Twoje ustawowe prawo",
-    "hero.title1": "Usterka mieszkania?",
-    "hero.title2": "Płacić mniej czynszu",
-    "hero.title3": "to Twoje prawo.",
-    "hero.subtitle":
-      "Sprawdź bezpłatnie w 2 minuty, czy masz prawo do obniżki czynszu i od razu utwórz prawnie wiążące zgłoszenie usterki dla wynajmującego.",
+    "hero.title1": "Pleśń, hałas, zepsute ogrzewanie? Oto, jaka",
+    "hero.title2": "obniżka czynszu",
+    "hero.title3": "Ci przysługuje.",
     "hero.cta1": "Bezpłatnie sprawdź prawo",
     "hero.cta2": "Utwórz zgłoszenie usterki",
-    "hero.trust1": "100% bezpłatnie, bez ukrytych kosztów",
-    "hero.trust2": "Rejestracja nie jest wymagana",
-    "hero.trust3": "Utwórz zgłoszenie usterki bezpłatnie",
     "hero.selectLang": "Wybierz język",
     "hero.stat1label": "BGB: Twoje prawo",
     "hero.stat2": "do 100%",
@@ -1310,13 +1717,9 @@ export const translations: Record<Locale, Record<string, string>> = {
     "how.s4.title": "Pobierz list",
     "how.s4.desc":
       "Pobierz gotowe zgłoszenie wad w formacie PDF lub pliku tekstowego, bezpłatnie i bez rejestracji. Wysyłkę do wynajmującego wykonujesz samodzielnie.",
-    "check.title": "Czy masz prawo do obniżki czynszu?",
-    "check.subtitle": "Odpowiedz na kilka pytań, a my bezpłatnie sprawdzimy Twoje prawo.",
-    "check.question": "Pytanie",
-    "check.of": "z",
-    "check.step": "Krok",
-    "check.selectDefects": "Wybierz usterki",
-    "check.enterRent": "Wpisz czynsz",
+    "check.phase.eligibility": "Sprawdzenie",
+    "check.phase.defects": "Usterki",
+    "check.phase.rent": "Czynsz",
     "check.result": "Wynik",
     "check.back": "Wstecz",
     "check.next": "Dalej",
@@ -1377,7 +1780,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.subtitle": "Utwórz prawnie wiążące zgłoszenie zgodnie z § 536c BGB.",
     "letter.step.data": "Twoje dane",
     "letter.step.landlord": "Wynajmujący",
-    "letter.step.defects": "Usterki",
+    "letter.step.defects": "Opis",
     "letter.step.preview": "Podgląd",
     "letter.step.send": "Pobieranie",
     "letter.yourData": "Twoje dane (Najemca)",
@@ -1466,5 +1869,79 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter - delivery
     "letter.basedOn":
       "Na podstawie twojego sprawdzenia: ok. {quote} % obniżki przy czynszu {rent} €.",
+
+    // Letter — dispatch by post (eBrief)
+    "dispatch.title": "Wyślij bezpośrednio do wynajmującego",
+    "dispatch.subtitle":
+      "Drukujemy Twoje zgłoszenie usterki i nadajemy je na poczcie — nie potrzebujesz ani drukarki, ani znaczka.",
+    "dispatch.chooseProduct": "Wybierz sposób wysyłki",
+    "dispatch.brief": "Jako zwykły list",
+    "dispatch.einschreiben": "Jako Einwurf-Einschreiben",
+    "dispatch.einschreibenHint":
+      "Przy Einwurf-Einschreiben dokumentowane jest wrzucenie listu do skrzynki pocztowej. Nie jest to Übergabe-Einschreiben z podpisem odbiorcy.",
+    "dispatch.taxNote": "Zgodnie z § 19 UStG podatek VAT nie jest naliczany.",
+    "dispatch.send": "Wyślij odpłatnie",
+    "dispatch.consent":
+      "Wyraźnie żądam, aby rozpoczęli Państwo wysyłkę natychmiast. Wiem, że tracę prawo odstąpienia od umowy z chwilą wydrukowania listu i przekazania go do doręczenia.",
+    "dispatch.consentLink": "Prawo odstąpienia",
+    "dispatch.error.zustimmung_fehlt":
+      "Proszę potwierdzić natychmiastowe rozpoczęcie wysyłki — w przeciwnym razie nie możemy nadać listu przed upływem terminu odstąpienia.",
+    "dispatch.preparing": "Przesyłka jest przygotowywana...",
+    "dispatch.checkingAddress": "Sprawdzamy adres...",
+    "dispatch.redirecting": "Przechodzimy do płatności...",
+    "dispatch.confirmSend": "Adres jest poprawny — wyślij odpłatnie",
+    "dispatch.addressWarning":
+      "Nie udało się jednoznacznie zweryfikować adresu wynajmującego. Sprawdź go, zanim wyślesz list odpłatnie.",
+    "dispatch.showMarked": "Zobacz rozpoznany adres",
+    "dispatch.fixAddress": "Popraw adres wynajmującego",
+    "dispatch.freeStays":
+      "Bezpłatne pobranie pozostaje dostępne w każdym przypadku.",
+    "dispatch.result.erfolg.title": "Płatność zakończona pomyślnie",
+    "dispatch.result.erfolg.text":
+      "Dziękujemy — Twoja płatność wpłynęła. Twoje zgłoszenie usterki zostanie teraz wydrukowane i wysłane pocztą do wynajmującego.",
+    "dispatch.result.erfolg.note":
+      "Potwierdzenie otrzymasz e-mailem na adres podany przy wysyłce. Nie musisz robić nic więcej. Ze względu na ochronę danych Twoje zgłoszenie usterki nie jest zapisywane w przeglądarce i dlatego nie można go tu ponownie wyświetlić.",
+    "dispatch.result.abbruch.title": "Płatność anulowana",
+    "dispatch.result.abbruch.text":
+      "Nic nie zostało wysłane i nic nie zostało naliczone.",
+    "dispatch.result.abbruch.note":
+      "Ze względu na ochronę danych Twoje zgłoszenie usterki nie jest zapisywane w przeglądarce i dlatego nie jest już dostępne. Jeśli chcesz je wysłać lub bezpłatnie pobrać, wypełnij formularz jeszcze raz — zajmie to tylko kilka minut.",
+    "dispatch.result.restartCta": "Utwórz zgłoszenie usterki od nowa",
+    "dispatch.hint.kopf":
+      "Nie rozpoznano nagłówka listu. Adresy mogą przez to pojawić się ponownie w treści listu.",
+    "dispatch.hint.datum":
+      "W liście nie znaleziono wiersza z datą. Sprawdź, czy data znajduje się w tekście.",
+    "dispatch.hint.absender":
+      "Wiersz nadawcy został skrócony, aby zmieścił się w polu adresowym.",
+    "dispatch.error.allgemein":
+      "Wysyłka nie jest teraz możliwa. Spróbuj ponownie później.",
+    "dispatch.error.versand_nicht_konfiguriert":
+      "Wysyłka pocztowa jest obecnie niedostępna. Pobierz zgłoszenie powyżej i wyślij je samodzielnie.",
+    "dispatch.error.zu_viele_anfragen":
+      "Podjęto zbyt wiele prób wysyłki. Spróbuj ponownie za godzinę.",
+    "dispatch.error.unvollstaendig":
+      "Brakuje danych. Wróć i uzupełnij swój adres, adres e-mail oraz adres wynajmującego.",
+    "dispatch.error.anschrift_zu_lang":
+      "Adres wynajmującego jest za długi na pole adresowe. Skróć nazwę, ulicę lub miejscowość — na przykład usuń dodatki typu „c/o” albo formę prawną.",
+    "dispatch.error.pdf_fehler":
+      "Nie udało się utworzyć listu. Narysuj podpis ponownie lub pomiń go i spróbuj jeszcze raz.",
+    "dispatch.error.ebrief_fehler":
+      "Nasz operator wysyłki chwilowo nie odpowiada. Spróbuj ponownie za kilka minut — nic nie zostało pobrane.",
+    "dispatch.error.preis_unplausibel":
+      "Tego listu nie można wysłać w podanej cenie, prawdopodobnie jest za długi. Skróć tekst i spróbuj ponownie.",
+    "dispatch.error.token_ungueltig":
+      "Ta wysyłka wygasła. Rozpocznij wysyłkę jeszcze raz.",
+    "dispatch.error.jobId_ungueltig":
+      "Nie znaleziono tej wysyłki. Rozpocznij wysyłkę jeszcze raz.",
+    "dispatch.error.kein_dokument":
+      "List jest jeszcze przetwarzany. Odczekaj chwilę i spróbuj ponownie.",
+    "dispatch.error.bereits_versendet":
+      "To zgłoszenie zostało już wysłane. Nie zostanie naliczona kolejna opłata.",
+    "dispatch.error.versand_nicht_moeglich":
+      "Tej wysyłki nie można opłacić. Prosimy rozpocząć wysyłkę jeszcze raz — nie naliczono żadnej opłaty.",
+    "dispatch.error.checkout_fehler":
+      "Nie udało się otworzyć strony płatności. Spróbuj ponownie — nic nie zostało pobrane.",
+    "dispatch.error.zeitueberschreitung":
+      "Operacja trwa dłużej niż zwykle. Spróbuj ponownie za kilka minut — nic nie zostało pobrane.",
   },
 };

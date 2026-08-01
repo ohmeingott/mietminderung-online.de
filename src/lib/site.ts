@@ -61,15 +61,47 @@ const siteUrl = toOrigin(rawSiteUrl);
 const siteHost = new URL(siteUrl).host;
 
 const operator = {
-  name: "Paul Ohm",
+  /**
+   * The contracting party, and therefore the provider named on every legal
+   * page. It has to be the same entity that signs the eBrief service contract
+   * (customer number D01039646) — a tenant who orders from one name while the
+   * letter is commissioned by another has no counterparty they can hold to it.
+   */
+  name: "Animals of Cologne GbR",
+  /**
+   * All three partners, and a list rather than a single name because a GbR has
+   * no proprietor. § 5 Abs. 1 Nr. 1 DDG wants the legal form in the name and
+   * the vertretungsberechtigte Gesellschafter next to it, and § 18 Abs. 2 MStV
+   * wants natural persons answerable for the content — for a partnership that
+   * is this list, not one of them standing in for the other two.
+   */
+  partners: ["Maximilian Marowsky", "Paul Ohm", "Philipp Weiß"],
   street: "Holzgasse 8",
   zip: "50676",
   city: "Köln",
   country: "Deutschland",
   /** ISO 3166-1 alpha-2, for structured data. */
   countryCode: "DE",
-  email: "pjhohm@gmail.com",
+  /**
+   * Reachable by the contracting party, not by a predecessor: withdrawal
+   * declarations, Art. 15 requests and order questions all arrive here, and
+   * every one of them is a deadline running against us.
+   */
+  email: "info@animals-of-cologne.de",
 } as const;
+
+/**
+ * The partners as one German enumeration — "A, B und C".
+ *
+ * Every consumer that names them in running text (the Impressum's provider
+ * block, the controller block of the privacy policy, the one-line identity
+ * footer of the order confirmation) needs exactly the same string. Joining the
+ * list at each call site is how one of them ends up listing two partners.
+ */
+export const gesellschafterListe: string = new Intl.ListFormat("de-DE", {
+  style: "long",
+  type: "conjunction",
+}).format(operator.partners);
 
 /** Operator details and legal metadata used across the legal pages. */
 export const site = {
@@ -95,6 +127,11 @@ export const siteConfig = {
   /** The same operator record, under the schema.org names the JSON-LD needs. */
   publisher: {
     name: operator.name,
+    /**
+     * Kept as a list, not pre-joined: schema.org has no "partners" string, so
+     * the emitter maps each partner to its own `Person` node under `member`.
+     */
+    partners: operator.partners,
     streetAddress: operator.street,
     postalCode: operator.zip,
     addressLocality: operator.city,

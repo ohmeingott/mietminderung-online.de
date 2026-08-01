@@ -182,21 +182,26 @@ test.describe("Mängelanzeige wizard", () => {
     expect(Math.abs(backingWidth - cssWidth * ratio)).toBeLessThanOrEqual(2);
   });
 
-  test("the final step offers downloads only, nothing is sold", async ({ page }) => {
+  test("the final step keeps the free download next to the paid dispatch", async ({
+    page,
+  }) => {
     await reachPreview(page);
     await page.getByTestId("letter-delivery").click();
 
-    // The three things a tenant can actually do with the finished letter.
+    // The three things a tenant can do with the letter without paying.
     await expect(page.getByTestId("download-pdf")).toBeVisible();
     await expect(page.getByTestId("download-txt")).toBeVisible();
     await expect(page.getByTestId("copy-text")).toBeVisible();
 
-    // No price and no order button. The rent figure legitimately carries a €,
-    // so match on the decimal price shape rather than the symbol alone.
+    // The paid alternative sits below them and never replaces them.
+    await expect(page.getByTestId("dispatch-card")).toBeVisible();
+    await expect(page.getByTestId("dispatch-submit")).toBeVisible();
+
+    // § 19 UStG: the operator is a small business and may not state VAT.
     const section = await page.locator("#maengelanzeige").innerText();
-    expect(section).not.toMatch(/\d[.,]\d{2}\s*€/);
-    expect(section.toLowerCase()).not.toContain("zahlungspflichtig");
-    expect(section.toLowerCase()).not.toContain("postversand");
+    expect(section.toLowerCase()).not.toContain("mwst");
+    expect(section.toLowerCase()).not.toContain("umsatzsteuer wird");
+    expect(section).toContain("§ 19 UStG");
   });
 
   test("the back button walks the wizard in reverse", async ({ page }) => {

@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { site } from "@/lib/site";
+import {
+  erloeschenHinweis,
+  musterWiderrufsformular,
+  widerrufsbelehrung,
+} from "@/lib/widerrufstext";
 
 export const metadata: Metadata = buildMetadata({
   title: "Widerrufsrecht | Mietminderung Online",
-  description: `Alle Funktionen von ${site.name} sind kostenlos. Mangels entgeltlichem Vertrag besteht derzeit kein gesetzliches Widerrufsrecht.`,
+  description: `Widerrufsbelehrung und Muster-Widerrufsformular für den kostenpflichtigen Postversand der Mängelanzeige über ${site.name}.`,
   path: "/widerruf",
 });
 
@@ -13,41 +18,77 @@ export default function Widerruf() {
   return (
     <LegalPage
       title="Widerrufsrecht"
-      intro="Warum es hier derzeit nichts zu widerrufen gibt."
+      intro="Widerrufsbelehrung für den kostenpflichtigen Postversand."
       updated={site.legalVersion}
     >
-      <LegalSection heading="Keine kostenpflichtigen Leistungen">
+      <LegalSection heading="Wofür diese Belehrung gilt">
         <p>
-          Sämtliche Funktionen von {site.name} sind kostenlos: die Prüfung, die
-          Berechnung der Minderungsquote und die Erstellung der Mängelanzeige,
-          die Sie als PDF oder Textdatei herunterladen. Es gibt kein
-          kostenpflichtiges Angebot, keinen Bestellvorgang und keine
-          Zahlungsdaten.
+          Die Prüfung, die Berechnung der Minderungsquote und die Erstellung der
+          Mängelanzeige sind kostenlos. Für diese Funktionen kommt kein
+          entgeltlicher Vertrag zustande, und es besteht daher auch kein
+          gesetzliches Widerrufsrecht — es gibt nichts zu widerrufen.
         </p>
         <p>
-          Da zwischen Ihnen und uns <strong>kein entgeltlicher Vertrag</strong>{" "}
-          zustande kommt, entsteht auch kein gesetzliches Widerrufsrecht nach
-          §§ 312g, 355 BGB. Es gibt schlicht nichts zu widerrufen.
-        </p>
-      </LegalSection>
-
-      <LegalSection heading="Versand erfolgt durch Sie selbst">
-        <p>
-          Wir versenden keine Briefe. Die fertige Mängelanzeige laden Sie herunter
-          und schicken sie selbst an Ihren Vermieter, am besten nachweisbar per
-          Einwurf-Einschreiben.
+          Diese Belehrung gilt für die eine kostenpflichtige Leistung, die wir
+          anbieten: den <strong>Postversand Ihrer Mängelanzeige</strong>. Dabei
+          lassen wir das von Ihnen erstellte Schreiben drucken, kuvertieren,
+          frankieren und an Ihren Vermieter zustellen.
         </p>
       </LegalSection>
 
-      <LegalSection heading="Sollten wir später etwas kostenpflichtig anbieten">
+      {/*
+        Rendered from src/lib/widerrufstext.ts, which the order confirmation
+        email reads as well. The notice has to be identical in both places —
+        two hand-maintained copies drift, and nobody notices until a customer
+        withdraws and the versions disagree about the deadline.
+      */}
+      <LegalSection heading="Widerrufsbelehrung">
+        {widerrufsbelehrung.map((absatz) => (
+          <p key={absatz.slice(0, 40)}>{absatz}</p>
+        ))}
+      </LegalSection>
+
+      <LegalSection heading="Vorzeitiges Erlöschen des Widerrufsrechts">
         <p>
-          Falls wir künftig eine kostenpflichtige Leistung einführen, erhalten Sie
-          vor jeder Bestellung eine vollständige Widerrufsbelehrung samt
-          Muster-Widerrufsformular, und diese Seite wird entsprechend ersetzt. Bis
-          dahin gilt: alles kostenlos, nichts zu widerrufen.
+          Damit Ihr Brief ohne Wartezeit in den Druck geht, müssen wir mit der
+          Ausführung vor Ablauf der Widerrufsfrist beginnen. Deshalb bitten wir
+          Sie vor der Bestellung um Ihre ausdrückliche Zustimmung dazu und um
+          die Bestätigung, dass Sie Ihr Widerrufsrecht mit der vollständigen
+          Erbringung verlieren.
+        </p>
+        <p>{erloeschenHinweis}</p>
+        <p>
+          Vollständig erbracht ist die Leistung, sobald Ihr Brief gedruckt,
+          kuvertiert, frankiert und in die Zustellung gegeben wurde. Zum Druck
+          geben wir ihn unmittelbar nach Ihrer Zahlung; gedruckt, kuvertiert und
+          frankiert wird er von unserem Druckdienstleister, die Zustellung
+          übernimmt anschließend die PIN AG. Wann der Druckdienstleister diese
+          Schritte abschließt, liegt nicht in unserer Hand — mit ihrem Abschluss
+          erlischt Ihr Widerrufsrecht nach § 356 Abs. 4 BGB, in aller Regel also
+          kurz nach Ihrer Bestellung. Bis dahin können Sie widerrufen.
         </p>
         <p>
-          Fragen dazu beantworten wir gern unter{" "}
+          Wenn Sie diese Zustimmung nicht erteilen möchten, können Sie die
+          Mängelanzeige jederzeit kostenlos herunterladen und selbst versenden.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Muster-Widerrufsformular">
+        <p>
+          Wenn Sie den Vertrag widerrufen wollen, füllen Sie bitte dieses
+          Formular aus und senden Sie es zurück. Sie können es auch formlos per
+          E-Mail tun.
+        </p>
+        <div className="rounded-[var(--radius-field)] border border-ink-200 bg-paper-sunken p-4 text-sm leading-relaxed">
+          {musterWiderrufsformular.map((zeile) => (
+            <p key={zeile.slice(0, 40)}>{zeile}</p>
+          ))}
+        </div>
+      </LegalSection>
+
+      <LegalSection heading="Fragen">
+        <p>
+          Fragen zum Widerruf beantworten wir gern unter{" "}
           <a href={`mailto:${site.operator.email}`}>{site.operator.email}</a>.
         </p>
       </LegalSection>

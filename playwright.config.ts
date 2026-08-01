@@ -1,7 +1,28 @@
 import { defineConfig, devices } from "@playwright/test";
 import { existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 
-const PORT = Number(process.env.E2E_PORT || 3100);
+/**
+ * A port belonging to this checkout rather than a fixed one.
+ *
+ * With a single hard-coded port, every git worktree of this repository wants
+ * the same one. When a sibling worktree already holds it, `next start` cannot
+ * bind — but the port answers anyway, because the sibling's server is there.
+ * Playwright polls the URL, sees a healthy response and runs the whole suite
+ * against somebody else's build. That surfaces as a handful of unrelated tests
+ * failing at random, which reads as flakiness and sends you looking in exactly
+ * the wrong place.
+ *
+ * Deriving the port from the checkout path gives each worktree its own and
+ * keeps it stable across runs, so a failure is reproducible and the port in an
+ * error message still means something. `E2E_PORT` overrides it.
+ */
+function portFuerCheckout(): number {
+  const streuwert = createHash("sha256").update(process.cwd()).digest();
+  return 3100 + (streuwert.readUInt16BE(0) % 700);
+}
+
+const PORT = Number(process.env.E2E_PORT || portFuerCheckout());
 const baseURL = process.env.E2E_BASE_URL || `http://127.0.0.1:${PORT}`;
 
 /**
@@ -18,12 +39,22 @@ export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  // The specs are I/O bound (page loads, downloads), so oversubscribing the
-  // cores shortens the wall clock noticeably.
-  workers: process.env.CI ? 2 : 4,
+  // One local retry. Not to paper over a broken test — a genuinely broken one
+  // fails both attempts — but because this suite shares a developer machine
+  // with builds and other sessions, and a single contention blip should not
+  // make the whole run read as a failure. Playwright reports a passed retry as
+  // "flaky", so it stays visible instead of quietly disappearing.
+  retries: process.env.CI ? 2 : 1,
+  // Each worker drives a browser and competes with the Next server for cores.
+  // Four on an eight-core machine is fine in isolation and not fine when a
+  // build or a second checkout is running, which measurably pushed
+  // twelve-second tests past a forty-five-second timeout.
+  workers: process.env.CI ? 2 : 3,
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : [["list"]],
-  timeout: 45_000,
+  // Headroom for a busy machine, not permission to be slow: the longest specs
+  // walk the whole wizard and settle around fifteen seconds unloaded, so this
+  // still catches a genuine hang quickly.
+  timeout: 75_000,
   expect: { timeout: 10_000 },
 
   use: {

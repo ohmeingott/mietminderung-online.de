@@ -1,13 +1,25 @@
 import { test, expect } from "@playwright/test";
 import { expectNoHorizontalOverflow } from "./helpers";
+import { PRODUKTE } from "../src/lib/ebrief/produkte";
+
+/** Currency formatting uses a non-breaking space; innerText need not keep it. */
+const normalisiert = (text: string) => text.replace(/[\u00a0\u202f]/g, " ");
 
 const LEGAL_PAGES = [
   {
     path: "/impressum",
     footerLink: "Impressum",
     heading: "Impressum",
+    // The provider named here has to be the party that signs the eBrief
+    // contract — the registered name including the legal form for § 5 DDG, and
+    // every vertretungsberechtigter Gesellschafter, because a GbR has no
+    // Inhaber and no single partner stands in for the other two.
     mustContain: [
+      "Animals of Cologne GbR",
+      "Vertretungsberechtigte Gesellschafter",
+      "Maximilian Marowsky",
       "Paul Ohm",
+      "Philipp Weiß",
       "Holzgasse 8",
       "50676",
       "§ 5 DDG",
@@ -39,10 +51,14 @@ const LEGAL_PAGES = [
     path: "/widerruf",
     footerLink: "Widerrufsrecht",
     heading: "Widerrufsrecht",
+    // The paid dispatch makes this a real Widerrufsbelehrung: the statutory
+    // period, the model form, and the early-expiry rule the order flow relies
+    // on. A page that lost any of them would leave a sold service unbelehrt.
     mustContain: [
-      "Keine kostenpflichtigen Leistungen",
-      "kein entgeltlicher Vertrag",
-      "§§ 312g, 355 BGB",
+      "Widerrufsbelehrung",
+      "vierzehn Tagen",
+      "Muster-Widerrufsformular",
+      "§ 356 Abs. 4 BGB",
     ],
   },
 ] as const;
@@ -87,29 +103,79 @@ test.describe("Legal pages", () => {
     expect(body).toContain("Vercel Web Analytics");
   });
 
-  test("the terms describe a free, download-only service and name no price", async ({
+  test("the terms keep the free functions free and price the paid one", async ({
     page,
   }) => {
     await page.goto("/nutzungsbedingungen");
     const body = await page.locator("article").innerText();
 
+    // The free path must survive the arrival of a paid one — it is the whole
+    // premise of the site, and the terms are where a quiet removal would show.
     expect(body).toContain("kostenlos");
-    expect(body).toContain("nicht angeboten");
-    // Nothing is sold, so no price, no VAT clause, no order button may appear.
-    expect(body).not.toMatch(/\d[.,]\d{2}\s*€/);
-    expect(body).not.toContain("Zahlungspflichtig bestellen");
-    expect(body).not.toContain("§ 19 UStG");
+    expect(body).toContain("Kostenpflichtiger Postversand");
+
+    // Both prices, taken from the catalogue the checkout charges from, so a
+    // price change that misses this page fails here instead of in a dispute.
+    for (const produkt of Object.values(PRODUKTE)) {
+      const preis = (produkt.preisCent / 100).toLocaleString("de-DE", {
+        style: "currency",
+        currency: "EUR",
+      });
+      expect(normalisiert(body)).toContain(normalisiert(preis));
+    }
+
+    // § 19 UStG: a small business may not state VAT. The § 19 note is required
+    // and any "inkl. MwSt." next to it would be a tax statement owed under
+    // § 14c UStG.
+    expect(body).toContain("§ 19 UStG");
+    expect(body.toLowerCase()).not.toContain("mwst");
   });
 
-  test("no legal page advertises postal dispatch or the eBrief processor", async ({
+  test("no legal page promises a print cut-off time", async ({ page }) => {
+    // Both pages stated that payment received Mo–Fr before 14:30 was printed
+    // and franked the same day. Nothing sourced it and the first live order
+    // refuted it: paid 21:58, handed to print 22:00 the same evening. It is a
+    // binding performance promise to consumers, so no clock time may return.
+    // The order confirmation carries the same guard in check-bestellbestaetigung.
+    for (const path of ["/nutzungsbedingungen", "/widerruf"]) {
+      await page.goto(path);
+      const body = await page.locator("article").innerText();
+      expect(body, `${path} states a clock time as a promise`).not.toMatch(
+        /\b\d{1,2}[:.]\d{2}\s*Uhr/i,
+      );
+    }
+
+    // Dropping the timing must not drop the legal statement it was quoted for:
+    // /widerruf has to keep saying when the right lapses.
+    await page.goto("/widerruf");
+    const widerruf = await page.locator("article").innerText();
+    expect(widerruf).toContain("§ 356 Abs. 4 BGB");
+    expect(widerruf).toContain("Vollständig erbracht");
+  });
+
+  test("the legal pages disclose the dispatch processor and its subprocessors", async ({
     page,
   }) => {
-    for (const legal of LEGAL_PAGES) {
-      await page.goto(legal.path);
-      const body = await page.locator("article").innerText();
-      expect(body, `${legal.path} still mentions Postversand`).not.toContain("Postversand");
-      expect(body, `${legal.path} still mentions eBrief`).not.toContain("eBrief");
+    // The inverse of the guard that stood here while dispatch was removed.
+    // Selling the service without naming who prints and delivers the letter is
+    // the Art. 13 gap that guard existed to prevent in the first place.
+    await page.goto("/datenschutz");
+    const datenschutz = await page.locator("article").innerText();
+    for (const empfaenger of [
+      "PIN AG",
+      "BC Directgroup",
+      "Möller Druck",
+      "Office Data Service",
+      "Stripe",
+      // Added with the order confirmation and initially forgotten here: a
+      // processor that sees buyer email addresses has to be named.
+      "Resend",
+    ]) {
+      expect(datenschutz, `datenschutz omits ${empfaenger}`).toContain(empfaenger);
     }
+
+    await page.goto("/nutzungsbedingungen");
+    expect(await page.locator("article").innerText()).toContain("PIN AG");
   });
 
   test("the sitemap lists every legal page", async ({ page }) => {

@@ -2,6 +2,12 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "regions": ["fra1"],
+  "crons": [
+    {
+      "path": "/api/cron/ebrief-cleanup",
+      "schedule": "0 3 * * *"
+    }
+  ],
   "redirects": [
     {
       "source": "/",
@@ -67,7 +73,7 @@
       ]
     },
     {
-      "source": "/apple-touch-icon.png",
+      "source": "/apple-icon.png",
       "headers": [
         {
           "key": "Cache-Control",
