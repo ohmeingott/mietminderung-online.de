@@ -61,8 +61,25 @@ darf. Das erzwingt `stripeTaxBehavior()` in `src/lib/steuer.ts`, das unter
 | **Rohmarge** | **1,61 €** | **2,84 €** |
 | Rohmarge in % | 64,7 % | 40,6 % |
 
-Die im Code hinterlegten Einkaufspreise (`einkaufBruttoCent` 88 bzw. 415)
-entsprechen dem Online-Katalog auf den Cent genau.
+**Der Einkaufspreis ist gestaffelt, und die Tabelle oben zeigt den Bestfall.**
+Aus dem ersten echten Auftrag (31.07.2026, zweiseitiger Brief):
+
+| Position | Brutto |
+|---|---:|
+| eBrief-Standard inkl. 1 Blatt s/w Simplex | 0,88 € |
+| Zusatzblatt s/w Simplex, je | 0,05 € |
+| Einschreiben-Einwurf, Aufschlag | 3,27 € |
+
+Eine Mängelanzeige mit mehreren Mängeln liegt regelmäßig bei zwei bis drei
+Seiten, der reale Einkauf also eher bei 0,93 bis 0,98 € statt 0,88 €. Die
+Rohmarge sinkt entsprechend um wenige Cent — an der Größenordnung ändert das
+nichts, an der Genauigkeit dieser Tabelle schon.
+
+Im Code steht dieser Preis **bewusst nirgends**. Ein einzelner Wert je Produkt
+könnte nur für den einseitigen Brief stimmen, und ein falscher Wert, den kein
+Programmteil liest, wird irgendwann trotzdem geglaubt. Die Preisprüfung in
+`/api/versand/vorbereiten` fragt stattdessen `POST /Prices` nach dem Preis des
+tatsächlichen Auftrags, mit der echten Seitenzahl des erzeugten PDFs.
 
 ### Zahlungsgebühren fehlen in dieser Rechnung
 
