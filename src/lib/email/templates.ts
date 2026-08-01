@@ -1,4 +1,4 @@
-import { absoluteUrl, site, siteConfig } from "@/lib/site";
+import { absoluteUrl, gesellschafterListe, site, siteConfig } from "@/lib/site";
 import {
   erloeschenHinweis,
   musterWiderrufsformular,
@@ -59,7 +59,7 @@ function layout(bodyHtml: string, footerHtml: string): string {
  */
 function identityFooterHtml(): string {
   const o = site.operator;
-  return `${o.name} — Inhaber: ${o.owner}, ${o.street}, ${o.zip} ${o.city}, ${o.country}<br>
+  return `${o.name} — vertreten durch die Gesellschafter ${gesellschafterListe}, ${o.street}, ${o.zip} ${o.city}, ${o.country}<br>
 E-Mail: <a href="mailto:${o.email}" style="color:${MUTED};">${o.email}</a> · <a href="${absoluteUrl("/impressum")}" style="color:${MUTED};">Impressum</a> · <a href="${absoluteUrl("/datenschutz")}" style="color:${MUTED};">Datenschutz</a><br>
 Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 Abs. 1 Nr. 1 VSBG).<br>
 Hinweis: Unsere E-Mails sind keine Rechtsberatung.`;
@@ -68,7 +68,7 @@ Hinweis: Unsere E-Mails sind keine Rechtsberatung.`;
 function identityFooterText(): string {
   const o = site.operator;
   return [
-    `${o.name} — Inhaber: ${o.owner}, ${o.street}, ${o.zip} ${o.city}, ${o.country}`,
+    `${o.name} — vertreten durch die Gesellschafter ${gesellschafterListe}, ${o.street}, ${o.zip} ${o.city}, ${o.country}`,
     `E-Mail: ${o.email}`,
     `Impressum: ${absoluteUrl("/impressum")} · Datenschutz: ${absoluteUrl("/datenschutz")}`,
     "Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 Abs. 1 Nr. 1 VSBG).",
@@ -107,7 +107,8 @@ function bestelldatum(zeitpunkt: Date): string {
  * Online", replies go to a different domain, and the Widerrufsbelehrung names a
  * third thing again. Each one is correct; together, unexplained, they have the
  * exact shape of a phishing mail. Built from `site` rather than written out, so
- * the pending correction of the operator's legal form lands here too.
+ * a correction of the operator record — the legal form was one — lands here
+ * without anybody having to remember this sentence exists.
  */
 function anbieterSatz(): string {
   const o = site.operator;
@@ -117,13 +118,14 @@ function anbieterSatz(): string {
 /**
  * What we can actually stand behind about the timing.
  *
- * There used to be a promise here that payment received Mo–Fr before 14:30 was
- * printed and franked the same day. Nothing sourced it, and the first live
- * order refuted it: paid at 21:58, handed to print at 22:00 the same evening.
- * A performance promise to consumers that we cannot support is worse than no
- * promise, so this says only what the dispatch flow guarantees by construction
- * — the webhook releases the job the moment the payment is confirmed — and
- * leaves delivery to the carrier, without naming a day.
+ * There used to be a promise here that payment received on a weekday before a
+ * fixed afternoon cut-off was printed and franked the same day — the same
+ * sentence the terms and /widerruf carried. Nothing sourced it, and the first
+ * live order refuted it: paid at 21:58, handed to print at 22:00 the same
+ * evening. A performance promise to consumers that we cannot support is worse
+ * than no promise, so this says only what the dispatch flow guarantees by
+ * construction — the webhook releases the job the moment the payment is
+ * confirmed — and leaves delivery to the carrier, without naming a day.
  */
 const ABLAUF_SAETZE: readonly string[] = [
   "Wir haben Ihre Mängelanzeige unmittelbar nach Ihrer Zahlung zum Druck übergeben. Gedruckt, kuvertiert und frankiert wird sie von unserem Druckdienstleister, die Zustellung übernimmt anschließend die PIN AG.",

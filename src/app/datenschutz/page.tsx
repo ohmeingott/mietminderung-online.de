@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
-import { site } from "@/lib/site";
+import { gesellschafterListe, site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
   title: "Datenschutzerklärung | Mietminderung Online",
@@ -20,7 +20,7 @@ export default function Datenschutz() {
           <address>
             {site.operator.name}
             <br />
-            Inhaber: {site.operator.owner}
+            Vertreten durch die Gesellschafter: {gesellschafterListe}
             <br />
             {site.operator.street}
             <br />

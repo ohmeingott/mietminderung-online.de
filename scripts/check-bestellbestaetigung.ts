@@ -94,7 +94,11 @@ if (/mwst/i.test(mail.text) || /inkl\.\s*\d+\s*%/i.test(mail.text)) {
 
 // Art. 246a § 1 Abs. 1 Nr. 2 — who the trader is, in the mail itself.
 beideTeile("den Anbieternamen", site.operator.name);
-beideTeile("den Inhaber", site.operator.owner);
+// A GbR is only identified once its representatives are named, so all three
+// partners have to survive edits to the footer, not just the first one.
+for (const partner of site.operator.partners) {
+  beideTeile("einen vertretungsberechtigten Gesellschafter", partner);
+}
 beideTeile("die Anschrift", site.operator.street);
 beideTeile("die Kontaktadresse", site.operator.email);
 
