@@ -53,14 +53,17 @@ export default function FormCard({
   return (
     <div
       /*
-       * `overflow-clip`, not `overflow-hidden`. Both clip to the rounded
-       * corners, but `hidden` establishes a scroll container - and a
-       * `position: sticky` descendant then sticks to a box that never
-       * scrolls, which reads as if sticky were simply ignored. `clip`
-       * establishes no such container, so the footer below sticks to the
-       * viewport as intended.
+       * No `overflow` at all. The card used to clip so the progress bar would
+       * pick up its rounded corners, but any non-visible overflow - `hidden`
+       * and, measurably in Chromium, `clip` too - makes a `position: sticky`
+       * descendant resolve against this box instead of the viewport. The box
+       * never scrolls, so sticky never activates and the footer silently sits
+       * below the fold on every long screen.
+       *
+       * The two children that touch the edges round themselves instead: the
+       * progress bar its top corners, the action bar its bottom ones.
        */
-      className={`overflow-clip rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised shadow-[var(--shadow-raise)] ${className}`}
+      className={`rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised shadow-[var(--shadow-raise)] ${className}`}
     >
       <FormProgress completed={completed} total={total} label={label} />
       {chapter && (
@@ -95,7 +98,7 @@ export default function FormCard({
          */
         <div
           data-testid="wizard-actions"
-          className="safe-bottom sticky bottom-0 z-10 flex items-center justify-between gap-3 border-t border-ink-200 bg-paper-raised/95 px-5 py-3 backdrop-blur-sm sm:px-10 sm:py-4"
+          className="safe-bottom sticky bottom-0 z-10 flex items-center justify-between gap-3 rounded-b-[var(--radius-card)] border-t border-ink-200 bg-paper-raised/95 px-5 py-3 backdrop-blur-sm sm:px-10 sm:py-4"
         >
           {footer}
         </div>

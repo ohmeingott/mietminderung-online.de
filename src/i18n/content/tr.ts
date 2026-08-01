@@ -220,6 +220,9 @@ const tr: Record<string, string> = {
   "faq.q11": "Enerji verimliliği modernizasyonunda durum nedir?",
   "faq.a11":
     "Enerji verimliliğine yönelik modernizasyon çalışmalarında (ör. ısı yalıtımı) kira indirimi 3 ay boyunca uygulanamaz (§ 536 Abs. 1a BGB). Bu süreden sonra indirim yapabilirsiniz. Bu kural yalnızca enerji verimliliği çalışmaları için geçerlidir, genel modernizasyonlar için değil.",
+  "faq.q12": "Kusur bildiriminden sonra yanıt için ne kadar beklemem gerekir?",
+  "faq.a12":
+    "Ev sahibinin yanıt vermesi için yasal bir süre yoktur. Belirleyici olan, kusurun giderilmesi için sizin belirlediğiniz süredir: olağan olarak 14 gün, kışın kombi arızası gibi acil kusurlarda 3 ila 7 gün, su borusu patlaması gibi acil durumlarda derhal. Süre, mektubun gönderildiği gün değil, ulaştığı gün başlar; teslimat için bir ila iki iş günü hesaplayın. Süre, kusur giderilmeden dolarsa ev sahibiniz temerrüde düşer: kirayı indirebilir, son bir süre tanıyan ikinci bir yazı gönderebilir ve § 536a BGB uyarınca tazminat ya da ikame ifa talep edebilirsiniz. Bildirimden itibaren kirayı ihtirazi kayıtla öderseniz, fazla ödediğinizi sonradan geri isteyebilirsiniz.",
 };
 
 export default tr;

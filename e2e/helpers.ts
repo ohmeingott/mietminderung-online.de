@@ -335,6 +335,121 @@ export async function stubVersandApi(
   return stub;
 }
 
+/* ------------------------------------------------------------ scroll probe */
+
+export interface ScrollProbe {
+  start: number;
+  end: number;
+  min: number;
+  max: number;
+}
+
+/**
+ * Waits until the page has stopped scrolling.
+ *
+ * `html { scroll-behavior: smooth }` means any programmatic scroll - including
+ * the one Playwright performs to make an element actionable - is still
+ * animating a frame later. Measuring across it attributes the harness's
+ * movement to the page.
+ */
+export async function waitForScrollIdle(page: Page, quietMs = 150) {
+  await page.evaluate(async (quiet) => {
+    let letzter = window.scrollY;
+    let seit = performance.now();
+    await new Promise<void>((fertig) => {
+      const pruefen = () => {
+        if (Math.abs(window.scrollY - letzter) > 0.5) {
+          letzter = window.scrollY;
+          seit = performance.now();
+        }
+        if (performance.now() - seit >= quiet) {
+          fertig();
+          return;
+        }
+        requestAnimationFrame(pruefen);
+      };
+      requestAnimationFrame(pruefen);
+    });
+  }, quietMs);
+}
+
+/** Puts the wizard card's top just under the fixed header, without animation. */
+export async function parkCardUnderHeader(page: Page) {
+  await page.evaluate(() => {
+    const el = document.querySelector('[data-testid="wizard-card"]');
+    if (!el) return;
+    window.scrollTo({
+      top: window.scrollY + el.getBoundingClientRect().top - 88,
+      behavior: "auto",
+    });
+  });
+  await waitForScrollIdle(page);
+}
+
+/** Starts sampling `window.scrollY` on every animation frame. */
+export async function startScrollProbe(page: Page) {
+  await page.evaluate(() => {
+    const w = window as unknown as { __probe?: number[] };
+    w.__probe = [window.scrollY];
+    const tick = () => {
+      w.__probe?.push(window.scrollY);
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+/**
+ * Waits, then reports how far the page moved while it waited.
+ *
+ * `minMs` is a floor on the observation, not a convenience. The behaviour this
+ * guards against scheduled its jump inside a `setTimeout(..., 100)` and then
+ * animated it, so a probe that returned as soon as the page went quiet would
+ * resolve before the jump had even started - and would pass on the very bug it
+ * exists to catch.
+ */
+export async function stopScrollProbe(
+  page: Page,
+  { minMs = 600, quietMs = 150 } = {}
+): Promise<ScrollProbe> {
+  const werte = await page.evaluate(
+    async ([min, quiet]) => {
+      const w = window as unknown as { __probe?: number[] };
+      const start = performance.now();
+      let letzteBewegung = start;
+      let letzterWert = window.scrollY;
+
+      await new Promise<void>((fertig) => {
+        const pruefen = () => {
+          const jetzt = performance.now();
+          if (Math.abs(window.scrollY - letzterWert) > 0.5) {
+            letzterWert = window.scrollY;
+            letzteBewegung = jetzt;
+          }
+          if (jetzt - start >= min && jetzt - letzteBewegung >= quiet) {
+            fertig();
+            return;
+          }
+          requestAnimationFrame(pruefen);
+        };
+        requestAnimationFrame(pruefen);
+      });
+
+      const proben = w.__probe ?? [window.scrollY];
+      delete w.__probe;
+      return proben;
+    },
+    [minMs, quietMs] as const
+  );
+
+  return {
+    start: werte[0],
+    end: werte[werte.length - 1],
+    min: Math.min(...werte),
+    max: Math.max(...werte),
+  };
+}
+
 /** Fails if the document scrolls sideways - the classic mobile layout bug. */
 export async function expectNoHorizontalOverflow(page: Page) {
   const { scrollWidth, clientWidth } = await page.evaluate(() => ({

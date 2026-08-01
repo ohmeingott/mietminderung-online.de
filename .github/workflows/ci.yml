@@ -33,6 +33,12 @@ jobs:
       - name: Check that every locale is complete
         run: npm run check:i18n
 
+      # Deliberately before the build: the letter logic is pure and its tests
+      # run in under a second, so a wrong deadline or a misattributed defect
+      # description fails in seconds rather than after a three-minute build.
+      - name: Unit tests
+        run: npm run test:unit
+
       - name: Build
         run: npm run build
 
