@@ -1,6 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 import {
   answerEligibility,
+  chooseDeadline,
   expectNoHorizontalOverflow,
   selectDefect,
   stubEnhanceApi,
@@ -124,6 +125,7 @@ test.describe("Language switching", () => {
     await page.getByTestId("vermieter-ort").fill("Köln");
     await page.getByTestId("letter-next").click();
     await page.getByTestId("letter-preview").click();
+    await chooseDeadline(page);
 
     // The textarea is filled on the step transition - wait for it before reading,
     // otherwise a slow mobile render hands back an empty string.

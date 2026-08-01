@@ -14,7 +14,7 @@ export default function ContentFooter() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div>
             <Link href="/" className="text-xl font-bold text-white">
-              Mietminderung<span className="text-blue-400">.online</span>
+              Mietminderung<span className="text-blue-400">-online</span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed">
               Kostenlos prüfen, ob Sie die Miete mindern dürfen, die

@@ -27,11 +27,16 @@ Preisliste 01/2025 (0,72 €), die dem Vertrag als Anlage 1 beiliegt. Maßgeblic
 ist der jeweils aktuelle Katalog — A.2.2 des Vertrags erlaubt PIN AG die
 Änderung der Anlage mit vier Wochen Vorlauf.
 
-Die Werte in `produkte.ts` treffen den Online-Katalog exakt: 0,88 € für den
-Brief, 0,74 € + 2,75 € = 3,49 € netto beziehungsweise 4,15 € brutto für das
-Einschreiben. Ein früherer Kommentar hier sprach von einem Zwei-Cent-Puffer
-gegenüber der alten Preisliste — das war eine Fehldeutung, die Zahlen sind
-schlicht die neueren.
+Diese Einkaufspreise stehen **nur hier**, nicht im Code. `produkte.ts` führt
+allein den Verkaufspreis. Ein einzelner Einkaufswert je Produkt könnte immer
+nur für den einblättrigen Brief stimmen — die Staffelung oben zeigt, warum —
+und ein falscher Wert, den kein Programmteil liest, wird trotzdem irgendwann
+geglaubt. Bis Juli 2026 stand er dort und war mit 0,88 € genau das: der
+Bestfall, als Regelfall gelesen.
+
+Die Absicherung zur Laufzeit braucht ihn nicht: `/api/versand/vorbereiten`
+fragt `POST /Prices` nach dem Preis des tatsächlichen Auftrags, mit der real
+gerenderten Seitenzahl.
 
 Die zweite Frage an PIN AG hat sich damit ebenfalls erledigt: Der Preis für
 die getrackte Variante steht mit 2,75 € netto fest. Offen bleibt allein die
@@ -76,8 +81,20 @@ darf. Das erzwingt `stripeTaxBehavior()` in `src/lib/steuer.ts`, das unter
 | **Rohmarge** | **1,61 €** | **2,84 €** |
 | Rohmarge in % | 64,7 % | 40,6 % |
 
-Die im Code hinterlegten Einkaufspreise (`einkaufBruttoCent` 88 bzw. 415)
-entsprechen dem Online-Katalog auf den Cent genau.
+Die Zeile „1 Blatt" ist der Regelfall, nicht der einzige Fall — was ein Blatt
+mehr kostet, steht unter [Mehrblättrige Briefe](#mehrblättrige-briefe).
+
+**Der erste echte Auftrag bestätigt die Staffelung.** Am 31.07.2026 rechnete
+eBrief für einen zweiblättrigen Brief ab:
+
+| Artikel | Brutto |
+|---|---:|
+| eBrief-Standard inkl. 1 Blatt s/w Simplex | 0,88 € |
+| Zusatzblatt s/w Simplex | 0,05 € |
+| **Summe** | **0,93 €** |
+
+Das deckt sich mit dem Katalog auf den Cent. Der Brief trug eine Unterschrift —
+genau der Fall, der laut Tabelle oben ein zweites Blatt erzwingt.
 
 ### Zahlungsgebühren fehlen in dieser Rechnung
 

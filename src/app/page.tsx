@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
-import HomeCheckFlow from "@/components/HomeCheckFlow";
+import MietminderungWizard from "@/components/wizard/MietminderungWizard";
 import InfoSection from "@/components/InfoSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
@@ -40,7 +40,7 @@ export default function Home() {
         <Header />
         <main>
           <Hero />
-          <HomeCheckFlow />
+          <MietminderungWizard />
           <HowItWorks />
           <InfoSection />
           <PopularLinks />

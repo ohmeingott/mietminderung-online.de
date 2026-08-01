@@ -35,7 +35,9 @@ export default function FormProgress({
 
   return (
     <div
-      className="h-1 w-full overflow-hidden bg-ink-200"
+      // The card no longer clips its children (a sticky footer has to escape
+      // it), so the bar rounds its own top corners.
+      className="h-1 w-full overflow-hidden rounded-t-[var(--radius-card)] bg-ink-200 sm:h-1.5"
       role="progressbar"
       aria-valuenow={percent}
       aria-valuemin={0}

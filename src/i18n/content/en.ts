@@ -235,6 +235,9 @@ const en: Record<string, string> = {
   "faq.q11": "What about energy-efficiency modernisation?",
   "faq.a11":
     "During energy-efficiency modernisation works (e.g. thermal insulation), the rent reduction is excluded for 3 months (Section 536 (1a) BGB). After that you may reduce the rent. This only applies to energy-related measures, not to general modernisation.",
+  "faq.q12": "How long do I have to wait for a reply after sending the defect notice?",
+  "faq.a12":
+    "There is no statutory deadline for the landlord to reply. What counts is the deadline you set for the repair: 14 days is usual, 3 to 7 days for urgent defects such as heating failure in winter, and immediately for emergencies such as a burst pipe. The deadline starts when the letter is delivered, not when you post it, so allow one or two working days. If it expires without the defect being fixed, your landlord is in default: you can reduce the rent, send a second letter with a final deadline, and claim damages or self-remedy under § 536a BGB. Pay the rent under reservation from the notice onwards and you can reclaim any overpayment later.",
 };
 
 export default en;

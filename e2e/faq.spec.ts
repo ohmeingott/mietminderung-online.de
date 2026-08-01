@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { expectNoHorizontalOverflow } from "./helpers";
+import { faqs } from "../src/data/maengel";
 
 test.describe("FAQ", () => {
   test("the landing-page accordion opens and closes one answer at a time", async ({
@@ -68,7 +69,9 @@ test.describe("FAQ", () => {
 
     const faqPage = nodes.find((node) => node["@type"] === "FAQPage");
     expect(faqPage, "no FAQPage node in the structured data").toBeTruthy();
-    expect(faqPage.mainEntity.length).toBe(12);
+    // Derived from the source, not pinned: a new FAQ entry is content work,
+    // not a reason for this test to fail.
+    expect(faqPage.mainEntity.length).toBe(faqs.length);
     expect(faqPage.mainEntity[0].name).toBe("Was ist eine Mietminderung?");
 
     // The breadcrumb trail main added must survive too.

@@ -2,15 +2,18 @@
  * Sale prices are final prices. The operator is a small business under
  * § 19 UStG and may not state VAT — see src/lib/steuer.ts.
  *
- * The purchase prices exist for calculation only and are never displayed.
- * Without input tax deduction the gross price is what is really paid.
+ * Purchase prices deliberately do not live here. They are tiered — a base
+ * price for the first sheet plus a surcharge per further sheet — so a single
+ * constant per product can only ever be right for a one-page letter, and real
+ * defect notices run longer. The margin is reasoned about in
+ * docs/ebrief/preiskalkulation.md, and the guard in
+ * /api/versand/vorbereiten asks eBrief for the price of the actual job rather
+ * than trusting a figure kept here.
  */
 export interface Produkt {
   id: ProduktId;
   /** Final price in cents that the user pays. */
   preisCent: number;
-  /** Gross purchase price in cents per the eBrief price list, standard letter up to 3 sheets. */
-  einkaufBruttoCent: number;
   /** Job attributes. eBrief expects strings here, not booleans. */
   ebrief: {
     IsDuplex: "true" | "false";
@@ -25,13 +28,11 @@ export const PRODUKTE: Record<ProduktId, Produkt> = {
   brief: {
     id: "brief",
     preisCent: 249,
-    einkaufBruttoCent: 88,
     ebrief: { IsDuplex: "false", IsColor: "false", IsTracking: "false" },
   },
   einwurfEinschreiben: {
     id: "einwurfEinschreiben",
     preisCent: 699,
-    einkaufBruttoCent: 415,
     ebrief: { IsDuplex: "false", IsColor: "false", IsTracking: "true" },
   },
 };

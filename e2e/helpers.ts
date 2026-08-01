@@ -79,16 +79,41 @@ export async function fillLandlord(page: Page, landlord = LANDLORD) {
   await page.getByTestId("vermieter-ort").fill(landlord.city);
 }
 
-/** Tenant step → landlord step → defect details step → letter preview. */
+/**
+ * Tenant → landlord → defect details → deadline → letter preview.
+ *
+ * The deadline screen sits between the descriptions and the preview: the
+ * letter no longer demands repair within a flat fourteen days, and the choice
+ * has to be made before the text that quotes it is built.
+ */
 export async function reachPreview(page: Page) {
   await fillTenant(page);
   await page.getByTestId("letter-next").click();
   await fillLandlord(page);
   await page.getByTestId("letter-next").click();
   await page.getByTestId("letter-preview").click();
+  await chooseDeadline(page);
   // The textarea mounts empty and is filled by an effect - wait for content,
   // not just for the element.
   await expect(page.getByTestId("brieftext")).not.toHaveValue("");
+}
+
+/**
+ * The deadline screen. Accepts the preselection unless `tage` is given, and
+ * returns the dd.mm.yyyy date that ends up in the letter.
+ */
+export async function chooseDeadline(page: Page, tage?: 3 | 7 | 14 | 21) {
+  if (tage) await page.getByTestId(`frist-${tage}`).click();
+  const gewaehlt = page.locator('input[name="frist"]:checked');
+  const days = Number(await gewaehlt.inputValue());
+  await page.getByTestId("letter-frist-next").click();
+  const datum = new Date();
+  datum.setDate(datum.getDate() + days);
+  return datum.toLocaleDateString("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 }
 
 /**
@@ -308,6 +333,121 @@ export async function stubVersandApi(
   );
 
   return stub;
+}
+
+/* ------------------------------------------------------------ scroll probe */
+
+export interface ScrollProbe {
+  start: number;
+  end: number;
+  min: number;
+  max: number;
+}
+
+/**
+ * Waits until the page has stopped scrolling.
+ *
+ * `html { scroll-behavior: smooth }` means any programmatic scroll - including
+ * the one Playwright performs to make an element actionable - is still
+ * animating a frame later. Measuring across it attributes the harness's
+ * movement to the page.
+ */
+export async function waitForScrollIdle(page: Page, quietMs = 150) {
+  await page.evaluate(async (quiet) => {
+    let letzter = window.scrollY;
+    let seit = performance.now();
+    await new Promise<void>((fertig) => {
+      const pruefen = () => {
+        if (Math.abs(window.scrollY - letzter) > 0.5) {
+          letzter = window.scrollY;
+          seit = performance.now();
+        }
+        if (performance.now() - seit >= quiet) {
+          fertig();
+          return;
+        }
+        requestAnimationFrame(pruefen);
+      };
+      requestAnimationFrame(pruefen);
+    });
+  }, quietMs);
+}
+
+/** Puts the wizard card's top just under the fixed header, without animation. */
+export async function parkCardUnderHeader(page: Page) {
+  await page.evaluate(() => {
+    const el = document.querySelector('[data-testid="wizard-card"]');
+    if (!el) return;
+    window.scrollTo({
+      top: window.scrollY + el.getBoundingClientRect().top - 88,
+      behavior: "auto",
+    });
+  });
+  await waitForScrollIdle(page);
+}
+
+/** Starts sampling `window.scrollY` on every animation frame. */
+export async function startScrollProbe(page: Page) {
+  await page.evaluate(() => {
+    const w = window as unknown as { __probe?: number[] };
+    w.__probe = [window.scrollY];
+    const tick = () => {
+      w.__probe?.push(window.scrollY);
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+/**
+ * Waits, then reports how far the page moved while it waited.
+ *
+ * `minMs` is a floor on the observation, not a convenience. The behaviour this
+ * guards against scheduled its jump inside a `setTimeout(..., 100)` and then
+ * animated it, so a probe that returned as soon as the page went quiet would
+ * resolve before the jump had even started - and would pass on the very bug it
+ * exists to catch.
+ */
+export async function stopScrollProbe(
+  page: Page,
+  { minMs = 600, quietMs = 150 } = {}
+): Promise<ScrollProbe> {
+  const werte = await page.evaluate(
+    async ([min, quiet]) => {
+      const w = window as unknown as { __probe?: number[] };
+      const start = performance.now();
+      let letzteBewegung = start;
+      let letzterWert = window.scrollY;
+
+      await new Promise<void>((fertig) => {
+        const pruefen = () => {
+          const jetzt = performance.now();
+          if (Math.abs(window.scrollY - letzterWert) > 0.5) {
+            letzterWert = window.scrollY;
+            letzteBewegung = jetzt;
+          }
+          if (jetzt - start >= min && jetzt - letzteBewegung >= quiet) {
+            fertig();
+            return;
+          }
+          requestAnimationFrame(pruefen);
+        };
+        requestAnimationFrame(pruefen);
+      });
+
+      const proben = w.__probe ?? [window.scrollY];
+      delete w.__probe;
+      return proben;
+    },
+    [minMs, quietMs] as const
+  );
+
+  return {
+    start: werte[0],
+    end: werte[werte.length - 1],
+    min: Math.min(...werte),
+    max: Math.max(...werte),
+  };
 }
 
 /** Fails if the document scrolls sideways - the classic mobile layout bug. */

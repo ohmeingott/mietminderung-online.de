@@ -3,6 +3,7 @@
 import {
   AlertTriangle,
   BookOpen,
+  CalendarClock,
   Clock,
   Gavel,
   Scale,
@@ -17,6 +18,9 @@ const cards = [
   { icon: Gavel, titleKey: "info.c4.title", descKey: "info.c4.desc" },
   { icon: AlertTriangle, titleKey: "info.c5.title", descKey: "info.c5.desc" },
   { icon: Clock, titleKey: "info.c6.title", descKey: "info.c6.desc" },
+  // "How long do I wait for an answer?" - the question the flow itself now
+  // answers on its last screen, said here too for readers who never start it.
+  { icon: CalendarClock, titleKey: "info.c7.title", descKey: "info.c7.desc" },
 ] as const;
 
 export default function InfoSection() {

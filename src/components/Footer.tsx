@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ratgeberArtikel } from "@/data/ratgeber";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { siteConfig } from "@/lib/site";
+import BrandMark from "./BrandMark";
 
 const serviceLinks = [
   { href: "/#pruefung", key: "nav.check" },
@@ -43,19 +43,15 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-5">
           <div className="col-span-2">
             <div className="mb-4 flex items-center gap-2">
-              <Image
-                src="/logo.png"
-                alt=""
-                width={32}
-                height={32}
-                // The brand blue has too little contrast on the dark footer, so
-                // the mark is flattened to a white silhouette. This relies on
-                // logo.png having a transparent background: the filter only
-                // touches RGB, leaving alpha to keep the shape.
-                className="h-8 w-8 brightness-0 invert"
+              {/* Brand blue has too little contrast on the navy footer, so the
+                  mark runs in its inverse colourway. */}
+              <BrandMark
+                className="h-8 w-8"
+                tileClassName="fill-white"
+                letterClassName="fill-brand-800"
               />
               <span className="text-lg font-bold text-white">
-                Mietminderung<span className="text-brand-300">.online</span>
+                Mietminderung<span className="text-brand-300">-online</span>
               </span>
             </div>
             <p className="max-w-md text-sm leading-relaxed">{t("footer.desc")}</p>
