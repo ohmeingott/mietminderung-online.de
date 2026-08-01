@@ -16,8 +16,13 @@ interface StepActionsProps {
   nextTone?: "brand" | "signal";
 }
 
+/*
+ * Smaller type and tighter padding on a phone. At 393 px the back control and
+ * the gap leave roughly 260 px for this button, and "Jetzt Mängelanzeige
+ * erstellen" at the desktop size wrapped onto three lines.
+ */
 const NEXT_BASE =
-  "inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full px-6 font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-40";
+  "inline-flex min-h-[3rem] min-w-0 flex-1 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold text-white transition-colors disabled:cursor-not-allowed disabled:opacity-40 sm:flex-initial sm:px-6 sm:text-base";
 
 /**
  * The step controls, rendered into the card's footer.
@@ -52,10 +57,16 @@ export default function StepActions({
           data-testid={backTestId}
           data-wizard-back=""
           onClick={onBack}
-          className="inline-flex min-h-[3rem] items-center gap-2 rounded-full px-2 text-sm text-ink-500 transition-colors hover:text-ink-800"
+          className="inline-flex min-h-[3rem] min-w-[3rem] shrink-0 items-center justify-center gap-2 rounded-full px-2 text-sm text-ink-500 transition-colors hover:text-ink-800 sm:justify-start"
         >
           <ArrowLeft className="h-4 w-4 rtl:rotate-180" aria-hidden />
-          {backLabel}
+          {/*
+            Icon only on a phone. The word costs about sixty pixels that the
+            primary needs to stay on one line, and the arrow carries the
+            meaning on its own - the label stays for screen readers.
+          */}
+          <span className="hidden sm:inline">{backLabel}</span>
+          <span className="sr-only sm:hidden">{backLabel}</span>
         </button>
       ) : (
         <span />

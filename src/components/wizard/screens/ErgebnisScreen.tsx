@@ -95,8 +95,10 @@ export default function ErgebnisScreen() {
         could not yet act on them. They belong at the moment of commitment.
       */}
       <div className="mt-7 rounded-[var(--radius-field)] border border-ink-200 bg-paper-sunken p-5">
+        {/* `check.nextStep` is not shown alongside it: in every locale that
+            string opens with the same "the next step is..." the heading
+            already makes, and the bullets say the rest. */}
         <h3 className="text-base font-semibold text-ink-900">{t("check.nextStepTitle")}</h3>
-        <p className="mt-1 text-sm text-ink-600">{t("check.nextStep")}</p>
         <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
           {[1, 2, 3, 4, 5].map((i) => (
             <li key={i} className="flex items-start gap-2.5">

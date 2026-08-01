@@ -26,40 +26,6 @@ export const ANZAHL_ANSPRUCHSFRAGEN = eligibilityQuestions.length; // 5
 export const LETZTER_SCHRITT = SCREEN.FERTIG; // 13
 
 /**
- * Chapters, not screens.
- *
- * "Schritt 11 von 14" is a true statement that makes people leave. Two named
- * chapters with their own short counts say the same thing without the number
- * that frightens. The bar itself still measures all fourteen, so the two
- * readings never contradict each other.
- */
-export type Kapitel = "pruefung" | "brief" | "keins";
-
-export interface KapitelPosition {
-  kapitel: Kapitel;
-  /** 1-based position inside the chapter, or 0 when it has no counter. */
-  schritt: number;
-  gesamt: number;
-}
-
-export function kapitelPosition(screen: number): KapitelPosition {
-  if (screen <= SCREEN.MIETE) {
-    return { kapitel: "pruefung", schritt: screen + 1, gesamt: SCREEN.MIETE + 1 };
-  }
-  if (screen === SCREEN.ERGEBNIS) {
-    return { kapitel: "keins", schritt: 0, gesamt: 0 };
-  }
-  if (screen <= SCREEN.FRIST) {
-    return {
-      kapitel: "brief",
-      schritt: screen - SCREEN.ERGEBNIS,
-      gesamt: SCREEN.FRIST - SCREEN.ERGEBNIS,
-    };
-  }
-  return { kapitel: "keins", schritt: 0, gesamt: 0 };
-}
-
-/**
  * The `aria-valuetext` label for a screen. These keys already exist in all
  * seven locales - they were the two components' phase labels - so reusing
  * them costs no translation and keeps the bar named for screen readers.

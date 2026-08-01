@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import FormCard from "@/components/FormCard";
 import FooterActions from "@/components/wizard/FooterActions";
-import WizardRail from "@/components/wizard/WizardRail";
+import WizardStepper from "@/components/wizard/WizardStepper";
 import { WizardProvider, type WizardContextValue } from "@/components/wizard/WizardContext";
 import {
   flowStore,
@@ -15,7 +15,6 @@ import {
   ANZAHL_ANSPRUCHSFRAGEN,
   LETZTER_SCHRITT,
   SCREEN,
-  kapitelPosition,
   screenLabelKey,
 } from "@/components/wizard/screens";
 import NichtBerechtigt from "@/components/wizard/screens/NichtBerechtigt";
@@ -369,18 +368,6 @@ export default function MietminderungWizard() {
   };
 
   const { screen } = state;
-  const position = kapitelPosition(screen);
-  const kapitelName =
-    position.kapitel === "pruefung"
-      ? t("flow.chapter.check")
-      : position.kapitel === "brief"
-        ? t("flow.chapter.letter")
-        : "";
-  const schrittText = position.schritt
-    ? t("flow.stepOf")
-        .replace("{n}", String(position.schritt))
-        .replace("{total}", String(position.gesamt))
-    : "";
 
   const inhalt = () => {
     if (screen < ANZAHL_ANSPRUCHSFRAGEN) return <AnspruchsfrageScreen />;
@@ -416,46 +403,33 @@ export default function MietminderungWizard() {
         so the inner container carries the second anchor.
       */}
       <section id="pruefung" className="scroll-mt-24 pt-2 pb-16 sm:pt-3 sm:pb-24">
-        <div className="mx-auto w-full max-w-xl px-4 sm:max-w-2xl sm:px-6 lg:max-w-5xl lg:px-8 xl:max-w-6xl">
+        <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8">
           {state.notEligibleQuestionId ? (
             <div id="maengelanzeige">
               <NichtBerechtigt />
             </div>
           ) : (
-            <div className="lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:items-start lg:gap-8 xl:grid-cols-[17rem_minmax(0,1fr)] xl:gap-12">
-              {/* The card comes first in the DOM so Tab reaches the form
-                  before the rail; the grid puts the rail on the start side. */}
-              <div
-                id="maengelanzeige"
-                ref={kartenRef}
-                data-testid="wizard-card"
-                data-screen={screen}
-                className="min-w-0 lg:col-start-2 lg:row-start-1"
+            <div id="maengelanzeige" ref={kartenRef} data-testid="wizard-card" data-screen={screen}>
+              <WizardStepper />
+              <FormCard
+                completed={screen}
+                total={LETZTER_SCHRITT}
+                label={t(screenLabelKey(screen))}
+                padded={screen !== SCREEN.MAENGEL}
+                contentClassName={inhaltsBreite(screen)}
+                /* The very first question has nothing to go back to, and a
+                   pointer answer advances on its own - so until something is
+                   recorded there is no bar to show. */
+                footer={
+                  screen === 0 && !state.antworten[eligibilityQuestions[0].id] ? undefined : (
+                    <FooterActions />
+                  )
+                }
               >
-                <FormCard
-                  completed={screen}
-                  total={LETZTER_SCHRITT}
-                  label={t(screenLabelKey(screen))}
-                  chapter={kapitelName}
-                  stepText={schrittText}
-                  padded={screen !== SCREEN.MAENGEL}
-                  contentClassName={inhaltsBreite(screen)}
-                  /* The very first question has nothing to go back to, and a
-                     pointer answer advances on its own - so until something
-                     is recorded there is no bar to show. */
-                  footer={
-                    screen === 0 && !state.antworten[eligibilityQuestions[0].id] ? undefined : (
-                      <FooterActions />
-                    )
-                  }
-                >
-                  <div key={screen} className="animate-fade-in-up">
-                    {inhalt()}
-                  </div>
-                </FormCard>
-              </div>
-
-              <WizardRail className="mt-6 lg:col-start-1 lg:row-start-1 lg:mt-0 lg:sticky lg:top-24 lg:self-start" />
+                <div key={screen} className="animate-fade-in-up">
+                  {inhalt()}
+                </div>
+              </FormCard>
             </div>
           )}
         </div>

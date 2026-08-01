@@ -13,10 +13,6 @@ interface FormCardProps {
   className?: string;
   /** Extra classes for the padded content area, e.g. a narrower max width. */
   contentClassName?: string;
-  /** Chapter name shown above the content, e.g. "Anspruch prüfen". */
-  chapter?: string;
-  /** Position inside the chapter, e.g. "Schritt 3 von 7". */
-  stepText?: string;
   /**
    * Set false for screens that run their own panes to the card edge, such as
    * the two-pane defect picker. The screen then owns its padding.
@@ -44,8 +40,6 @@ export default function FormCard({
   label,
   className = "",
   contentClassName = "",
-  chapter,
-  stepText,
   padded = true,
   footer,
   children,
@@ -66,27 +60,8 @@ export default function FormCard({
       className={`rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised shadow-[var(--shadow-raise)] ${className}`}
     >
       <FormProgress completed={completed} total={total} label={label} />
-      {chapter && (
-        /*
-         * Chapter and position, not "Schritt 11 von 14". The bar above still
-         * measures the whole journey; this says where that is in words, which
-         * is the part a reader can act on without being put off by the count.
-         */
-        <div className="flex items-center justify-between gap-3 px-5 pt-5 sm:px-10 sm:pt-8">
-          <span className="text-xs font-semibold uppercase tracking-wide text-brand-600">
-            {chapter}
-          </span>
-          {stepText && (
-            <span className="text-xs tabular-nums text-ink-500">{stepText}</span>
-          )}
-        </div>
-      )}
       <div
-        className={
-          padded
-            ? `p-5 sm:p-10 ${chapter ? "pt-4 sm:pt-5" : ""} ${contentClassName}`
-            : contentClassName
-        }
+        className={padded ? `p-5 sm:p-10 ${contentClassName}` : contentClassName}
       >
         {children}
       </div>
