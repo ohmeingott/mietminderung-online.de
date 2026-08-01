@@ -204,6 +204,13 @@ export default function MietminderungCheck({
 
   const question = eligibilityQuestions[eligibilityStep];
 
+  // Nothing on the page tells a first-time visitor that the form starts with a
+  // click, so the first answer of the first question gets a quiet pulse. It is
+  // dropped as soon as any answer exists - after one click the pattern is
+  // clear, including when the user steps back to this question.
+  const showFirstClickHint =
+    eligibilityStep === 0 && Object.keys(answers).length === 0;
+
   return (
     <section id="pruefung" className="scroll-mt-24 pt-2 pb-16 sm:pt-3 sm:pb-24">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -229,7 +236,7 @@ export default function MietminderungCheck({
               </p>
 
               <div className="mt-6 space-y-2.5">
-                {question.options.map((option) => (
+                {question.options.map((option, index) => (
                   <button
                     key={option.value}
                     type="button"
@@ -241,7 +248,11 @@ export default function MietminderungCheck({
                         option.eligible,
                       )
                     }
-                    className="group flex w-full items-center gap-3.5 rounded-[var(--radius-field)] border border-ink-200 bg-paper-raised px-4 py-3.5 text-start transition-colors hover:border-brand-400 hover:bg-brand-50 sm:px-5"
+                    className={`group flex w-full items-center gap-3.5 rounded-[var(--radius-field)] border border-ink-200 bg-paper-raised px-4 py-3.5 text-start transition-colors hover:border-brand-400 hover:bg-brand-50 sm:px-5 ${
+                      showFirstClickHint && index === 0
+                        ? "nudge-first-click"
+                        : ""
+                    }`}
                   >
                     <span
                       className="h-5 w-5 shrink-0 rounded-full border-2 border-ink-300 transition-colors group-hover:border-brand-500"

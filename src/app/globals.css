@@ -20,6 +20,12 @@
   --color-brand-900: oklch(37.9% 0.146 265.522);
   --color-brand-950: oklch(28.2% 0.091 267.935);
 
+  /* brand-500 as plain sRGB channels. The first-click glow paints inside a
+     transparency layer, and there the brand tokens' oklch blue converts to a
+     slightly out-of-gamut channel that wraps to yellow instead of clamping.
+     Same colour, expressed so it can never leave the gamut. */
+  --brand-glow-rgb: 59 130 246;
+
   /* Ink - warm near-black for text and dark surfaces */
   --color-ink-50: #f7f6f4;
   --color-ink-100: #eceae6;
@@ -151,6 +157,49 @@ input[type="number"] {
   transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* First-click hint: a soft brand glow that breathes around the very first
+   answer, so the eye finds where the form starts. It is motion only - no fill,
+   no border colour - so the option never reads as pre-selected. The glow lives
+   on a pseudo-element and only its opacity animates, which keeps the loop on
+   the compositor instead of repainting a shadow forever. */
+@keyframes nudgeGlow {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+  85%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.nudge-first-click {
+  position: relative;
+}
+
+.nudge-first-click::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow:
+    0 2px 14px -2px rgb(var(--brand-glow-rgb) / 38%),
+    0 0 0 3px rgb(var(--brand-glow-rgb) / 10%);
+  animation: nudgeGlow 3.6s cubic-bezier(0.45, 0, 0.55, 1) 1.4s infinite;
+}
+
+/* Once the pointer or the keyboard has found the option, the hint has done its
+   job and gets out of the way. */
+.nudge-first-click:hover::after,
+.nudge-first-click:focus-visible::after {
+  animation: none;
+  opacity: 0;
+}
+
 .card-hover {
   transition:
     transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
@@ -176,6 +225,12 @@ input[type="number"] {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  /* The breathing is gone, so the first-click hint holds still at a lower
+     strength instead of disappearing entirely. */
+  .nudge-first-click::after {
+    animation: none;
+    opacity: 0.6;
   }
 }
 
