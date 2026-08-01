@@ -51,8 +51,24 @@ const ANSCHRIFT_UNTERLAENGE_MM = 1;
  */
 const TEXTSTART_Y_MM = 114;
 
-const ZEILENHOEHE_MM = 5.5;
-const SEITENUMBRUCH_Y_MM = 272;
+/**
+ * 5.0 mm at 10 pt is a leading of about 1.4 — comfortable, and tighter than
+ * the 5.5 mm this used to be. Together with the later page break below it
+ * decides whether the common Mängelanzeige is one sheet or two: with the old
+ * values only a single-defect letter fitted on page one, and the second page
+ * carried nothing but the closing. Two defects are the normal case.
+ *
+ * eBrief bills per sheet and prints single-sided, so this is not only
+ * cosmetic — but the cosmetic argument is the stronger one. A second page
+ * holding two lines reads as a mistake.
+ */
+const ZEILENHOEHE_MM = 5.0;
+/**
+ * 280 mm leaves a 17 mm foot on A4. Well clear of the template's 3 mm safety
+ * distance to the trim edge, and still enough white space that the page does
+ * not look crowded.
+ */
+const SEITENUMBRUCH_Y_MM = 280;
 const FOLGESEITE_START_Y_MM = 25;
 
 const UNTERSCHRIFT_BREITE_MM = 50;
