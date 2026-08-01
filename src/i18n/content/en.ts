@@ -233,8 +233,11 @@ const en: Record<string, string> = {
   "m.dusche_einzige.d": "The apartment's only washing and bathing facility cannot be used.",
   "m.asbest_gebunden.l": "Asbestos firmly bound and undamaged",
   "m.asbest_gebunden.d": "Firmly bound, undamaged asbestos, e.g. intact vinyl-asbestos tiles. Its mere presence generally does NOT constitute a defect; a justified concern about fibre release is required.",
-  "faq.q12": "Does paying the arrears save me if I reduced too much?",
-  "faq.a12": "Only halfway. If you pay the arrears in full within two months of being served with the eviction claim, the termination without notice becomes ineffective (Section 569 (3) no. 2 BGB). An ordinary termination declared in the alternative is, however, unaffected. In practice landlords regularly terminate both without notice and, in the alternative, ordinarily — so you can still lose the apartment despite paying in full.",
+  "faq.q12": "How long do I have to wait for a reply after sending the defect notice?",
+  "faq.a12":
+    "There is no statutory deadline for the landlord to reply. What counts is the deadline you set for the repair: 14 days is usual, 3 to 7 days for urgent defects such as heating failure in winter, and immediately for emergencies such as a burst pipe. The deadline starts when the letter is delivered, not when you post it, so allow one or two working days. If it expires without the defect being fixed, your landlord is in default: you can reduce the rent, send a second letter with a final deadline, and claim damages or self-remedy under § 536a BGB. Pay the rent under reservation from the notice onwards and you can reclaim any overpayment later.",
+  "faq.q13": "Does paying the arrears save me if I reduced too much?",
+  "faq.a13": "Only halfway. If you pay the arrears in full within two months of being served with the eviction claim, the termination without notice becomes ineffective (Section 569 (3) no. 2 BGB). An ordinary termination declared in the alternative is, however, unaffected. In practice landlords regularly terminate both without notice and, in the alternative, ordinarily — so you can still lose the apartment despite paying in full.",
 };
 
 export default en;

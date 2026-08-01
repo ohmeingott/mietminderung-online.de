@@ -89,8 +89,10 @@ export default function VersandErgebnis({
           </div>
 
           {/*
-            The cancel page leads with "start over", because that is the only
-            way back to a letter. The success page must not: a paying customer
+            The cancel page leads with "start over". Since the draft survives
+            in sessionStorage, that link now lands back on the finished letter
+            rather than on an empty form, so a cancelled payment can simply be
+            retried. The success page must not offer it: a paying customer
             invited to "create a new Mängelanzeige" would reasonably wonder
             whether the first one went through.
           */}

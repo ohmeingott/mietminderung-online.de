@@ -869,6 +869,11 @@ export const faqs: FAQ[] = [
       "Bei energetischen Modernisierungsmaßnahmen (z.B. Wärmedämmung) ist die Mietminderung für 3 Monate ausgeschlossen (§ 536 Abs. 1a BGB). Danach dürfen Sie mindern. Dies gilt nur für energetische Maßnahmen, nicht für allgemeine Modernisierungen.",
   },
   {
+    question: "Wie lange muss ich nach der Mängelanzeige auf eine Antwort warten?",
+    answer:
+      "Eine gesetzliche Frist für die Antwort des Vermieters gibt es nicht. Maßgeblich ist die Frist, die Sie selbst für die Beseitigung des Mangels setzen: üblich sind 14 Tage, bei dringenden Mängeln wie einem Heizungsausfall im Winter 3 bis 7 Tage, bei Notfällen wie einem Wasserrohrbruch sofort. Die Frist beginnt, sobald der Brief zugeht, nicht am Absendetag: rechnen Sie ein bis zwei Werktage für die Zustellung ein. Läuft sie ab, ohne dass der Mangel beseitigt wurde, ist Ihr Vermieter in Verzug. Sie können dann die Miete mindern, ein zweites Schreiben mit einer letzten Frist senden und nach § 536a BGB Schadensersatz oder die Ersatzvornahme verlangen. Zahlen Sie die Miete ab der Mängelanzeige unter Vorbehalt, dann können Sie zu viel Gezahltes später zurückfordern.",
+  },
+  {
     question: "Rettet mich eine Nachzahlung, wenn ich zu viel gemindert habe?",
     answer:
       "Nur zur Hälfte. Zahlen Sie den Rückstand innerhalb von zwei Monaten nach Zustellung der Räumungsklage vollständig nach, wird die fristlose Kündigung unwirksam (Schonfristzahlung, § 569 Abs. 3 Nr. 2 BGB). Eine zugleich hilfsweise erklärte ordentliche Kündigung bleibt davon jedoch unberührt. In der Praxis kündigen Vermieter regelmäßig fristlos und hilfsweise ordentlich, sodass Sie die Wohnung trotz vollständiger Nachzahlung verlieren können.",

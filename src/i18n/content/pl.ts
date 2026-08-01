@@ -229,8 +229,11 @@ const pl: Record<string, string> = {
   "m.dusche_einzige.d": "Jedyna w mieszkaniu możliwość mycia i kąpieli jest niedostępna.",
   "m.asbest_gebunden.l": "Azbest trwale związany i nieuszkodzony",
   "m.asbest_gebunden.d": "Trwale związany, nieuszkodzony azbest, np. całe płytki winylowo-azbestowe. Sama obecność z reguły NIE stanowi wady; potrzebna jest uzasadniona obawa uwolnienia włókien.",
-  "faq.q12": "Czy dopłata mnie uratuje, jeśli obniżyłem czynsz za mocno?",
-  "faq.a12": "Tylko w połowie. Jeśli w ciągu dwóch miesięcy od doręczenia pozwu o eksmisję spłacisz zaległość w całości, wypowiedzenie bez zachowania terminu staje się bezskuteczne (§ 569 ust. 3 nr 2 BGB). Zgłoszone równocześnie ewentualne wypowiedzenie zwykłe pozostaje jednak w mocy. W praktyce wynajmujący regularnie wypowiadają umowę zarówno bez terminu, jak i ewentualnie zwykle, więc mimo pełnej spłaty możesz stracić mieszkanie.",
+  "faq.q12": "Jak długo muszę czekać na odpowiedź po zgłoszeniu usterek?",
+  "faq.a12":
+    "Nie ma ustawowego terminu na odpowiedź właściciela. Decyduje termin, który sam wyznaczysz na usunięcie usterki: zwykle 14 dni, przy pilnych usterkach takich jak awaria ogrzewania zimą 3 do 7 dni, a w nagłych wypadkach jak pęknięta rura natychmiast. Termin biegnie od doręczenia listu, a nie od dnia nadania — doliczyć trzeba jeden do dwóch dni roboczych. Jeśli upłynie, a usterka nie zostanie usunięta, właściciel jest w zwłoce: możesz obniżyć czynsz, wysłać drugie pismo z ostatnim terminem i żądać odszkodowania lub wykonania zastępczego na podstawie § 536a BGB. Jeśli od zgłoszenia płacisz czynsz z zastrzeżeniem, nadpłatę możesz później odzyskać.",
+  "faq.q13": "Czy dopłata mnie uratuje, jeśli obniżyłem czynsz za mocno?",
+  "faq.a13": "Tylko w połowie. Jeśli w ciągu dwóch miesięcy od doręczenia pozwu o eksmisję spłacisz zaległość w całości, wypowiedzenie bez zachowania terminu staje się bezskuteczne (§ 569 ust. 3 nr 2 BGB). Zgłoszone równocześnie ewentualne wypowiedzenie zwykłe pozostaje jednak w mocy. W praktyce wynajmujący regularnie wypowiadają umowę zarówno bez terminu, jak i ewentualnie zwykle, więc mimo pełnej spłaty możesz stracić mieszkanie.",
 };
 
 export default pl;

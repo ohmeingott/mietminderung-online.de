@@ -3,9 +3,10 @@
 import { useTranslation } from "@/i18n/LanguageContext";
 
 /**
- * The hero is a headline and nothing else. The check begins immediately below
- * it, so every additional line here is a line the user reads instead of
- * answering the first question.
+ * Headline plus one line, and nothing else. The check begins immediately below,
+ * so anything more here is a line the user reads instead of answering the first
+ * question. The subline earns its place by naming what the headline cannot: how
+ * long it takes, that the letter is free to download, and that we can post it.
  */
 export default function Hero() {
   const { t } = useTranslation();
@@ -26,6 +27,10 @@ export default function Hero() {
             <span className="text-brand-600">{t("hero.title2")}</span>{" "}
             {t("hero.title3")}
           </h1>
+
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-ink-600 sm:text-lg">
+            {t("hero.subtitle")}
+          </p>
         </div>
       </div>
     </section>

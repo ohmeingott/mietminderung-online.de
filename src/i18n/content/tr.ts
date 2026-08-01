@@ -221,8 +221,11 @@ const tr: Record<string, string> = {
   "m.dusche_einzige.d": "Dairenin tek yıkanma ve banyo imkânı kullanılamıyor.",
   "m.asbest_gebunden.l": "Asbest sıkı bağlı ve hasarsız",
   "m.asbest_gebunden.d": "Sıkı bağlı, hasarsız asbest, örneğin sağlam vinil-asbest karolar. Yalnızca bulunması kural olarak kusur OLUŞTURMAZ; lif salınımına dair haklı bir endişe gerekir.",
-  "faq.q12": "Fazla indirim yaptıysam sonradan ödeme beni kurtarır mı?",
-  "faq.a12": "Yalnızca yarı yarıya. Tahliye davasının tebliğinden itibaren iki ay içinde borcu tamamen öderseniz derhal fesih geçersiz hâle gelir (BGB § 569 f. 3 No. 2). Ancak yedek olarak yapılan olağan fesih bundan etkilenmez. Uygulamada ev sahipleri düzenli olarak hem derhal hem de yedek olarak olağan fesih bildirir; bu nedenle tamamını ödeseniz bile daireyi kaybedebilirsiniz.",
+  "faq.q12": "Kusur bildiriminden sonra yanıt için ne kadar beklemem gerekir?",
+  "faq.a12":
+    "Ev sahibinin yanıt vermesi için yasal bir süre yoktur. Belirleyici olan, kusurun giderilmesi için sizin belirlediğiniz süredir: olağan olarak 14 gün, kışın kombi arızası gibi acil kusurlarda 3 ila 7 gün, su borusu patlaması gibi acil durumlarda derhal. Süre, mektubun gönderildiği gün değil, ulaştığı gün başlar; teslimat için bir ila iki iş günü hesaplayın. Süre, kusur giderilmeden dolarsa ev sahibiniz temerrüde düşer: kirayı indirebilir, son bir süre tanıyan ikinci bir yazı gönderebilir ve § 536a BGB uyarınca tazminat ya da ikame ifa talep edebilirsiniz. Bildirimden itibaren kirayı ihtirazi kayıtla öderseniz, fazla ödediğinizi sonradan geri isteyebilirsiniz.",
+  "faq.q13": "Fazla indirim yaptıysam sonradan ödeme beni kurtarır mı?",
+  "faq.a13": "Yalnızca yarı yarıya. Tahliye davasının tebliğinden itibaren iki ay içinde borcu tamamen öderseniz derhal fesih geçersiz hâle gelir (BGB § 569 f. 3 No. 2). Ancak yedek olarak yapılan olağan fesih bundan etkilenmez. Uygulamada ev sahipleri düzenli olarak hem derhal hem de yedek olarak olağan fesih bildirir; bu nedenle tamamını ödeseniz bile daireyi kaybedebilirsiniz.",
 };
 
 export default tr;
