@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/i18n/LanguageContext";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 import JsonLd from "@/components/JsonLd";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/seo";
@@ -79,13 +79,9 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: siteConfig.description,
   },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "32x32" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
-    apple: "/apple-touch-icon.png",
-  },
+  // No `icons` block: src/app/{favicon.ico,icon.svg,apple-icon.png} are file
+  // conventions, so Next emits the <link> tags itself. Declaring them here as
+  // well took priority and emitted a second, conflicting set.
   manifest: "/site.webmanifest",
 };
 

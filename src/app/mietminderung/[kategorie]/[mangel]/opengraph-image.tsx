@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { BRAND_MARK_ON_DARK, brandMarkDataUri } from "@/lib/brandMark";
 import { getMangelBySlug } from "@/lib/mangelIndex";
 
 export const size = { width: 1200, height: 630 };
@@ -40,22 +41,15 @@ export default async function MangelOgImage({
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <div
-            style={{
-              width: "52px",
-              height: "52px",
-              borderRadius: "14px",
-              background: "white",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "30px",
-            }}
-          >
-            🛡️
-          </div>
+          {/* Inlined as a data URI: satori cannot resolve a relative URL. */}
+          <img
+            src={brandMarkDataUri(BRAND_MARK_ON_DARK)}
+            width={52}
+            height={52}
+            alt=""
+          />
           <span style={{ fontSize: "27px", fontWeight: 700, color: "white" }}>
-            Mietminderung.online
+            Mietminderung-online
           </span>
         </div>
 

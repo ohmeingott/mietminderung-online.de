@@ -37,9 +37,24 @@ Die zweite Frage an PIN AG hat sich damit ebenfalls erledigt: Der Preis für
 die getrackte Variante steht mit 2,75 € netto fest. Offen bleibt allein die
 **Produktbezeichnung** — dazu unten.
 
-Ein **Blatt** sind zwei bedruckte Seiten. Jedes begonnene Blatt wird voll
-berechnet. Eine typische Mängelanzeige belegt ein bis zwei Seiten, also ein
-Blatt; erst ab sieben Seiten fällt sie aus dem Standardbrief heraus.
+**Wir drucken einseitig** (`IsDuplex: "false"` in `produkte.ts`). Jede
+gerenderte Seite ist damit ein eigenes Blatt, und jedes begonnene Blatt wird
+voll berechnet. Die naheliegende Annahme, ein Blatt fasse zwei Seiten, gilt
+nur bei beidseitigem Druck und stand hier zeitweise falsch.
+
+Seit der Layoutanpassung (Zeilenabstand 5,0 mm, Umbruch bei 280 mm) passt eine
+Mängelanzeige mit ein bis drei Mängeln auf **eine** Seite, also ein Blatt. Ab
+vier Mängeln werden es zwei. Wer eine Unterschrift zeichnet, bekommt in jedem
+Fall ein zweites Blatt: Die Signatur wird auf eine neue Seite geschoben, wenn
+sie nicht 30 mm über dem Umbruch beginnt.
+
+| Mängel | Seiten | Blätter | Produkt |
+|---:|---:|---:|---|
+| 1–3 | 1 | 1 | Standardbrief |
+| 4–5 | 2 | 2 | Standardbrief + 1 Zusatzblatt |
+| mit Unterschrift | +1 | +1 | ein Blatt mehr als oben |
+
+Aus dem Standardbrief fällt die Anzeige erst ab dem vierten Blatt.
 
 ### Warum brutto gerechnet wird
 
@@ -57,7 +72,7 @@ darf. Das erzwingt `stripeTaxBehavior()` in `src/lib/steuer.ts`, das unter
 | | Brief | Einwurf-Einschreiben |
 |---|---:|---:|
 | Verkaufspreis | 2,49 € | 6,99 € |
-| Einkauf (brutto, 1 Blatt) | 0,88 € | 4,15 € |
+| Einkauf (brutto, 1 Blatt — der Regelfall) | 0,88 € | 4,15 € |
 | **Rohmarge** | **1,61 €** | **2,84 €** |
 | Rohmarge in % | 64,7 % | 40,6 % |
 
@@ -107,12 +122,14 @@ Prozentzahl vermuten lässt.
 
 ## Mehrblättrige Briefe
 
-| Seiten | Blätter | Produkt | Einkauf brutto | Marge Brief |
+Einseitiger Druck, eine Seite ist ein Blatt.
+
+| Seiten | Blätter | Produkt | Einkauf brutto | Rohmarge Brief |
 |---:|---:|---|---:|---:|
-| 1–2 | 1 | Standardbrief | 0,88 € | 1,61 € |
-| 3–4 | 2 | Standardbrief | 0,93 € | 1,56 € |
-| 5–6 | 3 | Standardbrief | 0,98 € | 1,51 € |
-| 7–8 | 4 | Kompaktbrief | 1,23 € | 1,26 € |
+| 1 | 1 | Standardbrief | 0,88 € | 1,61 € |
+| 2 | 2 | Standardbrief | 0,93 € | 1,56 € |
+| 3 | 3 | Standardbrief | 0,98 € | 1,51 € |
+| 4 | 4 | Kompaktbrief | 1,23 € | 1,26 € |
 
 Bis in den Kompaktbrief hinein trägt sich der Preis. Die Absicherung dagegen,
 dass ein sehr langer Brief unter den Einkaufspreis rutscht, sitzt in

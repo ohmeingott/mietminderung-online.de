@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import BrandMark from "./BrandMark";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const navLinks = [
@@ -51,14 +51,7 @@ export default function Header() {
             className="flex shrink-0 items-center gap-2"
             aria-label="Mietminderung-online"
           >
-            <Image
-              src="/logo.png"
-              alt=""
-              width={36}
-              height={36}
-              className="h-9 w-9"
-              priority
-            />
+            <BrandMark className="h-9 w-9" />
             <span className="text-lg font-bold tracking-tight text-ink-900 sm:text-xl">
               Mietminderung
               <span className="text-brand-500">-online</span>
