@@ -79,16 +79,41 @@ export async function fillLandlord(page: Page, landlord = LANDLORD) {
   await page.getByTestId("vermieter-ort").fill(landlord.city);
 }
 
-/** Tenant step → landlord step → defect details step → letter preview. */
+/**
+ * Tenant → landlord → defect details → deadline → letter preview.
+ *
+ * The deadline screen sits between the descriptions and the preview: the
+ * letter no longer demands repair within a flat fourteen days, and the choice
+ * has to be made before the text that quotes it is built.
+ */
 export async function reachPreview(page: Page) {
   await fillTenant(page);
   await page.getByTestId("letter-next").click();
   await fillLandlord(page);
   await page.getByTestId("letter-next").click();
   await page.getByTestId("letter-preview").click();
+  await chooseDeadline(page);
   // The textarea mounts empty and is filled by an effect - wait for content,
   // not just for the element.
   await expect(page.getByTestId("brieftext")).not.toHaveValue("");
+}
+
+/**
+ * The deadline screen. Accepts the preselection unless `tage` is given, and
+ * returns the dd.mm.yyyy date that ends up in the letter.
+ */
+export async function chooseDeadline(page: Page, tage?: 3 | 7 | 14 | 21) {
+  if (tage) await page.getByTestId(`frist-${tage}`).click();
+  const gewaehlt = page.locator('input[name="frist"]:checked');
+  const days = Number(await gewaehlt.inputValue());
+  await page.getByTestId("letter-frist-next").click();
+  const datum = new Date();
+  datum.setDate(datum.getDate() + days);
+  return datum.toLocaleDateString("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 }
 
 /**
