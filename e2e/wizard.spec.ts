@@ -207,6 +207,31 @@ test.describe("The deadline", () => {
     });
     await expect(page.getByTestId("letter-timeline")).toContainText(erwartet);
   });
+
+  test("the timeline icons stay on the rail instead of on the text", async ({ page }) => {
+    await completeCheck(page);
+    await openLetterWizard(page);
+    await reachPreview(page);
+    await page.getByTestId("letter-delivery").click();
+
+    const stationen = page.getByTestId("letter-timeline").locator("li");
+    await expect(stationen).toHaveCount(5);
+
+    for (const [i, station] of (await stationen.all()).entries()) {
+      const abzeichen = await station.locator("span").first().boundingBox();
+      const datum = await station.locator("p").first().boundingBox();
+      expect(abzeichen && datum, "the station renders a badge and a date").toBeTruthy();
+
+      // Geometry, not classes: the badge straddles the rail and the text sits a
+      // full indent further in, so the two boxes must not meet. They did while
+      // the indent lived on the ol — the badge then started an indent's width
+      // inside the list and printed itself over the date.
+      expect(
+        abzeichen!.x + abzeichen!.width,
+        `badge ${i + 1} overlaps its date`
+      ).toBeLessThanOrEqual(datum!.x);
+    }
+  });
 });
 
 test.describe("Descriptions stay with their defect", () => {

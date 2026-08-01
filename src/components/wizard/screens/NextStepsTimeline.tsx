@@ -44,9 +44,15 @@ export default function NextStepsTimeline() {
       <p className="mt-1 text-sm text-ink-500">{t("next.subtitle")}</p>
 
       {/* border-s + ps-*, never border-l: the whole page mirrors in Arabic. */}
-      <ol data-testid="letter-timeline" className="relative mt-5 border-s border-ink-200 ps-8">
+      <ol data-testid="letter-timeline" className="relative mt-5 border-s border-ink-200">
+        {/*
+         * The indent belongs on the li, not the ol: the badge is positioned
+         * against the li's padding box, so ps-8 here is what puts start-0 on
+         * the rail. Indent the ol instead and the badge starts a full 2rem
+         * inside it - straight through the text.
+         */}
         {stationen.map(({ id, Icon, datum }) => (
-          <li key={id} className="relative pb-6 last:pb-0">
+          <li key={id} className="relative ps-8 pb-6 last:pb-0">
             <span
               aria-hidden
               className="absolute start-0 top-0 inline-flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full bg-brand-50 ring-4 ring-paper-raised rtl:translate-x-1/2"
