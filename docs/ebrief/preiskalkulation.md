@@ -147,19 +147,23 @@ Preise ohne Mindestmenge und eine monatliche Grundgebühr von 0,00 €. Die
 Überschrift „ab 250 Sendungen pro Monat" auf der Vertragsanlage beschreibt das
 Geschäftskundensegment, nicht eine Bedingung für den Preis.
 
-**Was `IsTracking` produziert, ist weiterhin unbelegt** — und das ist keine
-Preisfrage mehr, sondern eine Frage der Produktzusage. Der Code setzt
-`IsTracking: "true"` und die Oberfläche verkauft das Ergebnis ausdrücklich als
-**Einwurf-Einschreiben, nicht als Übergabe-Einschreiben mit Unterschrift**.
-Dieselbe Zusage steht in den AGB. Der Katalog nennt das Produkt „eEinschreiben"
-und beschreibt es mit „Sendungsverfolgung und Zustellnachweis"; die englische
-Fassung spricht von einem „eTracked Letter". Beides schließt ein
-Übergabe-Einschreiben nicht sicher aus.
+**Was `IsTracking` produziert, benennt die API selbst: „Einschreiben-Einwurf".**
+Der Vorbehalt an dieser Stelle ist damit weitgehend erledigt. `POST /Prices`
+mit `IsTracking: true` liefert den Aufschlag von 2,75 € netto unter genau
+diesem `Type` — nachgefragt am 31.07.2026 und am 01.08.2026, festgehalten in
+`spike-staging-2026-07-31.txt` und wiederholbar über
+`scripts/einschreiben-produkt.ts`.
 
-Das ist der Punkt, an dem eine falsche Annahme teuer wird: Ein Mieter, der für
-den Zugangsnachweis zahlt, bekommt entweder die dokumentierte Einlieferung
-oder nicht — und die Zusage steht in einem Vertragstext. Die Testsendung an
-PIN AG ist die Gelegenheit, das verbindlich klären zu lassen.
+Der Marketingkatalog ist mehrdeutig — „eEinschreiben" mit
+„Sendungsverfolgung und Zustellnachweis", englisch „eTracked Letter" —, die
+Abrechnungsposition ist es nicht. Die Zusage in Oberfläche und AGB
+(**Einwurf-Einschreiben, nicht Übergabe-Einschreiben mit Unterschrift**)
+deckt sich mit dem, was eBrief in Rechnung stellt.
+
+Was noch fehlt, ist eine schriftliche Bestätigung von PIN AG: Ein
+Artikelname in einer Preisantwort ist ein starker Beleg, aber keine
+vertragliche Zusicherung, und die Aussage steht bei uns in einem
+Vertragstext gegenüber Verbrauchern. Die Anfrage läuft.
 
 **Preisänderungen sind vertraglich zulässig.** Nach A.2.2 des
 Dienstleistungsvertrags darf PIN AG die Preisliste mit vier Wochen Vorlauf
