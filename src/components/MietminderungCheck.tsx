@@ -33,6 +33,11 @@ import {
 import FormCard from "@/components/FormCard";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { katKey, mangelDescKey, mangelLabelKey } from "@/i18n/content";
+import {
+  effektiveQuote,
+  gesamtQuote,
+  wohnflaechenAbweichung,
+} from "@/lib/minderung";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Thermometer,
@@ -76,6 +81,8 @@ export default function MietminderungCheck({
     useState<MangelKategorie | null>(null);
   const [selectedMaengel, setSelectedMaengel] = useState<Mangel[]>([]);
   const [bruttowarmmiete, setBruttowarmmiete] = useState("");
+  const [flaecheVereinbart, setFlaecheVereinbart] = useState("");
+  const [flaecheTatsaechlich, setFlaecheTatsaechlich] = useState("");
   const [isNotEligible, setIsNotEligible] = useState(false);
   const [notEligibleQuestionId, setNotEligibleQuestionId] = useState("");
   const { t, tc } = useTranslation();
@@ -99,28 +106,40 @@ export default function MietminderungCheck({
     [answers, eligibilityStep],
   );
 
+  // Selecting a defect clears the ones it rules out, so mutually exclusive
+  // states (heating fully out vs. partly out) can never stack into the total.
   const toggleMangel = (mangel: Mangel) => {
-    setSelectedMaengel((prev) =>
-      prev.find((m) => m.id === mangel.id)
-        ? prev.filter((m) => m.id !== mangel.id)
-        : [...prev, mangel],
-    );
+    setSelectedMaengel((prev) => {
+      if (prev.find((m) => m.id === mangel.id)) {
+        return prev.filter((m) => m.id !== mangel.id);
+      }
+      const kollidiert = new Set(mangel.excludes ?? []);
+      const bereinigt = prev.filter(
+        (m) => !kollidiert.has(m.id) && !(m.excludes ?? []).includes(mangel.id),
+      );
+      return [...bereinigt, mangel];
+    });
   };
 
   const mangelLabel = (m: Mangel) => tc(mangelLabelKey(m.id), m.label);
   const mangelDesc = (m: Mangel) => tc(mangelDescKey(m.id), m.description);
 
-  const totalMin = Math.min(
-    selectedMaengel.reduce((sum, m) => sum + m.minderung_min, 0),
-    100,
+  const flaecheAbweichung = wohnflaechenAbweichung(
+    parseFloat(flaecheVereinbart),
+    parseFloat(flaecheTatsaechlich),
   );
-  const totalMax = Math.min(
-    selectedMaengel.reduce((sum, m) => sum + m.minderung_max, 0),
-    100,
+  const quotenKontext = { wohnflaecheAbweichung: flaecheAbweichung };
+  const quoteFor = (m: Mangel) => effektiveQuote(m, quotenKontext);
+  const flaecheMangel = selectedMaengel.find(
+    (m) => m.berechnet === "wohnflaeche",
   );
-  const totalTypical = Math.min(
-    selectedMaengel.reduce((sum, m) => sum + m.minderung_typical, 0),
-    100,
+
+  // Courts weigh the overall loss of usability instead of adding quotas up,
+  // so the total stays below the plain sum of the individual figures.
+  const totalMin = gesamtQuote(selectedMaengel.map((m) => quoteFor(m).min));
+  const totalMax = gesamtQuote(selectedMaengel.map((m) => quoteFor(m).max));
+  const totalTypical = gesamtQuote(
+    selectedMaengel.map((m) => quoteFor(m).typical),
   );
   const rent = parseFloat(bruttowarmmiete) || 0;
   const savingsMin = (rent * totalMin) / 100;
@@ -414,6 +433,97 @@ export default function MietminderungCheck({
                     </li>
                   ))}
                 </ul>
+                {selectedMaengel.length > 1 && (
+                  <p className="mt-3 text-xs leading-relaxed text-brand-800">
+                    {t("check.gesamtbetrachtungHint")}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* The floor-area shortfall is not an estimated range: above the
+                10 % threshold the rent drops by exactly the deviation, so we
+                ask for the two areas instead of guessing. */}
+            {flaecheMangel && (
+              <div
+                data-testid="wohnflaeche-panel"
+                className="mt-4 rounded-[var(--radius-field)] border border-ink-200 bg-paper-sunken p-4"
+              >
+                <h4 className="font-semibold text-ink-800">
+                  {t("check.flaecheTitle")}
+                </h4>
+                <p className="mt-1 text-sm text-ink-600">
+                  {t("check.flaecheDesc")}
+                </p>
+                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <div>
+                    <label
+                      htmlFor="flaeche-vereinbart"
+                      className="block text-sm font-medium text-ink-700"
+                    >
+                      {t("check.flaecheVereinbart")}
+                    </label>
+                    <input
+                      id="flaeche-vereinbart"
+                      data-testid="flaeche-vereinbart"
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step="0.01"
+                      value={flaecheVereinbart}
+                      onChange={(e) => setFlaecheVereinbart(e.target.value)}
+                      className="mt-1.5 h-12 w-full rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 font-semibold text-ink-900 tabular-nums focus:border-brand-500 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="flaeche-tatsaechlich"
+                      className="block text-sm font-medium text-ink-700"
+                    >
+                      {t("check.flaecheTatsaechlich")}
+                    </label>
+                    <input
+                      id="flaeche-tatsaechlich"
+                      data-testid="flaeche-tatsaechlich"
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step="0.01"
+                      value={flaecheTatsaechlich}
+                      onChange={(e) => setFlaecheTatsaechlich(e.target.value)}
+                      className="mt-1.5 h-12 w-full rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 font-semibold text-ink-900 tabular-nums focus:border-brand-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+                {flaecheAbweichung !== null && (
+                  <p
+                    data-testid="flaeche-ergebnis"
+                    className={`mt-3 text-sm font-medium ${
+                      quoteFor(flaecheMangel).typical > 0
+                        ? "text-brand-800"
+                        : "text-ink-600"
+                    }`}
+                  >
+                    {quoteFor(flaecheMangel).typical > 0
+                      ? t("check.flaecheMangel")
+                          .replace(
+                            "{abweichung}",
+                            flaecheAbweichung.toFixed(1).replace(".", ","),
+                          )
+                          .replace(
+                            "{quote}",
+                            quoteFor(flaecheMangel)
+                              .typical.toString()
+                              .replace(".", ","),
+                          )
+                      : t("check.flaecheKeinMangel").replace(
+                          "{abweichung}",
+                          Math.max(flaecheAbweichung, 0)
+                            .toFixed(1)
+                            .replace(".", ","),
+                        )}
+                  </p>
+                )}
               </div>
             )}
 
@@ -546,6 +656,11 @@ export default function MietminderungCheck({
                 <p className="mt-1 text-xs text-brand-500 tabular-nums">
                   ({t("check.range")}: {totalMin}–{totalMax}%)
                 </p>
+                {selectedMaengel.length > 1 && (
+                  <p className="mt-2 text-xs leading-relaxed text-brand-600">
+                    {t("check.gesamtbetrachtungHint")}
+                  </p>
+                )}
               </div>
               <div className="rounded-[var(--radius-field)] border border-signal-600/20 bg-signal-50 p-5 text-center">
                 <p className="text-sm font-medium text-signal-700">
@@ -585,7 +700,7 @@ export default function MietminderungCheck({
                       {mangelLabel(m)}
                     </span>
                     <span className="shrink-0 text-sm font-semibold tabular-nums text-brand-700">
-                      ca. {m.minderung_typical}%
+                      ca. {quoteFor(m).typical}%
                     </span>
                   </li>
                 ))}

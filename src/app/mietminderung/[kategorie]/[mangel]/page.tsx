@@ -41,7 +41,9 @@ function buildFaqs(entry: MangelEntry) {
   return [
     {
       question: `Wie viel Mietminderung ist bei „${mangel.label}“ möglich?`,
-      answer: `Gerichte haben bei diesem Mangel Minderungsquoten zwischen ${mangel.minderung_min} und ${mangel.minderung_max} Prozent der Bruttowarmmiete anerkannt; ein häufig angesetzter Wert liegt bei etwa ${mangel.minderung_typical} Prozent. Das sind Orientierungswerte aus Einzelfällen, keine festen Größen. Die konkrete Höhe hängt von Dauer, Intensität und Ausmaß der Beeinträchtigung ab.`,
+      answer: mangel.berechnet === "wohnflaeche"
+        ? `Hier gibt es keine Spanne: Überschreitet die Abweichung 10 Prozent, mindert sich die Miete nach der Rechtsprechung des BGH genau um den Prozentsatz der fehlenden Fläche. Bei 12 Prozent Abweichung sind es also 12 Prozent Minderung. Bis einschließlich 10 Prozent liegt kein Mangel vor und die Minderung beträgt 0 Prozent.`
+        : `Veröffentlichte Mietminderungstabellen nennen für diesen Mangel Quoten zwischen ${mangel.minderung_min} und ${mangel.minderung_max} Prozent der Bruttowarmmiete; ein häufig angesetzter Wert liegt bei etwa ${mangel.minderung_typical} Prozent. Das sind Orientierungswerte aus Einzelfallentscheidungen, keine festen Größen, und kein Gericht ist daran gebunden. Die konkrete Höhe hängt von Dauer, Intensität und Ausmaß der Beeinträchtigung ab.`,
     },
     {
       question: `Ab wann kann ich wegen ${mangel.label.toLowerCase()} die Miete mindern?`,
@@ -85,7 +87,7 @@ export async function generateMetadata({
   // and the full description (~166 chars worst case).
   return buildMetadata({
     title: `Mietminderung bei ${m.label}: ${m.minderung_min}–${m.minderung_max} %`,
-    description: `Wie viel Mietminderung bei ${m.label}? ${m.minderung_min}–${m.minderung_max} % der Bruttowarmmiete sind anerkannt, typisch ${m.minderung_typical} %. Mit Rechner und Muster-Mängelanzeige.`,
+    description: `Wie viel Mietminderung bei ${m.label}? Orientierungswerte aus der Rechtsprechung: ${m.minderung_min}–${m.minderung_max} % der Bruttowarmmiete, typisch ${m.minderung_typical} %. Mit Rechner und Muster-Mängelanzeige.`,
     path: entry.path,
     keywords: [...seo.keywords, "Mietminderung", "Mietminderungstabelle"],
     type: "article",
@@ -202,16 +204,31 @@ export default async function MangelPage({ params }: { params: Params }) {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
                   Wie viel Mietminderung ist bei {mangel.label} möglich?
                 </h2>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Bei {mangel.label.toLowerCase()} bewegen sich die von Gerichten
-                  anerkannten Minderungsquoten zwischen{" "}
-                  <strong>{mangel.minderung_min} %</strong> und{" "}
-                  <strong>{mangel.minderung_max} %</strong> der Bruttowarmmiete.
-                  Als Ausgangswert wird häufig etwa{" "}
-                  <strong>{mangel.minderung_typical} %</strong> angesetzt.
-                  Berechnungsgrundlage ist stets die Bruttowarmmiete, also
-                  Kaltmiete zuzüglich aller Nebenkostenvorauszahlungen.
-                </p>
+                {mangel.berechnet === "wohnflaeche" ? (
+                  <p className="text-gray-700 leading-relaxed mb-6">
+                    Hier gibt es keine Spanne. Überschreitet die Abweichung
+                    10 %, mindert sich die Miete nach gefestigter
+                    BGH-Rechtsprechung <strong>genau um den Prozentsatz der
+                    fehlenden Fläche</strong> — bei 12 % Abweichung also um
+                    12 %, und nicht etwa nur um die 2 % oberhalb der Schwelle.
+                    Bis einschließlich 10 % liegt kein Mangel vor.
+                    Berechnungsgrundlage ist stets die Bruttowarmmiete, also
+                    Kaltmiete zuzüglich aller Nebenkostenvorauszahlungen.
+                  </p>
+                ) : (
+                  <p className="text-gray-700 leading-relaxed mb-6">
+                    Bei {mangel.label.toLowerCase()} nennen veröffentlichte
+                    Mietminderungstabellen Quoten zwischen{" "}
+                    <strong>{mangel.minderung_min} %</strong> und{" "}
+                    <strong>{mangel.minderung_max} %</strong> der
+                    Bruttowarmmiete. Als Ausgangswert wird häufig etwa{" "}
+                    <strong>{mangel.minderung_typical} %</strong> angesetzt.
+                    Das sind Orientierungswerte aus Einzelfallentscheidungen;
+                    kein Gericht ist daran gebunden. Berechnungsgrundlage ist
+                    stets die Bruttowarmmiete, also Kaltmiete zuzüglich aller
+                    Nebenkostenvorauszahlungen.
+                  </p>
+                )}
 
                 <div className="overflow-x-auto rounded-xl border border-gray-200">
                   <table className="w-full text-sm">

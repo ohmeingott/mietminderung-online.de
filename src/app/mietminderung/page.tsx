@@ -32,7 +32,7 @@ const faqs = [
   {
     question: "Was ist, wenn mehrere Mängel gleichzeitig vorliegen?",
     answer:
-      "Die Minderungsquoten werden grundsätzlich addiert, insgesamt jedoch auf maximal 100 Prozent begrenzt. Betreffen mehrere Mängel dieselbe Beeinträchtigung, nehmen Gerichte statt einer Addition eine Gesamtbetrachtung vor.",
+      "Gerichte addieren die Einzelquoten nicht, sondern bewerten in einer Gesamtbetrachtung, wie stark die Wohnung insgesamt in ihrer Tauglichkeit beeinträchtigt ist. Die Summe der Tabellenwerte ist deshalb nur eine grobe Obergrenze; die zuerkannte Gesamtquote liegt regelmäßig darunter und kann 100 Prozent nie überschreiten.",
   },
   {
     question: "Sind die angegebenen Prozentwerte verbindlich?",

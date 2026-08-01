@@ -3,7 +3,9 @@
 **Stand:** 01.08.2026
 **Prüfgegenstand:** `src/data/maengel.ts` (58 Mängel), Berechnungslogik in `src/components/MietminderungCheck.tsx`, Rechtsaussagen in `src/data/ratgeber.ts`, `src/data/seoContent.ts`, `src/app/mietminderungstabelle/page.tsx`
 **Methode:** Sechs parallele Rechercheläufe gegen die veröffentlichte deutsche Rechtsprechung
-**Status:** Prüfbericht. **Es wurden keine Daten- oder Codeänderungen vorgenommen.**
+**Status:** Umgesetzt. Die Befunde dieses Berichts sind in Daten, Rechner und Texte eingeflossen — siehe Abschnitt 8.
+
+> **Offener Punkt für die Abnahme:** Die Zahlenempfehlungen konnten nicht an Urteilsvolltexten verifiziert werden (Abschnitt 0). Sie sind umgesetzt, weil so entschieden wurde, stehen aber weiterhin unter anwaltlichem Prüfvorbehalt. Dieser Bericht ist die Prüfliste dafür.
 
 ---
 
@@ -422,3 +424,51 @@ Im gesamten Repository steht **genau ein** Aktenzeichen, an vier Stellen: BGH, 0
 **Erkennbares Muster:** Zu hohe Werte häufen sich bei **Neben- und Gemeinschaftsflächen** (Keller, Baugerüst, Treppenhaus, Kabel, Wohnungstür), zu niedrige durchgängig bei **Ungeziefer**. Beides deutet auf dieselbe Ursache hin: Gängige Mietminderungstabellen listen Kombinationsfälle (Gerüst + Lärm, Küche + WC) als Einzelpositionen und decken bei Ungeziefer nur leichte Fälle ab.
 
 **Zur Altersstruktur der Belege:** Der zitierbare Kanon stammt ganz überwiegend aus 1975–2005. Das ist kein Rechercheversäumnis, sondern strukturell — Bagatellmängel werden selten ausgeurteilt. Bemerkenswert ist aber, dass die wenigen auffindbaren Entscheidungen ab 2020 durchweg am unteren Rand oder in der Mitte der Tabellenwerte liegen. Ein Trend zu höheren Quoten ist nicht erkennbar.
+
+---
+
+## 8. Umsetzungsstand
+
+Alle Befunde dieses Berichts sind umgesetzt. Was konkret geändert wurde:
+
+### Rechner (`MietminderungCheck.tsx`, `src/lib/minderung.ts`)
+
+- **Keine Addition mehr.** Die neue Funktion `gesamtQuote` bildet die Gesamtbetrachtung ab: Der höchste Einzelwert zählt voll, jeder weitere zur Hälfte. Weiterhin bei 100 % gedeckelt.
+- **Ausschlussgruppen.** `Mangel.excludes` verhindert, dass sich logisch ausschließende Mängel gleichzeitig auswählen lassen. Gesetzt für: Heizung total/teilweise/unzureichend, Schimmel leicht/stark, Ratten Wohnung/Umfeld, Toilette einzige/Zweit-WC, Dusche einzige/mit Badewanne, Asbest beschädigt/gebunden, Aufzug normal/hohes Stockwerk, Küche komplett gegen die Einzelgeräte, Baulärm eigenes Haus/Nachbargrundstück, undichtes gegen nicht schließbares Fenster.
+- **Wohnfläche wird gerechnet, nicht geschätzt.** Wird der Eintrag gewählt, erscheinen zwei m²-Felder. Bis einschließlich 10 % Abweichung gibt der Rechner **0 %** aus, darüber exakt die Abweichung (`wohnflaechenQuote`).
+- **Hinweis auf die Gesamtbetrachtung** erscheint ab zwei ausgewählten Mängeln, in der Auswahl und im Ergebnis.
+
+### Eignungsfragen (`maengel.ts`)
+
+- `mangel_bekannt` knüpft jetzt an **Vertragsschluss/Übernahme** statt an „Einzug“, nennt § 536b Satz 1–3 und hat eine neue Option für **arglistiges Verschweigen**. „Ja, ohne Vorbehalt“ bricht den Funnel nicht mehr ab (`eligible: null`), weil § 536b nur diesen einen Mangel sperrt.
+- `erheblich` → „gering“ bricht ebenfalls nicht mehr ab: Mehrere Bagatellmängel können die Schwelle zusammen überschreiten, und zum Zeitpunkt der Frage ist noch kein Mangel gewählt.
+- `angezeigt` sagt jetzt korrekt, dass die Minderung kraft Gesetzes eintritt und die Anzeige der Durchsetzung dient.
+
+### Quoten und Beschreibungen (`maengel.ts`)
+
+Alle Quoten aus Abschnitt 3 sind übernommen. Fünf Einträge wurden aufgeteilt, mit je eigener SEO-Seite:
+
+| Neu | Quote |
+|---|---|
+| `baulaerm_nachbar` — Baulärm vom Nachbargrundstück | 0/20/5 |
+| `ratten_umfeld` — Ratten in Keller, Hof oder Garten | 2/20/10 |
+| `toilette_zweit_wc` — Toilette defekt, zweites WC vorhanden | 3/10/5 |
+| `dusche_einzige` — einzige Dusch-/Bademöglichkeit ausgefallen | 15/35/25 |
+| `asbest_gebunden` — Asbest fest gebunden und unbeschädigt | 0/10/5 |
+
+Die vier sachlich falschen Beschreibungen sind korrigiert (`heizung_total`, `warmwasser_vorlauf`, `asbest`, `hitze_dach`), ebenso die fehlenden Voraussetzungen (Küchengeräte mitvermietet, innenliegendes Bad, Stellplatz-Vertragsstruktur, § 536b beim Keller, BGH-Wärmebrücken beim Schimmel).
+
+### Rechtstexte
+
+- **Kündigungsschwelle** an allen Fundstellen auf § 543 Abs. 2 Satz 1 Nr. 3 Buchst. a i. V. m. § 569 Abs. 3 Nr. 1 BGB korrigiert (eine Monatsmiete an zwei Terminen).
+- **Schonfristzahlung** neu aufgenommen, samt der Einschränkung auf die fristlose Kündigung.
+- **6-Monats-Verwirkung** an allen sieben Fundstellen entfernt bzw. auf § 242 BGB mit Zeit- und Umstandsmoment umgestellt.
+- **„1 % der Jahresmiete“** als Erheblichkeitsmaßstab gestrichen.
+- **Rückforderung** um §§ 812, 814 BGB ergänzt; „meistens nicht“ korrigiert.
+- **Bemessungsgrundlage** nennt jetzt VIII ZR 347/04 für Wohnraum, XII ZR 225/03 nur noch ergänzend.
+- **Wohnflächen-Passage** korrigiert, inklusive der Abgrenzung zur aufgegebenen 10-%-Regel bei Mieterhöhungen.
+- **„Gerichte haben anerkannt“** auf den 63 Detailseiten zu „veröffentlichte Mietminderungstabellen nennen … Orientierungswerte, kein Gericht ist daran gebunden“ abgeschwächt. Für die Wohnfläche erscheint stattdessen die Rechenregel.
+
+### Bekannte Lücke
+
+Die **lokalisierten Mangel-Beschreibungen** in en, tr, uk, ru, ar und pl wurden nur dort nachgezogen, wo sich die deutsche Aussage rechtlich materiell geändert hat (12 Einträge, alle geänderten FAQ-Antworten, alle Eignungsfragen). Die übrigen Beschreibungen sind noch die alten Übersetzungen und geben die neuen Vorbehalte nicht wieder. Ein vollständiger Übersetzungsdurchlauf über `src/i18n/content/*.ts` steht aus.

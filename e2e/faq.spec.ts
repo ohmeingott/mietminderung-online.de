@@ -68,7 +68,7 @@ test.describe("FAQ", () => {
 
     const faqPage = nodes.find((node) => node["@type"] === "FAQPage");
     expect(faqPage, "no FAQPage node in the structured data").toBeTruthy();
-    expect(faqPage.mainEntity.length).toBe(12);
+    expect(faqPage.mainEntity.length).toBe(13);
     expect(faqPage.mainEntity[0].name).toBe("Was ist eine Mietminderung?");
 
     // The breadcrumb trail main added must survive too.

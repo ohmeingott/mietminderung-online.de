@@ -29,7 +29,7 @@ const faqs = [
   {
     question: "Von welcher Miete wird die Minderung berechnet?",
     answer:
-      "Von der Bruttowarmmiete, also der Nettokaltmiete zuzüglich aller Betriebs- und Heizkostenvorauszahlungen. Der Bundesgerichtshof hat das mit Urteil vom 6. April 2005 (Az. XII ZR 225/03) entschieden. Wer von der Kaltmiete rechnet, mindert deutlich weniger, als ihm zusteht.",
+      "Von der Bruttowarmmiete, also der Nettokaltmiete zuzüglich aller Betriebs- und Heizkostenvorauszahlungen. Für die Wohnraummiete hat der Bundesgerichtshof das mit Urteil vom 20. Juli 2005 entschieden (Az. VIII ZR 347/04). Wer von der Kaltmiete rechnet, mindert deutlich weniger, als ihm zusteht.",
   },
   {
     question: "Sind die Prozentwerte in der Tabelle verbindlich?",
@@ -39,18 +39,18 @@ const faqs = [
   {
     question: "Was muss ich tun, bevor ich die Tabelle anwende?",
     answer:
-      "Zeigen Sie den Mangel unverzüglich schriftlich beim Vermieter an (§ 536c BGB) und setzen Sie eine konkret datierte Frist zur Beseitigung. Ohne Mängelanzeige besteht in der Regel kein durchsetzbarer Minderungsanspruch.",
+      "Zeigen Sie den Mangel unverzüglich schriftlich beim Vermieter an (§ 536c BGB) und setzen Sie eine konkret datierte Frist zur Beseitigung. Die Minderung entsteht zwar kraft Gesetzes auch ohne Anzeige; ohne sie verlieren Sie das Recht aber insoweit, als der Vermieter gerade deshalb nicht abhelfen konnte, und Sie stehen im Streitfall ohne Nachweis da.",
   },
   {
     question: "Was passiert, wenn ich zu viel mindere?",
     answer:
-      "Entsteht ein Zahlungsrückstand von zwei Monatsmieten, kann der Vermieter das Mietverhältnis fristlos kündigen (§ 543 Abs. 2 Nr. 3 BGB). Sicherer ist es, die volle Miete zunächst unter Vorbehalt zu zahlen und den zu viel gezahlten Betrag später zurückzufordern.",
+      "Das Risiko beginnt früher als oft angenommen: Schon ein Rückstand von mehr als einer Monatsmiete an zwei aufeinanderfolgenden Terminen berechtigt zur fristlosen Kündigung (§ 543 Abs. 2 Satz 1 Nr. 3 Buchst. a i. V. m. § 569 Abs. 3 Nr. 1 BGB). Eine spätere Nachzahlung heilt nur die fristlose, nicht die hilfsweise erklärte ordentliche Kündigung. Sicherer ist es, die volle Miete zunächst unter Vorbehalt zu zahlen und den zu viel gezahlten Betrag später zurückzufordern.",
   },
 ];
 
 export const metadata: Metadata = buildMetadata({
   title: `Mietminderungstabelle 2026: ${alleMaengel.length} Mängel mit Prozentsätzen`,
-  description: `Die vollständige Mietminderungstabelle: ${alleMaengel.length} Wohnungsmängel mit den von Gerichten anerkannten Minderungsquoten, von Schimmel über Heizungsausfall bis Lärm.`,
+  description: `Die vollständige Mietminderungstabelle: ${alleMaengel.length} Wohnungsmängel mit Minderungsquoten aus der Rechtsprechung, von Schimmel über Heizungsausfall bis Lärm.`,
   path: "/mietminderungstabelle",
   keywords: [
     "Mietminderungstabelle",
@@ -105,8 +105,8 @@ export default function MietminderungstabellePage() {
               Mietminderungstabelle 2026
             </h1>
             <p className="mt-5 text-lg text-blue-100 max-w-3xl leading-relaxed">
-              {alleMaengel.length} Wohnungsmängel mit den von deutschen
-              Gerichten anerkannten Minderungsquoten, sortiert nach{" "}
+              {alleMaengel.length} Wohnungsmängel mit den aus deutschen
+              Gerichtsentscheidungen abgeleiteten Minderungsquoten, sortiert nach{" "}
               {kategorieIndex.length} Kategorien. Alle Prozentangaben beziehen
               sich auf die Bruttowarmmiete.
             </p>

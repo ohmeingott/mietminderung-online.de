@@ -175,7 +175,7 @@ export const kategorieSeo: Record<string, KategorieSeo> = {
     intro:
       "Steht im Mietvertrag mehr Fläche, als die Wohnung tatsächlich hat, zahlen Sie Monat für Monat für Quadratmeter, die es gar nicht gibt. Immerhin: Kaum ein anderer Mangel lässt sich so exakt beziffern. Hier wird schlicht nachgemessen und umgerechnet.",
     rechtliches:
-      "Der BGH zieht die Grenze in ständiger Rechtsprechung bei zehn Prozent. Fehlt mehr, liegt ein erheblicher Mangel vor, und die Miete mindert sich im Verhältnis der Abweichung. Fehlt weniger, müssen Sie konkret darlegen, wie Sie die kleinere Fläche im Alltag beeinträchtigt.",
+      "Bei der Wohnfläche zieht der BGH die Grenze in ständiger Rechtsprechung bei zehn Prozent. Weicht die tatsächliche Fläche um mehr als zehn Prozent nach unten ab, liegt ein erheblicher Mangel vor, und die Miete mindert sich genau im Verhältnis der Abweichung; auf eine konkrete Nutzungseinschränkung kommt es dann nicht mehr an. Bleibt die Abweichung bei zehn Prozent oder darunter, gilt sie als unerhebliche Beeinträchtigung nach § 536 Abs. 1 Satz 3 BGB, und eine Minderung scheidet aus. Nicht verwechseln: Für Mieterhöhungen hat der BGH die Zehn-Prozent-Regel 2015 aufgegeben, für die Minderung gilt sie unverändert fort.",
   },
   balkon_aussen: {
     slug: "balkon-terrasse-garten",
@@ -232,10 +232,10 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Heizung fällt aus wie viel Prozent",
     ],
     intro:
-      "Es gibt kaum einen schwereren Mangel als eine Heizung, die mitten im Winter komplett ausfällt. Bei Raumtemperaturen unter 18 °C lässt sich in einer Wohnung schlicht nicht mehr leben. Gerichte haben dafür schon die volle Minderung zugesprochen, also 100 Prozent.",
+      "Es gibt kaum einen schwereren Mangel als eine Heizung, die mitten im Winter komplett ausfällt. Geschuldet sind tagsüber 20 bis 22 °C in Wohnräumen; sackt die Wohnung deutlich darunter, lässt sich dort nicht mehr vernünftig leben. Gerichte haben in Extremfällen die volle Minderung zugesprochen, also 100 Prozent. Der Regelfall liegt allerdings darunter, und die Quote hängt stark vom Monat ab: Im Dezember wiegt derselbe Ausfall deutlich schwerer als im April.",
     symptome: [
       "Alle Heizkörper bleiben kalt, auch nach vollständigem Aufdrehen",
-      "Raumtemperatur unter 18 °C zwischen Oktober und April",
+      "Raumtemperatur sackt tagsüber deutlich unter 18 °C, teils unter 15 °C",
       "Kein Warmwasser, wenn Heizung und Warmwasser über dieselbe Anlage laufen",
       "Feuchte, beschlagene Fenster und beginnende Schimmelbildung an Außenwänden",
     ],
@@ -559,6 +559,32 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Beim Lärm steht und fällt alles mit dem Protokoll. „Es war ständig laut“ überzeugt kein Gericht; tägliche Einträge mit Uhrzeiten über Wochen hinweg schon. Machen Sie das Protokoll deshalb zur festen Routine, auch wenn es lästig ist.",
     fristTage: 14,
   },
+  baulaerm_nachbar: {
+    slug: "baulaerm-nachbargrundstueck",
+    keywords: [
+      "Mietminderung Baulärm Nachbargrundstück",
+      "Baustelle nebenan Miete mindern",
+      "Nachbarbaustelle Mietminderung",
+      "Baulärm von nebenan kein Mangel",
+    ],
+    intro:
+      "Hier lohnt sich ein nüchterner Blick, bevor Sie mindern. Lärm von einer Baustelle auf einem fremden Grundstück ist nach der Rechtsprechung des Bundesgerichtshofs im Regelfall kein Mangel Ihrer Wohnung. Der Grund ist einfach: Ihr Vermieter kann gegen die Baustelle nebenan nichts ausrichten und muss sie meist selbst entschädigungslos hinnehmen.",
+    symptome: [
+      "Bagger, Presslufthammer oder Kreissäge auf einem Grundstück, das nicht zum Mietobjekt gehört",
+      "Staub und Erschütterungen, die von außen in die Wohnung dringen",
+      "Arbeiten überwiegend werktags innerhalb der zulässigen Zeiten",
+      "Der Vermieter hat mit der Baustelle nichts zu tun und keinen Einfluss darauf",
+    ],
+    dokumentation: [
+      "Prüfen Sie zuerst den Mietvertrag: Wurde eine ruhige Lage oder Ähnliches ausdrücklich zugesagt?",
+      "Bauschild fotografieren, um Bauherr und Bauzeitraum festzuhalten",
+      "Lärmprotokoll mit Art, ungefährer Zeit, Dauer und Häufigkeit führen",
+      "Klären, ob die Arbeiten die zulässigen Immissionsrichtwerte oder Bauzeiten überschreiten",
+    ],
+    hinweis:
+      "Mindern Sie hier nicht vorschnell. Ohne eine Beschaffenheitsvereinbarung im Mietvertrag oder eine wesentliche Überschreitung im Sinne des § 906 BGB steht Ihnen in aller Regel nichts zu, und eine zu Unrecht einbehaltene Miete führt geradewegs in den Zahlungsverzug. Zahlen Sie im Zweifel unter Vorbehalt und lassen Sie die Frage klären.",
+    fristTage: 14,
+  },
   strassenlaerm: {
     slug: "strassenlaerm",
     keywords: [
@@ -695,9 +721,9 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Rattenbefall Miete mindern",
     ],
     intro:
-      "Ratten im Haus sind mehr als ein Ekelthema. Die Tiere übertragen Krankheiten und nagen sich durch Leitungen und Bausubstanz. Ein nachgewiesener Befall in Wohnung, Keller oder Hof ist ein schwerer Mangel, und das Gesundheitsamt gehört von Anfang an mit an den Tisch.",
+      "Ratten in der Wohnung sind mehr als ein Ekelthema. Die Tiere übertragen Krankheiten und nagen sich durch Leitungen und Bausubstanz. Dringen sie bis in die Wohnräume vor, ist das einer der schwersten Mängel überhaupt, und das Gesundheitsamt gehört von Anfang an mit an den Tisch.",
     symptome: [
-      "Sichtungen im Keller, Hof, Müllbereich oder in der Wohnung",
+      "Sichtungen in Wohnräumen, Küche oder Bad",
       "Kotspuren von etwa ein bis zwei Zentimetern Länge",
       "Nagespuren an Verpackungen, Kabeln oder Holz",
       "Nachts hörbares Rascheln und Trippeln in Wänden oder Decken",
@@ -711,6 +737,33 @@ export const mangelSeo: Record<string, MangelSeo> = {
     hinweis:
       "In den meisten Bundesländern müssen Ratten ohnehin gemeldet werden. Nutzen Sie das: Die Meldung beim Gesundheitsamt kostet nichts und verschafft Ihnen eine amtliche Bestätigung des Befalls. Ein besseres Beweismittel werden Sie nicht bekommen.",
     fristTage: 3,
+    dringend: true,
+  },
+  ratten_umfeld: {
+    slug: "ratten-keller-hof-garten",
+    keywords: [
+      "Mietminderung Ratten Hof",
+      "Ratten Mülltonnen Mietminderung",
+      "Ratten im Keller Miete mindern",
+      "Ratten Garten Mietminderung",
+    ],
+    intro:
+      "Ratten an den Mülltonnen oder im Hinterhof sind ein echter Mangel, werden von Gerichten aber deutlich niedriger bewertet als Tiere in der Wohnung selbst. Die Spanne ist groß: Sie reicht von wenigen Prozent für Sichtungen am Müllplatz bis zu rund 20 Prozent, wenn Keller und Garten dauerhaft betroffen sind.",
+    symptome: [
+      "Sichtungen an Mülltonnen, im Hinterhof, Garten oder Keller",
+      "Kotspuren und Laufwege entlang von Mauern und Fundamenten",
+      "Aufgerissene Müllsäcke und Nagespuren an Tonnen",
+      "Erdlöcher und Baue im Garten oder unter Gehwegplatten",
+    ],
+    dokumentation: [
+      "Fundorte fotografieren und auf einer Skizze des Grundstücks markieren",
+      "Datum und Uhrzeit jeder Sichtung notieren",
+      "Meldung beim Gesundheitsamt vornehmen und die Bestätigung aufbewahren",
+      "Festhalten, ob und wie lange der Keller dadurch nicht nutzbar ist",
+    ],
+    hinweis:
+      "Halten Sie sauber auseinander, wo die Tiere auftreten. Solange sie draußen bleiben, bewegt sich die Minderung im niedrigen einstelligen bis mittleren Bereich. Sobald Ratten in die Wohnung gelangen, gilt ein völlig anderer Maßstab, und Sie sollten den Mangel entsprechend anders anzeigen.",
+    fristTage: 7,
     dringend: true,
   },
   maeuse: {
@@ -972,6 +1025,31 @@ export const mangelSeo: Record<string, MangelSeo> = {
     fristTage: 1,
     dringend: true,
   },
+  toilette_zweit_wc: {
+    slug: "toilette-defekt-zweites-wc",
+    keywords: [
+      "Mietminderung Toilette defekt zweites WC",
+      "Gäste-WC defekt Mietminderung",
+      "eine von zwei Toiletten kaputt",
+    ],
+    intro:
+      "Ist eine Toilette defekt, steht aber eine zweite, problemlos nutzbare zur Verfügung, fällt die Minderung deutlich niedriger aus. Gerichte haben hier Größenordnungen um die fünf Prozent zugesprochen. Der Grund liegt auf der Hand: Die Grundversorgung der Wohnung ist weiter sichergestellt.",
+    symptome: [
+      "Eines von zwei WCs ist verstopft, undicht oder gebrochen",
+      "Gäste-WC oder zweites Bad ist nicht benutzbar",
+      "Die verbleibende Toilette funktioniert einwandfrei",
+      "Längere Wege oder Wartezeiten im Alltag, aber keine Notlage",
+    ],
+    dokumentation: [
+      "Defekt fotografieren und den Fundort im Grundriss festhalten",
+      "Ausdrücklich dokumentieren, dass ein zweites WC vorhanden und nutzbar ist",
+      "Datum der Meldung an den Vermieter festhalten",
+      "Notieren, seit wann der Defekt besteht",
+    ],
+    hinweis:
+      "Setzen Sie die Quote hier bewusst niedrig an. Wer den Wert für die einzige Toilette ansetzt, obwohl ein zweites WC vorhanden ist, mindert um ein Vielfaches zu viel und riskiert den Zahlungsverzug. Die Frist darf trotzdem kurz sein, ein defektes WC bleibt ein Sanitärmangel.",
+    fristTage: 7,
+  },
   dusche_defekt: {
     slug: "dusche-defekt",
     keywords: [
@@ -996,6 +1074,33 @@ export const mangelSeo: Record<string, MangelSeo> = {
     hinweis:
       "Bei einer undichten Dusche läuft die Zeit gegen Sie: Das Wasser arbeitet sich in den Estrich und im Zweifel bis zum Nachbarn durch. Melden Sie den Schaden deshalb sofort und schriftlich. Wer zu lange wartet, verletzt seine Anzeigepflicht aus § 536c BGB und kann am Ende selbst auf Schadensersatz haften.",
     fristTage: 7,
+    dringend: true,
+  },
+  dusche_einzige: {
+    slug: "einzige-duschmoeglichkeit-ausgefallen",
+    keywords: [
+      "Mietminderung keine Duschmöglichkeit",
+      "Bad nicht nutzbar Mietminderung",
+      "einzige Dusche kaputt Miete mindern",
+      "nicht waschen können Mietminderung",
+    ],
+    intro:
+      "Wenn die Wohnung überhaupt keine Wasch- oder Bademöglichkeit mehr hat, ist das ein anderer Fall als eine defekte Dusche neben einer intakten Badewanne. Gerichte haben dafür Minderungen bis in den Bereich eines Drittels der Miete zugesprochen, weil eine Grundfunktion der Wohnung schlicht fehlt.",
+    symptome: [
+      "Weder Dusche noch Badewanne sind nutzbar",
+      "Kein warmes Wasser an der einzigen Waschstelle",
+      "Bad wegen Sanierung oder Wasserschaden komplett gesperrt",
+      "Ausweichen auf Fitnessstudio, Nachbarn oder Verwandte nötig",
+    ],
+    dokumentation: [
+      "Fotos des gesamten Bades, die zeigen, dass keine Alternative existiert",
+      "Grundriss beilegen, aus dem hervorgeht, dass es nur ein Bad gibt",
+      "Belege für Ausweichlösungen sammeln, etwa Tageskarten oder Fahrtkosten",
+      "Beginn der Sperrung und jede Zusage des Vermieters mit Datum festhalten",
+    ],
+    hinweis:
+      "Schreiben Sie ausdrücklich in die Mängelanzeige, dass es in der Wohnung keine zweite Waschmöglichkeit gibt. Genau dieser Satz entscheidet über die Größenordnung der Quote. Kosten für zumutbare Ausweichlösungen können Sie zusätzlich nach § 536a BGB als Schaden geltend machen.",
+    fristTage: 3,
     dringend: true,
   },
   wasserdruck_niedrig: {
@@ -1343,7 +1448,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Wohnung kleiner als im Mietvertrag",
     ],
     intro:
-      "Steht im Vertrag 80 Quadratmeter und das Aufmaß ergibt 70, liegt die Abweichung über der Zehn-Prozent-Grenze des BGH, und damit ist die Sache klar: Es ist ein erheblicher Mangel. Die Miete mindert sich im Verhältnis der fehlenden Fläche, und zwar rückwirkend ab dem ersten Mietmonat.",
+      "Steht im Vertrag 80 Quadratmeter und das Aufmaß ergibt 70, fehlen 12,5 Prozent. Damit ist die Zehn-Prozent-Grenze des BGH überschritten und die Sache klar: ein erheblicher Mangel. Die Minderung entspricht dann exakt dem Prozentsatz der Abweichung, hier also 12,5 Prozent, und nicht etwa nur den 2,5 Prozent oberhalb der Schwelle. Sie gilt rückwirkend ab dem ersten Mietmonat.",
     symptome: [
       "Nachmessen ergibt deutlich weniger Fläche als im Mietvertrag angegeben",
       "Dachschrägen wurden voll statt anteilig gerechnet",
@@ -1357,7 +1462,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Bei größeren Abweichungen ein Aufmaß durch einen Sachverständigen erstellen lassen",
     ],
     hinweis:
-      "Die Wohnflächenabweichung ist einer der ganz wenigen Fälle, in denen Sie rückwirkend Geld zurückholen können, im Rahmen der dreijährigen Verjährung. Rechnen Sie ruhig einmal nach: Bei 15 Prozent Abweichung kommen über drei Jahre schnell mehrere tausend Euro zusammen.",
+      "Die Wohnflächenabweichung ist einer der ganz wenigen Fälle, in denen Sie rückwirkend Geld zurückholen können, im Rahmen der dreijährigen Verjährung. Rechnen Sie ruhig einmal nach: Bei 15 Prozent Abweichung kommen über drei Jahre schnell mehrere tausend Euro zusammen. Zwei Einschränkungen sollten Sie kennen: Ist die Flächenangabe im Vertrag ausdrücklich als unverbindlich gekennzeichnet, scheidet die Minderung aus. Ein bloßer Zusatz „ca.“ genügt dafür allerdings nicht.",
     fristTage: 30,
   },
   hitze_dach: {
@@ -1368,7 +1473,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "über 26 Grad Wohnung Miete mindern",
     ],
     intro:
-      "Dass es im Dachgeschoss im Sommer warm wird, weiß jeder, der dort wohnt. Ein Mangel wird daraus erst, wenn die Wohnung dauerhaft über 26 °C bleibt und auch nachts nicht mehr abkühlt, typischerweise weil die Dämmung fehlt. Der Nachweis ist allerdings anspruchsvoll, denn normale Sommerhitze müssen Sie hinnehmen.",
+      "Dass es im Dachgeschoss im Sommer warm wird, weiß jeder, der dort wohnt. Und genau das ist der Punkt: Der Maßstab der Gerichte ist nicht die Temperatur, sondern die Frage, ob das Gebäude beim sommerlichen Wärmeschutz dem zur Bauzeit geltenden Stand der Technik entsprach. War das der Fall, fällt die Hitze ins allgemeine Lebensrisiko, auch bei 30 °C. Der erfolgreichste dokumentierte Fall betraf deshalb keine Dachwohnung, sondern einen Neubau, bei dem die Wärmeschutzbestimmungen verletzt waren.",
     symptome: [
       "Raumtemperatur bleibt auch nachts über 26 °C",
       "Wohnung kühlt trotz nächtlichem Lüften nicht ab",
@@ -1382,7 +1487,7 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Baujahr und Dämmzustand angeben, soweit bekannt",
     ],
     hinweis:
-      "Messen Sie immer innen und außen. Wenn es draußen längst abgekühlt hat und Ihre Wohnung trotzdem bei 30 °C verharrt, liegt das nicht am Sommer, sondern am Gebäude. Genau dieser Vergleich macht aus „war halt heiß“ einen belegbaren Baumangel.",
+      "Messen Sie immer innen und außen. Wenn es draußen längst abgekühlt hat und Ihre Wohnung trotzdem bei 30 °C verharrt, liegt das nicht am Sommer, sondern am Gebäude. Genau dieser Vergleich macht aus „war halt heiß“ einen belegbaren Baumangel. Rechnen Sie im Dachgeschoss und im Altbau trotzdem mit Gegenwind: Wer in Kenntnis der Lage anmietet, verliert das Minderungsrecht nach § 536b BGB, und viele Klagen scheitern genau daran.",
     fristTage: 30,
   },
   undichtes_dach: {
@@ -1565,6 +1670,32 @@ export const mangelSeo: Record<string, MangelSeo> = {
       "Die wichtigste Regel: nicht bohren, nicht schleifen, nicht selbst entfernen. Jede Bearbeitung setzt Fasern frei und macht alles schlimmer. Bestätigt ein Labor die Faserfreisetzung, kommt neben der Minderung auch eine fristlose Kündigung wegen Gesundheitsgefährdung in Betracht (§ 569 Abs. 1 BGB).",
     fristTage: 7,
     dringend: true,
+  },
+  asbest_gebunden: {
+    slug: "asbest-fest-gebunden",
+    keywords: [
+      "Asbest unbeschädigt Mietminderung",
+      "fest gebundener Asbest Mietmangel",
+      "Asbestplatten intakt Miete mindern",
+      "Vinyl-Asbest-Platten Mietminderung",
+    ],
+    intro:
+      "Fest gebundener Asbest, der unbeschädigt im Bauteil sitzt, ist für sich allein noch kein Mietmangel. Gerichte verlangen eine begründete Besorgnis, dass Fasern freigesetzt werden. Solange die Platten intakt sind und niemand daran arbeitet, bleibt es meist bei null Prozent oder einem symbolischen Wert.",
+    symptome: [
+      "Unbeschädigte Vinyl-Asbest- oder Floor-Flex-Platten aus der Zeit vor 1993",
+      "Intakte Asbestzementplatten an Fassade oder Balkonbrüstung",
+      "Kenntnis vom Asbest, aber keine sichtbaren Risse oder Brüche",
+      "Kein Nachweis erhöhter Faserkonzentration in der Raumluft",
+    ],
+    dokumentation: [
+      "Zustand der Bauteile fotografieren, insbesondere Kanten und Fugen",
+      "Baujahr und Art der Einbauten festhalten",
+      "Jede neu auftretende Beschädigung sofort und datiert dokumentieren",
+      "Schriftlich festhalten, dass der Vermieter über den Asbest informiert ist",
+    ],
+    hinweis:
+      "Der praktisch wichtigste Punkt ist nicht die Minderung, sondern das Bearbeitungsverbot: nicht bohren, nicht schleifen, nichts abschrauben. Sobald ein Bauteil bricht oder beschädigt wird, kippt die Bewertung, und Sie liegen im Bereich der beschädigten Asbestbauteile mit deutlich höheren Quoten.",
+    fristTage: 14,
   },
   legionellen: {
     slug: "legionellen",
