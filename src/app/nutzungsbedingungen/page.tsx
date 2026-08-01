@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 import { PRODUKTE } from "@/lib/ebrief/produkte";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Nutzungsbedingungen & AGB | Mietminderung Online",
+  title: "Nutzungsbedingungen & AGB | Mietminderung-online",
   description: `Nutzungsbedingungen und AGB von ${site.name}: kostenloser Mietminderungs-Check, Mängelanzeige-Generator, kostenpflichtiger Postversand, Haftung und Gerichtsstand.`,
   path: "/nutzungsbedingungen",
 });

@@ -1,4 +1,4 @@
-import { site } from "@/lib/site";
+import { site, siteConfig } from "@/lib/site";
 import type { RenderedEmail } from "@/lib/email/templates";
 
 /**
@@ -31,7 +31,10 @@ export async function sendEmail(params: {
   const from =
     process.env.EMAIL_FROM ||
     process.env.RESEND_FROM_EMAIL ||
-    `Mietminderung Online <bestellung@mietminderung-online.de>`;
+    // The address stays hardcoded rather than following `site.name`: that one
+    // tracks NEXT_PUBLIC_SITE_URL, so on a preview deployment it would name a
+    // domain Resend has not verified and every send would be refused.
+    `${siteConfig.name} <bestellung@mietminderung-online.de>`;
 
   const headers: Record<string, string> = {};
   if (params.unsubscribeUrl) {

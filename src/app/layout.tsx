@@ -13,8 +13,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const defaultTitle =
-  "Mietminderung Online: Prüfen Sie Ihr Recht auf Mietminderung";
+const defaultTitle = `${siteConfig.name}: Prüfen Sie Ihr Recht auf Mietminderung`;
 
 export const viewport: Viewport = {
   width: "device-width",

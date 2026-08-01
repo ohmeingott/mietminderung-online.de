@@ -5,7 +5,7 @@ import VersandErgebnis from "../VersandErgebnis";
 /** Stripe's `cancel_url`. Kept out of the index for the same reasons as the
  * success page — see src/app/versand/erfolg/page.tsx. */
 export const metadata: Metadata = buildMetadata({
-  title: "Zahlung abgebrochen — Mietminderung Online",
+  title: "Zahlung abgebrochen — Mietminderung-online",
   description:
     "Der Versand wurde abgebrochen. Es wurde nichts versendet und nichts berechnet.",
   path: "/versand/abbruch",
