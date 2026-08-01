@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import FormCard from "@/components/FormCard";
+import TrustChips from "@/components/TrustChips";
 import FooterActions from "@/components/wizard/FooterActions";
 import WizardStepper from "@/components/wizard/WizardStepper";
 import { WizardProvider, type WizardContextValue } from "@/components/wizard/WizardContext";
@@ -433,6 +434,22 @@ export default function MietminderungWizard() {
             </div>
           )}
         </div>
+
+        {/*
+          The benefits go below the card, never above it: they reassure, they
+          do not lead into the form, and the first question has to stay on the
+          first screen. They stop at the last one, where the dispatch card puts
+          a price on the table - a chip promising no hidden costs directly
+          above a price list would be reading against the page. Their row gets
+          a wider container than the card so the three chips keep to one line
+          in every language; the content is narrower than the card, so the row
+          still lines up with its edges.
+        */}
+        {!state.notEligibleQuestionId && screen !== SCREEN.FERTIG && (
+          <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+            <TrustChips />
+          </div>
+        )}
       </section>
     </WizardProvider>
   );
