@@ -8,9 +8,16 @@
  *
  * Asserted is the presence of what the statute names, not the wording: the
  * service, the price actually charged, the trader's identity and postal
- * address, the delivery timing, the full Widerrufsbelehrung, the model form,
- * and the confirmation of the § 356 Abs. 4 declaration. Both parts are checked
- * — a mail whose text/plain alternative is empty is what a strict client shows.
+ * address, the order date, the full Widerrufsbelehrung, the model form, and the
+ * confirmation of the § 356 Abs. 4 declaration. Both parts are checked — a mail
+ * whose text/plain alternative is empty is what a strict client shows.
+ *
+ * Since the first live order it also guards three things that are not about
+ * completeness but about what the mail must NOT do: promise a print cut-off
+ * nothing supports, show the customer a Stripe session id as their reference,
+ * and leave the legal block sitting on top of what the customer actually
+ * bought. All three were real, all three are cheap to reintroduce, and none of
+ * them would fail any other check in this repository.
  */
 import { bestellbestaetigungEmail } from "../src/lib/email/templates";
 import {
@@ -18,12 +25,16 @@ import {
   musterWiderrufsformular,
   widerrufsbelehrung,
 } from "../src/lib/widerrufstext";
-import { site } from "../src/lib/site";
+import { site, siteConfig } from "../src/lib/site";
+
+/** A payment late on a German summer evening — 21:58 CEST is 19:58 UTC. */
+const BESTELLT_AM = new Date("2026-07-31T19:58:00Z");
 
 const mail = bestellbestaetigungEmail({
   produktId: "einwurfEinschreiben",
   betragCent: 699,
-  referenz: "cs_test_referenz",
+  referenz: "40123",
+  bestelltAm: BESTELLT_AM,
 });
 
 const fehler: string[] = [];
@@ -34,6 +45,39 @@ function beideTeile(bezeichnung: string, erwartet: string): void {
   }
   if (!mail.text.includes(erwartet)) {
     fehler.push(`Text-Teil enthält ${bezeichnung} nicht: "${erwartet.slice(0, 60)}…"`);
+  }
+}
+
+/**
+ * Both parts must put `frueher` before `spaeter`, and must contain both.
+ *
+ * Case-insensitive on purpose: the text part shouts its headings in capitals
+ * where the HTML part uses an <h2>, and the point being guarded is the order of
+ * the sections, not their typography.
+ */
+function reihenfolge(frueher: string, spaeter: string): void {
+  for (const [teil, inhalt] of [
+    ["HTML-Teil", mail.html.toLowerCase()],
+    ["Text-Teil", mail.text.toLowerCase()],
+  ] as const) {
+    const a = inhalt.indexOf(frueher.toLowerCase());
+    const b = inhalt.indexOf(spaeter.toLowerCase());
+    if (a === -1 || b === -1) {
+      fehler.push(`${teil}: "${frueher}" oder "${spaeter}" fehlt ganz`);
+    } else if (a > b) {
+      fehler.push(`${teil}: "${frueher}" steht hinter "${spaeter}"`);
+    }
+  }
+}
+
+/** Like `beideTeile`, but blind to the text part's capitalised headings. */
+function beideTeileEgalGross(bezeichnung: string, erwartet: string): void {
+  const gesucht = erwartet.toLowerCase();
+  if (!mail.html.toLowerCase().includes(gesucht)) {
+    fehler.push(`HTML-Teil enthält ${bezeichnung} nicht: "${erwartet}"`);
+  }
+  if (!mail.text.toLowerCase().includes(gesucht)) {
+    fehler.push(`Text-Teil enthält ${bezeichnung} nicht: "${erwartet}"`);
   }
 }
 
@@ -54,8 +98,40 @@ beideTeile("den Inhaber", site.operator.owner);
 beideTeile("die Anschrift", site.operator.street);
 beideTeile("die Kontaktadresse", site.operator.email);
 
-// Leistungszeit: the cut-off the terms and the withdrawal page also state.
-beideTeile("den Annahmeschluss", "14:30");
+// Who the trader is in relation to the shop. The sender name, the domain, the
+// reply-to and the withdrawal address are four different strings; unexplained,
+// that is the shape of a phishing mail rather than of a confirmation.
+beideTeile("den Anbieterbezug (Marke)", siteConfig.name);
+beideTeile("den Anbieterbezug (Domain)", site.name);
+
+// Art. 246a § 1 Abs. 1 Nr. 4 EGBGB — the date of the order, which the model
+// form asks the customer to fill in and the withdrawal period runs from.
+beideTeile("das Bestelldatum", "31.07.2026");
+
+// No performance promise we cannot source. The 14:30 cut-off was stated here
+// until the first live order contradicted it (paid 21:58, handed to print
+// 22:00 the same evening). Nothing may put a clock time back into this mail.
+for (const teil of [
+  ["HTML-Teil", mail.html],
+  ["Text-Teil", mail.text],
+] as const) {
+  if (/\b\d{1,2}[:.]\d{2}\s*Uhr/i.test(teil[1])) {
+    fehler.push(`${teil[0]} nennt wieder eine Uhrzeit als Zusage`);
+  }
+}
+
+// The reference is the eBrief job id, not the Checkout session id: 66
+// characters of `cs_live_…` are unreadable over the phone and are not what a
+// support request is looked up by.
+beideTeile("die Auftragsnummer", "40123");
+for (const teil of [
+  ["HTML-Teil", mail.html],
+  ["Text-Teil", mail.text],
+] as const) {
+  if (/\bcs_(live|test)_/.test(teil[1])) {
+    fehler.push(`${teil[0]} zeigt dem Kunden eine Stripe-Session-Id`);
+  }
+}
 
 // § 312f Abs. 2 i. V. m. Art. 246a § 1 Abs. 2 — the notice, in full.
 for (const absatz of widerrufsbelehrung) {
@@ -67,6 +143,25 @@ for (const zeile of musterWiderrufsformular) {
 
 // § 312f Abs. 3 — the confirmation of the early-start declaration.
 beideTeile("die § 356-Bestätigung", erloeschenHinweis.slice(0, 60));
+
+// The order the customer reads in. Every part below is legally required and
+// none of it may be dropped, but the first live customer's complaint was that
+// the mail read as a withdrawal leaflet with an order buried in it. What was
+// bought comes first, what happens next second, the mandatory notices last.
+const PFLICHTBLOCK = "Pflichtangaben zu Ihrem Widerrufsrecht";
+// The first paragraph of the notice, anchored on its own words rather than on
+// the heading: "Widerrufsbelehrung" is also mentioned in the opening sentence
+// that explains who we are, and matching that would prove nothing.
+const BELEHRUNG_BEGINN = widerrufsbelehrung[0].slice(0, 40);
+
+reihenfolge("Gesamtpreis", "Wie es weitergeht");
+reihenfolge("Wie es weitergeht", PFLICHTBLOCK);
+reihenfolge(PFLICHTBLOCK, BELEHRUNG_BEGINN);
+reihenfolge("Gesamtpreis", BELEHRUNG_BEGINN);
+reihenfolge(BELEHRUNG_BEGINN, musterWiderrufsformular[0]);
+
+// The legal block has to announce itself, or it is just more text.
+beideTeileEgalGross("die Überschrift des Pflichtangaben-Blocks", PFLICHTBLOCK);
 
 if (!mail.subject.trim()) fehler.push("Betreff ist leer");
 if (mail.text.trim().length < 500) {
