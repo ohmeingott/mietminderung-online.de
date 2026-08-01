@@ -1,6 +1,6 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 import { useWizard } from "@/components/wizard/WizardContext";
 import { ANZAHL_ANSPRUCHSFRAGEN, SCREEN } from "@/components/wizard/screens";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -78,12 +78,23 @@ export default function WizardStepper() {
               className={`flex min-w-0 items-center gap-2 ${i === 0 ? "" : "flex-1"}`}
             >
               {/* The connector belongs to the step it leads into, so the row
-                  distributes evenly without a wrapper per gap. */}
+                  distributes evenly without a wrapper per gap. It is an arrow
+                  rather than a rule: a rule joins two things and says nothing
+                  about which comes first, and this row is an order. It sits at
+                  the end of its gap so it points at the step it leads into
+                  instead of floating between two. */}
               {i > 0 && (
                 <span
                   aria-hidden
-                  className={`h-px min-w-3 flex-1 ${fertig || aktuell ? "bg-brand-300" : "bg-ink-200"}`}
-                />
+                  className={`flex min-w-4 flex-1 justify-end ${
+                    fertig || aktuell ? "text-brand-400" : "text-ink-300"
+                  }`}
+                >
+                  <ChevronRight
+                    className="h-3.5 w-3.5 shrink-0 rtl:rotate-180"
+                    strokeWidth={2.5}
+                  />
+                </span>
               )}
               {fertig ? (
                 <button
