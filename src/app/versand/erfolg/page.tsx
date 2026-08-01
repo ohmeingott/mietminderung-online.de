@@ -12,7 +12,7 @@ import VersandErgebnis from "../VersandErgebnis";
  * directive that keeps it out of results.
  */
 export const metadata: Metadata = buildMetadata({
-  title: "Zahlung erfolgreich — Mietminderung Online",
+  title: "Zahlung erfolgreich — Mietminderung-online",
   description:
     "Ihre Zahlung ist eingegangen. Die Mängelanzeige wird gedruckt und per Post an Ihren Vermieter versendet.",
   path: "/versand/erfolg",

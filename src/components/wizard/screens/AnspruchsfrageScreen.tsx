@@ -23,6 +23,13 @@ export default function AnspruchsfrageScreen() {
   const frage = eligibilityQuestions[state.eligibilityStep];
   const gewaehlt = state.antworten[frage.id];
 
+  // Nothing on the page says the wizard starts with a click, so the first
+  // answer of the first question gets a quiet glow. Any recorded answer
+  // retires it - after one click the pattern is clear, including on the way
+  // back to this question.
+  const zeigeErstklickHinweis =
+    state.eligibilityStep === 0 && Object.keys(state.antworten).length === 0;
+
   return (
     <>
       <ScreenHeading title={t(`eq.${frage.id}.q`)} description={t(`eq.${frage.id}.desc`)} />
@@ -32,7 +39,7 @@ export default function AnspruchsfrageScreen() {
         aria-label={t(`eq.${frage.id}.q`)}
         className="mt-6 space-y-2.5"
       >
-        {frage.options.map((option) => {
+        {frage.options.map((option, index) => {
           const aktiv = gewaehlt === option.value;
           return (
             <label
@@ -51,7 +58,7 @@ export default function AnspruchsfrageScreen() {
                 aktiv
                   ? "border-brand-500 bg-brand-50"
                   : "border-ink-200 bg-paper-raised hover:border-brand-400 hover:bg-brand-50"
-              }`}
+              } ${zeigeErstklickHinweis && index === 0 ? "nudge-first-click" : ""}`}
             >
               <input
                 type="radio"

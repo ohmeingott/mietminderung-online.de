@@ -1,9 +1,10 @@
 import { ImageResponse } from "next/og";
 import { BRAND_MARK_ON_DARK, brandMarkDataUri } from "@/lib/brandMark";
+import { siteConfig } from "@/lib/site";
 
 // No edge runtime: this lets Next generate the image at build time so it is
 // served as a static, cacheable asset instead of being rendered per request.
-export const alt = "Mietminderung Online: Prüfen Sie Ihr Recht auf Mietminderung";
+export const alt = `${siteConfig.name}: Prüfen Sie Ihr Recht auf Mietminderung`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -44,7 +45,7 @@ export default function OGImage() {
               color: "white",
             }}
           >
-            Mietminderung-online
+            {siteConfig.name}
           </span>
         </div>
         <h1

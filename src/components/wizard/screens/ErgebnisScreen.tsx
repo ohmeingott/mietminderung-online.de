@@ -15,6 +15,7 @@ import { useTranslation } from "@/i18n/LanguageContext";
 export default function ErgebnisScreen() {
   const {
     selectedMaengel,
+    quoteFuer,
     quoteMin,
     quoteMax,
     quoteTypisch,
@@ -52,6 +53,11 @@ export default function ErgebnisScreen() {
           <p className="mt-1 text-xs text-brand-500 tabular-nums">
             ({t("check.range")}: {quoteMin}–{quoteMax}%)
           </p>
+          {selectedMaengel.length > 1 && (
+            <p className="mt-2 text-xs leading-relaxed text-brand-600">
+              {t("check.gesamtbetrachtungHint")}
+            </p>
+          )}
         </div>
         <div className="rounded-[var(--radius-field)] border border-signal-600/20 bg-signal-50 p-5 text-center">
           <p className="text-sm font-medium text-signal-700">{t("check.monthlySavings")}</p>
@@ -81,7 +87,7 @@ export default function ErgebnisScreen() {
             >
               <span className="text-sm text-ink-700">{mangelLabel(m)}</span>
               <span className="shrink-0 text-sm font-semibold tabular-nums text-brand-700">
-                ca. {m.minderung_typical}%
+                ca. {quoteFuer(m).typical}%
               </span>
             </li>
           ))}

@@ -1,4 +1,18 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+/**
+ * The 404 body is served with a 404 status, which is what actually keeps it
+ * out of the index. The noindex is belt and braces for the case where a proxy
+ * or a preview host rewrites the status to 200 — a soft 404 that ranks is
+ * worse than no page at all.
+ */
+export const metadata: Metadata = {
+  title: "Seite nicht gefunden (404)",
+  description:
+    "Die angeforderte Seite existiert nicht. Zurück zur Startseite oder direkt zur Mietminderungsprüfung.",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

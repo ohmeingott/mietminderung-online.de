@@ -7,9 +7,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FAQAccordion from "@/components/FAQAccordion";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { localeHref } from "@/i18n/routing";
 
 export default function FAQPageContent({ faqs }: { faqs: FAQ[] }) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
+  // Both CTAs must stay inside the language the visitor is reading.
+  const home = localeHref(locale, "/");
 
   return (
     <div className="min-h-screen">
@@ -58,14 +61,14 @@ export default function FAQPageContent({ faqs }: { faqs: FAQ[] }) {
               </p>
               <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
                 <Link
-                  href="/#pruefung"
+                  href={`${home}#pruefung`}
                   className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-white px-6 font-semibold text-brand-800 transition-colors hover:bg-brand-50"
                 >
                   {t("hero.cta1")}
                   <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
                 </Link>
                 <Link
-                  href="/"
+                  href={home}
                   className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-white/25 px-6 font-semibold text-white transition-colors hover:bg-white/10"
                 >
                   {t("common.backHome")}

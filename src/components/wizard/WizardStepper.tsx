@@ -27,10 +27,14 @@ const PHASEN: Phase[] = [
  * measures all fourteen screens; this only names the five chapters, so the two
  * readings never contradict each other and neither shouts.
  *
- * On a phone the labels would not fit five across - "Mängel & Miete" alone is
+ * Below 768 px the labels would not fit five across - "Mängel & Miete" alone is
  * wider than a fifth of 393 px - so there the row is dots and connectors, with
  * the current chapter named underneath. Nothing is lost: the name you need is
  * the one you are standing on.
+ *
+ * Above that the steps size themselves by their label rather than taking a
+ * fifth of the row each, so a longer name like "Download oder Versand" is
+ * spelled out instead of being cut off by a column that ignores it.
  */
 export default function WizardStepper() {
   const { state, gehZu } = useWizard();
@@ -63,7 +67,7 @@ export default function WizardStepper() {
 
           const text = (
             <span
-              className={`hidden truncate text-xs sm:block ${
+              className={`hidden truncate text-xs md:block ${
                 aktuell ? "font-semibold text-brand-700" : fertig ? "text-ink-600" : "text-ink-400"
               }`}
             >
@@ -75,7 +79,7 @@ export default function WizardStepper() {
             <li
               key={phase.key}
               aria-current={aktuell ? "step" : undefined}
-              className={`flex min-w-0 items-center gap-2 ${i === 0 ? "" : "flex-1"}`}
+              className={`flex min-w-0 items-center gap-2 ${i === 0 ? "" : "flex-auto"}`}
             >
               {/* The connector belongs to the step it leads into, so the row
                   distributes evenly without a wrapper per gap. It is an arrow
@@ -123,7 +127,7 @@ export default function WizardStepper() {
         })}
       </ol>
 
-      <p className="mt-2 text-xs font-semibold text-brand-700 sm:hidden">
+      <p className="mt-2 text-xs font-semibold text-brand-700 md:hidden">
         {t(PHASEN[Math.max(aktuellerIndex, 0)].key)}
       </p>
     </nav>

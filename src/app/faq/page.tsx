@@ -27,6 +27,7 @@ export const metadata: Metadata = buildMetadata({
     "Mietminderung Vermieter zustimmen",
     "Mietminderung ab wann",
   ],
+  alternateLocales: true,
 });
 
 export default function FAQPage() {

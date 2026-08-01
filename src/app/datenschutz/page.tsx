@@ -4,7 +4,7 @@ import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { gesellschafterListe, site } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Datenschutzerklärung | Mietminderung Online",
+  title: "Datenschutzerklärung | Mietminderung-online",
   description: `Datenschutzerklärung von ${site.name}: welche Daten wir verarbeiten, auf welcher Rechtsgrundlage und welche Rechte Sie nach DSGVO haben.`,
   path: "/datenschutz",
 });

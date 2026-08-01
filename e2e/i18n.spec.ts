@@ -4,13 +4,22 @@ import {
   chooseDeadline,
   expectNoHorizontalOverflow,
   selectDefect,
+  startWizardFresh,
   stubEnhanceApi,
 } from "./helpers";
 
-/** The switcher's aria-label is itself translated, so target it by test id. */
+/**
+ * The switcher's aria-label is itself translated, so target it by test id.
+ *
+ * Switching is a navigation now, not a state change: the language lives in the
+ * URL so that each translation can be linked, shared and indexed. The wait for
+ * the URL is what makes these tests deterministic - without it the assertions
+ * race the page transition.
+ */
 async function switchLanguage(page: Page, code: string) {
   await page.getByTestId("language-switcher").click();
   await page.getByTestId(`locale-${code}`).click();
+  await page.waitForURL(code === "de" ? /\/(?!(en|tr|uk|ru|ar|pl)\b)/ : new RegExp(`/${code}(/|$)`));
 }
 
 test.describe("Language switching", () => {
@@ -36,20 +45,78 @@ test.describe("Language switching", () => {
 
   test("translates the defect catalogue in every language", async ({ page }) => {
     const expected = [
-      ["en", "Heating & Hot Water"],
-      ["uk", "Опалення та гаряча вода"],
-      ["ru", "Отопление и горячая вода"],
-      ["ar", "التدفئة والماء الساخن"],
-      ["pl", "Ogrzewanie i ciepła woda"],
-      ["de", "Heizung & Warmwasser"],
+      ["/en", "Heating & Hot Water"],
+      ["/uk", "Опалення та гаряча вода"],
+      ["/ru", "Отопление и горячая вода"],
+      ["/ar", "التدفئة والماء الساخن"],
+      ["/pl", "Ogrzewanie i ciepła woda"],
+      ["/", "Heizung & Warmwasser"],
     ] as const;
 
-    await page.goto("/");
-    await answerEligibility(page);
+    // Each language is its own URL, so this walks the URLs rather than
+    // toggling in place. The wizard draft survives a navigation, which is what
+    // a tenant switching language mid-flow wants but would leave every language
+    // after the first already past the eligibility questions - so each URL here
+    // starts from a cleared draft.
+    await startWizardFresh(page);
 
-    for (const [code, category] of expected) {
-      await switchLanguage(page, code);
+    for (const [path, category] of expected) {
+      await page.goto(path);
+      await answerEligibility(page);
       await expect(page.getByTestId("kategorie-heizung")).toContainText(category);
+    }
+  });
+
+  test("every language is served under its own URL", async ({ page }) => {
+    // The whole point of the routing: a crawler fetching /tr must get Turkish
+    // out of the initial HTML, without running any JavaScript.
+    const res = await page.request.get("/tr");
+    expect(res.ok()).toBeTruthy();
+    const html = await res.text();
+
+    expect(html).toContain("kira indirimi");
+    expect(html, "the Turkish URL still serves German").not.toContain(
+      "Schimmel, Lärm, kaputte Heizung",
+    );
+  });
+
+  test("translated pages declare a reciprocal hreflang cluster", async ({
+    page,
+  }) => {
+    for (const path of ["/", "/tr", "/faq", "/tr/faq"]) {
+      await page.goto(path);
+
+      const alternates = page.locator('link[rel="alternate"][hreflang]');
+      // Seven languages plus x-default.
+      await expect(alternates).toHaveCount(8);
+
+      const xDefault = await page
+        .locator('link[rel="alternate"][hreflang="x-default"]')
+        .getAttribute("href");
+      expect(
+        xDefault,
+        `${path} does not point x-default at the German version`,
+      ).not.toMatch(/\/(en|tr|uk|ru|ar|pl)(\/|$)/);
+    }
+  });
+
+  test("German-only content is not linked from a translated page", async ({
+    page,
+  }) => {
+    await page.goto("/tr");
+
+    // The guides, the table and the dispatch page exist only in German. Linking
+    // them from the Turkish page would send both reader and crawler out of the
+    // language the page claims to be in.
+    for (const href of [
+      "/ratgeber",
+      "/mietminderungstabelle",
+      "/maengelanzeige-versenden",
+    ]) {
+      await expect(
+        page.locator(`a[href="${href}"]`),
+        `${href} is linked from the Turkish homepage`,
+      ).toHaveCount(0);
     }
   });
 
@@ -63,19 +130,26 @@ test.describe("Language switching", () => {
     await expect(page.getByText(/§ 536 niemieckiego kodeksu cywilnego/)).toBeVisible();
   });
 
-  test("persists the choice across a reload and across pages", async ({ page }) => {
+  test("the choice survives a reload and following in-language links", async ({
+    page,
+  }) => {
     await page.goto("/");
     await switchLanguage(page, "ru");
+    await expect(page).toHaveURL(/\/ru$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "снижение арендной платы"
     );
 
+    // Nothing is stored anywhere: it survives because the URL is the state.
     await page.reload();
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "снижение арендной платы"
     );
 
-    await page.goto("/faq");
+    // The navigation inside a translated page keeps the visitor in Russian
+    // rather than dropping them onto the German /faq.
+    await page.getByRole("link", { name: /Вопросы|FAQ/i }).first().click();
+    await expect(page).toHaveURL(/\/ru\/faq$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "Все вопросы и ответы"
     );
@@ -144,8 +218,30 @@ test.describe("Language switching", () => {
   test("shows a note that the legal pages are German only", async ({ page }) => {
     await page.goto("/impressum");
     await switchLanguage(page, "tr");
+
+    // The legal text keeps its German body, but the visitor keeps their
+    // language: they land on the prefixed URL, not back on the German site.
+    await expect(page).toHaveURL(/\/tr\/impressum$/);
     await expect(
       page.getByText(/nur die deutsche Fassung rechtsverbindlich/)
     ).toBeVisible();
+  });
+
+  test("the localised legal texts stay out of the index", async ({ page }) => {
+    // Byte-identical German under seven URLs. The German original is the one
+    // that belongs in the index.
+    await page.goto("/tr/impressum");
+    const robots = await page
+      .locator('meta[name="robots"]')
+      .getAttribute("content");
+    expect(robots ?? "").toContain("noindex");
+
+    await page.goto("/impressum");
+    const german = await page
+      .locator('meta[name="robots"]')
+      .getAttribute("content");
+    expect(german ?? "", "the German Impressum must stay indexable").not.toContain(
+      "noindex",
+    );
   });
 });

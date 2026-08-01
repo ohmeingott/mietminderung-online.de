@@ -55,9 +55,8 @@ const en: Record<string, string> = {
     "The cellar is damp or wet (if the cellar is part of the rented property).",
 
   // --- Noise & disturbance ---------------------------------------------------
-  "m.baulaerm_haus.l": "Construction noise in the building / next door",
-  "m.baulaerm_haus.d":
-    "Considerable construction noise from building work in or on the building.",
+  "m.baulaerm_haus.l": "Construction noise in your own building",
+  "m.baulaerm_haus.d": "Substantial noise from building work in or on your own building, e.g. a loft conversion or refurbishment. During energy-efficiency modernisation the reduction is excluded for three months (Section 536 (1a) BGB).",
   "m.strassenlaerm.l": "Increased street noise (e.g. roadworks)",
   "m.strassenlaerm.d":
     "Street noise beyond the usual level, e.g. due to a construction site.",
@@ -74,8 +73,8 @@ const en: Record<string, string> = {
   // --- Vermin & pests --------------------------------------------------------
   "m.kakerlaken.l": "Cockroaches",
   "m.kakerlaken.d": "Cockroach infestation in the apartment.",
-  "m.ratten.l": "Rats in the apartment / building",
-  "m.ratten.d": "Actual rat infestation in the apartment or building.",
+  "m.ratten.l": "Rats inside the apartment",
+  "m.ratten.d": "Rats get into the living areas, or rooms are sealed off because of pest-control measures.",
   "m.maeuse.l": "Mouse infestation",
   "m.maeuse.d": "Mouse infestation in the apartment.",
   "m.bettwanzen.l": "Bed bugs",
@@ -105,11 +104,10 @@ const en: Record<string, string> = {
     "The doorbell or intercom does not work.",
 
   // --- Bathroom & sanitary ---------------------------------------------------
-  "m.toilette_defekt.l": "Toilet unusable",
-  "m.toilette_defekt.d":
-    "The only toilet is broken and cannot be used.",
-  "m.dusche_defekt.l": "Shower broken",
-  "m.dusche_defekt.d": "The shower does not work or cannot be used.",
+  "m.toilette_defekt.l": "Only toilet unusable",
+  "m.toilette_defekt.d": "The apartment's only toilet is broken and unusable for a longer period.",
+  "m.dusche_defekt.l": "Shower broken (bathtub available)",
+  "m.dusche_defekt.d": "The shower does not work, but another washing facility such as a bathtub is available.",
   "m.wasserdruck_niedrig.l": "Water pressure too low",
   "m.wasserdruck_niedrig.d": "Water pressure too low in the bathroom or kitchen.",
   "m.bad_belueftung.l": "Bathroom cannot be ventilated",
@@ -154,12 +152,10 @@ const en: Record<string, string> = {
     "The contractually agreed cable connection does not work.",
 
   // --- Living space & room quality -------------------------------------------
-  "m.wohnflaeche_10.l": "Living space more than 10% smaller than agreed",
-  "m.wohnflaeche_10.d":
-    "The actual living space is more than 10% smaller than stated in the contract.",
-  "m.hitze_dach.l": "Extreme heat in summer (above 26 °C)",
-  "m.hitze_dach.d":
-    "The apartment (e.g. top floor) heats up to over 26 °C.",
+  "m.wohnflaeche_10.l": "Living space smaller than agreed",
+  "m.wohnflaeche_10.d": "The actual living space falls short of the agreed area. Above a 10% shortfall the rent is reduced by exactly that percentage; up to and including 10% there is no defect.",
+  "m.hitze_dach.l": "Summer overheating (thermal protection defect)",
+  "m.hitze_dach.d": "The apartment heats up considerably in summer. This is only a defect if the building failed to meet the summer thermal-protection standard applicable when it was built. Higher temperatures must be accepted in loft and older flats.",
   "m.undichtes_dach.l": "Leaking roof / leaking ceiling",
   "m.undichtes_dach.d": "Water enters through the roof or ceiling.",
 
@@ -179,9 +175,8 @@ const en: Record<string, string> = {
     "Scaffolding reduces daylight and poses a burglary risk.",
 
   // --- Health hazards --------------------------------------------------------
-  "m.asbest.l": "Asbestos in the apartment",
-  "m.asbest.d":
-    "Asbestos was found in the apartment (e.g. broken panels).",
+  "m.asbest.l": "Asbestos damaged / fibres released",
+  "m.asbest.d": "Asbestos-containing components are damaged or there is a risk of fibres being released, e.g. broken panels or asbestos night-storage heaters. Proof that airborne limits are exceeded is not required.",
   "m.legionellen.l": "Legionella in the drinking water",
   "m.legionellen.d": "Legionella limit values exceeded.",
   "m.bleirohre.l": "Lead pipes (limit values exceeded)",
@@ -203,41 +198,46 @@ const en: Record<string, string> = {
   "faq.a0":
     "A rent reduction (Mietminderung) means that as a tenant you are allowed to pay less rent if your apartment has defects that impair your quality of living. This right follows automatically from Section 536 of the German Civil Code (BGB) — you do not need to apply for approval. The rent is reduced by operation of law for as long as the defect exists.",
   "faq.q1": "Does the landlord have to approve the rent reduction?",
-  "faq.a1":
-    "No! The rent reduction takes effect by operation of law (automatically) as soon as a significant defect exists and you have reported it to the landlord. You do not need any consent. However, you must report the defect to the landlord first (defect notice).",
+  "faq.a1": "No! The rent reduction takes effect by operation of law (automatically) as soon as a significant defect exists. You need neither consent nor a declaration. The defect notice is not a precondition for the reduction to arise — but it is what allows you to enforce and prove it.",
   "faq.q2": "How do I calculate the amount of the rent reduction?",
   "faq.a2":
     "The rent reduction is calculated from the gross warm rent — that is, the base rent plus all service charges. The amount depends on the type and severity of the defect. Example: with a gross warm rent of €1,000 and a reduction rate of 20%, you only pay €800. The rate is derived from court rulings in comparable cases.",
   "faq.q3": "What is a defect notice and why do I need it?",
-  "faq.a3":
-    "The defect notice (Mängelanzeige) is a written notification to your landlord in which you describe the defect and request its removal. It is required by law (Section 536c BGB). Without a defect notice you cannot reduce the rent and even risk claims for damages. We help you create it in a legally sound way.",
+  "faq.a3": "The defect notice (Mängelanzeige) is a written notification to your landlord describing the defect and requesting its removal. Section 536c (1) BGB obliges you to report defects without delay. If you fail to do so, you lose the right to reduce only in so far as the landlord could not remedy the defect precisely because of the missing notice. If they knew about it anyway, the duty to notify falls away. We help you draft the notice in a legally sound way.",
   "faq.q4": "What happens if I reduce the rent too much?",
-  "faq.a4":
-    "Careful: if you reduce the rent too much and arrears of two monthly rents build up, the landlord can terminate the tenancy without notice (Section 543 (2) no. 3 BGB). Our recommendation: initially pay the full rent under reservation of rights and reclaim the difference later. That way you are on the safe side.",
+  "faq.a4": "Careful — the risk starts earlier than most people think. The landlord may terminate without notice if you are in arrears with a not insignificant part of the rent on two consecutive dates (Section 543 (2) sentence 1 no. 3 (a) BGB). Under Section 569 (3) no. 1 BGB, 'not insignificant' already means more than one month's rent. Only over a longer period does the two-months threshold apply. Our recommendation: initially pay the full rent under reservation of rights and reclaim the difference later.",
   "faq.q5": "Can the landlord exclude the rent reduction in the contract?",
   "faq.a5":
     "No. For residential tenancies, the right to a rent reduction cannot be waived (Section 536 (4) BGB). Clauses in the tenancy agreement that exclude the right to reduce are invalid.",
   "faq.q6": "From when can I reduce the rent?",
-  "faq.a6":
-    "The rent reduction applies from the moment the landlord knows about the defect — usually from receipt of the defect notice. As a rule you cannot reduce the rent for the time before that, unless you paid under reservation of rights.",
+  "faq.a6": "The reduction takes effect when the defect arises, not only when you report it. If you paid the full rent in the meantime, you can reclaim the excess under Section 812 BGB. That only fails if you positively knew you were not obliged to pay in full (Section 814 BGB). Anyone who assumed a reduction required the landlord's consent did not have that knowledge.",
   "faq.q7": "Am I always allowed to reduce the rent in case of mould?",
-  "faq.a7":
-    "Not necessarily. If the mould was caused by your own behaviour (incorrect airing/heating), the right to reduce does not apply. However, the burden of proof lies with the landlord — they must prove that you caused the mould. Often, though, the cause is structural defects.",
+  "faq.a7": "Not necessarily. If the mould was caused by your own behaviour (incorrect airing or heating), the right to reduce does not apply. The burden of proof lies first with the landlord, who must rule out structural causes. There is, however, no defect where the mould stems from thermal bridges and the building complied with the rules in force when it was built.",
   "faq.q8": "How long does the rent reduction apply?",
   "faq.a8":
     "The rent reduction applies for the entire period during which the defect exists. As soon as the defect has been remedied, you must pay the full rent again. There is no upper time limit.",
   "faq.q9": "What does 'paying under reservation of rights' mean?",
-  "faq.a9":
-    "If you pay the rent 'under reservation of rights', you reserve the right to reclaim overpaid rent. Note in the payment reference: 'Payment under reservation due to defect [description]'. This protects you from termination without notice and lets you reclaim the difference later.",
+  "faq.a9": "If you pay the rent 'under reservation of rights', you reserve the right to reclaim overpaid rent. Note in the payment reference: 'Payment under reservation due to defect [description]'. This protects you from termination without notice and lets you reclaim the difference later. The Federal Court of Justice itself points tenants to this route.",
   "faq.q10": "Do I lose my right to reduce if I do nothing for a long time?",
-  "faq.a10":
-    "Yes, that is possible. If you know about the defect and pay the full rent without reservation for around 6 months, the right to reduce may be forfeited. So act promptly after discovering a defect.",
+  "faq.a10": "The once-common rule that the right to reduce is forfeited after around six months of unreserved payment was based on Section 539 BGB in its pre-2001 wording and no longer applies in that form. Forfeiture under Section 242 BGB is an exception and requires both a time element and a conduct element. You should still act promptly — because of the evidence and the three-year limitation period.",
   "faq.q11": "What about energy-efficiency modernisation?",
   "faq.a11":
     "During energy-efficiency modernisation works (e.g. thermal insulation), the rent reduction is excluded for 3 months (Section 536 (1a) BGB). After that you may reduce the rent. This only applies to energy-related measures, not to general modernisation.",
+  "m.baulaerm_nachbar.l": "Construction noise from the neighbouring property",
+  "m.baulaerm_nachbar.d": "Noise from a building site on someone else's land is generally NOT a defect according to the Federal Court of Justice. A reduction only comes into play if the tenancy agreement says otherwise or the landlord has compensation claims under Section 906 BGB.",
+  "m.ratten_umfeld.l": "Rats in the cellar, yard or garden",
+  "m.ratten_umfeld.d": "Rats around the building — at the bins, in the back yard, garden or cellar — without entering the apartment.",
+  "m.toilette_zweit_wc.l": "Toilet broken (second toilet available)",
+  "m.toilette_zweit_wc.d": "One toilet is broken, but a second, perfectly usable toilet is available in the apartment.",
+  "m.dusche_einzige.l": "Only washing/bathing facility out of order",
+  "m.dusche_einzige.d": "The apartment's only washing and bathing facility cannot be used.",
+  "m.asbest_gebunden.l": "Asbestos firmly bound and undamaged",
+  "m.asbest_gebunden.d": "Firmly bound, undamaged asbestos, e.g. intact vinyl-asbestos tiles. Its mere presence generally does NOT constitute a defect; a justified concern about fibre release is required.",
   "faq.q12": "How long do I have to wait for a reply after sending the defect notice?",
   "faq.a12":
     "There is no statutory deadline for the landlord to reply. What counts is the deadline you set for the repair: 14 days is usual, 3 to 7 days for urgent defects such as heating failure in winter, and immediately for emergencies such as a burst pipe. The deadline starts when the letter is delivered, not when you post it, so allow one or two working days. If it expires without the defect being fixed, your landlord is in default: you can reduce the rent, send a second letter with a final deadline, and claim damages or self-remedy under § 536a BGB. Pay the rent under reservation from the notice onwards and you can reclaim any overpayment later.",
+  "faq.q13": "Does paying the arrears save me if I reduced too much?",
+  "faq.a13": "Only halfway. If you pay the arrears in full within two months of being served with the eviction claim, the termination without notice becomes ineffective (Section 569 (3) no. 2 BGB). An ordinary termination declared in the alternative is, however, unaffected. In practice landlords regularly terminate both without notice and, in the alternative, ordinarily — so you can still lose the apartment despite paying in full.",
 };
 
 export default en;

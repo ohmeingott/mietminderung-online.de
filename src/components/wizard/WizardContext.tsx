@@ -31,6 +31,15 @@ export interface WizardContextValue {
   selectedKategorie: string | null;
   setSelectedKategorie: (id: string | null) => void;
 
+  /** Per-defect quota, which for the floor area is computed from the m² input. */
+  quoteFuer: (m: Mangel) => { min: number; max: number; typical: number };
+  /** The selected floor-area defect, or undefined when it is not selected. */
+  flaecheMangel: Mangel | undefined;
+  /** Shortfall in percent, or null while either area is missing. */
+  flaecheAbweichung: number | null;
+  setFlaecheVereinbart: (wert: string) => void;
+  setFlaecheTatsaechlich: (wert: string) => void;
+
   /* ------------------------------------------------------------------ money */
   setBruttowarmmiete: (wert: string) => void;
   miete: number;

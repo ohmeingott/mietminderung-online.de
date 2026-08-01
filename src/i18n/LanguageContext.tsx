@@ -5,15 +5,16 @@ import {
   useContext,
   useCallback,
   useEffect,
-  useSyncExternalStore,
+  useMemo,
   type ReactNode,
 } from "react";
+import { usePathname } from "next/navigation";
 import { translations, locales, type Locale, type LocaleInfo } from "./translations";
 import { contentTranslations } from "./content";
+import { DEFAULT_LOCALE, localeHref, splitLocalePath } from "./routing";
 
 interface LanguageContextType {
   locale: Locale;
-  setLocale: (locale: Locale) => void;
   /** Translate a UI string key. Falls back to German, then to the key itself. */
   t: (key: string) => string;
   /**
@@ -24,85 +25,49 @@ interface LanguageContextType {
   localeInfo: LocaleInfo;
   locales: LocaleInfo[];
   dir: "rtl" | "ltr";
+  /** The German path this page translates, e.g. "/faq". */
+  basePath: string;
+  /** URL of the current page in another language. */
+  hrefFor: (locale: Locale) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
-const STORAGE_KEY = "locale";
-const DEFAULT_LOCALE: Locale = "de";
-
 /* --------------------------------------------------------------------------
-   The selected language lives in localStorage, which React treats as an
-   external store. Reading it through useSyncExternalStore keeps the server
-   render deterministic ("de") while the client picks up the stored value
-   during hydration - without a setState-in-effect cascade.
+   The selected language is the URL, and nothing else.
+
+   It used to live in localStorage, which meant the server always rendered
+   German and the translation only appeared after hydration - invisible to
+   every crawler, and unlinkable. Reading it from the pathname instead means
+   /tr is server-rendered in Turkish, can be linked, shared and indexed, and
+   needs no client state at all.
+
+   Nothing is persisted on purpose. A stored preference that silently
+   overrides the URL is how a visitor ends up on /tr reading German, and how a
+   crawler fetching /tr gets a different page than the one it indexed.
 -------------------------------------------------------------------------- */
 
-let cachedLocale: Locale | null = null;
-const listeners = new Set<() => void>();
-
-function readStoredLocale(): Locale {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY) as Locale | null;
-    return saved && translations[saved] ? saved : DEFAULT_LOCALE;
-  } catch {
-    // Storage disabled (private mode, blocked cookies) - fall back to German.
-    return DEFAULT_LOCALE;
-  }
-}
-
-function getSnapshot(): Locale {
-  cachedLocale ??= readStoredLocale();
-  return cachedLocale;
-}
-
-function getServerSnapshot(): Locale {
-  return DEFAULT_LOCALE;
-}
-
-function subscribe(onChange: () => void) {
-  listeners.add(onChange);
-  // Keep other tabs of the site in sync.
-  const onStorage = (e: StorageEvent) => {
-    if (e.key === STORAGE_KEY) {
-      cachedLocale = readStoredLocale();
-      listeners.forEach((l) => l());
-    }
-  };
-  window.addEventListener("storage", onStorage);
-  return () => {
-    listeners.delete(onChange);
-    window.removeEventListener("storage", onStorage);
-  };
-}
-
-function writeLocale(next: Locale) {
-  cachedLocale = next;
-  try {
-    localStorage.setItem(STORAGE_KEY, next);
-  } catch {
-    // Not persisting is acceptable - the language still applies for this visit.
-  }
-  listeners.forEach((l) => l());
-}
-
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const locale = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const pathname = usePathname();
+  const { locale, basePath } = splitLocalePath(pathname ?? "/");
+
+  const localeInfo = useMemo(
+    () => locales.find((l) => l.code === locale) ?? locales[0],
+    [locale],
+  );
 
   // Keep the document in sync so screen readers, hyphenation and RTL layout
-  // follow the selected language.
+  // follow the served language. The server-rendered `lang` is German for every
+  // route; see the note in src/app/layout.tsx.
   useEffect(() => {
-    const info = locales.find((l) => l.code === locale) || locales[0];
     document.documentElement.lang = locale;
-    document.documentElement.dir = info.dir || "ltr";
-  }, [locale]);
-
-  const setLocale = useCallback((next: Locale) => writeLocale(next), []);
+    document.documentElement.dir = localeInfo.dir ?? "ltr";
+  }, [locale, localeInfo]);
 
   const t = useCallback(
     (key: string): string =>
       translations[locale]?.[key] ?? translations[DEFAULT_LOCALE][key] ?? key,
-    [locale]
+    [locale],
   );
 
   const tc = useCallback(
@@ -110,25 +75,30 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       if (locale === DEFAULT_LOCALE) return germanFallback;
       return contentTranslations[locale]?.[key] ?? germanFallback;
     },
-    [locale]
+    [locale],
   );
 
-  const localeInfo = locales.find((l) => l.code === locale) || locales[0];
+  const hrefFor = useCallback(
+    (target: Locale) => localeHref(target, basePath),
+    [basePath],
+  );
+
+  const value = useMemo(
+    () => ({
+      locale,
+      t,
+      tc,
+      localeInfo,
+      locales,
+      dir: localeInfo.dir ?? ("ltr" as const),
+      basePath,
+      hrefFor,
+    }),
+    [locale, t, tc, localeInfo, basePath, hrefFor],
+  );
 
   return (
-    <LanguageContext.Provider
-      value={{
-        locale,
-        setLocale,
-        t,
-        tc,
-        localeInfo,
-        locales,
-        dir: localeInfo.dir || "ltr",
-      }}
-    >
-      {children}
-    </LanguageContext.Provider>
+    <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
   );
 }
 
