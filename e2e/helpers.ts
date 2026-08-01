@@ -1,5 +1,26 @@
 import { expect, type Page, type Route } from "@playwright/test";
 import { PRODUKTE, istProduktId } from "../src/lib/ebrief/produkte";
+import { STORAGE_KEY as FLOW_STORAGE_KEY } from "../src/components/wizard/flowState";
+
+/**
+ * Makes every navigation in this test start the wizard from its first question.
+ *
+ * The draft lives in sessionStorage and deliberately survives a navigation, so
+ * a tenant who switches language mid-flow keeps their answers. A test that
+ * walks several URLs in one tab inherits that draft too and would find the
+ * wizard already past the eligibility questions. This clears the draft before
+ * the page's own scripts run, so the state is gone by the time the wizard
+ * reads it - unlike clearing after `goto`, which is one hydration too late.
+ */
+export async function startWizardFresh(page: Page) {
+  await page.addInitScript((key) => {
+    try {
+      sessionStorage.removeItem(key);
+    } catch {
+      /* storage blocked - the flow starts empty anyway */
+    }
+  }, FLOW_STORAGE_KEY);
+}
 
 /**
  * Ids of the answers that keep a claim alive, one per eligibility question.

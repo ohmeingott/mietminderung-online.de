@@ -4,6 +4,7 @@ import {
   chooseDeadline,
   expectNoHorizontalOverflow,
   selectDefect,
+  startWizardFresh,
   stubEnhanceApi,
 } from "./helpers";
 
@@ -53,8 +54,12 @@ test.describe("Language switching", () => {
     ] as const;
 
     // Each language is its own URL, so this walks the URLs rather than
-    // toggling in place. Switching mid-wizard is a navigation and would reset
-    // the answers - that is the accepted cost of having linkable translations.
+    // toggling in place. The wizard draft survives a navigation, which is what
+    // a tenant switching language mid-flow wants but would leave every language
+    // after the first already past the eligibility questions - so each URL here
+    // starts from a cleared draft.
+    await startWizardFresh(page);
+
     for (const [path, category] of expected) {
       await page.goto(path);
       await answerEligibility(page);
