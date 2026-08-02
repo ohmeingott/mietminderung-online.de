@@ -79,9 +79,39 @@ export const metadata: Metadata = {
     title: defaultTitle,
     description: siteConfig.description,
   },
-  // No `icons` block: src/app/{favicon.ico,icon.svg,apple-icon.png} are file
-  // conventions, so Next emits the <link> tags itself. Declaring them here as
-  // well took priority and emitted a second, conflicting set.
+  /**
+   * Declared here rather than left to the src/app/{favicon.ico,icon.svg,
+   * apple-icon.png} file conventions, which is what this used to do. Those
+   * conventions emit the <link> tags themselves, and both halves of what they
+   * emitted kept the favicon out of Google's search results:
+   *
+   *   <link rel="icon" href="/favicon.ico?favicon.<hash>.ico" sizes="256x256">
+   *
+   * Google only displays a favicon that is square and a multiple of 48px, and
+   * it takes the declared size at face value. `sizes` was not ours to set: Next
+   * reads the largest entry out of the .ico, which was a 256px one. 256 is not
+   * a multiple of 48, so the icon was rejected and the SERP fell back to the
+   * generic globe. The container is now 16/32/48 and the sizes below say so.
+   *
+   * The `?<hash>` query was the other half. Google asks for a stable favicon
+   * URL, and that one changes with the file's content on every regeneration.
+   * The assets moved to public/, which serves them bare.
+   *
+   * icon-192.png is offered alongside because 192 is 4x48: an unambiguous,
+   * exactly-compliant raster for the crawler to settle on if it would rather
+   * not take the .ico or the SVG.
+   *
+   * The files are the same ones scripts/generate-brand-assets.ts writes, so
+   * keep the two in step - nothing here is generated at build time.
+   */
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+      { url: "/icon.svg", type: "image/svg+xml", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   manifest: "/site.webmanifest",
   /**
    * Search Console / Bing verification tokens, supplied per environment.

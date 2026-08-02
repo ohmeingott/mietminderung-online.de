@@ -126,7 +126,7 @@ function encodeDib(rgba: Buffer, size: number): Buffer {
   return Buffer.concat([header, xor, and]);
 }
 
-type IcoEntry = { size: number; payload: Buffer; png: boolean };
+type IcoEntry = { size: number; payload: Buffer };
 
 function packIco(entries: IcoEntry[]): Buffer {
   const dir = Buffer.alloc(6);
@@ -307,34 +307,46 @@ async function main() {
 
     console.log("brand assets:");
 
-    // Vector favicon. Modern browsers prefer this over the .ico.
-    write("src/app/icon.svg", brandMarkSvg(BRAND_MARK_ON_LIGHT));
+    /*
+     * Everything lands in public/ and nothing in src/app/. The app/ file
+     * convention appends a version query to the emitted <link href> and derives
+     * the `sizes` attribute from the file itself, and neither is what Google's
+     * SERP favicon crawler wants to see. Serving from public/ keeps the URLs
+     * bare and stable and leaves `sizes` for layout.tsx to declare.
+     */
 
-    // .ico for legacy browsers and Google's SERP favicon crawler. 16/32/48 as
-    // DIB for the widest compatibility, 256 as PNG to keep the file small.
-    const icoSizes = [16, 32, 48, 256];
+    // Vector favicon. Modern browsers prefer this over the .ico.
+    write("public/icon.svg", brandMarkSvg(BRAND_MARK_ON_LIGHT));
+
+    /*
+     * .ico for legacy browsers, all three entries as DIB for the widest
+     * compatibility.
+     *
+     * 48 is the largest on purpose. Google only shows a favicon whose size is a
+     * multiple of 48px, and it reads the largest entry in the container, so the
+     * 256px PNG entry this used to carry disqualified the whole file. The SVG
+     * above is what actually serves high-DPI browser tabs, so nothing needs the
+     * .ico to go above 48.
+     */
+    const icoSizes = [16, 32, 48];
     const entries: IcoEntry[] = [];
     for (const size of icoSizes) {
       const png = await renderSvg(browser, markForIcoEntry(size), size);
-      entries.push(
-        size === 256
-          ? { size, payload: png, png: true }
-          : { size, payload: encodeDib(await toRgba(browser, png, size), size), png: false }
-      );
+      entries.push({ size, payload: encodeDib(await toRgba(browser, png, size), size) });
     }
     const ico = packIco(entries);
     assertValidIco(ico, icoSizes);
-    write("src/app/favicon.ico", ico);
+    write("public/favicon.ico", ico);
 
     // Touch icon: full-bleed square, iOS rounds it itself and composites onto
     // black, so it must not carry its own corners or transparency.
     write(
-      "src/app/apple-icon.png",
+      "public/apple-touch-icon.png",
       await renderSvg(browser, brandMarkSvg({ ...BRAND_MARK_ON_LIGHT, radius: 0 }), 180)
     );
 
-    // PWA icons live in public/ so the manifest can reference stable URLs; the
-    // app/ file convention appends a version query.
+    // 192 is 4x48, so this doubles as the PNG favicon Google is offered in
+    // layout.tsx next to the .ico and the SVG.
     write("public/icon-192.png", await renderSvg(browser, brandMarkSvg(BRAND_MARK_ON_LIGHT), 192));
     write("public/icon-512.png", await renderSvg(browser, brandMarkSvg(BRAND_MARK_ON_LIGHT), 512));
     write(
