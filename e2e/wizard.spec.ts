@@ -130,6 +130,63 @@ test.describe("One continuous wizard", () => {
     expect(werte[0]).toBe(0);
     expect(werte[werte.length - 1]).toBe(100);
   });
+
+  test("the progress bar is cut by the card's corner, not by its own", async ({ page }) => {
+    const geometrie = await page.evaluate(() => {
+      const karte = document.querySelector("#pruefung [data-testid=wizard-card] > div")!;
+      const balken = document.querySelector("#pruefung [role=progressbar]")!;
+      const clip = balken.parentElement!;
+      return {
+        karteOverflow: getComputedStyle(karte).overflowY,
+        karteHoehe: karte.getBoundingClientRect().height,
+        karteRahmen: parseFloat(getComputedStyle(karte).borderTopWidth),
+        clipOverflow: getComputedStyle(clip).overflowY,
+        clipHoehe: clip.getBoundingClientRect().height,
+        clipRadius: parseFloat(getComputedStyle(clip).borderTopLeftRadius),
+        balkenHoehe: balken.getBoundingClientRect().height,
+      };
+    });
+
+    // The card may not clip: a non-visible overflow makes the sticky action
+    // bar resolve against this box instead of the viewport, and the box never
+    // scrolls, so the bar would sit below the fold on every long screen.
+    expect(geometrie.karteOverflow).toBe("visible");
+
+    // The bar is six pixels tall against a twenty-pixel corner. A radius is
+    // scaled down to the box carrying it, so on itself the bar could only ever
+    // manage a six-pixel corner and overhung the card's arc. It has to be cut
+    // by a box with the card's own height for the real arc to apply.
+    expect(geometrie.balkenHoehe).toBeLessThan(geometrie.clipRadius);
+    expect(geometrie.clipOverflow).toBe("hidden");
+    // `inset-0` spans the padding box, so it is the card less both borders.
+    expect(geometrie.clipHoehe).toBeCloseTo(
+      geometrie.karteHoehe - 2 * geometrie.karteRahmen,
+      0
+    );
+  });
+
+  test("advancing a screen announces the new heading without painting a ring", async ({
+    page,
+  }) => {
+    // A pointer answer advances on its own, which is the exact path the ring
+    // showed up on.
+    await page.getByTestId("eq-mietvertrag-ja").click();
+    await expect(page.getByTestId("screen-heading")).toHaveText(/Mangel schon/);
+
+    const zustand = await page.evaluate(() => {
+      const h = document.querySelector("[data-testid=screen-heading]")!;
+      return {
+        fokussiert: document.activeElement === h,
+        outline: getComputedStyle(h).outlineStyle,
+      };
+    });
+
+    // Focus has to land here - it is how a screen reader is told the card now
+    // holds something else. It must not be drawn: the reader clicked an answer
+    // and would see a blue box around the next question's title.
+    expect(zustand.fokussiert, "the new heading did not take focus").toBe(true);
+    expect(zustand.outline, "a focus ring was painted on the heading").toBe("none");
+  });
 });
 
 test.describe("The deadline", () => {

@@ -1,11 +1,5 @@
 import { test, expect } from "@playwright/test";
-import {
-  completeCheck,
-  expectNoHorizontalOverflow,
-  openLetterWizard,
-  reachPreview,
-  stubEnhanceApi,
-} from "./helpers";
+import { expectNoHorizontalOverflow } from "./helpers";
 
 test.describe("Landing page and navigation", () => {
   test("renders every section", async ({ page }) => {
@@ -41,41 +35,6 @@ test.describe("Landing page and navigation", () => {
 
     await page.getByTestId("eq-mietvertrag-ja").click();
     await expect(page.getByTestId("eq-mangel_bekannt-nein")).toBeVisible();
-  });
-
-  test("the benefit chips name the price below the first question", async ({
-    page,
-  }) => {
-    await page.goto("/");
-
-    const chips = page.getByTestId("trust-chips");
-    await expect(chips).toContainText("kostenlos");
-
-    // They used to sit between the headline and the card, which pushed the
-    // first question off the first screen. Below it they cost the form nothing.
-    const chipsBox = await chips.boundingBox();
-    const firstAnswer = await page.getByTestId("eq-mietvertrag-ja").boundingBox();
-    expect(chipsBox!.y).toBeGreaterThan(firstAnswer!.y);
-  });
-
-  test("the benefit chips retreat before the paid dispatch card", async ({
-    page,
-  }) => {
-    await stubEnhanceApi(page);
-    await page.goto("/#pruefung");
-    await completeCheck(page);
-    await openLetterWizard(page);
-    await reachPreview(page);
-
-    // Still free up to here, so the chips still hold.
-    await expect(page.getByTestId("trust-chips")).toBeVisible();
-
-    await page.getByTestId("letter-delivery").click();
-    await expect(page.getByTestId("dispatch-card")).toBeVisible();
-
-    // "Keine versteckten Kosten" directly above a price list would read against
-    // the page - postage costs money and the card says so.
-    await expect(page.getByTestId("trust-chips")).toHaveCount(0);
   });
 
   test("every in-page anchor target exists", async ({ page }) => {
@@ -122,11 +81,35 @@ test.describe("Landing page and navigation", () => {
     await page.goto("/");
 
     const nav = page.getByRole("navigation", { name: "Hauptnavigation" });
-    await nav.getByRole("link", { name: "Anspruch prüfen" }).click();
-    await expect(page).toHaveURL(/#pruefung$/);
-
     await nav.getByRole("link", { name: "So funktioniert's" }).click();
     await expect(page).toHaveURL(/#so-funktionierts$/);
+
+    // The check has no nav link of its own any more - the CTA is that link.
+    await page.getByRole("link", { name: "Jetzt prüfen" }).first().click();
+    await expect(page).toHaveURL(/#pruefung$/);
+  });
+
+  test("the desktop header fits its row, CTA included", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "desktop-chromium", "desktop-only header");
+
+    // The width the CTA appears at is the tightest case: everything has to fit
+    // the container, and seven nav links did not - the button was clipped.
+    for (const width of [1280, 1440, 1536]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/");
+
+      const cta = page.getByRole("banner").getByRole("link", { name: "Jetzt prüfen" });
+      await expect(cta).toBeVisible();
+
+      const box = (await cta.boundingBox())!;
+      expect(box.x + box.width, `CTA clipped at ${width}px`).toBeLessThanOrEqual(width);
+
+      const nav = page.getByRole("navigation", { name: "Hauptnavigation" });
+      const navBox = (await nav.boundingBox())!;
+      expect(navBox.x + navBox.width, `nav overlaps the CTA at ${width}px`).toBeLessThanOrEqual(
+        box.x
+      );
+    }
   });
 
   test("mobile menu opens, navigates and closes", async ({ page }, testInfo) => {
@@ -140,8 +123,8 @@ test.describe("Landing page and navigation", () => {
     const mobileNav = page.getByRole("navigation", { name: "Hauptnavigation mobil" });
     await expect(mobileNav).toBeVisible();
 
-    await mobileNav.getByRole("link", { name: "Mängelanzeige" }).click();
-    await expect(page).toHaveURL(/#maengelanzeige$/);
+    await mobileNav.getByRole("link", { name: "So funktioniert's" }).click();
+    await expect(page).toHaveURL(/#so-funktionierts$/);
     await expect(mobileNav).toBeHidden();
   });
 

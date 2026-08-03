@@ -13,10 +13,16 @@ import LanguageSwitcher from "./LanguageSwitcher";
 /**
  * The navigation of the language currently being served.
  *
- * In-page anchors and the FAQ follow the locale, because both exist in every
- * language. The defect table, the guides and the dispatch page do not — they
- * are German-only content — so they are offered only to German readers rather
- * than dropping a Turkish visitor into a German page.
+ * Kept to four entries at most. The German row used to carry seven, and with
+ * the wordmark, the language switcher and the CTA beside it that does not fit
+ * the 1088 px this container leaves at the width the CTA appears at — the
+ * button was clipped. What went is what the row said twice: `#pruefung` is
+ * where the CTA already points, and `#maengelanzeige` is the same wizard one
+ * anchor further down. The FAQ moved to the footer, which lists it for every
+ * language anyway.
+ *
+ * What is left is what a link can reach and a button cannot: the dispatch
+ * page, the section explaining the service, and the two content routes.
  */
 function navLinksFor(locale: Locale) {
   // "/" + "#x" is "/#x"; "/tr" + "#x" is "/tr#x". No trailing slash on either,
@@ -24,30 +30,26 @@ function navLinksFor(locale: Locale) {
   const home = localeHref(locale, "/");
   const anchor = (hash: string) => `${home}${hash}`;
 
-  const shared = [
+  // The dispatch page, the defect table and the guides are German-only
+  // content, so they are offered only to German readers rather than dropping a
+  // Turkish visitor into a German page.
+  if (locale === DEFAULT_LOCALE) {
+    return [
+      { href: VERSAND_PATH, key: "nav.send" },
+      { href: anchor("#so-funktionierts"), key: "nav.how" },
+      { href: "/mietminderungstabelle", key: "nav.table" },
+      { href: "/ratgeber", key: "nav.guide" },
+    ];
+  }
+
+  // Strip the same three from a locale and one link would be left standing.
+  // These rows were never the ones that overflowed, so the check anchor and
+  // the FAQ stay where there is room for them.
+  return [
     { href: anchor("#pruefung"), key: "nav.check" },
-    { href: anchor("#maengelanzeige"), key: "nav.letter" },
-  ];
-
-  const germanOnly = [
-    // Directly after the letter, because that is the order the user meets them
-    // in: first the notice is written, then it has to reach the landlord.
-    { href: VERSAND_PATH, key: "nav.send" },
-  ];
-
-  const rest = [
     { href: anchor("#so-funktionierts"), key: "nav.how" },
     { href: localeHref(locale, "/faq"), key: "nav.faq" },
   ];
-
-  const germanContent = [
-    { href: "/mietminderungstabelle", key: "nav.table" },
-    { href: "/ratgeber", key: "nav.guide" },
-  ];
-
-  return locale === DEFAULT_LOCALE
-    ? [...shared, ...germanOnly, ...rest, ...germanContent]
-    : [...shared, ...rest];
 }
 
 export default function Header() {

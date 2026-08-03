@@ -119,6 +119,21 @@ p {
   border-radius: 4px;
 }
 
+/* …except on the wizard's screen headings, which take focus programmatically
+   on every screen change so a screen reader announces what the card now holds.
+   Those headings are no tab stop and nothing to operate, so a ring there is
+   not focus feedback - it is a blue box drawn around the next question's title
+   right after the user clicked an answer.
+
+   They already carry Tailwind's `outline-none` and it does not win: the rule
+   above is unlayered, every Tailwind utility lives in `@layer utilities`, and
+   unlayered declarations beat layered ones no matter the specificity. So the
+   exception has to be unlayered too. */
+h2[tabindex="-1"]:focus,
+h2[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+
 /* Remove the number-input spinners - the rent field uses a numeric keypad. */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
