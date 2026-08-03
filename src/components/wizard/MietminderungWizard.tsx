@@ -2,9 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import FormCard from "@/components/FormCard";
-import TrustChips from "@/components/TrustChips";
 import FooterActions from "@/components/wizard/FooterActions";
-import WizardStepper from "@/components/wizard/WizardStepper";
 import { WizardProvider, type WizardContextValue } from "@/components/wizard/WizardContext";
 import {
   flowStore,
@@ -444,7 +442,13 @@ export default function MietminderungWizard() {
             </div>
           ) : (
             <div id="maengelanzeige" ref={kartenRef} data-testid="wizard-card" data-screen={screen}>
-              <WizardStepper />
+              {/*
+                No stepper above the card. It named five phases while the bar
+                on the card's top edge measured the same journey in fourteen
+                screens - two progress readings stacked on each other, taking
+                the space directly above the first question. The bar stays,
+                the phase the user is on is named inside the card.
+              */}
               <FormCard
                 completed={screen}
                 total={LETZTER_SCHRITT}
@@ -469,20 +473,14 @@ export default function MietminderungWizard() {
         </div>
 
         {/*
-          The benefits go below the card, never above it: they reassure, they
-          do not lead into the form, and the first question has to stay on the
-          first screen. They stop at the last one, where the dispatch card puts
-          a price on the table - a chip promising no hidden costs directly
-          above a price list would be reading against the page. Their row gets
-          a wider container than the card so the three chips keep to one line
-          in every language; the content is narrower than the card, so the row
-          still lines up with its edges.
+          No benefit chips under the card. Two of the three said "kostenlos",
+          which the subheadline already says, and they sat where the objection
+          they answer does not exist yet: nothing on the first screen suggests
+          a price. The one place it does come up is the dispatch card on the
+          last screen - which is exactly where the row used to stop. They were
+          placed where they could not work and hidden where the question is
+          actually asked, so they are gone rather than reworded.
         */}
-        {!state.notEligibleQuestionId && screen !== SCREEN.FERTIG && (
-          <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
-            <TrustChips />
-          </div>
-        )}
       </section>
     </WizardProvider>
   );

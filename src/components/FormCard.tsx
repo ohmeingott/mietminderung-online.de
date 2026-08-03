@@ -57,9 +57,26 @@ export default function FormCard({
        * The two children that touch the edges round themselves instead: the
        * progress bar its top corners, the action bar its bottom ones.
        */
-      className={`rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised shadow-[var(--shadow-raise)] ${className}`}
+      className={`relative rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised shadow-[var(--shadow-raise)] ${className}`}
     >
-      <FormProgress completed={completed} total={total} label={label} />
+      {/*
+       * The progress bar paints inside a clip layer rather than rounding its
+       * own corners. It is six pixels tall and the card's corner is twenty:
+       * CSS scales a radius down to the box that carries it, so the strip
+       * could only ever manage a six-pixel corner and visibly overhung the
+       * card's arc at both ends. This layer carries the card's own geometry -
+       * inset by the 1px border, hence the `calc` - so the strip is cut along
+       * the real corner.
+       *
+       * Absolutely positioned, so it is the containing block of nothing and
+       * cannot become the scroll box a `position: sticky` descendant resolves
+       * against. That is the whole reason the card itself may not clip.
+       */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[calc(var(--radius-card)-1px)]">
+        <FormProgress completed={completed} total={total} label={label} />
+      </div>
+      {/* Holds the height the bar no longer takes in flow. */}
+      <div className="h-1 sm:h-1.5" aria-hidden />
       <div
         className={padded ? `p-5 sm:p-10 ${contentClassName}` : contentClassName}
       >
