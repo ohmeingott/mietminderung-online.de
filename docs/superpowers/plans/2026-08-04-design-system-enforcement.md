@@ -234,11 +234,10 @@ export function Button(props: AsLink | AsButton) {
 - [ ] **Step 2: Typen und Lint prüfen**
 
 ```bash
-npx tsc --noEmit 2>&1 | grep -v 'speed-insights\|stripe'
+npx tsc --noEmit
 ```
 
-Erwartet: keine Ausgabe. (Die beiden gefilterten Fehler sind vorbestehend und
-kommen von Paketen, die im Worktree nicht installiert sind.)
+Erwartet: keine Ausgabe.
 
 ```bash
 npx eslint src/components/ui/Button.tsx
@@ -306,7 +305,7 @@ Regel: In `className` bleiben nur Layout-Klassen (`mt-*`, `w-full`, `hidden`,
 - [ ] **Step 2: Prüfen**
 
 ```bash
-npx tsc --noEmit 2>&1 | grep -v 'speed-insights\|stripe'
+npx tsc --noEmit
 npm run lint
 npm run build
 ```
@@ -367,7 +366,7 @@ beabsichtigte sichtbare Änderung dieses Tasks** — beide werden zu
 - [ ] **Step 2: Prüfen**
 
 ```bash
-npx tsc --noEmit 2>&1 | grep -v 'speed-insights\|stripe'
+npx tsc --noEmit
 npm run lint
 npm run build
 ```
@@ -645,7 +644,7 @@ npx eslint 'src/app/mietminderung/[kategorie]/[mangel]/page.tsx' 2>&1 | grep -c 
 Erwartet: `0`.
 
 ```bash
-npx tsc --noEmit 2>&1 | grep -v 'speed-insights\|stripe'
+npx tsc --noEmit
 npm run build
 ```
 
@@ -722,7 +721,7 @@ sehen wie Buttons aus, sind aber Zähler-Chips. Sie bekommen in Step 4
 
 ```bash
 npx eslint src/app/maengelanzeige-versenden/page.tsx 2>&1 | grep -c no-restricted-syntax
-npx tsc --noEmit 2>&1 | grep -v 'speed-insights\|stripe'
+npx tsc --noEmit
 npm run build
 ```
 
@@ -900,7 +899,7 @@ Zeile 179: `bg-emerald-50` → `bg-signal-50`, `text-emerald-700` →
 
 ```bash
 npx eslint src/app/mietminderung/page.tsx 2>&1 | grep -c no-restricted-syntax
-npx tsc --noEmit 2>&1 | grep -v 'speed-insights\|stripe'
+npx tsc --noEmit
 npm run build
 ```
 
@@ -1048,7 +1047,7 @@ npx eslint src 2>&1 | grep -c no-restricted-syntax
 Erwartet: `0` — die gesamte Codebasis ist jetzt sauber.
 
 ```bash
-npx tsc --noEmit 2>&1 | grep -v 'speed-insights\|stripe'
+npx tsc --noEmit
 npm run build
 ```
 
