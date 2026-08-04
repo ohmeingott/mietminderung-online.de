@@ -129,6 +129,7 @@ export default function MaengelScreen() {
             }`}
           >
             <span className="flex items-start gap-3">
+              {/* 20px checkbox is too small for the field radius; 12px on a 20px edge would read as a radio button. */}
               <span
                 className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors ${
                   gewaehlt ? "border-brand-600 bg-brand-600" : "border-ink-300"

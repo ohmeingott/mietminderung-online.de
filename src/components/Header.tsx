@@ -146,7 +146,7 @@ export default function Header() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="flex min-h-[3rem] items-center rounded-xl px-3 text-base font-medium text-ink-700 transition-colors hover:bg-ink-100"
+                    className="flex min-h-[3rem] items-center rounded-field px-3 text-base font-medium text-ink-700 transition-colors hover:bg-ink-100"
                     onClick={() => setMobileOpen(false)}
                   >
                     {t(link.key)}
