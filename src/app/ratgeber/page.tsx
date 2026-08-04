@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/content/Breadcrumbs";
 import ContentFooter from "@/components/content/ContentFooter";
 import ContentHeader from "@/components/content/ContentHeader";
 import JsonLd from "@/components/JsonLd";
+import { Button } from "@/components/ui/Button";
 import { ratgeberArtikel } from "@/data/ratgeber";
 import { absoluteUrl } from "@/lib/site";
 import {
@@ -60,16 +61,16 @@ export default function RatgeberHub() {
 
       <ContentHeader />
 
-      <main className="bg-gray-50">
-        <div className="bg-gradient-to-br from-blue-800 via-blue-700 to-blue-600 text-white">
+      <main className="bg-paper-sunken">
+        <div className="bg-gradient-to-br from-brand-800 via-brand-700 to-brand-600 text-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-14">
-            <div className="[&_a]:text-blue-200 [&_a:hover]:text-white [&_span]:text-blue-100">
+            <div className="[&_a]:text-brand-200 [&_a:hover]:text-white [&_span]:text-brand-100">
               <Breadcrumbs crumbs={crumbs} />
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
               Ratgeber Mietminderung
             </h1>
-            <p className="mt-5 text-lg text-blue-100 max-w-3xl leading-relaxed">
+            <p className="mt-5 text-lg text-brand-100 max-w-3xl leading-relaxed">
               Von der ersten Mängelanzeige bis zur Rückforderung zu viel
               gezahlter Miete: Diese Anleitungen erklären Schritt für Schritt
               und ohne Fachjargon, wie Sie Ihr Recht als Mieter nach deutschem
@@ -85,20 +86,20 @@ export default function RatgeberHub() {
               {ratgeberArtikel.map((artikel) => (
                 <article
                   key={artikel.slug}
-                  className="flex flex-col rounded-2xl border border-gray-200 bg-white p-6 hover:border-blue-400 hover:shadow-md transition-all"
+                  className="flex flex-col rounded-card border border-ink-200 bg-paper-raised p-6 hover:border-brand-400 hover:shadow-md transition-all"
                 >
-                  <h3 className="text-lg font-bold text-gray-900">
+                  <h3 className="text-lg font-bold text-ink-900">
                     <Link
                       href={`/ratgeber/${artikel.slug}`}
-                      className="hover:text-blue-700 transition-colors"
+                      className="hover:text-brand-700 transition-colors"
                     >
                       {artikel.title}
                     </Link>
                   </h3>
-                  <p className="mt-3 text-sm text-gray-600 leading-relaxed grow">
+                  <p className="mt-3 text-sm text-ink-600 leading-relaxed grow">
                     {artikel.description}
                   </p>
-                  <div className="mt-4 flex items-center gap-3 text-xs text-gray-400">
+                  <div className="mt-4 flex items-center gap-3 text-xs text-ink-400">
                     <span>{artikel.readingMinutes} Min. Lesezeit</span>
                     <span aria-hidden="true">·</span>
                     <span>{artikel.faqs.length} beantwortete Fragen</span>
@@ -108,35 +109,26 @@ export default function RatgeberHub() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <section className="rounded-card border border-ink-200 bg-paper-raised p-6 sm:p-10">
+            <h2 className="text-2xl font-bold text-ink-900 mb-4">
               Sie suchen die Quote für einen konkreten Mangel?
             </h2>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-ink-700 leading-relaxed">
               Die Ratgeber erklären das Verfahren. Wie viel Prozent Minderung
               bei Ihrem konkreten Mangel anerkannt sind, steht in der
               Mängelübersicht: Dort ist jeder Mangel einzeln aufgeschlüsselt,
               inklusive Rechner und Nachweis-Checkliste.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href="/mietminderung"
-                className="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 transition-colors"
-              >
+              <Button href="/mietminderung" size="sm">
                 Mängel A–Z
-              </Link>
-              <Link
-                href="/mietminderungstabelle"
-                className="rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:border-blue-400 hover:text-blue-700 transition-colors"
-              >
+              </Button>
+              <Button href="/mietminderungstabelle" variant="secondary" size="sm">
                 Mietminderungstabelle
-              </Link>
-              <Link
-                href="/faq"
-                className="rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:border-blue-400 hover:text-blue-700 transition-colors"
-              >
+              </Button>
+              <Button href="/faq" variant="secondary" size="sm">
                 Häufige Fragen
-              </Link>
+              </Button>
             </div>
           </section>
         </div>
