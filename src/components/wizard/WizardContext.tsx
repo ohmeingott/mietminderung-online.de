@@ -54,7 +54,6 @@ export interface WizardContextValue {
   setMieter: (patch: Partial<MieterDaten>) => void;
   setVermieter: (patch: Partial<VermieterDaten>) => void;
   setMangelDetail: (mangelId: string, patch: Partial<MangelDetail>) => void;
-  setEmailOptIn: (an: boolean) => void;
   mieterValid: boolean;
   vermieterValid: boolean;
 

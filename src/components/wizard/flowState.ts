@@ -30,7 +30,6 @@ export interface FlowState {
    */
   generierterText: string;
   signatureData: string;
-  emailOptIn: boolean;
 }
 
 export const LEERER_MIETER: MieterDaten = {
@@ -67,7 +66,6 @@ export const LEERER_FLOW: FlowState = {
   briefText: "",
   generierterText: "",
   signatureData: "",
-  emailOptIn: false,
 };
 
 const STORAGE_KEY = "mangelflow:v1";

@@ -203,35 +203,6 @@ export default function Datenschutz() {
       ),
     },
     {
-      heading: "E-Mail-Verteiler (freiwilliges Opt-in)",
-      body: (
-        <>
-          <p>
-            Im Formular können Sie freiwillig ankreuzen, dass wir Sie über
-            Neuigkeiten informieren dürfen. Nur dann werden{" "}
-            <strong>Ihr Name und Ihre E-Mail-Adresse</strong> zusammen mit dem
-            Zeitpunkt der Anmeldung an einen von uns betriebenen
-            Google-Sheets-Webhook (Google Ireland Limited) übermittelt und dort
-            gespeichert.
-          </p>
-          <ul>
-            <li>
-              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. a DSGVO
-              (Einwilligung)
-            </li>
-            <li>
-              <strong>Speicherdauer:</strong> bis zum Widerruf Ihrer Einwilligung
-            </li>
-            <li>
-              <strong>Widerruf:</strong> jederzeit formlos per E-Mail an{" "}
-              <a href={mailto}>{site.operator.email}</a>. Die Rechtmäßigkeit der
-              bis zum Widerruf erfolgten Verarbeitung bleibt unberührt.
-            </li>
-          </ul>
-        </>
-      ),
-    },
-    {
       heading: "Postversand der Mängelanzeige (kostenpflichtig)",
       body: (
         <>
@@ -439,7 +410,7 @@ export default function Datenschutz() {
                 </tr>
                 <tr>
                   <td>Google Ireland Limited</td>
-                  <td>KI-Textverbesserung, E-Mail-Verteiler</td>
+                  <td>KI-Textverbesserung</td>
                   <td>Irland (EU)</td>
                 </tr>
                 <tr>

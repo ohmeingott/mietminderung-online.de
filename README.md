@@ -47,7 +47,6 @@ src/
     nutzungsbedingungen/ widerruf/
     api/
       enhance-beschreibung/     Gemini-Textverbesserung
-      save-email/               Newsletter-Opt-in
   components/                   UI-Komponenten
   data/maengel.ts               Mängelkatalog, Prüffragen, FAQ (deutsche Quelle)
   i18n/

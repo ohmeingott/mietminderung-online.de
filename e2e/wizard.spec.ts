@@ -387,7 +387,7 @@ test.describe("The draft survives", () => {
   });
 });
 
-test.describe("The e-mail is optional", () => {
+test.describe("The e-mail is asked for at dispatch and nowhere else", () => {
   test("the letter can be finished without one, and dispatch then asks", async ({ page }) => {
     const stub = await stubVersandApi(page);
     await stubEnhanceApi(page);
@@ -395,7 +395,7 @@ test.describe("The e-mail is optional", () => {
     await completeCheck(page);
     await openLetterWizard(page);
 
-    await fillTenant(page, { ...TENANT, email: "" });
+    await fillTenant(page);
     await page.getByTestId("letter-next").click();
     await fillLandlord(page);
     await page.getByTestId("letter-next").click();

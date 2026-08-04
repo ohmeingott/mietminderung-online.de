@@ -160,8 +160,6 @@ be recovered when it is rebuilt. To bring it back you will need, at minimum:
 - **Legal texts are German only.** That is deliberate — only the German version
   is binding — and non-German visitors see a note saying so. If you want
   translated courtesy versions, they must be marked non-binding.
-- **`/api/save-email` has no rate limiting** and posts to a Google Sheets
-  webhook. Low risk, but trivially spammable.
 - **No cookie banner** — correct as built, since nothing is stored on the device
   beyond the language preference, which is exempt under § 25 Abs. 2 Nr. 2 TDDDG.
   If you later add marketing pixels, you will need one.

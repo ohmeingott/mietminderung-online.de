@@ -41,8 +41,6 @@ import { generateBriefText } from "@/lib/brief/generateBriefText";
 import { fristDatum as berechneFrist, fristVorschlag } from "@/lib/brief/frist";
 import type { MangelDetail, MieterDaten, VermieterDaten } from "@/lib/brief/generateBriefText";
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
 const LEERES_DETAIL: MangelDetail = { raum: "", seit: "", beschreibung: "" };
 
 /** Matches `[id] { scroll-margin-top: 5.5rem }` in globals.css. */
@@ -245,12 +243,10 @@ export default function MietminderungWizard() {
   );
 
   const { mieter, vermieter } = state;
-  // The e-mail is optional for the free download - it is only needed when the
-  // letter is posted for money, and the dispatch card asks for it there. A
-  // present but malformed address still blocks.
-  const mieterValid =
-    Boolean(mieter.name && mieter.strasse && mieter.plz && mieter.ort) &&
-    (mieter.email === "" || EMAIL_PATTERN.test(mieter.email));
+  // No e-mail in the check: this step no longer asks for one. It is only
+  // needed when the letter is posted for money, and the dispatch card both
+  // asks for it and validates it there.
+  const mieterValid = Boolean(mieter.name && mieter.strasse && mieter.plz && mieter.ort);
   const vermieterValid = Boolean(
     vermieter.name && vermieter.strasse && vermieter.plz && vermieter.ort
   );
@@ -384,7 +380,6 @@ export default function MietminderungWizard() {
     setMieter,
     setVermieter,
     setMangelDetail,
-    setEmailOptIn: (an) => setState({ emailOptIn: an }),
     mieterValid,
     vermieterValid,
     fristVorschlag: vorschlag,
