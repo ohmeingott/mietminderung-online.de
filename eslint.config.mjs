@@ -17,7 +17,7 @@ const eslintConfig = defineConfig([
     files: ["src/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-syntax": [
-        "warn",
+        "error",
         {
           selector: rawColorLiteral("JSXAttribute[name.name='className']"),
           message:
