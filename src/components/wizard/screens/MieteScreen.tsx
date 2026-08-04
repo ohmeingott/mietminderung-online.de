@@ -27,7 +27,7 @@ export default function MieteScreen() {
           value={state.bruttowarmmiete}
           onChange={(e) => setBruttowarmmiete(e.target.value)}
           placeholder={t("check.rentPlaceholder")}
-          className="h-16 w-full rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-5 pe-14 text-2xl font-semibold text-ink-900 tabular-nums transition-colors placeholder:font-normal placeholder:text-ink-300 focus:border-brand-500 focus:outline-none"
+          className="h-16 w-full rounded-field border border-ink-300 bg-paper-raised px-5 pe-14 text-2xl font-semibold text-ink-900 tabular-nums transition-colors placeholder:font-normal placeholder:text-ink-300 focus:border-brand-500 focus:outline-none"
         />
         <span
           className="pointer-events-none absolute end-5 top-1/2 -translate-y-1/2 text-xl font-medium text-ink-400"
@@ -37,7 +37,7 @@ export default function MieteScreen() {
         </span>
       </div>
 
-      <div className="mt-5 flex items-start gap-3 rounded-[var(--radius-field)] bg-paper-sunken p-4">
+      <div className="mt-5 flex items-start gap-3 rounded-field bg-paper-sunken p-4">
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-brand-500" aria-hidden />
         <p className="text-sm text-ink-600">{t("check.rentInfo")}</p>
       </div>

@@ -62,7 +62,7 @@ export default function VersandErgebnis({
           <div
             data-testid={`versand-ergebnis-${variante}`}
             role="status"
-            className={`rounded-[var(--radius-card)] border p-6 sm:p-8 ${
+            className={`rounded-card border p-6 sm:p-8 ${
               erfolg
                 ? "border-signal-600/20 bg-signal-50"
                 : "border-caution-600/20 bg-caution-50"

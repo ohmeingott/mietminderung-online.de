@@ -54,7 +54,7 @@ export default function AnspruchsfrageScreen() {
               onClick={(e) => {
                 if (e.detail > 0) bestaetigeAntwort(frage.id, option.value, option.eligible);
               }}
-              className={`group flex w-full cursor-pointer items-center gap-3.5 rounded-[var(--radius-field)] border px-4 py-3.5 text-start transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-500 sm:px-5 ${
+              className={`group flex w-full cursor-pointer items-center gap-3.5 rounded-field border px-4 py-3.5 text-start transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-500 sm:px-5 ${
                 aktiv
                   ? "border-brand-500 bg-brand-50"
                   : "border-ink-200 bg-paper-raised hover:border-brand-400 hover:bg-brand-50"

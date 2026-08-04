@@ -55,7 +55,7 @@ export default function FertigScreen() {
     <>
       <ScreenHeading title={t("letter.howReceive")} description={t("letter.downloadDesc")} />
 
-      <div className="mt-6 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-5">
+      <div className="mt-6 rounded-field border border-brand-200 bg-brand-50 p-5">
         <p className="mb-4 text-center text-sm font-bold text-signal-600">{t("letter.free")}</p>
         <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center">
           <Button type="button" data-testid="download-pdf" onClick={pdfLaden}>
@@ -73,7 +73,7 @@ export default function FertigScreen() {
         </div>
       </div>
 
-      <div className="mt-6 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4">
+      <div className="mt-6 flex items-start gap-3 rounded-field border border-caution-600/20 bg-caution-50 p-4">
         <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-caution-600" aria-hidden />
         <p className="text-sm text-caution-600">
           <strong>{t("common.note")}:</strong> {t("letter.warning")}

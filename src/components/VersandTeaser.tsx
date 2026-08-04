@@ -95,7 +95,7 @@ export default function VersandTeaser() {
             {optionen.map((option) => (
               <li
                 key={option.titel}
-                className="rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-5 sm:p-6"
+                className="rounded-card border border-ink-200 bg-paper-raised p-5 sm:p-6"
               >
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="text-base font-bold text-ink-900 sm:text-lg">

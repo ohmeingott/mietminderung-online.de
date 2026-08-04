@@ -43,7 +43,7 @@ export default function FAQPageContent({ faqs }: { faqs: FAQ[] }) {
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <FAQAccordion faqs={faqs} />
 
-            <div className="mt-12 rounded-[var(--radius-card)] border border-ink-200 bg-paper-sunken p-6 sm:p-8">
+            <div className="mt-12 rounded-card border border-ink-200 bg-paper-sunken p-6 sm:p-8">
               <h2 className="text-base font-bold text-ink-900 sm:text-lg">
                 {t("faq.legal.title")}
               </h2>
@@ -52,7 +52,7 @@ export default function FAQPageContent({ faqs }: { faqs: FAQ[] }) {
               </p>
             </div>
 
-            <div className="mt-8 overflow-hidden rounded-[var(--radius-card)] bg-brand-900 p-6 text-center sm:p-10">
+            <div className="mt-8 overflow-hidden rounded-card bg-brand-900 p-6 text-center sm:p-10">
               <h2 className="text-xl font-bold text-white sm:text-2xl">
                 {t("faqpage.cta.title")}
               </h2>

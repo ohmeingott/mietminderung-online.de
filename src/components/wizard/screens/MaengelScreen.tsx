@@ -85,7 +85,7 @@ export default function MaengelScreen() {
             data-testid={`kategorie-${kat.id}`}
             aria-pressed={offen}
             onClick={() => setSelectedKategorie(kat.id)}
-            className={`card-hover relative flex min-h-[5.5rem] flex-col items-center justify-center gap-2 rounded-[var(--radius-field)] border p-3 text-center transition-colors sm:min-h-[6.5rem] lg:min-h-0 lg:flex-row lg:items-center lg:justify-start lg:gap-3 lg:border-0 lg:px-3 lg:py-2.5 lg:text-start ${
+            className={`card-hover relative flex min-h-[5.5rem] flex-col items-center justify-center gap-2 rounded-field border p-3 text-center transition-colors sm:min-h-[6.5rem] lg:min-h-0 lg:flex-row lg:items-center lg:justify-start lg:gap-3 lg:border-0 lg:px-3 lg:py-2.5 lg:text-start ${
               anzahl > 0 || offen
                 ? "border-brand-500 bg-brand-50"
                 : "border-ink-200 bg-paper-raised hover:border-brand-300 lg:hover:bg-paper-sunken"
@@ -122,7 +122,7 @@ export default function MaengelScreen() {
             data-testid={`mangel-${mangel.id}`}
             onClick={() => toggleMangel(mangel)}
             aria-pressed={gewaehlt}
-            className={`w-full rounded-[var(--radius-field)] border px-4 py-3.5 text-start transition-colors ${
+            className={`w-full rounded-field border px-4 py-3.5 text-start transition-colors ${
               gewaehlt
                 ? "border-brand-500 bg-brand-50"
                 : "border-ink-200 bg-paper-raised hover:border-brand-300"
@@ -199,7 +199,7 @@ export default function MaengelScreen() {
       </div>
 
       {selectedMaengel.length > 0 && (
-        <div className="mt-6 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-4">
+        <div className="mt-6 rounded-field border border-brand-200 bg-brand-50 p-4">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <span className="text-sm font-semibold text-brand-800">
               {selectedMaengel.length} {t("check.selected")}
@@ -240,7 +240,7 @@ export default function MaengelScreen() {
       {flaecheMangel && (
         <div
           data-testid="wohnflaeche-panel"
-          className="mt-4 rounded-[var(--radius-field)] border border-ink-200 bg-paper-sunken p-4"
+          className="mt-4 rounded-field border border-ink-200 bg-paper-sunken p-4"
         >
           <h4 className="font-semibold text-ink-800">{t("check.flaecheTitle")}</h4>
           <p className="mt-1 text-sm text-ink-600">{t("check.flaecheDesc")}</p>
@@ -261,7 +261,7 @@ export default function MaengelScreen() {
                 step="0.01"
                 value={state.flaecheVereinbart}
                 onChange={(e) => setFlaecheVereinbart(e.target.value)}
-                className="mt-1.5 h-12 w-full rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 font-semibold text-ink-900 tabular-nums focus:border-brand-500 focus:outline-none"
+                className="mt-1.5 h-12 w-full rounded-field border border-ink-300 bg-paper-raised px-4 font-semibold text-ink-900 tabular-nums focus:border-brand-500 focus:outline-none"
               />
             </div>
             <div>
@@ -280,7 +280,7 @@ export default function MaengelScreen() {
                 step="0.01"
                 value={state.flaecheTatsaechlich}
                 onChange={(e) => setFlaecheTatsaechlich(e.target.value)}
-                className="mt-1.5 h-12 w-full rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 font-semibold text-ink-900 tabular-nums focus:border-brand-500 focus:outline-none"
+                className="mt-1.5 h-12 w-full rounded-field border border-ink-300 bg-paper-raised px-4 font-semibold text-ink-900 tabular-nums focus:border-brand-500 focus:outline-none"
               />
             </div>
           </div>

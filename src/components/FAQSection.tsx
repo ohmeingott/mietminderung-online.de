@@ -40,7 +40,7 @@ export default function FAQSection() {
           </Button>
         </div>
 
-        <div className="mt-12 rounded-[var(--radius-card)] border border-ink-200 bg-paper-sunken p-6 sm:p-8">
+        <div className="mt-12 rounded-card border border-ink-200 bg-paper-sunken p-6 sm:p-8">
           <h3 className="text-base font-bold text-ink-900 sm:text-lg">
             {t("faq.legal.title")}
           </h3>

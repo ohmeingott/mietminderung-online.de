@@ -42,7 +42,7 @@ export default function InfoSection() {
           {cards.map((card) => (
             <article
               key={card.titleKey}
-              className="card-hover rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-5 sm:p-6"
+              className="card-hover rounded-card border border-ink-200 bg-paper-raised p-5 sm:p-6"
             >
               <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
                 <card.icon className="h-5 w-5" aria-hidden />

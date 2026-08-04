@@ -18,7 +18,7 @@ export default function BeschreibungScreen() {
       />
 
       {locale !== "de" && (
-        <div className="mt-4 flex items-start gap-2.5 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-3.5">
+        <div className="mt-4 flex items-start gap-2.5 rounded-field border border-brand-200 bg-brand-50 p-3.5">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden />
           <p className="text-sm text-brand-800">{t("letter.nativeHint")}</p>
         </div>
@@ -33,7 +33,7 @@ export default function BeschreibungScreen() {
           return (
             <div
               key={mangel.id}
-              className="rounded-[var(--radius-field)] border border-ink-200 p-4 sm:p-5 lg:p-6"
+              className="rounded-field border border-ink-200 p-4 sm:p-5 lg:p-6"
             >
               <h3 className="font-semibold text-ink-900">
                 {i + 1}. {mangelLabel(mangel)}

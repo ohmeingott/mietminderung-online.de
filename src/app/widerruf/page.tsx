@@ -79,7 +79,7 @@ export default function Widerruf() {
           Formular aus und senden Sie es zurück. Sie können es auch formlos per
           E-Mail tun.
         </p>
-        <div className="rounded-[var(--radius-field)] border border-ink-200 bg-paper-sunken p-4 text-sm leading-relaxed">
+        <div className="rounded-field border border-ink-200 bg-paper-sunken p-4 text-sm leading-relaxed">
           {musterWiderrufsformular.map((zeile) => (
             <p key={zeile.slice(0, 40)}>{zeile}</p>
           ))}

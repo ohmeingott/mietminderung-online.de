@@ -33,7 +33,7 @@ export default function HowItWorks() {
             return (
               <li
                 key={step.title}
-                className="card-hover relative flex gap-4 rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-5 sm:flex-col sm:gap-0 sm:p-6"
+                className="card-hover relative flex gap-4 rounded-card border border-ink-200 bg-paper-raised p-5 sm:flex-col sm:gap-0 sm:p-6"
               >
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 sm:mb-5">
                   <Icon className="h-5.5 w-5.5" aria-hidden />
