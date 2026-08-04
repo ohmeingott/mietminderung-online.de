@@ -7,6 +7,7 @@ import {
 } from "@/lib/ebrief/types";
 import type { JobStatus } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
+import { HERKUNFT, istFremd } from "@/lib/herkunft";
 import { stripe, stripeKonfiguriert } from "@/lib/stripe";
 import { emailConfigured, sendEmail } from "@/lib/email/send";
 import { bestellbestaetigungEmail } from "@/lib/email/templates";
@@ -272,6 +273,40 @@ export async function POST(request: Request) {
   // the event list cannot quietly hand us the wrong object shape.
   const session = event.data.object;
 
+  /*
+   * Is this payment even ours?
+   *
+   * Animals of Cologne runs a second service on this same Stripe account and
+   * this same eBrief customer number (D01039646): widerspruch-krankengeld.de.
+   * Stripe delivers every event to every endpoint on an account — there is no
+   * filtering by metadata, and Stripe's own guidance is that separate accounts
+   * are the clean answer, with a metadata filter as the alternative. So without
+   * this check a payment made over there arrives here too, and its
+   * `metadata.jobId` resolves to a real job in the shared eBrief account. We
+   * would post a stranger's letter.
+   *
+   * `produktId` cannot tell the two apart: both catalogues carry the id
+   * `einwurfEinschreiben`.
+   *
+   * Written as a rejection ("set, and not ours") rather than a requirement
+   * ("must be ours") on purpose. Sessions created before this deploys carry no
+   * `herkunft` at all, and a requirement would strand every one of them — paid
+   * letters that would never be posted. Once this service also stamps its own
+   * `herkunft` and no unmarked session can still be in flight, this can be
+   * tightened into a requirement.
+   */
+  const herkunft = session.metadata?.herkunft;
+  if (herkunft && herkunft !== HERKUNFT) {
+    // Genuine, correctly signed, and none of our business. Acknowledged so
+    // Stripe stops resending it.
+    console.log("Stripe session belongs to another service — ignored", {
+      eventId: event.id,
+      sessionId: session.id,
+      herkunft,
+    });
+    return NextResponse.json({ empfangen: true });
+  }
+
   // `completed` arrives for delayed-notification methods while the payment is
   // still pending; Stripe's own guidance is to wait for
   // `async_payment_succeeded` in that case. Dispatching here would post a
@@ -335,6 +370,50 @@ export async function POST(request: Request) {
   try {
     const job = await getJob(jobId);
     const jobStatus = job.JobStatus;
+
+    /*
+     * The second and more valuable check: does the JOB belong to us?
+     *
+     * The check further up examined the payment — a label we attached
+     * ourselves. This one examines the thing we are about to act on
+     * irreversibly. The eBrief customer number is shared with
+     * widerspruch-krankengeld.de, so every jobId resolves in both systems. If
+     * our session points at a job that is demonstrably not ours, payment and
+     * letter have come apart, and posting it would send a stranger's letter.
+     *
+     * Not refunded automatically, in keeping with every other "needs a human"
+     * branch in this handler: a refund moves real money, and this line carries
+     * everything needed to issue one by hand.
+     *
+     * A rejection rather than a requirement, and here that is not optional.
+     * This service is live: jobs created before this shipped carry no
+     * reference, and requiring one would strand paid letters. There is also
+     * genuine doubt whether eBrief returns it at all — `GET /Jobs/{id}` has no
+     * `Reference` field of its own in the schema, only the search does, and the
+     * staging capture does not settle it. The warning below is how that
+     * question gets answered from production logs.
+     */
+    const referenz = job.Attributes?.Reference;
+    if (istFremd(referenz)) {
+      console.error(
+        "PAID BUT NOT POSTED: the eBrief job belongs to another service — do not resend, refund by hand",
+        {
+          eventId: event.id,
+          sessionId: session.id,
+          paymentIntent: paymentIntentId(session),
+          amountTotal: session.amount_total,
+          jobId,
+          referenz,
+        }
+      );
+      return NextResponse.json({ empfangen: true });
+    }
+    if (!referenz) {
+      console.warn("eBrief job carries no reference — the second check is inert", {
+        eventId: event.id,
+        jobId,
+      });
+    }
 
     if (hatStatus(jobStatus, DISTRIBUTED_STATUSES)) {
       const art = artDerWiederholung(jobId, session.id);

@@ -7,6 +7,7 @@ import {
   getPrice,
 } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
+import { HERKUNFT } from "@/lib/herkunft";
 import { versandToken, versandTokenKonfiguriert } from "@/lib/versandToken";
 import { stripeKonfiguriert } from "@/lib/stripe";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
@@ -168,6 +169,12 @@ export async function POST(request: Request) {
   try {
     const job = await createJob({
       ...produkt.ebrief,
+      // Which service owns this job. The eBrief customer number is shared with
+      // widerspruch-krankengeld.de, so every jobId is valid in both systems,
+      // and this is the only mark on the job itself that says whose it is. The
+      // webhook checks it before the one irreversible step. See
+      // src/lib/herkunft.ts.
+      Reference: HERKUNFT,
       // Address warnings must surface instead of being waved through — with
       // "true" eBrief would post to an address its own check objected to.
       SilentConfirm: "false",
