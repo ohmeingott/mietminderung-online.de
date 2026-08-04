@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AlertTriangle, ExternalLink, Info, Send } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { PRODUKTE, type ProduktId } from "@/lib/ebrief/produkte";
 
@@ -612,7 +613,7 @@ export default function VersandKarte({
         </span>
       </label>
 
-      <button
+      <Button
         type="button"
         data-testid="dispatch-submit"
         // Never let the browser ask for a job the route will refuse.
@@ -624,7 +625,7 @@ export default function VersandKarte({
           }
           void starteVersand();
         }}
-        className="mt-3 inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full bg-brand-700 px-4 text-center font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60 sm:px-6"
+        className="mt-3 w-full max-sm:px-4 text-center"
       >
         {beschaeftigt ? (
           <span
@@ -635,7 +636,7 @@ export default function VersandKarte({
           <Send className="h-4.5 w-4.5 shrink-0 rtl:-scale-x-100" aria-hidden />
         )}
         <span>{buttonLabel()}</span>
-      </button>
+      </Button>
 
       {/* Announced separately, so a screen reader hears the wait, not just sees it. */}
       <p className="sr-only" aria-live="polite">

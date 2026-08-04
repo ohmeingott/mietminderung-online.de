@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
 import type { Locale } from "@/i18n/translations";
@@ -112,12 +113,9 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <LanguageSwitcher />
 
-            <Link
-              href={checkHref}
-              className="hidden h-11 items-center whitespace-nowrap rounded-full bg-brand-700 px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-800 xl:inline-flex"
-            >
+            <Button href={checkHref} size="sm" className="max-xl:hidden whitespace-nowrap">
               {t("nav.cta")}
-            </Link>
+            </Button>
 
             <button
               type="button"
@@ -156,13 +154,9 @@ export default function Header() {
                 </li>
               ))}
             </ul>
-            <Link
-              href={checkHref}
-              className="mt-3 flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-5 text-base font-semibold text-white transition-colors hover:bg-brand-800"
-              onClick={() => setMobileOpen(false)}
-            >
+            <Button href={checkHref} className="mt-3 w-full" onClick={() => setMobileOpen(false)}>
               {t("nav.cta")}
-            </Link>
+            </Button>
           </nav>
         </div>
       )}
