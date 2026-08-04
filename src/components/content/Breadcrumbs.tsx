@@ -8,24 +8,24 @@ import type { Crumb } from "@/lib/seo";
 export default function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
   return (
     <nav aria-label="Breadcrumb" className="mb-6">
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500">
+      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-500">
         {crumbs.map((crumb, i) => {
           const isLast = i === crumbs.length - 1;
           return (
             <li key={crumb.path} className="flex items-center gap-2">
               {isLast ? (
-                <span className="text-gray-700 font-medium" aria-current="page">
+                <span className="text-ink-700 font-medium" aria-current="page">
                   {crumb.name}
                 </span>
               ) : (
                 <>
                   <Link
                     href={crumb.path}
-                    className="hover:text-blue-700 transition-colors"
+                    className="hover:text-brand-700 transition-colors"
                   >
                     {crumb.name}
                   </Link>
-                  <span aria-hidden="true" className="text-gray-300">
+                  <span aria-hidden="true" className="text-ink-300">
                     /
                   </span>
                 </>
