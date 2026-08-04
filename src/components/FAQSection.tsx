@@ -34,7 +34,7 @@ export default function FAQSection() {
         <div className="mt-8 text-center">
           {/* The FAQ exists in every language, so this stays inside the one
               the visitor is reading. */}
-          <Button href={localeHref(locale, "/faq")} variant="secondary" size="sm">
+          <Button href={localeHref(locale, "/faq")} variant="secondary" className="text-sm">
             {t("faq.showAll")}
             <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
           </Button>
