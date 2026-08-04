@@ -42,6 +42,10 @@ async function reachDispatchCard(page: Page) {
   await reachPreview(page);
   await page.getByTestId("letter-delivery").click();
   await expect(page.getByTestId("dispatch-card")).toBeVisible();
+  // The card is where the e-mail is asked for now, so every test that wants a
+  // dispatchable card has to supply one here. That the field appears at all,
+  // and that dispatch stays locked without it, is covered in wizard.spec.ts.
+  await page.getByTestId("dispatch-email").fill(TENANT.email);
 }
 
 /**
@@ -378,6 +382,7 @@ test.describe("Postversand (eBrief)", () => {
       "Ücretli olarak gönder"
     );
 
+    await page.getByTestId("dispatch-email").fill(TENANT.email);
     await zustimmen(page);
     await page.getByTestId("dispatch-submit").click();
     await expect(page.getByTestId("dispatch-address-warning")).toContainText(

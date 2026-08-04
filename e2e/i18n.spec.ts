@@ -190,7 +190,6 @@ test.describe("Language switching", () => {
     await page.getByTestId("mieter-strasse").fill("Musterstraße 10");
     await page.getByTestId("mieter-plz").fill("50676");
     await page.getByTestId("mieter-ort").fill("Köln");
-    await page.getByTestId("mieter-email").fill("ayse@beispiel.de");
     await page.getByTestId("letter-next").click();
 
     await page.getByTestId("vermieter-name").fill("Hausverwaltung GmbH");

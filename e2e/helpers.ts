@@ -90,7 +90,8 @@ export async function fillTenant(page: Page, tenant = TENANT) {
   await page.getByTestId("mieter-plz").fill(tenant.zip);
   await page.getByTestId("mieter-ort").fill(tenant.city);
   await page.getByTestId("mieter-telefon").fill(tenant.phone);
-  await page.getByTestId("mieter-email").fill(tenant.email);
+  // No e-mail here: the wizard step does not ask for one. `tenant.email` is
+  // for the dispatch card, which is the only place it is needed.
 }
 
 export async function fillLandlord(page: Page, landlord = LANDLORD) {

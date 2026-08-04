@@ -20,7 +20,7 @@ test.describe("Mängelanzeige wizard", () => {
     await openLetterWizard(page);
   });
 
-  test("requires the tenant address but not an email", async ({ page }) => {
+  test("requires the tenant address and asks for nothing beyond it", async ({ page }) => {
     const next = page.getByTestId("letter-next");
     await expect(next).toBeDisabled();
 
@@ -28,19 +28,15 @@ test.describe("Mängelanzeige wizard", () => {
     await page.getByTestId("mieter-strasse").fill(TENANT.street);
     await page.getByTestId("mieter-plz").fill(TENANT.zip);
     await page.getByTestId("mieter-ort").fill(TENANT.city);
-    // The free download needs no address, so this alone is enough to go on.
+    // The free download needs no e-mail, so the address alone is enough.
     await expect(next).toBeEnabled();
 
-    // A malformed one still blocks - an empty field is a choice, a typo is not.
-    await page.getByTestId("mieter-email").fill("keine-email");
-    await expect(next).toBeDisabled();
-
-    // Clearing it again unblocks, which a naive !PATTERN.test() would not.
-    await page.getByTestId("mieter-email").fill("");
-    await expect(next).toBeEnabled();
-
-    await page.getByTestId("mieter-email").fill(TENANT.email);
-    await expect(next).toBeEnabled();
+    // No contact details are collected here. The phone number is offered
+    // because it buys a line in the letter; an e-mail would buy nothing at
+    // this point and is asked for on the dispatch card instead.
+    await expect(page.getByTestId("mieter-telefon")).toBeVisible();
+    await expect(page.getByTestId("mieter-email")).toHaveCount(0);
+    await expect(page.getByTestId("mieter-optin")).toHaveCount(0);
   });
 
   test("requires the landlord address before continuing", async ({ page }) => {

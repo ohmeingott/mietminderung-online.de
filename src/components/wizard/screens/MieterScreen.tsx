@@ -5,7 +5,7 @@ import { useWizard } from "@/components/wizard/WizardContext";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function MieterScreen() {
-  const { state, setMieter, setEmailOptIn } = useWizard();
+  const { state, setMieter } = useWizard();
   const { t } = useTranslation();
   const { mieter } = state;
 
@@ -65,6 +65,13 @@ export default function MieterScreen() {
           onChange={(v) => setMieter({ wohnungNr: v })}
           placeholder="z.B. 3. OG links"
         />
+        {/*
+          The last field of the step, and the only optional one that buys the
+          tenant something: a number turns into a real sentence in the letter.
+          No e-mail here - the free download does not need one, and the
+          dispatch card asks at the point where a posted letter genuinely has
+          to have somewhere to confirm to.
+        */}
         <Feld
           name="mieter-telefon"
           label={t("letter.phone")}
@@ -76,34 +83,6 @@ export default function MieterScreen() {
           autoComplete="tel"
           hint={t("letter.phoneWhy")}
         />
-        {/*
-          No longer a required field. The free download needs no address, and
-          gating a free tool behind one was a wall in the middle of the flow.
-          The dispatch card asks for it at the point where it is genuinely
-          needed - a posted letter has to have somewhere to confirm to.
-        */}
-        <Feld
-          name="mieter-email"
-          label={t("letter.email")}
-          value={mieter.email}
-          onChange={(v) => setMieter({ email: v })}
-          type="email"
-          inputMode="email"
-          placeholder="max@beispiel.de"
-          autoComplete="email"
-          hint={t("letter.emailOptional")}
-        />
-
-        <label className="flex cursor-pointer items-start gap-3 rounded-field bg-paper-sunken p-4">
-          <input
-            type="checkbox"
-            data-testid="mieter-optin"
-            checked={state.emailOptIn}
-            onChange={(e) => setEmailOptIn(e.target.checked)}
-            className="mt-0.5 h-4 w-4 shrink-0 accent-brand-600"
-          />
-          <span className="text-sm text-ink-600">{t("letter.emailOptIn")}</span>
-        </label>
       </div>
     </>
   );
