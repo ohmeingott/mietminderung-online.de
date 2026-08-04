@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight, HelpCircle } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { faqs } from "@/data/maengel";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { localeHref } from "@/i18n/routing";
@@ -34,13 +34,10 @@ export default function FAQSection() {
         <div className="mt-8 text-center">
           {/* The FAQ exists in every language, so this stays inside the one
               the visitor is reading. */}
-          <Link
-            href={localeHref(locale, "/faq")}
-            className="inline-flex min-h-[3rem] items-center gap-2 rounded-full border border-ink-200 bg-paper-raised px-6 text-sm font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
-          >
+          <Button href={localeHref(locale, "/faq")} variant="secondary" size="sm">
             {t("faq.showAll")}
             <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
-          </Link>
+          </Button>
         </div>
 
         <div className="mt-12 rounded-[var(--radius-card)] border border-ink-200 bg-paper-sunken p-6 sm:p-8">

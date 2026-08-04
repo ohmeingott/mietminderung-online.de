@@ -62,24 +62,14 @@ export default function FertigScreen() {
             <Download className="h-4.5 w-4.5" aria-hidden />
             {t("letter.downloadPdf")}
           </Button>
-          <button
-            type="button"
-            data-testid="download-txt"
-            onClick={txtLaden}
-            className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full border border-brand-300 bg-paper-raised px-6 font-semibold text-brand-700 transition-colors hover:bg-brand-100"
-          >
+          <Button type="button" data-testid="download-txt" onClick={txtLaden} variant="secondary">
             <FileText className="h-4.5 w-4.5" aria-hidden />
             {t("letter.downloadTxt")}
-          </button>
-          <button
-            type="button"
-            data-testid="copy-text"
-            onClick={kopieren}
-            className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full border border-brand-300 bg-paper-raised px-6 font-semibold text-brand-700 transition-colors hover:bg-brand-100"
-          >
+          </Button>
+          <Button type="button" data-testid="copy-text" onClick={kopieren} variant="secondary">
             <Copy className="h-4.5 w-4.5" aria-hidden />
             {kopiert ? t("letter.copied") : t("letter.copyText")}
-          </button>
+          </Button>
         </div>
       </div>
 

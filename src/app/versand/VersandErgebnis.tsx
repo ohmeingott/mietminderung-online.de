@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight, CheckCircle2, Info } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -104,16 +103,9 @@ export default function VersandErgebnis({
                 <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
               </Button>
             )}
-            <Link
-              href="/"
-              className={
-                erfolg
-                  ? "inline-flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-                  : "inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
-              }
-            >
+            <Button href="/" variant={erfolg ? "primary" : "secondary"}>
               {t("common.backHome")}
-            </Link>
+            </Button>
           </div>
         </div>
       </main>

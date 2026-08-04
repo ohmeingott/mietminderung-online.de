@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight, HelpCircle } from "lucide-react";
 import type { FAQ } from "@/data/maengel";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/Button";
 import FAQAccordion from "@/components/FAQAccordion";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { localeHref } from "@/i18n/routing";
@@ -60,19 +60,13 @@ export default function FAQPageContent({ faqs }: { faqs: FAQ[] }) {
                 {t("faqpage.cta.desc")}
               </p>
               <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
-                <Link
-                  href={`${home}#pruefung`}
-                  className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-white px-6 font-semibold text-brand-800 transition-colors hover:bg-brand-50"
-                >
+                <Button href={`${home}#pruefung`} variant="onDark">
                   {t("hero.cta1")}
                   <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
-                </Link>
-                <Link
-                  href={home}
-                  className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-white/25 px-6 font-semibold text-white transition-colors hover:bg-white/10"
-                >
+                </Button>
+                <Button href={home} variant="onDarkGhost">
                   {t("common.backHome")}
-                </Link>
+                </Button>
               </div>
             </div>
           </div>

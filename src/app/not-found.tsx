@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
 
@@ -29,12 +28,9 @@ export default function NotFound() {
         </p>
         <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
           <Button href="/">Zur Startseite</Button>
-          <Link
-            href="/#pruefung"
-            className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
-          >
+          <Button href="/#pruefung" variant="secondary">
             Mietminderung prüfen
-          </Link>
+          </Button>
         </div>
       </div>
     </div>

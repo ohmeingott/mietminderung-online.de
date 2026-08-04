@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
@@ -85,12 +84,9 @@ export default function VersandTeaser() {
                 German one is a worse answer than not offering the link.
               */}
               {locale === DEFAULT_LOCALE && (
-                <Link
-                  href={VERSAND_PATH}
-                  className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
-                >
+                <Button href={VERSAND_PATH} variant="secondary">
                   {t("versand.teaser.more")}
-                </Link>
+                </Button>
               )}
             </div>
           </div>
