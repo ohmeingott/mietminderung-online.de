@@ -96,8 +96,8 @@ Content-Layer, `border-ink-200` 39× im Produkt-Layer).
 |---|---|---|
 | `blue-N` (alle Utilities) | `brand-N` | nein, wertidentisch |
 | `gray-N` (alle Utilities) | `ink-N` | ja — der Kern der Änderung |
-| `bg-white` als Kartenfläche | `bg-paper-raised` | minimal |
-| `bg-gray-50` als Sektionsfläche | `bg-paper-sunken` | minimal |
+| `bg-white` als Kartenfläche | `bg-paper-raised` | nein — `--color-paper-raised` ist `#ffffff` |
+| `bg-gray-50` als Sektionsfläche | `bg-paper-sunken` | ja, minimal |
 | `bg-white/10`, `border-white/30`, `text-white` | unverändert | nein |
 | `bg-white` als CTA auf dunklem Band | entfällt → `<Button variant="onDark">` | ja |
 | `bg-amber-50 border-amber-400 text-amber-900` | `bg-caution-50 border-caution-600 text-caution-600` | ja |
@@ -149,35 +149,39 @@ Basis    inline-flex items-center justify-center gap-2 rounded-full
          font-semibold transition-colors
 
 md       min-h-[3rem] px-6
-sm       min-h-[2.5rem] px-5 text-sm
+sm       min-h-[2.75rem] px-5 text-sm
 
                                                         Produkt  Content  Summe
-primary       bg-brand-700 text-white hover:bg-brand-800      8       5      13
+primary       bg-brand-700 text-white hover:bg-brand-800      9       5      14
 secondary     border border-ink-200 bg-paper-raised
               text-ink-800 hover:border-brand-300
-              hover:text-brand-700                            6       1       7
+              hover:text-brand-700                            6       5      11
 onDark        bg-paper-raised text-brand-800
               hover:bg-brand-50                               1       7       8
 onDarkGhost   border border-white/25 text-white
               hover:bg-white/10                               1       2       3
                                                                            ----
-                                                                             31
+                                                             17      19      36
 ```
+
+`sm` ist mit `min-h-[2.75rem]` (44px) angesetzt, nicht mit 40px: das trifft
+`Header.tsx:117` (`h-11`) pixelgenau und hebt die `px-5 py-2.5`-Buttons des
+Content-Layers von 40px auf die 44px-Mindestgröße für Touch-Ziele.
 
 `disabled` erbt die vorhandene Konvention aus `VersandKarte.tsx:627`:
 `disabled:cursor-not-allowed disabled:opacity-60`.
 
-Dass vier Varianten reichen, ist geprüft und nicht geschätzt: alle 31 Fundstellen
+Dass vier Varianten reichen, ist geprüft und nicht geschätzt: alle 36 Fundstellen
 fallen ohne Rest hinein. Der deutlichste Beleg ist
 `components/content/PopularLinks.tsx:71` — `border-gray-200 bg-white
 text-gray-700 hover:border-blue-400 hover:text-blue-700` ist Zeichen für Zeichen
 der neutrale `secondary` des Produkt-Layers, nur in rohen Farben geschrieben.
 Beide Layer haben dieselben vier Rollen unabhängig voneinander entwickelt.
 
-Betroffen sind 17 Dateien. Drei Konsolidierungen ändern sichtbar das Aussehen —
+Betroffen sind 20 Dateien. Drei Konsolidierungen ändern sichtbar das Aussehen —
 das ist beabsichtigt und der Punkt der Übung:
 
-1. Die 15 Content-CTAs werden vom Rechteck zur Pille.
+1. Die 19 Content-CTAs werden vom Rechteck zur Pille.
 2. Die vier Polsterungsvarianten fallen auf zwei (`md` / `sm`).
 3. Die zwei Brand-Outline-Buttons in `FertigScreen.tsx:73` und `:82`
    (`border-brand-300 text-brand-700 hover:bg-brand-100`) gehen im neutralen
@@ -208,8 +212,8 @@ Fehlermeldung nennt die erlaubten Tokens. Kein neues Paket. Hängt an
 
 Jeder Schritt ist für sich lauffähig und einzeln zurückdrehbar:
 
-1. `Button.tsx` anlegen und die 16 Fundstellen im **Produkt-Layer** darauf
-   umstellen (8 `primary`, 6 `secondary`, 1 `onDark`, 1 `onDarkGhost`). Rein
+1. `Button.tsx` anlegen und die 17 Fundstellen im **Produkt-Layer** darauf
+   umstellen (9 `primary`, 6 `secondary`, 1 `onDark`, 1 `onDarkGhost`). Rein
    struktureller Schritt, keine Pixeländerung außer den zwei
    `FertigScreen`-Buttons.
 2. Produkt-Layer: 48 Arbitrary-Radien auf `rounded-card` / `rounded-field`
