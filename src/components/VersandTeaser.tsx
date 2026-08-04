@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
 import { PRODUKTE } from "@/lib/ebrief/produkte";
@@ -75,12 +76,9 @@ export default function VersandTeaser() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href={`${home === "/" ? "" : home}/#pruefung`}
-                className="inline-flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-              >
+              <Button href={`${home === "/" ? "" : home}/#pruefung`}>
                 {t("hero.cta1")}
-              </Link>
+              </Button>
               {/*
                 The detail page is German-only, so it is offered only to German
                 readers. Sending a Turkish visitor from a Turkish page into a

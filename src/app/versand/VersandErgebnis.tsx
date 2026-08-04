@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, Info } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 /**
@@ -98,13 +99,10 @@ export default function VersandErgebnis({
           */}
           <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
             {!erfolg && (
-              <Link
-                href="/#maengelanzeige"
-                className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-              >
+              <Button href="/#maengelanzeige">
                 {t("dispatch.result.restartCta")}
                 <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
-              </Link>
+              </Button>
             )}
             <Link
               href="/"

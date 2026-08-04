@@ -1,6 +1,7 @@
 "use client";
 
 import { AlertTriangle, XCircle } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { useWizard } from "@/components/wizard/WizardContext";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -40,13 +41,9 @@ export default function NichtBerechtigt() {
         </p>
       </div>
 
-      <button
-        type="button"
-        onClick={neuStarten}
-        className="mt-7 inline-flex min-h-[3rem] items-center rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-      >
+      <Button type="button" onClick={neuStarten} className="mt-7">
         {t("check.tryAgain")}
-      </button>
+      </Button>
     </div>
   );
 }

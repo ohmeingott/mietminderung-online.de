@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AlertTriangle, Copy, Download, FileText } from "lucide-react";
 import NextStepsTimeline from "@/components/wizard/screens/NextStepsTimeline";
 import VersandKarte from "@/components/VersandKarte";
+import { Button } from "@/components/ui/Button";
 import { ScreenHeading } from "@/components/wizard/Feld";
 import { useWizard } from "@/components/wizard/WizardContext";
 import { SCREEN } from "@/components/wizard/screens";
@@ -57,15 +58,10 @@ export default function FertigScreen() {
       <div className="mt-6 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-5">
         <p className="mb-4 text-center text-sm font-bold text-signal-600">{t("letter.free")}</p>
         <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center">
-          <button
-            type="button"
-            data-testid="download-pdf"
-            onClick={pdfLaden}
-            className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-          >
+          <Button type="button" data-testid="download-pdf" onClick={pdfLaden}>
             <Download className="h-4.5 w-4.5" aria-hidden />
             {t("letter.downloadPdf")}
-          </button>
+          </Button>
           <button
             type="button"
             data-testid="download-txt"
