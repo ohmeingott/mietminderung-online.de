@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight, HelpCircle } from "lucide-react";
 import type { FAQ } from "@/data/maengel";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/Button";
 import FAQAccordion from "@/components/FAQAccordion";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { localeHref } from "@/i18n/routing";
@@ -43,7 +43,7 @@ export default function FAQPageContent({ faqs }: { faqs: FAQ[] }) {
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <FAQAccordion faqs={faqs} />
 
-            <div className="mt-12 rounded-[var(--radius-card)] border border-ink-200 bg-paper-sunken p-6 sm:p-8">
+            <div className="mt-12 rounded-card border border-ink-200 bg-paper-sunken p-6 sm:p-8">
               <h2 className="text-base font-bold text-ink-900 sm:text-lg">
                 {t("faq.legal.title")}
               </h2>
@@ -52,7 +52,7 @@ export default function FAQPageContent({ faqs }: { faqs: FAQ[] }) {
               </p>
             </div>
 
-            <div className="mt-8 overflow-hidden rounded-[var(--radius-card)] bg-brand-900 p-6 text-center sm:p-10">
+            <div className="mt-8 overflow-hidden rounded-card bg-brand-900 p-6 text-center sm:p-10">
               <h2 className="text-xl font-bold text-white sm:text-2xl">
                 {t("faqpage.cta.title")}
               </h2>
@@ -60,19 +60,13 @@ export default function FAQPageContent({ faqs }: { faqs: FAQ[] }) {
                 {t("faqpage.cta.desc")}
               </p>
               <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
-                <Link
-                  href={`${home}#pruefung`}
-                  className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-white px-6 font-semibold text-brand-800 transition-colors hover:bg-brand-50"
-                >
+                <Button href={`${home}#pruefung`} variant="onDark">
                   {t("hero.cta1")}
                   <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
-                </Link>
-                <Link
-                  href={home}
-                  className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-white/25 px-6 font-semibold text-white transition-colors hover:bg-white/10"
-                >
+                </Button>
+                <Button href={home} variant="onDarkGhost">
                   {t("common.backHome")}
-                </Link>
+                </Button>
               </div>
             </div>
           </div>

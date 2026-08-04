@@ -22,7 +22,7 @@ export default function FAQAccordion({
   const baseId = useId();
 
   return (
-    <ul className="divide-y divide-ink-200 overflow-hidden rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised">
+    <ul className="divide-y divide-ink-200 overflow-hidden rounded-card border border-ink-200 bg-paper-raised">
       {faqs.map((faq, index) => {
         const key = index + indexOffset;
         const isOpen = openIndex === index;

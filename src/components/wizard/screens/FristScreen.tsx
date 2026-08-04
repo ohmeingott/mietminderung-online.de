@@ -35,7 +35,7 @@ export default function FristScreen() {
               <label
                 key={tage}
                 data-testid={`frist-${tage}`}
-                className={`relative flex min-h-[5.5rem] cursor-pointer flex-col items-center justify-center gap-1 rounded-[var(--radius-field)] border px-2 py-3 text-center transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-500 ${
+                className={`relative flex min-h-[5.5rem] cursor-pointer flex-col items-center justify-center gap-1 rounded-field border px-2 py-3 text-center transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand-500 ${
                   aktiv
                     ? "border-brand-500 bg-brand-50"
                     : "border-ink-200 bg-paper-raised hover:border-brand-300"
@@ -79,7 +79,7 @@ export default function FristScreen() {
         </p>
       )}
 
-      <div className="mt-5 flex items-start gap-3 rounded-[var(--radius-field)] bg-paper-sunken p-4">
+      <div className="mt-5 flex items-start gap-3 rounded-field bg-paper-sunken p-4">
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-brand-500" aria-hidden />
         <p className="text-sm text-ink-600">
           <strong className="text-ink-800">{t("frist.deliveryTitle")}</strong>{" "}
@@ -88,7 +88,7 @@ export default function FristScreen() {
       </div>
 
       {fristVorschlag.dringend && (
-        <div className="mt-4 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4">
+        <div className="mt-4 flex items-start gap-3 rounded-field border border-caution-600/20 bg-caution-50 p-4">
           <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-caution-600" aria-hidden />
           <p className="text-sm text-caution-600">
             <strong>{t("frist.urgentTitle")}</strong>{" "}

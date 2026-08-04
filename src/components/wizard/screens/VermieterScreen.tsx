@@ -63,7 +63,7 @@ export default function VermieterScreen() {
 
       {/* Said here rather than after payment: eBrief's address field is short,
           and a rejected job is a refund and a wasted afternoon. */}
-      <div className="mt-5 flex items-start gap-3 rounded-[var(--radius-field)] bg-paper-sunken p-4">
+      <div className="mt-5 flex items-start gap-3 rounded-field bg-paper-sunken p-4">
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-brand-500" aria-hidden />
         <p className="text-sm text-ink-600">{t("letter.landlordAddressHint")}</p>
       </div>

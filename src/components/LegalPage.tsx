@@ -50,7 +50,7 @@ export default function LegalPage({
           {locale !== "de" && (
             <p
               lang="de"
-              className="mt-5 rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-4 text-sm text-brand-800"
+              className="mt-5 rounded-field border border-brand-200 bg-brand-50 p-4 text-sm text-brand-800"
             >
               Diese rechtlichen Informationen sind ausschließlich auf Deutsch
               verfügbar, da nur die deutsche Fassung rechtsverbindlich ist.
@@ -60,7 +60,7 @@ export default function LegalPage({
           <article
             lang="de"
             dir="ltr"
-            className="legal-prose mt-8 rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-6 text-start sm:p-10"
+            className="legal-prose mt-8 rounded-card border border-ink-200 bg-paper-raised p-6 text-start sm:p-10"
           >
             {children}
             {updated && (

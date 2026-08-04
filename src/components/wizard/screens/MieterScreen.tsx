@@ -94,7 +94,7 @@ export default function MieterScreen() {
           hint={t("letter.emailOptional")}
         />
 
-        <label className="flex cursor-pointer items-start gap-3 rounded-[var(--radius-field)] bg-paper-sunken p-4">
+        <label className="flex cursor-pointer items-start gap-3 rounded-field bg-paper-sunken p-4">
           <input
             type="checkbox"
             data-testid="mieter-optin"

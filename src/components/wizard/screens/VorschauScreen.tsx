@@ -101,7 +101,7 @@ export default function VorschauScreen() {
         dir="ltr"
         value={state.briefText}
         onChange={(e) => setBriefText(e.target.value)}
-        className="mt-5 min-h-[18rem] w-full resize-y rounded-[var(--radius-field)] border border-ink-200 bg-paper-raised p-4 text-start font-mono text-[0.8125rem] leading-relaxed text-ink-800 transition-colors focus:border-brand-500 focus:outline-none sm:min-h-[24rem] sm:p-6 sm:text-sm lg:min-h-[32rem] lg:p-8"
+        className="mt-5 min-h-[18rem] w-full resize-y rounded-field border border-ink-200 bg-paper-raised p-4 text-start font-mono text-[0.8125rem] leading-relaxed text-ink-800 transition-colors focus:border-brand-500 focus:outline-none sm:min-h-[24rem] sm:p-6 sm:text-sm lg:min-h-[32rem] lg:p-8"
         rows={22}
       />
       {anreicherungLaeuft && (
@@ -114,7 +114,7 @@ export default function VorschauScreen() {
           {t("letter.signature")}
         </h3>
         <p className="mb-3 text-sm text-ink-500">{t("letter.signatureDesc")}</p>
-        <div className="relative overflow-hidden rounded-[var(--radius-field)] border border-ink-300 bg-white">
+        <div className="relative overflow-hidden rounded-field border border-ink-300 bg-paper-raised">
           <span
             aria-hidden
             className="pointer-events-none absolute inset-x-6 bottom-9 border-b border-dashed border-ink-200"

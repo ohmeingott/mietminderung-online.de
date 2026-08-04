@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AlertTriangle, ExternalLink, Info, Send } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { PRODUKTE, type ProduktId } from "@/lib/ebrief/produkte";
 
@@ -430,7 +431,7 @@ export default function VersandKarte({
   return (
     <div
       data-testid="dispatch-card"
-      className="mt-6 rounded-[var(--radius-field)] border border-ink-200 bg-paper-raised p-4 sm:p-5"
+      className="mt-6 rounded-field border border-ink-200 bg-paper-raised p-4 sm:p-5"
     >
       <h4 className="text-base font-bold text-ink-900">{t("dispatch.title")}</h4>
       <p className="mt-1 text-sm text-ink-500">{t("dispatch.subtitle")}</p>
@@ -443,7 +444,7 @@ export default function VersandKarte({
           {PRODUKT_IDS.map((id) => (
             <label
               key={id}
-              className={`flex min-h-[3rem] cursor-pointer items-center gap-3 rounded-[var(--radius-field)] border px-3 py-3 transition-colors sm:px-4 ${
+              className={`flex min-h-[3rem] cursor-pointer items-center gap-3 rounded-field border px-3 py-3 transition-colors sm:px-4 ${
                 produktId === id
                   ? "border-brand-500 bg-brand-50"
                   : "border-ink-200 hover:bg-paper-sunken"
@@ -484,7 +485,7 @@ export default function VersandKarte({
       {offeneHinweise.length > 0 && (
         <div
           data-testid="dispatch-hints"
-          className="mt-4 flex items-start gap-2.5 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-3.5"
+          className="mt-4 flex items-start gap-2.5 rounded-field border border-caution-600/20 bg-caution-50 p-3.5"
         >
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-caution-600" aria-hidden />
           <ul className="space-y-1 text-sm text-caution-600">
@@ -498,7 +499,7 @@ export default function VersandKarte({
       {phase === "warnung" && vorgang && (
         <div
           data-testid="dispatch-address-warning"
-          className="mt-4 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-3.5"
+          className="mt-4 rounded-field border border-caution-600/20 bg-caution-50 p-3.5"
         >
           <div className="flex items-start gap-2.5">
             <AlertTriangle
@@ -538,7 +539,7 @@ export default function VersandKarte({
         <div
           data-testid="dispatch-error"
           role="alert"
-          className="mt-4 flex items-start gap-2.5 rounded-[var(--radius-field)] border border-alert-600/20 bg-alert-50 p-3.5"
+          className="mt-4 flex items-start gap-2.5 rounded-field border border-alert-600/20 bg-alert-50 p-3.5"
         >
           <AlertTriangle
             className="mt-0.5 h-4 w-4 shrink-0 text-alert-600"
@@ -572,7 +573,7 @@ export default function VersandKarte({
             disabled={beschaeftigt}
             onChange={(e) => onEmailChange(e.target.value)}
             placeholder="max@beispiel.de"
-            className="w-full min-h-[3rem] rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 py-3 text-ink-900 transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:outline-none"
+            className="w-full min-h-[3rem] rounded-field border border-ink-300 bg-paper-raised px-4 py-3 text-ink-900 transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:outline-none"
           />
           <p className="mt-1.5 text-xs text-ink-500">{t("dispatch.emailWhy")}</p>
         </div>
@@ -585,7 +586,7 @@ export default function VersandKarte({
         reading the Widerrufsbelehrung does not destroy the letter draft, which
         lives in React state and does not survive navigation.
       */}
-      <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-[var(--radius-field)] border border-ink-200 p-3.5">
+      <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-field border border-ink-200 p-3.5">
         <input
           type="checkbox"
           data-testid="dispatch-consent"
@@ -612,7 +613,7 @@ export default function VersandKarte({
         </span>
       </label>
 
-      <button
+      <Button
         type="button"
         data-testid="dispatch-submit"
         // Never let the browser ask for a job the route will refuse.
@@ -624,7 +625,7 @@ export default function VersandKarte({
           }
           void starteVersand();
         }}
-        className="mt-3 inline-flex min-h-[3rem] w-full items-center justify-center gap-2 rounded-full bg-brand-700 px-4 text-center font-semibold text-white transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60 sm:px-6"
+        className="mt-3 w-full max-sm:px-4 text-center"
       >
         {beschaeftigt ? (
           <span
@@ -635,7 +636,7 @@ export default function VersandKarte({
           <Send className="h-4.5 w-4.5 shrink-0 rtl:-scale-x-100" aria-hidden />
         )}
         <span>{buttonLabel()}</span>
-      </button>
+      </Button>
 
       {/* Announced separately, so a screen reader hears the wait, not just sees it. */}
       <p className="sr-only" aria-live="polite">

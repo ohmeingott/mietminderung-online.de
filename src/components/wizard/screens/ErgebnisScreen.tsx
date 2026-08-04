@@ -45,7 +45,7 @@ export default function ErgebnisScreen() {
       </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded-[var(--radius-field)] border border-brand-200 bg-brand-50 p-5 text-center">
+        <div className="rounded-field border border-brand-200 bg-brand-50 p-5 text-center">
           <p className="text-sm font-medium text-brand-600">{t("check.reductionRate")}</p>
           <p className="mt-1 text-3xl font-bold tabular-nums text-brand-800 sm:text-4xl">
             {quoteTypisch}%
@@ -59,7 +59,7 @@ export default function ErgebnisScreen() {
             </p>
           )}
         </div>
-        <div className="rounded-[var(--radius-field)] border border-signal-600/20 bg-signal-50 p-5 text-center">
+        <div className="rounded-field border border-signal-600/20 bg-signal-50 p-5 text-center">
           <p className="text-sm font-medium text-signal-700">{t("check.monthlySavings")}</p>
           <p className="mt-1 text-3xl font-bold tabular-nums text-signal-700 sm:text-4xl">
             {ersparnisTypisch.toFixed(0)} €
@@ -70,7 +70,7 @@ export default function ErgebnisScreen() {
         </div>
       </div>
 
-      <div className="mt-5 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4">
+      <div className="mt-5 flex items-start gap-3 rounded-field border border-caution-600/20 bg-caution-50 p-4">
         <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-caution-600" aria-hidden />
         <p className="text-sm text-caution-600">
           <strong>{t("common.note")}:</strong> {t("check.disclaimer")}
@@ -79,7 +79,7 @@ export default function ErgebnisScreen() {
 
       <div className="mt-7">
         <h3 className="mb-3 font-semibold text-ink-800">{t("check.yourDefects")}</h3>
-        <ul className="divide-y divide-ink-200 overflow-hidden rounded-[var(--radius-field)] border border-ink-200">
+        <ul className="divide-y divide-ink-200 overflow-hidden rounded-field border border-ink-200">
           {selectedMaengel.map((m) => (
             <li
               key={m.id}
@@ -100,7 +100,7 @@ export default function ErgebnisScreen() {
         reader back up here - so they were read before the check, by people who
         could not yet act on them. They belong at the moment of commitment.
       */}
-      <div className="mt-7 rounded-[var(--radius-field)] border border-ink-200 bg-paper-sunken p-5">
+      <div className="mt-7 rounded-field border border-ink-200 bg-paper-sunken p-5">
         {/* `check.nextStep` is not shown alongside it: in every locale that
             string opens with the same "the next step is..." the heading
             already makes, and the bullets say the rest. */}

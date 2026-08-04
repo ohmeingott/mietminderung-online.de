@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
 import { PRODUKTE } from "@/lib/ebrief/produkte";
@@ -75,24 +75,18 @@ export default function VersandTeaser() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href={`${home === "/" ? "" : home}/#pruefung`}
-                className="inline-flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-              >
+              <Button href={`${home === "/" ? "" : home}/#pruefung`}>
                 {t("hero.cta1")}
-              </Link>
+              </Button>
               {/*
                 The detail page is German-only, so it is offered only to German
                 readers. Sending a Turkish visitor from a Turkish page into a
                 German one is a worse answer than not offering the link.
               */}
               {locale === DEFAULT_LOCALE && (
-                <Link
-                  href={VERSAND_PATH}
-                  className="inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
-                >
+                <Button href={VERSAND_PATH} variant="secondary">
                   {t("versand.teaser.more")}
-                </Link>
+                </Button>
               )}
             </div>
           </div>
@@ -101,7 +95,7 @@ export default function VersandTeaser() {
             {optionen.map((option) => (
               <li
                 key={option.titel}
-                className="rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised p-5 sm:p-6"
+                className="rounded-card border border-ink-200 bg-paper-raised p-5 sm:p-6"
               >
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="text-base font-bold text-ink-900 sm:text-lg">

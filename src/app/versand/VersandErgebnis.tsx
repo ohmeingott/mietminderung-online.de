@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight, CheckCircle2, Info } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 /**
@@ -62,7 +62,7 @@ export default function VersandErgebnis({
           <div
             data-testid={`versand-ergebnis-${variante}`}
             role="status"
-            className={`rounded-[var(--radius-card)] border p-6 sm:p-8 ${
+            className={`rounded-card border p-6 sm:p-8 ${
               erfolg
                 ? "border-signal-600/20 bg-signal-50"
                 : "border-caution-600/20 bg-caution-50"
@@ -98,24 +98,14 @@ export default function VersandErgebnis({
           */}
           <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center">
             {!erfolg && (
-              <Link
-                href="/#maengelanzeige"
-                className="inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-              >
+              <Button href="/#maengelanzeige">
                 {t("dispatch.result.restartCta")}
                 <ArrowRight className="h-4 w-4 rtl:rotate-180" aria-hidden />
-              </Link>
+              </Button>
             )}
-            <Link
-              href="/"
-              className={
-                erfolg
-                  ? "inline-flex min-h-[3rem] items-center justify-center rounded-full bg-brand-700 px-6 font-semibold text-white transition-colors hover:bg-brand-800"
-                  : "inline-flex min-h-[3rem] items-center justify-center rounded-full border border-ink-200 bg-paper-raised px-6 font-semibold text-ink-800 transition-colors hover:border-brand-300 hover:text-brand-700"
-              }
-            >
+            <Button href="/" variant={erfolg ? "primary" : "secondary"}>
               {t("common.backHome")}
-            </Link>
+            </Button>
           </div>
         </div>
       </main>

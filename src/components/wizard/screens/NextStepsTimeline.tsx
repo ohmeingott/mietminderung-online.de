@@ -65,7 +65,7 @@ export default function NextStepsTimeline() {
         ))}
       </ol>
 
-      <div className="mt-5 flex items-start gap-3 rounded-[var(--radius-field)] border border-caution-600/20 bg-caution-50 p-4">
+      <div className="mt-5 flex items-start gap-3 rounded-field border border-caution-600/20 bg-caution-50 p-4">
         <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-caution-600" aria-hidden />
         <p className="text-sm text-caution-600">
           <strong>{t("common.note")}:</strong> {t("next.caution")}

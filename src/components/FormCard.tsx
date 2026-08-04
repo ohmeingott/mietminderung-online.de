@@ -57,7 +57,7 @@ export default function FormCard({
        * The two children that touch the edges round themselves instead: the
        * progress bar its top corners, the action bar its bottom ones.
        */
-      className={`relative rounded-[var(--radius-card)] border border-ink-200 bg-paper-raised shadow-[var(--shadow-raise)] ${className}`}
+      className={`relative rounded-card border border-ink-200 bg-paper-raised shadow-[var(--shadow-raise)] ${className}`}
     >
       {/*
        * The progress bar paints inside a clip layer rather than rounding its
@@ -90,7 +90,7 @@ export default function FormCard({
          */
         <div
           data-testid="wizard-actions"
-          className="safe-bottom sticky bottom-0 z-10 flex items-center justify-between gap-3 rounded-b-[var(--radius-card)] border-t border-ink-200 bg-paper-raised/95 px-5 py-3 backdrop-blur-sm sm:px-10 sm:py-4"
+          className="safe-bottom sticky bottom-0 z-10 flex items-center justify-between gap-3 rounded-b-card border-t border-ink-200 bg-paper-raised/95 px-5 py-3 backdrop-blur-sm sm:px-10 sm:py-4"
         >
           {footer}
         </div>

@@ -3,7 +3,7 @@
 import { useWizard } from "@/components/wizard/WizardContext";
 
 export const INPUT_CLASSES =
-  "w-full min-h-[3rem] rounded-[var(--radius-field)] border border-ink-300 bg-paper-raised px-4 py-3 text-ink-900 transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:outline-none";
+  "w-full min-h-[3rem] rounded-field border border-ink-300 bg-paper-raised px-4 py-3 text-ink-900 transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:outline-none";
 
 interface FeldProps {
   /**

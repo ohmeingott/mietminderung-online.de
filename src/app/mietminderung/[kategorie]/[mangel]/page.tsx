@@ -6,6 +6,7 @@ import ContentFooter from "@/components/content/ContentFooter";
 import ContentHeader from "@/components/content/ContentHeader";
 import JsonLd from "@/components/JsonLd";
 import MinderungRechner from "@/components/content/MinderungRechner";
+import { Button } from "@/components/ui/Button";
 import {
   alleMaengel,
   getMangelBySlug,
@@ -128,39 +129,39 @@ export default async function MangelPage({ params }: { params: Params }) {
 
       <ContentHeader />
 
-      <main className="bg-gray-50">
+      <main className="bg-paper-sunken">
         {/* Hero */}
-        <div className="bg-gradient-to-br from-blue-800 via-blue-700 to-blue-600 text-white">
+        <div className="bg-gradient-to-br from-brand-800 via-brand-700 to-brand-600 text-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-14">
-            <div className="[&_a]:text-blue-200 [&_a:hover]:text-white [&_span]:text-blue-100 [&_ol]:text-blue-200">
+            <div className="[&_a]:text-brand-200 [&_a:hover]:text-white [&_span]:text-brand-100 [&_ol]:text-brand-200">
               <Breadcrumbs crumbs={crumbsFor(entry)} />
             </div>
 
-            <p className="text-sm font-semibold text-blue-200 uppercase tracking-wide">
+            <p className="text-sm font-semibold text-brand-200 uppercase tracking-wide">
               {kategorie.label}
             </p>
             <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
               Mietminderung bei {mangel.label}
             </h1>
-            <p className="mt-5 text-lg text-blue-100 max-w-3xl leading-relaxed">
+            <p className="mt-5 text-lg text-brand-100 max-w-3xl leading-relaxed">
               {seo.intro}
             </p>
 
             <dl className="mt-8 grid grid-cols-3 gap-3 sm:gap-4 max-w-xl">
-              <div className="rounded-xl bg-white/10 backdrop-blur px-4 py-3">
-                <dt className="text-xs text-blue-200">Minimum</dt>
+              <div className="rounded-field bg-white/10 backdrop-blur px-4 py-3">
+                <dt className="text-xs text-brand-200">Minimum</dt>
                 <dd className="text-2xl font-extrabold">
                   {mangel.minderung_min}&nbsp;%
                 </dd>
               </div>
-              <div className="rounded-xl bg-white px-4 py-3 text-blue-800">
-                <dt className="text-xs font-semibold text-blue-600">Typisch</dt>
+              <div className="rounded-field bg-paper-raised px-4 py-3 text-brand-800">
+                <dt className="text-xs font-semibold text-brand-600">Typisch</dt>
                 <dd className="text-2xl font-extrabold">
                   {mangel.minderung_typical}&nbsp;%
                 </dd>
               </div>
-              <div className="rounded-xl bg-white/10 backdrop-blur px-4 py-3">
-                <dt className="text-xs text-blue-200">Maximum</dt>
+              <div className="rounded-field bg-white/10 backdrop-blur px-4 py-3">
+                <dt className="text-xs text-brand-200">Maximum</dt>
                 <dd className="text-2xl font-extrabold">
                   {mangel.minderung_max}&nbsp;%
                 </dd>
@@ -174,25 +175,25 @@ export default async function MangelPage({ params }: { params: Params }) {
             <article className="lg:col-span-2 space-y-12">
               {/* Was ist der Mangel */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-ink-900 mb-4">
                   Wann liegt der Mangel „{mangel.label}“ vor?
                 </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-ink-700 leading-relaxed mb-4">
                   {mangel.description} Ein Mangel im Sinne des § 536 Abs. 1 BGB
                   liegt vor, wenn der tatsächliche Zustand der Wohnung negativ
                   vom vertraglich geschuldeten abweicht und die Tauglichkeit zum
                   vertragsgemäßen Gebrauch dadurch mehr als unerheblich gemindert
                   ist.
                 </p>
-                <h3 className="text-lg font-semibold text-gray-900 mt-6 mb-3">
+                <h3 className="text-lg font-semibold text-ink-900 mt-6 mb-3">
                   Typische Anzeichen
                 </h3>
                 <ul className="space-y-2">
                   {seo.symptome.map((symptom) => (
-                    <li key={symptom} className="flex gap-3 text-gray-700">
+                    <li key={symptom} className="flex gap-3 text-ink-700">
                       <span
                         aria-hidden="true"
-                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600"
+                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-600"
                       />
                       <span className="leading-relaxed">{symptom}</span>
                     </li>
@@ -202,11 +203,11 @@ export default async function MangelPage({ params }: { params: Params }) {
 
               {/* Höhe */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-ink-900 mb-4">
                   Wie viel Mietminderung ist bei {mangel.label} möglich?
                 </h2>
                 {mangel.berechnet === "wohnflaeche" ? (
-                  <p className="text-gray-700 leading-relaxed mb-6">
+                  <p className="text-ink-700 leading-relaxed mb-6">
                     Hier gibt es keine Spanne. Überschreitet die Abweichung
                     10 %, mindert sich die Miete nach gefestigter
                     BGH-Rechtsprechung <strong>genau um den Prozentsatz der
@@ -217,7 +218,7 @@ export default async function MangelPage({ params }: { params: Params }) {
                     Kaltmiete zuzüglich aller Nebenkostenvorauszahlungen.
                   </p>
                 ) : (
-                  <p className="text-gray-700 leading-relaxed mb-6">
+                  <p className="text-ink-700 leading-relaxed mb-6">
                     Bei {mangel.label.toLowerCase()} nennen veröffentlichte
                     Mietminderungstabellen Quoten zwischen{" "}
                     <strong>{mangel.minderung_min} %</strong> und{" "}
@@ -231,13 +232,13 @@ export default async function MangelPage({ params }: { params: Params }) {
                   </p>
                 )}
 
-                <div className="overflow-x-auto rounded-xl border border-gray-200">
+                <div className="overflow-x-auto rounded-card border border-ink-200">
                   <table className="w-full text-sm">
                     <caption className="sr-only">
                       Beispielrechnung: Minderungsbetrag bei {mangel.label} nach
                       Höhe der Bruttowarmmiete
                     </caption>
-                    <thead className="bg-gray-50 text-gray-600">
+                    <thead className="bg-paper-sunken text-ink-600">
                       <tr>
                         <th scope="col" className="px-4 py-3 text-left font-semibold">
                           Bruttowarmmiete
@@ -253,22 +254,22 @@ export default async function MangelPage({ params }: { params: Params }) {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 bg-white">
+                    <tbody className="divide-y divide-ink-100 bg-paper-raised">
                       {beispielMieten.map((miete) => (
                         <tr key={miete}>
                           <th
                             scope="row"
-                            className="px-4 py-3 text-left font-medium text-gray-900"
+                            className="px-4 py-3 text-left font-medium text-ink-900"
                           >
                             {miete} €
                           </th>
-                          <td className="px-4 py-3 text-right text-gray-600">
+                          <td className="px-4 py-3 text-right text-ink-600">
                             {minderungsBetrag(miete, mangel.minderung_min)} €
                           </td>
-                          <td className="px-4 py-3 text-right font-semibold text-emerald-700">
+                          <td className="px-4 py-3 text-right font-semibold text-signal-700">
                             {minderungsBetrag(miete, mangel.minderung_typical)} €
                           </td>
-                          <td className="px-4 py-3 text-right text-gray-600">
+                          <td className="px-4 py-3 text-right text-ink-600">
                             {minderungsBetrag(miete, mangel.minderung_max)} €
                           </td>
                         </tr>
@@ -276,12 +277,12 @@ export default async function MangelPage({ params }: { params: Params }) {
                     </tbody>
                   </table>
                 </div>
-                <p className="mt-3 text-xs text-gray-500">
+                <p className="mt-3 text-xs text-ink-500">
                   Beträge gerundet, pro Monat. Besteht der Mangel nicht den
                   ganzen Monat, wird tagegenau abgerechnet:{" "}
                   <Link
                     href="/ratgeber/mietminderung-berechnen"
-                    className="text-blue-700 hover:underline"
+                    className="text-brand-700 hover:underline"
                   >
                     zur Berechnungsformel
                   </Link>
@@ -291,10 +292,10 @@ export default async function MangelPage({ params }: { params: Params }) {
 
               {/* Nachweis */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-ink-900 mb-4">
                   So dokumentieren Sie den Mangel richtig
                 </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-ink-700 leading-relaxed mb-4">
                   Das Vorliegen des Mangels muss im Streitfall der Mieter
                   beweisen. Fangen Sie mit der Dokumentation deshalb sofort an,
                   nicht erst, wenn es Ärger gibt.
@@ -302,10 +303,10 @@ export default async function MangelPage({ params }: { params: Params }) {
                 <ol className="space-y-3">
                   {seo.dokumentation.map((schritt, i) => (
                     <li key={schritt} className="flex gap-4">
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-700">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-700">
                         {i + 1}
                       </span>
-                      <span className="pt-0.5 text-gray-700 leading-relaxed">
+                      <span className="pt-0.5 text-ink-700 leading-relaxed">
                         {schritt}
                       </span>
                     </li>
@@ -315,7 +316,7 @@ export default async function MangelPage({ params }: { params: Params }) {
 
               {/* Vorgehen */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-ink-900 mb-4">
                   In fünf Schritten zur Mietminderung
                 </h2>
                 <ol className="space-y-4">
@@ -328,12 +329,12 @@ export default async function MangelPage({ params }: { params: Params }) {
                   ].map((schritt, i) => (
                     <li
                       key={schritt}
-                      className="flex gap-4 rounded-xl border border-gray-200 bg-white p-4"
+                      className="flex gap-4 rounded-card border border-ink-200 bg-paper-raised p-4"
                     >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-700 text-sm font-bold text-white">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-field bg-brand-700 text-sm font-bold text-white">
                         {i + 1}
                       </span>
-                      <span className="pt-1 text-gray-700 leading-relaxed">
+                      <span className="pt-1 text-ink-700 leading-relaxed">
                         {schritt}
                       </span>
                     </li>
@@ -343,14 +344,14 @@ export default async function MangelPage({ params }: { params: Params }) {
 
               {/* Rechtliches */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-ink-900 mb-4">
                   Rechtsgrundlage und wichtiger Hinweis
                 </h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-ink-700 leading-relaxed mb-4">
                   {kategorieSeo.rechtliches}
                 </p>
-                <div className="rounded-xl border-l-4 border-amber-400 bg-amber-50 p-5">
-                  <p className="text-sm text-amber-900 leading-relaxed">
+                <div className="rounded-card border-l-4 border-caution-600 bg-caution-50 p-5">
+                  <p className="text-sm text-caution-600 leading-relaxed">
                     <strong className="font-semibold">Wichtig: </strong>
                     {seo.hinweis}
                   </p>
@@ -359,28 +360,28 @@ export default async function MangelPage({ params }: { params: Params }) {
 
               {/* FAQ - answers always in the DOM for indexing */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <h2 className="text-2xl font-bold text-ink-900 mb-6">
                   Häufige Fragen zu {mangel.label}
                 </h2>
                 <div className="space-y-3">
                   {faqs.map((faq) => (
                     <details
                       key={faq.question}
-                      className="group rounded-xl border border-gray-200 bg-white"
+                      className="group rounded-card border border-ink-200 bg-paper-raised"
                     >
-                      <summary className="cursor-pointer list-none px-5 py-4 font-semibold text-gray-900 marker:hidden flex items-center justify-between gap-4">
+                      <summary className="cursor-pointer list-none px-5 py-4 font-semibold text-ink-900 marker:hidden flex items-center justify-between gap-4">
                         <h3 className="text-base font-semibold">
                           {faq.question}
                         </h3>
                         <span
                           aria-hidden="true"
-                          className="shrink-0 text-gray-400 transition-transform group-open:rotate-45"
+                          className="shrink-0 text-ink-400 transition-transform group-open:rotate-45"
                         >
                           +
                         </span>
                       </summary>
-                      <div className="border-t border-gray-100 px-5 py-4">
-                        <p className="text-gray-600 leading-relaxed">
+                      <div className="border-t border-ink-100 px-5 py-4">
+                        <p className="text-ink-600 leading-relaxed">
                           {faq.answer}
                         </p>
                       </div>
@@ -391,7 +392,7 @@ export default async function MangelPage({ params }: { params: Params }) {
 
               {/* Verwandte Mängel */}
               <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-ink-900 mb-4">
                   Verwandte Mängel und ihre Minderungsquoten
                 </h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -399,37 +400,37 @@ export default async function MangelPage({ params }: { params: Params }) {
                     <li key={rel.path}>
                       <Link
                         href={rel.path}
-                        className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 hover:border-blue-400 hover:shadow-sm transition-all"
+                        className="flex items-center justify-between gap-3 rounded-card border border-ink-200 bg-paper-raised px-4 py-3 hover:border-brand-400 hover:shadow-sm transition-all"
                       >
-                        <span className="text-sm font-medium text-gray-800">
+                        <span className="text-sm font-medium text-ink-800">
                           {rel.mangel.label}
                         </span>
-                        <span className="shrink-0 rounded-md bg-blue-50 px-2 py-1 text-xs font-bold text-blue-700">
+                        <span className="shrink-0 rounded-field bg-brand-50 px-2 py-1 text-xs font-bold text-brand-700">
                           {rel.mangel.minderung_min}–{rel.mangel.minderung_max} %
                         </span>
                       </Link>
                     </li>
                   ))}
                 </ul>
-                <p className="mt-4 text-sm text-gray-600">
+                <p className="mt-4 text-sm text-ink-600">
                   Alle Kategorien im Überblick:{" "}
                   <Link
                     href={`/mietminderung/${kategorieSeo.slug}`}
-                    className="text-blue-700 font-medium hover:underline"
+                    className="text-brand-700 font-medium hover:underline"
                   >
                     {kategorie.label}
                   </Link>{" "}
                   ·{" "}
                   <Link
                     href="/mietminderungstabelle"
-                    className="text-blue-700 font-medium hover:underline"
+                    className="text-brand-700 font-medium hover:underline"
                   >
                     komplette Mietminderungstabelle
                   </Link>
                 </p>
               </section>
 
-              <p className="text-xs text-gray-500 leading-relaxed border-t border-gray-200 pt-6">
+              <p className="text-xs text-ink-500 leading-relaxed border-t border-ink-200 pt-6">
                 Die genannten Prozentwerte sind Orientierungswerte aus
                 Gerichtsentscheidungen zu vergleichbaren Fällen. Jeder Einzelfall
                 wird individuell bewertet; ein Anspruch in dieser Höhe lässt sich
@@ -447,38 +448,35 @@ export default async function MangelPage({ params }: { params: Params }) {
                 label={mangel.label}
               />
 
-              <div className="rounded-2xl bg-blue-700 p-6 text-white">
+              <div className="rounded-card bg-brand-700 p-6 text-white">
                 <h2 className="text-lg font-bold">
                   Mängelanzeige erstellen — und verschicken
                 </h2>
-                <p className="mt-2 text-sm text-blue-100 leading-relaxed">
+                <p className="mt-2 text-sm text-brand-100 leading-relaxed">
                   Prüfen Sie in wenigen Minuten Ihren Anspruch und erstellen Sie
                   ein fertiges Schreiben mit allen Pflichtangaben nach § 536c
                   BGB. Kostenlos und ohne Registrierung. Auf Wunsch drucken wir
                   es und geben es an Ihren Vermieter zur Post.
                 </p>
-                <Link
-                  href="/#pruefung"
-                  className="mt-5 inline-flex w-full justify-center rounded-xl bg-white px-5 py-3 text-sm font-semibold text-blue-800 hover:bg-blue-50 transition-colors"
-                >
+                <Button href="/#pruefung" variant="onDark" size="sm" className="mt-5 w-full">
                   Jetzt kostenlos prüfen
-                </Link>
-                <p className="mt-3 text-center text-xs text-blue-100">
+                </Button>
+                <p className="mt-3 text-center text-xs text-brand-100">
                   <Link href={VERSAND_PATH} className="underline hover:text-white">
                     Versand per Brief oder Einwurf-Einschreiben
                   </Link>
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-gray-200 bg-white p-6">
-                <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wide">
+              <div className="rounded-card border border-ink-200 bg-paper-raised p-6">
+                <h2 className="text-sm font-bold text-ink-900 uppercase tracking-wide">
                   Weiterlesen
                 </h2>
                 <ul className="mt-4 space-y-3 text-sm">
                   <li>
                     <Link
                       href="/ratgeber/maengelanzeige-schreiben"
-                      className="text-blue-700 hover:underline"
+                      className="text-brand-700 hover:underline"
                     >
                       Mängelanzeige schreiben: Muster & Pflichtangaben
                     </Link>
@@ -486,7 +484,7 @@ export default async function MangelPage({ params }: { params: Params }) {
                   <li>
                     <Link
                       href="/ratgeber/mietminderung-berechnen"
-                      className="text-blue-700 hover:underline"
+                      className="text-brand-700 hover:underline"
                     >
                       Mietminderung berechnen: Formel & Beispiele
                     </Link>
@@ -494,7 +492,7 @@ export default async function MangelPage({ params }: { params: Params }) {
                   <li>
                     <Link
                       href="/ratgeber/miete-unter-vorbehalt-zahlen"
-                      className="text-blue-700 hover:underline"
+                      className="text-brand-700 hover:underline"
                     >
                       Miete unter Vorbehalt zahlen
                     </Link>
@@ -502,7 +500,7 @@ export default async function MangelPage({ params }: { params: Params }) {
                   <li>
                     <Link
                       href="/ratgeber/mietminderung-ausschluss"
-                      className="text-blue-700 hover:underline"
+                      className="text-brand-700 hover:underline"
                     >
                       Wann die Mietminderung ausgeschlossen ist
                     </Link>

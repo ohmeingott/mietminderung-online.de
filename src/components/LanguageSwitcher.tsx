@@ -62,7 +62,7 @@ export default function LanguageSwitcher({ className = "" }: { className?: strin
       {open && (
         <ul
           aria-label={t("hero.selectLang")}
-          className="animate-fade-in absolute end-0 top-full z-50 mt-2 min-w-[13rem] overflow-hidden rounded-2xl border border-ink-200 bg-paper-raised py-1.5 shadow-[var(--shadow-float)]"
+          className="animate-fade-in absolute end-0 top-full z-50 mt-2 min-w-[13rem] overflow-hidden rounded-card border border-ink-200 bg-paper-raised py-1.5 shadow-[var(--shadow-float)]"
         >
           <li className="px-4 py-1.5 text-[0.6875rem] font-semibold uppercase tracking-wider text-ink-400">
             {t("hero.selectLang")}
