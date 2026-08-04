@@ -2,7 +2,9 @@ import { test, expect } from "@playwright/test";
 import {
   chooseDeadline,
   completeCheck,
+  erwarteterSteuerhinweis,
   expectNoHorizontalOverflow,
+  istKleinunternehmer,
   fillLandlord,
   fillTenant,
   LANDLORD,
@@ -205,11 +207,15 @@ test.describe("Mängelanzeige wizard", () => {
     await expect(page.getByTestId("dispatch-card")).toBeVisible();
     await expect(page.getByTestId("dispatch-submit")).toBeVisible();
 
-    // § 19 UStG: the operator is a small business and may not state VAT.
+    // The tax note sits in this section and follows STEUERMODUS. As a small
+    // business no VAT may be stated at all (§ 14c UStG); under standard
+    // taxation the sentence names the rate the price contains.
     const section = await page.locator("#maengelanzeige").innerText();
-    expect(section.toLowerCase()).not.toContain("mwst");
-    expect(section.toLowerCase()).not.toContain("umsatzsteuer wird");
-    expect(section).toContain("§ 19 UStG");
+    expect(section).toContain(erwarteterSteuerhinweis());
+    if (istKleinunternehmer()) {
+      expect(section.toLowerCase()).not.toContain("mwst");
+      expect(section.toLowerCase()).not.toContain("umsatzsteuer wird");
+    }
   });
 
   test("the back button walks the wizard in reverse", async ({ page }) => {

@@ -1,5 +1,11 @@
 import { absoluteUrl, gesellschafterListe, site, siteConfig } from "@/lib/site";
 import {
+  UMSATZSTEUERSATZ,
+  steuerhinweisRechnung,
+  steuermodus,
+  umsatzsteuerAusBrutto,
+} from "@/lib/steuer";
+import {
   erloeschenHinweis,
   musterWiderrufsformular,
   widerrufsbelehrung,
@@ -101,6 +107,33 @@ function bestelldatum(zeitpunkt: Date): string {
 }
 
 /**
+ * The rows the invoice needs above its total, if any.
+ *
+ * Empty under the small-business rule: § 19 UStG collects no tax, and a stated
+ * amount would be owed under § 14c Abs. 1 UStG even though it was never taken.
+ * Under standard taxation § 14 Abs. 4 Nr. 8 UStG wants the net amount and the
+ * tax amount themselves, not a sentence about the rate — so they are printed
+ * as figures next to the total, in both parts of the mail.
+ *
+ * The total stays the price the customer was charged either way: Stripe books
+ * `tax_behavior: "inclusive"`, so the tax is taken out of the catalogue price
+ * rather than added to it.
+ */
+function steuerzeilen(
+  betragCent: number,
+): { bezeichnung: string; betrag: string }[] {
+  if (steuermodus() === "kleinunternehmer") return [];
+  const { nettoCent, steuerCent } = umsatzsteuerAusBrutto(betragCent);
+  return [
+    { bezeichnung: "Nettobetrag", betrag: euroFromCent(nettoCent) },
+    {
+      bezeichnung: `Umsatzsteuer ${UMSATZSTEUERSATZ} %`,
+      betrag: euroFromCent(steuerCent),
+    },
+  ];
+}
+
+/**
  * Who we are, in one sentence.
  *
  * The customer bought at mietminderung-online.de, the sender is "Mietminderung
@@ -179,18 +212,28 @@ export function bestellbestaetigungEmail(params: {
     .map((zeile) => `<p style="margin:0 0 6px;">${escapeHtml(zeile)}</p>`)
     .join("");
 
+  const steuer = steuerzeilen(params.betragCent);
+  // Rendered with its own leading break so that the small-business mail, which
+  // has no such rows, comes out exactly as it did before this switch existed.
+  const steuerzeilenHtml = steuer
+    .map(
+      (z) =>
+        `\n  <tr><td style="padding:6px 0;color:${MUTED};">${escapeHtml(z.bezeichnung)}</td><td style="padding:6px 0;text-align:right;">${z.betrag}</td></tr>`,
+    )
+    .join("");
+
   const bodyHtml = `
 <h1 style="margin:0 0 16px;font-size:20px;">Ihre Bestellung ist bei uns eingegangen</h1>
 <p style="margin:0 0 12px;">vielen Dank. Wir haben Ihre Zahlung erhalten und bestätigen Ihnen hiermit den Vertrag.</p>
 <p style="margin:0 0 20px;color:${MUTED};font-size:13px;">${escapeHtml(anbieterSatz())}</p>
 
 <table style="width:100%;border-collapse:collapse;margin:0 0 12px;font-size:15px;">
-  <tr><td style="padding:6px 0;color:${MUTED};">Leistung</td><td style="padding:6px 0;text-align:right;">${escapeHtml(leistung)}</td></tr>
+  <tr><td style="padding:6px 0;color:${MUTED};">Leistung</td><td style="padding:6px 0;text-align:right;">${escapeHtml(leistung)}</td></tr>${steuerzeilenHtml}
   <tr><td style="padding:6px 0;color:${MUTED};">Gesamtpreis</td><td style="padding:6px 0;text-align:right;font-weight:600;">${betrag}</td></tr>
   <tr><td style="padding:6px 0;color:${MUTED};">Auftragsnummer</td><td style="padding:6px 0;text-align:right;font-weight:600;">${escapeHtml(params.referenz)}</td></tr>
   <tr><td style="padding:6px 0;color:${MUTED};">Bestellt am</td><td style="padding:6px 0;text-align:right;">${escapeHtml(datum)}</td></tr>
 </table>
-<p style="margin:0 0 24px;color:${MUTED};font-size:13px;">Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und daher nicht ausgewiesen.</p>
+<p style="margin:0 0 24px;color:${MUTED};font-size:13px;">${escapeHtml(steuerhinweisRechnung())}</p>
 
 <h2 style="margin:0 0 8px;font-size:16px;">Wie es weitergeht</h2>
 ${ABLAUF_SAETZE.map((s) => `<p style="margin:0 0 12px;">${escapeHtml(s)}</p>`).join("")}
@@ -219,10 +262,11 @@ ${ABLAUF_SAETZE.map((s) => `<p style="margin:0 0 12px;">${escapeHtml(s)}</p>`).j
     anbieterSatz(),
     "",
     `Leistung: ${leistung}`,
+    ...steuer.map((z) => `${z.bezeichnung}: ${z.betrag}`),
     `Gesamtpreis: ${betrag}`,
     `Auftragsnummer: ${params.referenz}`,
     `Bestellt am: ${datum}`,
-    "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und daher nicht ausgewiesen.",
+    steuerhinweisRechnung(),
     "",
     "WIE ES WEITERGEHT",
     ...ABLAUF_SAETZE,

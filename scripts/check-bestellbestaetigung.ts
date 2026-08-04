@@ -19,7 +19,15 @@
  * bought. All three were real, all three are cheap to reintroduce, and none of
  * them would fail any other check in this repository.
  */
-import { bestellbestaetigungEmail } from "../src/lib/email/templates";
+import {
+  bestellbestaetigungEmail,
+  euroFromCent,
+} from "../src/lib/email/templates";
+import {
+  UMSATZSTEUERSATZ,
+  steuermodus,
+  umsatzsteuerAusBrutto,
+} from "../src/lib/steuer";
 import {
   erloeschenHinweis,
   musterWiderrufsformular,
@@ -85,11 +93,23 @@ function beideTeileEgalGross(bezeichnung: string, erwartet: string): void {
 beideTeile("die Leistungsbeschreibung", "Einwurf-Einschreiben");
 beideTeile("den gezahlten Gesamtpreis", "6,99");
 
-// § 19 UStG — the note that replaces a VAT line. Its absence would leave the
-// price looking like a net amount; an "inkl. MwSt." would be owed under § 14c.
-beideTeile("den § 19-Hinweis", "§ 19 UStG");
-if (/mwst/i.test(mail.text) || /inkl\.\s*\d+\s*%/i.test(mail.text)) {
-  fehler.push("Text-Teil weist Umsatzsteuer aus, obwohl § 19 UStG gilt");
+// The tax statement, in whichever mode STEUERMODUS puts us. Under § 19 UStG a
+// missing note would leave the price looking like a net amount and an "inkl.
+// MwSt." would be owed under § 14c; under standard taxation § 14 Abs. 4 Nr. 8
+// UStG wants the rate and the tax amount, and the § 19 claim becomes false.
+if (steuermodus() === "kleinunternehmer") {
+  beideTeile("den § 19-Hinweis", "§ 19 UStG");
+  if (/mwst/i.test(mail.text) || /inkl\.\s*\d+\s*%/i.test(mail.text)) {
+    fehler.push("Text-Teil weist Umsatzsteuer aus, obwohl § 19 UStG gilt");
+  }
+} else {
+  const { nettoCent, steuerCent } = umsatzsteuerAusBrutto(699);
+  beideTeile("den Steuersatz", `Umsatzsteuer ${UMSATZSTEUERSATZ} %`);
+  beideTeile("den Steuerbetrag", euroFromCent(steuerCent));
+  beideTeile("das Entgelt", euroFromCent(nettoCent));
+  if (mail.text.includes("§ 19 UStG")) {
+    fehler.push("Text-Teil beruft sich auf § 19 UStG, obwohl regelbesteuert wird");
+  }
 }
 
 // Art. 246a § 1 Abs. 1 Nr. 2 — who the trader is, in the mail itself.

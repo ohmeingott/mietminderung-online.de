@@ -12,6 +12,8 @@ import { usePathname } from "next/navigation";
 import { translations, locales, type Locale, type LocaleInfo } from "./translations";
 import { contentTranslations } from "./content";
 import { DEFAULT_LOCALE, localeHref, splitLocalePath } from "./routing";
+import { steuerhinweisSchluessel } from "./steuerhinweis";
+import type { Steuermodus } from "@/lib/steuer";
 
 interface LanguageContextType {
   locale: Locale;
@@ -25,6 +27,15 @@ interface LanguageContextType {
   localeInfo: LocaleInfo;
   locales: LocaleInfo[];
   dir: "rtl" | "ltr";
+  /**
+   * The VAT sentence for the current language and tax mode, ready to render.
+   *
+   * A finished sentence rather than the mode itself: the mode reaches the
+   * browser only because the server put it into this provider, and a component
+   * that branched on it locally would be one `t()` call away from stating the
+   * wrong thing in six languages. See src/i18n/steuerhinweis.ts.
+   */
+  steuerhinweis: string;
   /** The German path this page translates, e.g. "/faq". */
   basePath: string;
   /** URL of the current page in another language. */
@@ -47,7 +58,23 @@ const LanguageContext = createContext<LanguageContextType | null>(null);
    crawler fetching /tr gets a different page than the one it indexed.
 -------------------------------------------------------------------------- */
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
+/**
+ * `steuermodus` is handed in by the root layout rather than read here.
+ *
+ * STEUERMODUS is not a NEXT_PUBLIC_ variable, so `steuermodus()` called inside
+ * a client component would return the configured mode while the server renders
+ * it and `undefined` once the same component runs in the browser — a hydration
+ * mismatch whose visible effect is the wrong tax sentence directly above the
+ * pay button. Passed as a prop it travels in the RSC payload, and both renders
+ * agree.
+ */
+export function LanguageProvider({
+  children,
+  steuermodus,
+}: {
+  children: ReactNode;
+  steuermodus: Steuermodus;
+}) {
   const pathname = usePathname();
   const { locale, basePath } = splitLocalePath(pathname ?? "/");
 
@@ -91,10 +118,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       localeInfo,
       locales,
       dir: localeInfo.dir ?? ("ltr" as const),
+      steuerhinweis: t(steuerhinweisSchluessel(steuermodus)),
       basePath,
       hrefFor,
     }),
-    [locale, t, tc, localeInfo, basePath, hrefFor],
+    [locale, t, tc, localeInfo, steuermodus, basePath, hrefFor],
   );
 
   return (

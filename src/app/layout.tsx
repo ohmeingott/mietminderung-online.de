@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import JsonLd from "@/components/JsonLd";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/seo";
+import { steuermodus } from "@/lib/steuer";
 
 const inter = Inter({
   subsets: ["latin", "latin-ext", "cyrillic"],
@@ -133,7 +134,12 @@ export default function RootLayout({
     <html lang={siteConfig.lang} dir="ltr" className={inter.variable}>
       <body className="font-sans antialiased">
         <JsonLd data={jsonLdGraph(organizationSchema(), websiteSchema())} />
-        <LanguageProvider>{children}</LanguageProvider>
+        {/*
+          The tax mode is read here, in the last server component above the
+          client tree, and travels down as a value. See the note on
+          LanguageProvider for why it cannot be read further down.
+        */}
+        <LanguageProvider steuermodus={steuermodus()}>{children}</LanguageProvider>
         <Analytics />
         {/*
           Core Web Vitals from real visits. Lab numbers say little about a page

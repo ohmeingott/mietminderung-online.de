@@ -4,6 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { site } from "@/lib/site";
 import { PRODUKTE } from "@/lib/ebrief/produkte";
+import { steuerhinweisAgb } from "@/lib/steuer";
 
 export const metadata: Metadata = buildMetadata({
   title: "Nutzungsbedingungen & AGB | Mietminderung-online",
@@ -105,8 +106,7 @@ export default function Nutzungsbedingungen() {
             Einwurf-Einschreiben{" "}
             {preis(PRODUKTE.einwurfEinschreiben.preisCent)}, jeweils je Sendung
             einschließlich Druck, Kuvertierung, Porto und Zustellung innerhalb
-            Deutschlands. Es handelt sich um Endpreise; gemäß § 19 UStG wird
-            keine Umsatzsteuer berechnet und daher auch nicht ausgewiesen.
+            Deutschlands. {steuerhinweisAgb()}
           </p>
           <p>
             <strong>Ausführung.</strong> Unmittelbar nach Ihrer Zahlung geben
