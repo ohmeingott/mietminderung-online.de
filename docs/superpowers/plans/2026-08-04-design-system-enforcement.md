@@ -47,6 +47,32 @@ Die Radien-Zuordnung erfolgt **nach Rolle, nicht nach altem Wert**. Ein
 `rounded-xl`-Chip wird `rounded-field`, eine `rounded-xl`-Karte wird
 `rounded-card`.
 
+### Überschreiben von Button-Basisklassen (in Task 3 gelernt)
+
+`BASE_CLASSES` setzt `inline-flex`, `SIZE_CLASSES` setzt `px-*`. Beide sind
+unpräfixiert. Eine ebenfalls unpräfixierte Klasse in `className` gewinnt
+**nicht** — bei gleicher Spezifität entscheidet die Reihenfolge im generierten
+Stylesheet, nicht die Reihenfolge im `className`-String. `<Button
+className="hidden">` bleibt also sichtbar, `<Button className="px-4">` behält
+`px-6`.
+
+Media-Varianten stehen im generierten CSS hinter ihrer Basisklasse und gewinnen
+deshalb. Der Weg ist also `max-*`:
+
+| Original | in `<Button>` |
+|---|---|
+| `hidden … xl:inline-flex` | `className="max-xl:hidden"` |
+| `px-4 … sm:px-6` | `className="max-sm:px-4"` |
+| `px-4 … sm:px-5` | `className="max-sm:px-4"` bei `size="sm"` |
+
+Gemessen an der kompilierten Tailwind-4-Ausgabe (iframes mit 375/1000/1400px):
+Header-CTA `display: none` unter `xl`, `inline-flex` darüber; Versand-Button
+`padding-left` 16px unter `sm`, 24px darüber — beides exakt wie im Original.
+
+Im Bestand tritt das nur an drei Buttons auf: `Header.tsx:117`,
+`VersandKarte.tsx:627` (beide in Task 3 erledigt) und `ContentHeader.tsx:46`
+(`px-4 sm:px-5`, Task 14).
+
 ---
 
 ### Task 1: ESLint-Guardrail als `warn` einziehen
@@ -338,6 +364,7 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 - Modify: `src/components/VersandTeaser.tsx:92`, `src/components/FAQSection.tsx:39` (secondary)
 - Modify: `src/components/wizard/screens/FertigScreen.tsx:73`, `:82` (secondary, **ändert sichtbar**)
 - Modify: `src/app/faq/FAQPageContent.tsx:65` (onDark), `:72` (onDarkGhost)
+- Modify: `src/app/versand/VersandErgebnis.tsx:111` (Ternary primary/secondary)
 
 - [ ] **Step 1: Ersetzen**
 
@@ -355,6 +382,15 @@ Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
 
 // FAQPageContent.tsx:72
 <Button href="/mietminderungstabelle" variant="onDarkGhost">{...}</Button>
+```
+
+`VersandErgebnis.tsx:111` ist ein Ternary, der je nach Erfolgsfall zwischen den
+Klassen von `primary` und `secondary` umschaltet. Er wird zu:
+
+```tsx
+<Button href="/" variant={erfolg ? "primary" : "secondary"}>
+  {t("common.backHome")}
+</Button>
 ```
 
 `FertigScreen.tsx:73` und `:82` tragen heute
