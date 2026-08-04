@@ -171,6 +171,19 @@ export interface JobAttributes {
   IsTracking: string;
   NotificationMail?: string;
   SilentConfirm: string;
+  /**
+   * Which service created this job — see `HERKUNFT` in `src/lib/herkunft.ts`.
+   * The eBrief customer number is shared with widerspruch-krankengeld.de, so
+   * every `jobId` is valid in both systems; without this mark no webhook can
+   * tell whether a job is its own.
+   *
+   * A "Customer reference (max 50 characters)" per the schema, which jobs can
+   * also be searched by. It does not appear on the letter — it shows in the
+   * eBrief job list and therefore, in all likelihood, on the PIN invoice, which
+   * goes to the operator and not to the tenant. So the service name belongs
+   * here, and nothing about the individual person does.
+   */
+  Reference?: string;
 }
 
 /** `POST /Jobs` → `Result.Jobs[0]` is a `JobDetailsInfo`. */

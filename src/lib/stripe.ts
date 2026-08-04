@@ -13,21 +13,6 @@ import Stripe from "stripe";
 let client: Stripe | null = null;
 
 /**
- * Marks a Checkout session as belonging to this service.
- *
- * The Stripe account is shared with widerspruch-krankengeld.de, and so is the
- * eBrief customer number (D01039646). Stripe delivers every event to every
- * endpoint on an account and offers no filtering by metadata, so each service
- * has to recognise its own payments. `produktId` cannot do it — both
- * catalogues carry the id `einwurfEinschreiben`.
- *
- * The webhook currently *rejects* foreign markers rather than *requiring* this
- * one, so that sessions created before this shipped keep working. See the
- * comment there before tightening it.
- */
-export const HERKUNFT = "mietminderung-online";
-
-/**
  * Without a secret key nothing can be charged. Callers must treat this as
  * "dispatch is not configured" and refuse, the same way the eBrief and token
  * gates do — the site keeps working as a free download.

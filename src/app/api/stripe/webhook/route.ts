@@ -7,7 +7,8 @@ import {
 } from "@/lib/ebrief/types";
 import type { JobStatus } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
-import { HERKUNFT, stripe, stripeKonfiguriert } from "@/lib/stripe";
+import { HERKUNFT, istFremd } from "@/lib/herkunft";
+import { stripe, stripeKonfiguriert } from "@/lib/stripe";
 import { emailConfigured, sendEmail } from "@/lib/email/send";
 import { bestellbestaetigungEmail } from "@/lib/email/templates";
 
@@ -369,6 +370,50 @@ export async function POST(request: Request) {
   try {
     const job = await getJob(jobId);
     const jobStatus = job.JobStatus;
+
+    /*
+     * The second and more valuable check: does the JOB belong to us?
+     *
+     * The check further up examined the payment — a label we attached
+     * ourselves. This one examines the thing we are about to act on
+     * irreversibly. The eBrief customer number is shared with
+     * widerspruch-krankengeld.de, so every jobId resolves in both systems. If
+     * our session points at a job that is demonstrably not ours, payment and
+     * letter have come apart, and posting it would send a stranger's letter.
+     *
+     * Not refunded automatically, in keeping with every other "needs a human"
+     * branch in this handler: a refund moves real money, and this line carries
+     * everything needed to issue one by hand.
+     *
+     * A rejection rather than a requirement, and here that is not optional.
+     * This service is live: jobs created before this shipped carry no
+     * reference, and requiring one would strand paid letters. There is also
+     * genuine doubt whether eBrief returns it at all — `GET /Jobs/{id}` has no
+     * `Reference` field of its own in the schema, only the search does, and the
+     * staging capture does not settle it. The warning below is how that
+     * question gets answered from production logs.
+     */
+    const referenz = job.Attributes?.Reference;
+    if (istFremd(referenz)) {
+      console.error(
+        "PAID BUT NOT POSTED: the eBrief job belongs to another service — do not resend, refund by hand",
+        {
+          eventId: event.id,
+          sessionId: session.id,
+          paymentIntent: paymentIntentId(session),
+          amountTotal: session.amount_total,
+          jobId,
+          referenz,
+        }
+      );
+      return NextResponse.json({ empfangen: true });
+    }
+    if (!referenz) {
+      console.warn("eBrief job carries no reference — the second check is inert", {
+        eventId: event.id,
+        jobId,
+      });
+    }
 
     if (hatStatus(jobStatus, DISTRIBUTED_STATUSES)) {
       const art = artDerWiederholung(jobId, session.id);

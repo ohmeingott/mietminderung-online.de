@@ -11,7 +11,8 @@ import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
 import type { ProduktId } from "@/lib/ebrief/produkte";
 import { pruefeZugang, versandTokenKonfiguriert } from "@/lib/versandToken";
 import type { ZugangsPruefung } from "@/lib/versandToken";
-import { HERKUNFT, stripe, stripeKonfiguriert } from "@/lib/stripe";
+import { HERKUNFT } from "@/lib/herkunft";
+import { stripe, stripeKonfiguriert } from "@/lib/stripe";
 import { stripeTaxBehavior } from "@/lib/steuer";
 import { clientIp, rateLimit } from "@/lib/rateLimit";
 
@@ -341,7 +342,7 @@ export async function POST(request: Request) {
           // Which service this session belongs to. The Stripe account is shared
           // with widerspruch-krankengeld.de and Stripe cannot filter events by
           // metadata, so each webhook has to recognise its own. See HERKUNFT in
-          // src/lib/stripe.ts.
+          // src/lib/herkunft.ts.
           herkunft: HERKUNFT,
           jobId: String(gepruefteJobId),
           produktId: produkt.id,
