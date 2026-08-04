@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/content/Breadcrumbs";
 import ContentFooter from "@/components/content/ContentFooter";
 import ContentHeader from "@/components/content/ContentHeader";
 import JsonLd from "@/components/JsonLd";
+import { Button } from "@/components/ui/Button";
 import { alleMaengel, kategorieIndex, topMaengel } from "@/lib/mangelIndex";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import {
@@ -86,16 +87,16 @@ export default function MietminderungHub() {
 
       <ContentHeader />
 
-      <main className="bg-gray-50">
-        <div className="bg-gradient-to-br from-blue-800 via-blue-700 to-blue-600 text-white">
+      <main className="bg-paper-sunken">
+        <div className="bg-gradient-to-br from-brand-800 via-brand-700 to-brand-600 text-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-14">
-            <div className="[&_a]:text-blue-200 [&_a:hover]:text-white [&_span]:text-blue-100">
+            <div className="[&_a]:text-brand-200 [&_a:hover]:text-white [&_span]:text-brand-100">
               <Breadcrumbs crumbs={crumbs} />
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
               Mietminderung nach Mangelart
             </h1>
-            <p className="mt-5 text-lg text-blue-100 max-w-3xl leading-relaxed">
+            <p className="mt-5 text-lg text-brand-100 max-w-3xl leading-relaxed">
               Wie viel Prozent Mietminderung stehen Ihnen zu? Diese Übersicht
               führt {alleMaengel.length} Wohnungsmängel in{" "}
               {kategorieIndex.length} Kategorien auf. Zu jedem Mangel finden Sie
@@ -103,25 +104,19 @@ export default function MietminderungHub() {
               Nachweis-Checkliste und einen Rechner für Ihre Bruttowarmmiete.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/#pruefung"
-                className="rounded-xl bg-white px-6 py-3 text-sm font-semibold text-blue-800 hover:bg-blue-50 transition-colors"
-              >
+              <Button href="/#pruefung" variant="onDark" size="sm">
                 Anspruch kostenlos prüfen
-              </Link>
-              <Link
-                href="/mietminderungstabelle"
-                className="rounded-xl border-2 border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
-              >
+              </Button>
+              <Button href="/mietminderungstabelle" variant="onDarkGhost" size="sm">
                 Zur Mietminderungstabelle
-              </Link>
+              </Button>
             </div>
           </div>
         </div>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-16">
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl font-bold text-ink-900 mb-6">
               Mangelkategorien
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -132,20 +127,20 @@ export default function MietminderungHub() {
                   <Link
                     key={seo.slug}
                     href={`/mietminderung/${seo.slug}`}
-                    className="group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 hover:border-blue-400 hover:shadow-md transition-all"
+                    className="group flex flex-col rounded-card border border-ink-200 bg-paper-raised p-6 hover:border-brand-400 hover:shadow-md transition-all"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-700 transition-colors">
+                      <h3 className="text-lg font-bold text-ink-900 group-hover:text-brand-700 transition-colors">
                         {kategorie.label}
                       </h3>
-                      <span className="shrink-0 rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700">
+                      <span className="shrink-0 rounded-field bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700">
                         {min}–{max} %
                       </span>
                     </div>
-                    <p className="mt-3 text-sm text-gray-600 leading-relaxed grow">
+                    <p className="mt-3 text-sm text-ink-600 leading-relaxed grow">
                       {seo.intro.split(". ")[0]}.
                     </p>
-                    <span className="mt-4 text-xs font-medium text-gray-400">
+                    <span className="mt-4 text-xs font-medium text-ink-400">
                       {maengel.length} Mangelarten
                     </span>
                   </Link>
@@ -155,10 +150,10 @@ export default function MietminderungHub() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-ink-900 mb-2">
               Mängel mit den höchsten Minderungsquoten
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-ink-600 mb-6">
               Diese Mängel treffen die Bewohnbarkeit am härtesten, und die
               Gerichte bewerten sie entsprechend hoch.
             </p>
@@ -167,16 +162,16 @@ export default function MietminderungHub() {
                 <li key={path}>
                   <Link
                     href={path}
-                    className="flex h-full flex-col justify-between gap-2 rounded-xl border border-gray-200 bg-white px-4 py-4 hover:border-blue-400 hover:shadow-sm transition-all"
+                    className="flex h-full flex-col justify-between gap-2 rounded-card border border-ink-200 bg-paper-raised px-4 py-4 hover:border-brand-400 hover:shadow-sm transition-all"
                   >
-                    <span className="text-sm font-semibold text-gray-900">
+                    <span className="text-sm font-semibold text-ink-900">
                       {mangel.label}
                     </span>
                     <span className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-ink-400">
                         {kategorie.label}
                       </span>
-                      <span className="rounded-md bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-700">
+                      <span className="rounded-field bg-signal-50 px-2 py-1 text-xs font-bold text-signal-700">
                         bis {mangel.minderung_max} %
                       </span>
                     </span>
@@ -186,11 +181,11 @@ export default function MietminderungHub() {
             </ul>
           </section>
 
-          <section className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <section className="rounded-card border border-ink-200 bg-paper-raised p-6 sm:p-10">
+            <h2 className="text-2xl font-bold text-ink-900 mb-4">
               So funktioniert die Mietminderung
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4 text-gray-700 leading-relaxed">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4 text-ink-700 leading-relaxed">
               <p>
                 Nach § 536 BGB ist die Miete kraft Gesetzes gemindert, sobald ein
                 erheblicher Mangel die Tauglichkeit der Wohnung zum
@@ -215,50 +210,41 @@ export default function MietminderungHub() {
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/ratgeber/maengelanzeige-schreiben"
-                className="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 transition-colors"
-              >
+              <Button href="/ratgeber/maengelanzeige-schreiben" size="sm">
                 Mängelanzeige schreiben
-              </Link>
-              <Link
-                href="/ratgeber/mietminderung-berechnen"
-                className="rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:border-blue-400 hover:text-blue-700 transition-colors"
-              >
+              </Button>
+              <Button href="/ratgeber/mietminderung-berechnen" variant="secondary" size="sm">
                 Mietminderung berechnen
-              </Link>
-              <Link
-                href="/ratgeber/mietminderung-ausschluss"
-                className="rounded-lg border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:border-blue-400 hover:text-blue-700 transition-colors"
-              >
+              </Button>
+              <Button href="/ratgeber/mietminderung-ausschluss" variant="secondary" size="sm">
                 Wann keine Minderung gilt
-              </Link>
+              </Button>
             </div>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl font-bold text-ink-900 mb-6">
               Häufige Fragen
             </h2>
             <div className="space-y-3">
               {faqs.map((faq) => (
                 <details
                   key={faq.question}
-                  className="group rounded-xl border border-gray-200 bg-white"
+                  className="group rounded-card border border-ink-200 bg-paper-raised"
                 >
                   <summary className="cursor-pointer list-none px-5 py-4 marker:hidden flex items-center justify-between gap-4">
-                    <h3 className="text-base font-semibold text-gray-900">
+                    <h3 className="text-base font-semibold text-ink-900">
                       {faq.question}
                     </h3>
                     <span
                       aria-hidden="true"
-                      className="shrink-0 text-gray-400 transition-transform group-open:rotate-45"
+                      className="shrink-0 text-ink-400 transition-transform group-open:rotate-45"
                     >
                       +
                     </span>
                   </summary>
-                  <div className="border-t border-gray-100 px-5 py-4">
-                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  <div className="border-t border-ink-100 px-5 py-4">
+                    <p className="text-ink-600 leading-relaxed">{faq.answer}</p>
                   </div>
                 </details>
               ))}
