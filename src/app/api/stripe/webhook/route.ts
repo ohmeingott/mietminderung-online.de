@@ -7,7 +7,7 @@ import {
 } from "@/lib/ebrief/types";
 import type { JobStatus } from "@/lib/ebrief/types";
 import { PRODUKTE, istProduktId } from "@/lib/ebrief/produkte";
-import { stripe, stripeKonfiguriert } from "@/lib/stripe";
+import { HERKUNFT, stripe, stripeKonfiguriert } from "@/lib/stripe";
 import { emailConfigured, sendEmail } from "@/lib/email/send";
 import { bestellbestaetigungEmail } from "@/lib/email/templates";
 
@@ -271,6 +271,40 @@ export async function POST(request: Request) {
   // Narrowed by the check above, so no cast is needed and a future change to
   // the event list cannot quietly hand us the wrong object shape.
   const session = event.data.object;
+
+  /*
+   * Is this payment even ours?
+   *
+   * Animals of Cologne runs a second service on this same Stripe account and
+   * this same eBrief customer number (D01039646): widerspruch-krankengeld.de.
+   * Stripe delivers every event to every endpoint on an account — there is no
+   * filtering by metadata, and Stripe's own guidance is that separate accounts
+   * are the clean answer, with a metadata filter as the alternative. So without
+   * this check a payment made over there arrives here too, and its
+   * `metadata.jobId` resolves to a real job in the shared eBrief account. We
+   * would post a stranger's letter.
+   *
+   * `produktId` cannot tell the two apart: both catalogues carry the id
+   * `einwurfEinschreiben`.
+   *
+   * Written as a rejection ("set, and not ours") rather than a requirement
+   * ("must be ours") on purpose. Sessions created before this deploys carry no
+   * `herkunft` at all, and a requirement would strand every one of them — paid
+   * letters that would never be posted. Once this service also stamps its own
+   * `herkunft` and no unmarked session can still be in flight, this can be
+   * tightened into a requirement.
+   */
+  const herkunft = session.metadata?.herkunft;
+  if (herkunft && herkunft !== HERKUNFT) {
+    // Genuine, correctly signed, and none of our business. Acknowledged so
+    // Stripe stops resending it.
+    console.log("Stripe session belongs to another service — ignored", {
+      eventId: event.id,
+      sessionId: session.id,
+      herkunft,
+    });
+    return NextResponse.json({ empfangen: true });
+  }
 
   // `completed` arrives for delayed-notification methods while the payment is
   // still pending; Stripe's own guidance is to wait for
