@@ -262,6 +262,12 @@ export async function POST(request: Request) {
   // against `payment_status` below — the event type alone never authorises a
   // letter. Everything else is acknowledged and ignored: a non-2xx would have
   // Stripe retry events we will never act on.
+  //
+  // The checkout route now offers only methods that confirm at the till, so the
+  // second event should no longer occur (see ZAHLARTEN there). It stays handled
+  // regardless: sessions created before that change may still be in flight, the
+  // pin is one deploy from being lifted, and the failure it guards against is a
+  // payment taken for a letter nobody posts.
   if (
     event.type !== "checkout.session.completed" &&
     event.type !== "checkout.session.async_payment_succeeded"

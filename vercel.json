@@ -6,6 +6,10 @@
     {
       "path": "/api/cron/ebrief-cleanup",
       "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/versand-nachlauf",
+      "schedule": "0 7 * * *"
     }
   ],
   "redirects": [

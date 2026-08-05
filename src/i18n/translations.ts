@@ -202,7 +202,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copyText": "Text kopieren",
     "letter.copied": "Kopiert!",
     "letter.warning":
-      "Versenden Sie die Mängelanzeige immer nachweisbar, am besten per Einwurf-Einschreiben. Eine einfache E-Mail reicht als Zugangsnachweis nicht aus.",
+      "Versenden Sie die Mängelanzeige so, dass Sie sie später belegen können: Einwurf-Einschreiben, Bote mit Zeugen oder persönliche Übergabe mit Empfangsbestätigung. Eine einfache E-Mail reicht als Zugangsnachweis nicht aus.",
 
     // Teaser
     "teaser.title": "Mängelanzeige erstellen",
@@ -321,7 +321,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.brief": "Als Brief",
     "dispatch.einschreiben": "Als Einwurf-Einschreiben",
     "dispatch.einschreibenHint":
-      "Beim Einwurf-Einschreiben wird der Einwurf in den Briefkasten dokumentiert. Es ist kein Übergabe-Einschreiben mit Unterschrift des Empfängers.",
+      "Die Post erfasst den Einwurf in den Briefkasten. Sobald die Zustellung gemeldet ist, schicken wir Ihnen Sendungsnummer und Verfolgungslink per E-Mail. Es ist kein Übergabe-Einschreiben mit Unterschrift des Empfängers — einen sicheren Zugangsnachweis kann kein Postprodukt erbringen.",
     "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
     "dispatch.send": "Kostenpflichtig versenden",
     // § 356 Abs. 4 BGB. The letter is printed and posted long before the
@@ -582,7 +582,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.copyText": "Copy text",
     "letter.copied": "Copied!",
     "letter.warning":
-      "Always send the defect notice in a way you can prove — ideally by registered mail (Einwurf-Einschreiben). A simple email is not sufficient proof of receipt.",
+      "Send the defect notice in a way you can document later: Einwurf-Einschreiben, a messenger with a witness, or handing it over in person against a receipt. A simple email is not sufficient proof of receipt.",
 
     // Teaser
     "teaser.title": "Create a defect notice",
@@ -702,7 +702,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.brief": "As a letter",
     "dispatch.einschreiben": "As an Einwurf-Einschreiben",
     "dispatch.einschreibenHint":
-      "An Einwurf-Einschreiben documents the delivery into the letterbox. It is not an Übergabe-Einschreiben signed for by the recipient.",
+      "The postal service records the delivery into the letterbox. As soon as it is reported, we email you the shipment number and the tracking link. It is not an Übergabe-Einschreiben signed for by the recipient — and no postal product can provide conclusive proof of receipt.",
     "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
     "dispatch.send": "Send (chargeable)",
     "dispatch.consent":
@@ -930,7 +930,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "Metin dosyası olarak",
     "letter.copyText": "Metni kopyala",
     "letter.copied": "Kopyalandı!",
-    "letter.warning": "Kusur bildirimini her zaman kanıtlanabilir şekilde gönderin, en iyisi taahhütlü posta ile.",
+    "letter.warning":
+      "Kusur bildirimini sonradan belgeleyebileceğiniz bir yolla gönderin: Einwurf-Einschreiben, tanıklı kurye ya da teslim belgesi karşılığında elden teslim. Basit bir e-posta tebliğ kanıtı olarak yeterli değildir.",
     "teaser.title": "Kusur bildirimi oluştur",
     "teaser.desc":
       "Ev sahibinize yasal olarak geçerli bir kusur bildirimi oluşturun. Önce hakkınızı ve kira indirimi miktarını belirlemek için kontrolümüzü kullanın.",
@@ -1033,7 +1034,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.brief": "Normal mektup olarak",
     "dispatch.einschreiben": "Einwurf-Einschreiben olarak",
     "dispatch.einschreibenHint":
-      "Einwurf-Einschreiben'de mektubun posta kutusuna atılması belgelenir. Bu, alıcının imzasını gerektiren bir Übergabe-Einschreiben değildir.",
+      "Posta, mektubun posta kutusuna atılmasını kaydeder. Teslimat bildirilir bildirilmez gönderi numarasını ve takip bağlantısını size e-posta ile iletiriz. Bu, alıcının imzasını gerektiren bir Übergabe-Einschreiben değildir — ve hiçbir posta ürünü kesin bir tebliğ kanıtı sağlayamaz.",
     "dispatch.taxNote":
       "§ 19 UStG uyarınca katma değer vergisi hesaplanmaz.",
     "dispatch.send": "Ücretli olarak gönder",
@@ -1261,7 +1262,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "Як текстовий файл",
     "letter.copyText": "Копіювати текст",
     "letter.copied": "Скопійовано!",
-    "letter.warning": "Завжди надсилайте повідомлення з підтвердженням отримання, найкраще рекомендованим листом.",
+    "letter.warning":
+      "Надсилайте повідомлення так, щоб згодом могли це підтвердити: Einwurf-Einschreiben, кур'єр зі свідком або особисте вручення під розписку. Звичайного електронного листа для підтвердження отримання недостатньо.",
     "teaser.title": "Створити повідомлення про дефект",
     "teaser.desc":
       "Створіть юридично обґрунтоване повідомлення для орендодавця. Спочатку скористайтеся перевіркою для визначення права та розміру зниження.",
@@ -1363,7 +1365,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.brief": "Звичайним листом",
     "dispatch.einschreiben": "Як Einwurf-Einschreiben",
     "dispatch.einschreibenHint":
-      "У разі Einwurf-Einschreiben документується вкидання листа до поштової скриньки. Це не Übergabe-Einschreiben із підписом отримувача.",
+      "Пошта фіксує вкидання листа до поштової скриньки. Щойно надійде повідомлення про доставку, ми надішлемо вам номер відправлення та посилання для відстеження електронною поштою. Це не Übergabe-Einschreiben із підписом отримувача — і жоден поштовий продукт не може дати беззаперечного підтвердження отримання.",
     "dispatch.taxNote":
       "Згідно з § 19 UStG податок на додану вартість не нараховується.",
     "dispatch.send": "Надіслати платно",
@@ -1591,7 +1593,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "Как текстовый файл",
     "letter.copyText": "Копировать текст",
     "letter.copied": "Скопировано!",
-    "letter.warning": "Всегда отправляйте уведомление с подтверждением получения, лучше всего заказным письмом.",
+    "letter.warning":
+      "Отправляйте уведомление так, чтобы позже это можно было подтвердить: Einwurf-Einschreiben, курьер со свидетелем или личное вручение под расписку. Обычного электронного письма для подтверждения получения недостаточно.",
     "teaser.title": "Создать уведомление о дефекте",
     "teaser.desc": "Создайте юридически обоснованное уведомление для арендодателя.",
     "teaser.feat1": "Юридический шаблон согласно § 536c BGB",
@@ -1692,7 +1695,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.brief": "Обычным письмом",
     "dispatch.einschreiben": "Как Einwurf-Einschreiben",
     "dispatch.einschreibenHint":
-      "При Einwurf-Einschreiben документируется опускание письма в почтовый ящик. Это не Übergabe-Einschreiben с подписью получателя.",
+      "Почта фиксирует опускание письма в почтовый ящик. Как только поступит сообщение о доставке, мы пришлём вам номер отправления и ссылку для отслеживания по электронной почте. Это не Übergabe-Einschreiben с подписью получателя — и ни один почтовый продукт не может дать бесспорного подтверждения получения.",
     "dispatch.taxNote":
       "Согласно § 19 UStG налог на добавленную стоимость не начисляется.",
     "dispatch.send": "Отправить платно",
@@ -1920,7 +1923,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "كملف نصي",
     "letter.copyText": "نسخ النص",
     "letter.copied": "تم النسخ!",
-    "letter.warning": "أرسل الإشعار دائماً بطريقة يمكن إثباتها، والأفضل بالبريد المسجل.",
+    "letter.warning":
+      "أرسل الإشعار بطريقة يمكنك توثيقها لاحقاً: Einwurf-Einschreiben، أو مُرسِل بصحبة شاهد، أو التسليم شخصياً مقابل إيصال استلام. لا يكفي بريد إلكتروني عادي كإثبات للاستلام.",
     "teaser.title": "إنشاء إشعار بالعيب",
     "teaser.desc": "أنشئ إشعاراً قانونياً للمؤجر.",
     "teaser.feat1": "قالب قانوني وفقاً لـ § 536c BGB",
@@ -2021,7 +2025,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.brief": "كخطاب عادي",
     "dispatch.einschreiben": "كـ Einwurf-Einschreiben",
     "dispatch.einschreibenHint":
-      "في Einwurf-Einschreiben يُوثَّق إيداع الخطاب في صندوق البريد. وهو ليس Übergabe-Einschreiben الذي يوقّع عليه المستلم.",
+      "تُسجِّل شركة البريد إيداع الخطاب في صندوق البريد. وبمجرد الإبلاغ عن التسليم نرسل إليك رقم الإرسالية ورابط التتبّع عبر البريد الإلكتروني. وهو ليس Übergabe-Einschreiben الذي يوقّع عليه المستلم — ولا يمكن لأي منتج بريدي أن يقدّم إثباتاً قاطعاً للاستلام.",
     "dispatch.taxNote": "وفقاً لـ § 19 UStG لا تُحتسب ضريبة القيمة المضافة.",
     "dispatch.send": "إرسال مقابل رسوم",
     "dispatch.consent":
@@ -2246,7 +2250,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.downloadTxt": "Jako plik tekstowy",
     "letter.copyText": "Kopiuj tekst",
     "letter.copied": "Skopiowano!",
-    "letter.warning": "Zawsze wysyłaj zgłoszenie w sposób udokumentowany, najlepiej listem poleconym.",
+    "letter.warning":
+      "Wyślij zgłoszenie w sposób, który później udokumentujesz: Einwurf-Einschreiben, posłaniec ze świadkiem albo osobiste doręczenie za potwierdzeniem odbioru. Zwykły e-mail nie wystarczy jako dowód doręczenia.",
     "teaser.title": "Utwórz zgłoszenie usterki",
     "teaser.desc": "Utwórz prawnie wiążące zgłoszenie dla wynajmującego.",
     "teaser.feat1": "Szablon prawny zgodny z § 536c BGB",
@@ -2347,7 +2352,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.brief": "Jako zwykły list",
     "dispatch.einschreiben": "Jako Einwurf-Einschreiben",
     "dispatch.einschreibenHint":
-      "Przy Einwurf-Einschreiben dokumentowane jest wrzucenie listu do skrzynki pocztowej. Nie jest to Übergabe-Einschreiben z podpisem odbiorcy.",
+      "Poczta rejestruje wrzucenie listu do skrzynki pocztowej. Gdy tylko doręczenie zostanie zgłoszone, prześlemy Ci e-mailem numer przesyłki i link do śledzenia. Nie jest to Übergabe-Einschreiben z podpisem odbiorcy — i żaden produkt pocztowy nie zapewni pewnego dowodu doręczenia.",
     "dispatch.taxNote": "Zgodnie z § 19 UStG podatek VAT nie jest naliczany.",
     "dispatch.send": "Wyślij odpłatnie",
     "dispatch.consent":

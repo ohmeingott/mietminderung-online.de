@@ -1,5 +1,5 @@
-import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { cronAutorisiert } from "@/lib/cronAuth";
 import { EbriefError, deleteJob, searchJobs } from "@/lib/ebrief/client";
 import type { JobSuchFilter } from "@/lib/ebrief/client";
 import { ebriefKonfiguriert } from "@/lib/ebrief/token";
@@ -99,23 +99,6 @@ const LOESCHBARE_STATUSES: JobStatus[] = [
   "ERROR_GENERAL",
   "ROLLEDBACK",
 ];
-
-/**
- * Vercel Cron sends exactly `Authorization: Bearer <CRON_SECRET>`. Compared
- * over the whole header value in constant time, the same way
- * src/lib/versandToken.ts compares its signatures.
- */
-function autorisiert(request: Request, secret: string): boolean {
-  const kopf = request.headers.get("authorization");
-  if (!kopf) return false;
-
-  const erwartet = Buffer.from(`Bearer ${secret}`, "utf8");
-  const geliefert = Buffer.from(kopf, "utf8");
-  // timingSafeEqual throws on differing lengths. Returning early leaks the
-  // length of the secret, not its content.
-  if (erwartet.length !== geliefert.length) return false;
-  return timingSafeEqual(erwartet, geliefert);
-}
 
 type Zeiteinheit = "sekunden" | "millisekunden";
 type Alter =
@@ -297,7 +280,7 @@ export async function GET(request: Request) {
     );
   }
 
-  if (!autorisiert(request, secret)) {
+  if (!cronAutorisiert(request, secret)) {
     console.error("Unauthorised call to the eBrief cleanup cron");
     return NextResponse.json({ fehler: "nicht_autorisiert" }, { status: 401 });
   }
