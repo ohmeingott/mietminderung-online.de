@@ -251,3 +251,185 @@ ${ABLAUF_SAETZE.map((s) => `<p style="margin:0 0 12px;">${escapeHtml(s)}</p>`).j
     text,
   };
 }
+
+/**
+ * A two-column block of facts, with the empty rows left out.
+ *
+ * eBrief does not guarantee to fill every field, and a line reading
+ * "Sendungsnummer:" with nothing behind it — or worse, the string "null" — is
+ * worse than no line at all.
+ */
+function datenTabelleHtml(zeilen: [string, string][]): string {
+  const inhalt = zeilen
+    .map(
+      ([bezeichnung, wert]) =>
+        `<tr><td style="padding:6px 0;color:${MUTED};">${escapeHtml(bezeichnung)}</td><td style="padding:6px 0;text-align:right;">${wert}</td></tr>`
+    )
+    .join("");
+  return `<table style="width:100%;border-collapse:collapse;margin:0 0 20px;font-size:15px;">${inhalt}</table>`;
+}
+
+/**
+ * What every follow-up mail says about itself.
+ *
+ * A mail arriving days or weeks after the order, from a sender the customer
+ * bought from once, has the exact shape of a phishing attempt unless it says
+ * why it exists — the same reasoning as `anbieterSatz` above.
+ */
+function warumDieseMail(referenz: string): string {
+  return `Sie erhalten diese E-Mail, weil Sie über ${siteConfig.name} eine Mängelanzeige an Ihren Vermieter versendet haben (Auftragsnummer ${referenz}).`;
+}
+
+/**
+ * Once eBrief reports the delivery.
+ *
+ * There is no Einlieferungsbeleg. The interface delivers a shipment number, a
+ * tracking link and events with a timestamp — that is what stands here, and
+ * nothing beyond it. In particular this mail does not call itself proof: the
+ * Bundesarbeitsgericht held the combination of Einlieferungsbeleg and shipment
+ * status insufficient in 2 AZR 68/24, and this mail is the shipment status.
+ *
+ * What it can honestly be is documentation, kept by the tenant, of what was
+ * sent and when it was reported delivered. That is how it describes itself.
+ *
+ * Only ever sent for `einwurfEinschreiben` — the plain letter carries
+ * `IsTracking: "false"` and produces none of these fields. See
+ * `hatSendungsverfolgung` in src/lib/versandNachlauf.ts.
+ */
+export function sendungsmeldungEmail(params: {
+  /** The eBrief job id, as in the order confirmation. */
+  referenz: string;
+  stand: {
+    shipmentNumber: string | null;
+    trackingUrl: string | null;
+    /** Already formatted for a German reader — see formatiereEreignisZeitpunkt. */
+    ereignisZeitpunkt: string | null;
+  };
+}): RenderedEmail {
+  const { referenz, stand } = params;
+
+  const zeilenHtml: [string, string][] = [];
+  const zeilenText: string[] = [];
+  if (stand.ereignisZeitpunkt) {
+    zeilenHtml.push(["Zustellung gemeldet am", escapeHtml(stand.ereignisZeitpunkt)]);
+    zeilenText.push(`Zustellung gemeldet am: ${stand.ereignisZeitpunkt}`);
+  }
+  if (stand.shipmentNumber) {
+    zeilenHtml.push(["Sendungsnummer", escapeHtml(stand.shipmentNumber)]);
+    zeilenText.push(`Sendungsnummer: ${stand.shipmentNumber}`);
+  }
+  if (stand.trackingUrl) {
+    const url = escapeHtml(stand.trackingUrl);
+    zeilenHtml.push(["Sendungsverfolgung", `<a href="${url}" style="color:${INK};">Sendung ansehen</a>`]);
+    zeilenText.push(`Sendungsverfolgung: ${stand.trackingUrl}`);
+  }
+  zeilenHtml.push(["Auftragsnummer", escapeHtml(referenz)]);
+  zeilenText.push(`Auftragsnummer: ${referenz}`);
+
+  /**
+   * The sentence that keeps this mail honest.
+   *
+   * Written out rather than softened: the tenant paid the surcharge for
+   * traceability, and the worst outcome is one who walks into a dispute
+   * believing this email settles whether the landlord knew.
+   */
+  const EINORDNUNG =
+    "Ein Hinweis zur Einordnung, damit Sie sich nicht auf mehr verlassen, als das ist: Die Meldung dokumentiert den Weg der Sendung. Einen sicheren Nachweis, dass Ihre Mängelanzeige Ihren Vermieter erreicht hat, kann kein Postprodukt erbringen — die Rechtsprechung hat den Beweiswert des Einwurf-Einschreibens zuletzt deutlich eingeschränkt.";
+
+  const FRISTSATZ =
+    "Ab dem gemeldeten Tag kennt Ihr Vermieter den Mangel — und ab diesem Tag läuft die Frist aus Ihrem Schreiben.";
+
+  const AUFBEWAHREN =
+    "Bewahren Sie diese E-Mail auf. Sie ist zusammen mit unserer Bestellbestätigung die beste Dokumentation, die Sie über den Versand haben.";
+
+  const bodyHtml = `
+<h1 style="margin:0 0 16px;font-size:20px;">Ihre Mängelanzeige wurde zugestellt</h1>
+<p style="margin:0 0 20px;">der Zusteller hat den Einwurf in den Briefkasten Ihres Vermieters gemeldet.</p>
+
+${datenTabelleHtml(zeilenHtml)}
+
+<p style="margin:0 0 12px;">${escapeHtml(FRISTSATZ)}</p>
+<p style="margin:0 0 12px;">${escapeHtml(EINORDNUNG)}</p>
+<p style="margin:0 0 20px;">${escapeHtml(AUFBEWAHREN)}</p>
+
+<p style="margin:0 0 4px;color:${MUTED};font-size:13px;">${escapeHtml(warumDieseMail(referenz))}</p>`;
+
+  const text = [
+    "Ihre Mängelanzeige wurde zugestellt",
+    "",
+    "der Zusteller hat den Einwurf in den Briefkasten Ihres Vermieters gemeldet.",
+    "",
+    ...zeilenText,
+    "",
+    FRISTSATZ,
+    "",
+    EINORDNUNG,
+    "",
+    AUFBEWAHREN,
+    "",
+    warumDieseMail(referenz),
+    "",
+    identityFooterText(),
+  ].join("\n");
+
+  return {
+    subject: "Ihre Mängelanzeige wurde zugestellt",
+    html: layout(bodyHtml, identityFooterHtml()),
+    text,
+  };
+}
+
+/**
+ * Two weeks after the order: where does the case stand?
+ *
+ * Sent for both products — it is about the defect, not about the postage, so
+ * the plain letter earns it just as much as the Einwurf-Einschreiben.
+ *
+ * Says nothing that the site does not already say on the "Wie geht es weiter?"
+ * timeline, and deliberately so: that text has been through the legal review in
+ * docs/, and a mail is a bad place to invent new legal statements. What the
+ * mail adds is timing — it arrives at the end of the default deadline, when the
+ * tenant has an answer to "has anything happened?" and can act on it.
+ *
+ * The last mail of the order. Nothing about this service is a subscription, and
+ * saying so is what keeps a helpful reminder from reading as the start of a
+ * mailing list.
+ */
+export function nachfassEmail(params: { referenz: string }): RenderedEmail {
+  const { referenz } = params;
+
+  const ABSATZ: readonly string[] = [
+    "vor zwei Wochen haben wir Ihre Mängelanzeige an Ihren Vermieter geschickt. Ein guter Zeitpunkt, um zu schauen, wo Sie stehen.",
+    "Ist der Mangel beseitigt? Dann ist die Sache erledigt — zahlen Sie die volle Miete weiter und halten Sie fest, seit wann der Mangel weg ist.",
+    "Ist Ihre Frist abgelaufen und nichts passiert? Dann ist Ihr Vermieter in Verzug. Sie können ein zweites Schreiben mit einer letzten Frist senden, die zu viel gezahlte Miete zurückfordern und nach § 536a BGB Schadensersatz oder die Ersatzvornahme verlangen.",
+    "Dokumentieren Sie in jedem Fall weiter: Fotos mit Datum, ein Lärm- oder Temperaturprotokoll, und jede Antwort Ihres Vermieters. Wer später mindert, braucht den Nachweis, wie lange der Mangel bestand.",
+    "Wenn Sie die Miete kürzen, schreiben Sie in den Verwendungszweck „Zahlung unter Vorbehalt wegen Mangel“ — und mindern Sie im Zweifel konservativ. Wer zu viel kürzt und zwei Monatsmieten Rückstand aufbaut, riskiert die fristlose Kündigung (§ 543 Abs. 2 Nr. 3 BGB).",
+    "Wir beraten Sie nicht rechtlich. Wenn Sie Unterstützung brauchen, wenden Sie sich an einen Mieterverein oder an eine Fachanwältin für Mietrecht.",
+  ] as const;
+
+  const ABSCHLUSS = `Das ist unsere letzte E-Mail zu diesem Auftrag — Sie haben nichts abonniert. ${warumDieseMail(referenz)}`;
+
+  const bodyHtml = `
+<h1 style="margin:0 0 16px;font-size:20px;">Wie steht es um Ihren Mangel?</h1>
+${ABSATZ.map((s) => `<p style="margin:0 0 12px;">${escapeHtml(s)}</p>`).join("")}
+
+<div style="margin:24px 0 0;border-top:1px solid ${RULE};padding-top:16px;color:${MUTED};font-size:13px;">
+  <p style="margin:0;">${escapeHtml(ABSCHLUSS)}</p>
+</div>`;
+
+  const text = [
+    "Wie steht es um Ihren Mangel?",
+    "",
+    ...ABSATZ.flatMap((s) => [s, ""]),
+    "—————————————————————————————",
+    ABSCHLUSS,
+    "",
+    identityFooterText(),
+  ].join("\n");
+
+  return {
+    subject: "Zwei Wochen nach Ihrer Mängelanzeige",
+    html: layout(bodyHtml, identityFooterHtml()),
+    text,
+  };
+}

@@ -51,6 +51,40 @@ const PRODUKTNAMEN: Record<ProduktId, string> = {
 const STATEMENT_SUFFIX = "MIETMINDERUNG";
 
 /**
+ * Only payment methods that confirm immediately.
+ *
+ * Left unset, Checkout offers whatever the Dashboard has enabled — which today
+ * includes Klarna. Klarna, SEPA Direct Debit and Pay by Bank are *delayed
+ * notification* methods: `checkout.session.completed` arrives with a
+ * `payment_status` other than `paid`, the webhook correctly declines to
+ * dispatch, and the confirmation follows as
+ * `checkout.session.async_payment_succeeded` up to three days later.
+ *
+ * The webhook does handle that event, so the letter is not lost. It is late,
+ * and late is the thing a Mängelanzeige cannot afford: the deadline in the
+ * letter runs from the day the landlord learns of the defect, the catalogue
+ * carries defects whose deadline is three days, and until the letter arrives
+ * there is no date for the rent reduction to run from. A tenant with no heating
+ * who pays on Friday and has the letter posted on Monday has bought a worse
+ * product than the one on the card. So this is a product decision as much as a
+ * technical one — see the PR that introduced the dispatch follow-up.
+ *
+ * Pinned here rather than left to the Dashboard, for the same reason as
+ * `adaptive_pricing` below: a Dashboard toggle is one click from being flipped,
+ * and this one would fail quietly. `card` carries Apple Pay and Google Pay with
+ * it — they ride on the card rails.
+ *
+ * PayPal is on the list because Stripe classifies it as immediate rather than
+ * delayed notification, so it does not reopen the hole this list exists to
+ * close, and because it is the method German consumers reach for first. It is
+ * live on this same Stripe account for widerspruch-krankengeld.de.
+ *
+ * Anything added here has to clear the same bar: confirmation at the till, not
+ * days later. Klarna does not.
+ */
+const ZAHLARTEN = ["card", "paypal"] as const;
+
+/**
  * Where the payment page sends the payer back to, and the origin that goes
  * into the idempotency key below.
  *
@@ -122,6 +156,7 @@ function idempotenzSchluessel(merkmale: {
   taxBehavior: string | undefined;
   basisUrl: string;
   statementSuffix: string;
+  zahlarten: readonly string[];
 }): string {
   const roh = [
     merkmale.jobId,
@@ -130,6 +165,7 @@ function idempotenzSchluessel(merkmale: {
     merkmale.taxBehavior ?? "ohne",
     merkmale.basisUrl,
     merkmale.statementSuffix,
+    merkmale.zahlarten.join(","),
   ].join("|");
   return `versand-${createHash("sha256").update(roh).digest("hex")}`;
 }
@@ -302,6 +338,8 @@ export async function POST(request: Request) {
     const session = await stripe().checkout.sessions.create(
       {
         mode: "payment",
+        // See ZAHLARTEN above: only methods that confirm at the till.
+        payment_method_types: [...ZAHLARTEN],
         // The dispatch card quotes a euro price straight from the catalogue,
         // in every one of the seven locales. Stripe's adaptive pricing would
         // convert that into the payer's own currency on the payment page, so
@@ -371,6 +409,11 @@ export async function POST(request: Request) {
           // under a live key would make Stripe reject the reuse, and the user
           // would see "checkout_fehler" for a deployment detail.
           statementSuffix: STATEMENT_SUFFIX,
+          // Same reason, and the reason this deploy needs it: a session created
+          // minutes before the change still holds its key for 24 hours, and
+          // reusing it with a different payment method list is exactly the
+          // mismatch Stripe refuses.
+          zahlarten: ZAHLARTEN,
         }),
       }
     );

@@ -118,8 +118,14 @@ test.describe("Postversand (eBrief)", () => {
 
     const karte = await page.getByTestId("dispatch-card").innerText();
     expect(karte).toContain(
-      "Es ist kein Übergabe-Einschreiben mit Unterschrift des Empfängers."
+      "kein Übergabe-Einschreiben mit Unterschrift des Empfängers"
     );
+    // And the card does not sell the tracking as proof of receipt either. What
+    // the customer gets is a shipment number, a tracking link and an email once
+    // delivery is reported — the card now says all three, and says what they
+    // are not. See src/lib/versandNachlauf.ts.
+    expect(karte).toContain("Sendungsnummer und Verfolgungslink");
+    expect(karte).toContain("kann kein Postprodukt erbringen");
   });
 
   test("keeps the order button locked until the withdrawal declaration is made", async ({

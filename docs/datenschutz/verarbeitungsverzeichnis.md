@@ -106,14 +106,22 @@ davon erst auf aktive Handlung des Nutzers.
 vorliegen, weil ein Brief andernfalls nicht zustellbar ist. So ausdrücklich
 auch die TOM der PIN AG, Ziffer 1.4.
 
-## 7. Bestellbestätigung per E-Mail
+## 7. E-Mails zum Versandauftrag
+
+Drei E-Mails, alle über denselben Weg und alle zum selben Auftrag:
+
+1. **Bestellbestätigung**, unmittelbar nach der Zahlung.
+2. **Zustellmeldung**, sobald die Post die Zustellung meldet — nur beim
+   Einwurf-Einschreiben, weil nur dieses Produkt eine Sendungsverfolgung hat.
+3. **Erinnerung** vierzehn Tage nach der Bestellung, mit Hinweisen zum weiteren
+   Vorgehen. Keine Werbung, kein Newsletter, danach folgt nichts mehr.
 
 | | |
 |---|---|
-| **Zweck** | Erfüllung der Bestätigungspflicht aus § 312f Abs. 2 und 3 BGB nach einem kostenpflichtigen Postversand |
+| **Zweck** | Bestätigungspflicht aus § 312f Abs. 2 und 3 BGB; Nachweis über den Sendungsweg, für den der Nutzer beim Einwurf-Einschreiben ausdrücklich bezahlt hat; Hinweis auf den weiteren Verlauf der Mängelanzeige |
 | **Betroffene** | zahlende Nutzer |
-| **Datenarten** | E-Mail-Adresse aus dem Bezahlvorgang, Versandart, gezahlter Betrag, Vorgangsnummer. **Nicht enthalten:** Brieftext, Anschrift des Vermieters, Unterschrift |
-| **Rechtsgrundlage** | Art. 6 Abs. 1 lit. c DSGVO (rechtliche Verpflichtung), daneben lit. b |
+| **Datenarten** | E-Mail-Adresse aus dem Bezahlvorgang, Versandart, gezahlter Betrag, Vorgangsnummer; bei der Zustellmeldung zusätzlich Sendungsnummer, Verfolgungslink und Zeitpunkt der gemeldeten Zustellung. **Nicht enthalten:** Brieftext, Mängel, Anschrift des Vermieters, Unterschrift |
+| **Rechtsgrundlage** | Bestellbestätigung: Art. 6 Abs. 1 lit. c DSGVO (rechtliche Verpflichtung), daneben lit. b. Zustellmeldung: Art. 6 Abs. 1 lit. b DSGVO — die Sendungsverfolgung ist Teil der bezahlten Leistung. Erinnerung: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse, den Nutzer über den weiteren Verlauf seines Vorgangs zu informieren); Widerspruch nach Art. 21 DSGVO formlos per E-Mail |
 | **Empfänger** | Resend (Plus Five Five, Inc.), Versand über die Region Irland (`eu-west-1`) |
 | **Drittland** | US-Unternehmen; Übermittlung gestützt auf Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO |
 | **Löschfrist** | Versandprotokoll beim Anbieter für einen begrenzten Zeitraum; keine eigene Speicherung |
@@ -125,7 +133,7 @@ auch die TOM der PIN AG, Ziffer 1.4.
 |---|---|
 | **Zweck** | Einzug des Entgelts für den Postversand, Zuordnung der Zahlung zum Briefauftrag |
 | **Betroffene** | zahlende Nutzer |
-| **Datenarten** | beim Verantwortlichen nur: Zahlungsstatus, Betrag, Vorgangs- und Auftragsnummer, Nachweis der Erklärung nach § 356 Abs. 4 BGB. Zahlungsmittel werden unmittelbar bei Stripe eingegeben und erreichen uns nicht. |
+| **Datenarten** | beim Verantwortlichen nur: Zahlungsstatus, Betrag, Vorgangs- und Auftragsnummer, Nachweis der Erklärung nach § 356 Abs. 4 BGB sowie zwei Vermerke darüber, welche der E-Mails aus Nummer 7 bereits versandt wurde. Zahlungsmittel werden unmittelbar bei Stripe eingegeben und erreichen uns nicht. |
 | **Rechtsgrundlage** | Art. 6 Abs. 1 lit. b DSGVO; für die Aufbewahrung Art. 6 Abs. 1 lit. c DSGVO i. V. m. §§ 147 AO, 257 HGB |
 | **Empfänger** | Stripe Payments Europe, Limited, Dublin, Irland |
 | **Drittland** | Übermittlung an die US-Muttergesellschaft möglich |

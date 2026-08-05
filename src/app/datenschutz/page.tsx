@@ -304,33 +304,56 @@ export default function Datenschutz() {
       ),
     },
     {
-      heading: "Bestellbestätigung per E-Mail: Resend",
+      heading: "E-Mails zu Ihrem Versandauftrag: Resend",
       body: (
         <>
           <p>
-            Nach einer erfolgreichen Zahlung für den Postversand sind wir
-            gesetzlich verpflichtet, Ihnen den Vertrag zu bestätigen
-            (§ 312f BGB). Diese eine E-Mail versenden wir über{" "}
-            <strong>Resend (Plus Five Five, Inc.)</strong>. Die Zustellung
-            erfolgt über deren europäische Infrastruktur (Region Irland).
+            Wenn Sie den Postversand bezahlt haben, schreiben wir Ihnen
+            höchstens dreimal — über{" "}
+            <strong>Resend (Plus Five Five, Inc.)</strong>, dessen Zustellung
+            über die europäische Infrastruktur (Region Irland) läuft:
           </p>
           <ul>
             <li>
+              die <strong>Bestellbestätigung</strong> unmittelbar nach der
+              Zahlung, zu der wir gesetzlich verpflichtet sind (§ 312f BGB);
+            </li>
+            <li>
+              beim Einwurf-Einschreiben die <strong>Zustellmeldung</strong>,
+              sobald die Post die Zustellung meldet — mit Sendungsnummer und
+              Verfolgungslink. Beim einfachen Brief entfällt sie, weil er keine
+              Sendungsverfolgung hat;
+            </li>
+            <li>
+              vierzehn Tage nach der Bestellung eine{" "}
+              <strong>Erinnerung</strong> mit Hinweisen zum weiteren Vorgehen.
+              Danach folgt nichts mehr; ein Newsletter- oder Werbeversand findet
+              nicht statt.
+            </li>
+          </ul>
+          <ul>
+            <li>
               <strong>Übermittelt werden:</strong> die E-Mail-Adresse, die Sie
-              bei der Bezahlung angegeben haben, sowie der Inhalt der
-              Bestätigung — gewählte Versandart, gezahlter Betrag,
-              Vorgangsnummer und die Widerrufsbelehrung. Der Text Ihrer
-              Mängelanzeige und die Anschrift Ihres Vermieters sind{" "}
-              <strong>nicht</strong> Teil dieser E-Mail.
+              bei der Bezahlung angegeben haben, sowie der Inhalt der jeweiligen
+              E-Mail — gewählte Versandart, gezahlter Betrag, Vorgangsnummer,
+              die Widerrufsbelehrung und bei der Zustellmeldung die
+              Sendungsnummer nebst Zeitpunkt. Der Text Ihrer Mängelanzeige, die
+              gemeldeten Mängel und die Anschrift Ihres Vermieters sind{" "}
+              <strong>nicht</strong> Teil dieser E-Mails.
             </li>
             <li>
               <strong>Zweck:</strong> Erfüllung der gesetzlichen
-              Bestätigungspflicht bei Fernabsatzverträgen
+              Bestätigungspflicht bei Fernabsatzverträgen, Nachweis über den
+              Sendungsweg und Information über den weiteren Verlauf
             </li>
             <li>
-              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. c DSGVO
-              (rechtliche Verpflichtung) sowie Art. 6 Abs. 1 lit. b DSGVO
-              (Vertragserfüllung)
+              <strong>Rechtsgrundlage:</strong> für die Bestätigung Art. 6
+              Abs. 1 lit. c DSGVO (rechtliche Verpflichtung) sowie Art. 6 Abs. 1
+              lit. b DSGVO (Vertragserfüllung), für die Zustellmeldung lit. b —
+              die Sendungsverfolgung ist Teil der bezahlten Leistung —, für die
+              Erinnerung Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).
+              Der Erinnerung können Sie jederzeit formlos widersprechen
+              (Art. 21 DSGVO), eine Antwort auf eine unserer E-Mails genügt.
             </li>
             <li>
               <strong>Speicherdauer:</strong> Resend protokolliert den Versand
@@ -433,7 +456,7 @@ export default function Datenschutz() {
                 </tr>
                 <tr>
                   <td>Resend (Plus Five Five, Inc.)</td>
-                  <td>Versand der Bestellbestätigung</td>
+                  <td>Versand der E-Mails zu Ihrem Versandauftrag</td>
                   <td>USA (Versand über Irland)</td>
                 </tr>
               </tbody>
