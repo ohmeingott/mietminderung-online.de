@@ -1,33 +1,50 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI, Type } from "@google/genai";
-
-interface MangelInput {
-  label: string;
-  raum: string;
-  seit: string;
-  beschreibung: string;
-}
+import {
+  MAX_MAENGEL,
+  baueAnfrage,
+  istGueltigeAntwort,
+  verteileAntworten,
+  zuUeberarbeiten,
+  type MangelInput,
+} from "@/lib/brief/beschreibungen";
 
 const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
-const SYSTEM_PROMPT = `Du bist ein juristischer Textassistent für Mängelanzeigen im deutschen Mietrecht.
+/**
+ * The instructions the first printed letter argued against.
+ *
+ * That letter said a heating failure "führt zu einer erheblichen
+ * Beeinträchtigung der Raumtemperatur und der allgemeinen Wohnqualität" and
+ * that a wasps' nest had been found "im Bereich der Mietwohnung". Neither
+ * sentence carried information the defect label did not already carry, and
+ * neither told the landlord where to send anyone. Three rules produced that:
+ *
+ *  - "2-4 Sätze pro Mangel" made padding mandatory when the tenant had written
+ *    one clear sentence, and those extra lines are what pushed the letter onto
+ *    a second sheet;
+ *  - "Auswirkungen auf die Wohnqualität" asked for the filler sentence by name;
+ *  - "falls die Beschreibung leer ist, erstelle … eine allgemeine
+ *    Beschreibung" contradicted "keine Erfindungen" three lines above, and the
+ *    invention won. Empty descriptions no longer reach the model at all — see
+ *    zuUeberarbeiten in src/lib/brief/beschreibungen.ts.
+ *
+ * A Mängelanzeige is read by someone deciding whether to send a tradesman. Its
+ * job is to say what is broken and where, not to sound legal.
+ */
+const SYSTEM_PROMPT = `Du bist ein Textassistent für Mängelanzeigen im deutschen Mietrecht.
 
-Aufgabe: Formuliere die vom Mieter eingegebene Mangelbeschreibung zu einem sachlichen, präzisen Text um, der in eine formelle Mängelanzeige gemäß § 536 BGB passt.
+Aufgabe: Bringe die Beschreibung des Mieters in eine sachliche Form, die in eine formelle Mängelanzeige passt. Du formulierst um, du schreibst nicht neu.
 
 Regeln:
-- Falls die Beschreibung in einer Fremdsprache (Türkisch, Russisch, Ukrainisch, Arabisch, Polnisch oder andere) verfasst ist, übersetze sie zunächst ins Deutsche
-- Sachlicher, formeller Ton (kein emotionaler oder umgangssprachlicher Stil)
-- Präzise Beschreibung des Mangels und seiner Auswirkungen auf die Wohnqualität
-- Erwähne den betroffenen Raum und den Zeitraum, falls angegeben
-- 2-4 Sätze pro Mangel
-- Keine Rechtsberatung, keine Paragraphen-Verweise (die stehen bereits im Brief-Template)
-- Keine Erfindungen: nur was der Mieter beschrieben hat, sachlich umformulieren
-- Falls die Beschreibung leer ist, erstelle anhand des Mangel-Typs eine kurze, allgemeine Beschreibung
-- Gib genau eine umformulierte Beschreibung pro Mangel zurück, in der Reihenfolge der Eingabe`;
-
-/** Longest a single defect description may be, to bound prompt size. */
-const MAX_DESCRIPTION_LENGTH = 2000;
-const MAX_MAENGEL = 30;
+- Ist die Beschreibung fremdsprachig (Türkisch, Russisch, Ukrainisch, Arabisch, Polnisch oder andere), übersetze sie zuerst ins Deutsche.
+- Sachlicher Ton, keine Umgangssprache, keine Ausrufezeichen.
+- So kurz wie möglich: höchstens zwei Sätze, lieber einer. Ist die Eingabe ein Satz, bleibt es ein Satz.
+- Füge nichts hinzu. Keine Folgen, keine Bewertungen, keine Wendungen wie "beeinträchtigt die Wohnqualität", "stellt eine erhebliche Beeinträchtigung dar" oder "potenzielle Gefahr". Was der Mieter nicht geschrieben hat, steht nicht im Brief.
+- Bleib konkret. Übernimm Orts- und Zeitangaben genau so, wie sie dastehen, und verallgemeinere sie nicht: aus "im Schlafzimmer hinter dem Schrank" darf nicht "im Bereich der Wohnung" werden.
+- Raum und Zeitpunkt stehen bereits an anderer Stelle im Brief. Wiederhole sie nicht.
+- Keine Paragraphen, keine Rechtsberatung.
+- Gib genau eine Beschreibung pro Mangel zurück, in der Reihenfolge der Eingabe.`;
 
 export async function POST(request: Request) {
   let maengel: MangelInput[] = [];
@@ -50,6 +67,17 @@ export async function POST(request: Request) {
       );
     }
 
+    const indizes = zuUeberarbeiten(maengel);
+    if (indizes.length === 0) {
+      // Nobody described anything. Calling the model here would only produce
+      // sentences out of defect labels, which is what this route no longer
+      // does — and it would cost a request to say nothing.
+      return NextResponse.json({
+        beschreibungen: maengel.map((m) => m.beschreibung),
+        fallback: true,
+      });
+    }
+
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       // No key configured - hand the user's own text back unchanged.
@@ -61,20 +89,9 @@ export async function POST(request: Request) {
 
     const ai = new GoogleGenAI({ apiKey });
 
-    const userMessage = maengel
-      .map((m, i) => {
-        const raum = m.raum ? ` (Raum: ${m.raum})` : "";
-        const seit = m.seit ? ` (seit: ${m.seit})` : "";
-        const text = (m.beschreibung || "").slice(0, MAX_DESCRIPTION_LENGTH);
-        return `Mangel ${i + 1}: "${m.label}"${raum}${seit}\nBeschreibung: ${
-          text || "(keine Beschreibung)"
-        }`;
-      })
-      .join("\n\n");
-
     const response = await ai.models.generateContent({
       model: MODEL,
-      contents: userMessage,
+      contents: baueAnfrage(maengel, indizes),
       config: {
         systemInstruction: SYSTEM_PROMPT,
         temperature: 0.3,
@@ -98,21 +115,17 @@ export async function POST(request: Request) {
     const parsed = JSON.parse(response.text ?? "{}") as {
       beschreibungen?: unknown;
     };
-    const beschreibungen = parsed.beschreibungen;
 
-    const isValid =
-      Array.isArray(beschreibungen) &&
-      beschreibungen.length === maengel.length &&
-      beschreibungen.every((b) => typeof b === "string");
-
-    if (!isValid) {
+    if (!istGueltigeAntwort(parsed.beschreibungen, indizes.length)) {
       return NextResponse.json({
         beschreibungen: maengel.map((m) => m.beschreibung),
         fallback: true,
       });
     }
 
-    return NextResponse.json({ beschreibungen });
+    return NextResponse.json({
+      beschreibungen: verteileAntworten(maengel, indizes, parsed.beschreibungen),
+    });
   } catch (err) {
     console.error("Gemini enhance error:", err);
     // Never block the user's letter on an AI failure - return their own text.
