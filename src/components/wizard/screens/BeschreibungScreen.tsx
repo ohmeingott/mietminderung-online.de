@@ -3,12 +3,31 @@
 import { Info } from "lucide-react";
 import { Feld, INPUT_CLASSES, ScreenHeading } from "@/components/wizard/Feld";
 import { useWizard } from "@/components/wizard/WizardContext";
-import { mangelDescKey } from "@/i18n/content";
 import { useTranslation } from "@/i18n/LanguageContext";
+
+/**
+ * Shortcuts for "seit wann", written into the same field the tenant can still
+ * type in freely.
+ *
+ * The values are German regardless of the interface language, because they end
+ * up in the letter — which is German, addressed to a German landlord. Only the
+ * button labels are translated.
+ *
+ * They carry no preposition: the letter renders "(besteht seit …)" around
+ * them. And they are deliberately vague. The field asked for a date, people
+ * who cannot name one leave it empty, and an empty field is what makes a
+ * Mängelanzeige hard to act on. "seit dieser Woche" is worth more than nothing.
+ */
+const SEIT_VORSCHLAEGE: readonly { wert: string; key: string }[] = [
+  { wert: "heute", key: "letter.sinceToday" },
+  { wert: "dieser Woche", key: "letter.sinceThisWeek" },
+  { wert: "diesem Monat", key: "letter.sinceThisMonth" },
+  { wert: "über einem Monat", key: "letter.sinceLonger" },
+] as const;
 
 export default function BeschreibungScreen() {
   const { state, selectedMaengel, setMangelDetail, mangelLabel } = useWizard();
-  const { t, tc, locale } = useTranslation();
+  const { t, locale } = useTranslation();
 
   return (
     <>
@@ -52,14 +71,44 @@ export default function BeschreibungScreen() {
                     maxLength={60}
                     placeholder="z.B. Schlafzimmer"
                   />
-                  <Feld
-                    name={`detail-seit-${i}`}
-                    label={t("letter.sincewhen")}
-                    value={detail?.seit ?? ""}
-                    onChange={(v) => setMangelDetail(mangel.id, { seit: v })}
-                    maxLength={60}
-                    placeholder="z.B. seit dem 15.01.2026"
-                  />
+                  <div>
+                    <Feld
+                      name={`detail-seit-${i}`}
+                      label={t("letter.sincewhen")}
+                      value={detail?.seit ?? ""}
+                      onChange={(v) => setMangelDetail(mangel.id, { seit: v })}
+                      maxLength={60}
+                      // No "seit" in the example: the letter puts the
+                      // preposition in front of whatever stands here.
+                      placeholder="z.B. Anfang Mai 2026"
+                    />
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {SEIT_VORSCHLAEGE.map(({ wert, key }) => {
+                        const aktiv = detail?.seit === wert;
+                        return (
+                          <button
+                            key={wert}
+                            type="button"
+                            data-testid={`detail-seit-${i}-${wert.split(" ")[0]}`}
+                            // Clicking the active one clears it again, so a
+                            // mistap is undone with the same finger.
+                            onClick={() =>
+                              setMangelDetail(mangel.id, {
+                                seit: aktiv ? "" : wert,
+                              })
+                            }
+                            className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
+                              aktiv
+                                ? "border-brand-500 bg-brand-50 text-brand-800"
+                                : "border-ink-200 text-ink-500 hover:border-brand-300 hover:text-ink-700"
+                            }`}
+                          >
+                            {t(key)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <label
@@ -75,7 +124,14 @@ export default function BeschreibungScreen() {
                     onChange={(e) =>
                       setMangelDetail(mangel.id, { beschreibung: e.target.value })
                     }
-                    placeholder={tc(mangelDescKey(mangel.id), mangel.description)}
+                    /*
+                      Used to show the catalogue's own description of the
+                      defect — a finished-sounding sentence that read as a
+                      value already filled in rather than as a question. The
+                      field was then left empty, and the letter said nothing
+                      the defect label had not already said.
+                    */
+                    placeholder={t("letter.detailDescPlaceholder")}
                     rows={3}
                     maxLength={600}
                     className={`${INPUT_CLASSES} resize-y lg:min-h-[6.5rem]`}

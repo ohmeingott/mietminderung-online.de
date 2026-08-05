@@ -58,6 +58,20 @@ function aktuellerMonat(heute: Date): string {
 }
 
 /**
+ * The fragment that follows "besteht seit" in the letter.
+ *
+ * The field's own example used to read "z.B. seit dem 15.01.2026", so anyone
+ * who followed it produced "besteht seit seit dem 15.01.2026" — and an e2e
+ * test asserted exactly that string, which is how it survived. The preposition
+ * belongs to the sentence, not to the answer, so it is stripped here rather
+ * than being forbidden in the field: drafts saved before this change carry the
+ * old wording, and so does anyone who types it out of habit.
+ */
+export function seitAngabe(roh: string): string {
+  return roh.trim().replace(/^seit\s+/i, "").trim();
+}
+
+/**
  * Academic titles belong in the salutation, everything else in front of the
  * name does not. "Dr." is kept because leaving it out reads as a slight;
  * "Herrn", "Frau" and the like would only be repeated by the salutation.
@@ -162,7 +176,7 @@ export function generateBriefText({
       const detail = details[mangel.id];
       let text = `${i + 1}. ${mangel.label}`;
       if (detail?.raum) text += ` (Raum: ${detail.raum})`;
-      if (detail?.seit) text += ` (besteht seit ${detail.seit})`;
+      if (detail?.seit) text += ` (besteht seit ${seitAngabe(detail.seit)})`;
       if (detail?.beschreibung) text += `\n   ${detail.beschreibung}`;
       return text;
     })
