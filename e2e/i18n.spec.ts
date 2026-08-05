@@ -207,7 +207,9 @@ test.describe("Language switching", () => {
 
     const text = await preview.inputValue();
     // The recipient is a German landlord - the letter must not be translated.
-    expect(text).toContain("Sehr geehrte/r");
+    // Anchored on the neutral salutation the letter now opens with; it used to
+    // be "Sehr geehrte/r", which was German too but is no longer written.
+    expect(text).toContain("Sehr geehrte Damen und Herren,");
     expect(text).toContain("Betreff: Mängelanzeige");
     expect(text).toContain("§ 536 Abs. 1 BGB");
     expect(text).toContain("Heizungsausfall (komplett)");

@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { mangelKategorien } from "../../data/maengel";
-import { generateBriefText, type BriefDaten } from "./generateBriefText";
+import {
+  generateBriefText,
+  type Anrede,
+  type BriefDaten,
+} from "./generateBriefText";
 
 function mangel(id: string) {
   for (const kategorie of mangelKategorien) {
@@ -154,5 +158,81 @@ describe("generateBriefText", () => {
     const text = brief();
     assert.ok(text.includes("Mit freundlichen Grüßen"));
     assert.match(text, /bis spätestens zum \d{2}\.\d{2}\.\d{4}/);
+  });
+
+  describe("Anrede", () => {
+    const an = (vermieter: Partial<typeof VERMIETER> & { anrede?: Anrede }) =>
+      brief({ vermieter: { ...VERMIETER, ...vermieter } });
+
+    it("addresses a company neutrally", () => {
+      assert.ok(an({}).includes("Sehr geehrte Damen und Herren,"));
+    });
+
+    it("never writes the old slash form", () => {
+      // The first line the landlord reads, and the clearest sign a letter came
+      // out of a generator. It must not come back for any combination.
+      for (const anrede of [undefined, "firma", "frau", "herr"] as const) {
+        assert.ok(
+          !an({ name: "Ursula Fehrenbach", anrede }).includes("Sehr geehrte/r"),
+          `Schrägstrichform bei anrede=${anrede}`,
+        );
+      }
+    });
+
+    it("uses the surname, never the first name", () => {
+      const text = an({ name: "Ursula Fehrenbach", anrede: "frau" });
+      assert.ok(text.includes("Sehr geehrte Frau Fehrenbach,"));
+      assert.ok(!text.includes("Frau Ursula"));
+    });
+
+    it("declines the male form correctly", () => {
+      assert.ok(
+        an({ name: "Klaus Meier", anrede: "herr" }).includes(
+          "Sehr geehrter Herr Meier,",
+        ),
+      );
+    });
+
+    it("keeps name particles with the surname", () => {
+      // "Sehr geehrte Frau Heide" would be wrong in a way the recipient
+      // notices at once.
+      assert.ok(
+        an({ name: "Anna von der Heide", anrede: "frau" }).includes(
+          "Sehr geehrte Frau von der Heide,",
+        ),
+      );
+    });
+
+    it("drops a preceding Frau or Herrn but keeps a doctorate", () => {
+      assert.ok(
+        an({ name: "Frau Ursula Fehrenbach", anrede: "frau" }).includes(
+          "Sehr geehrte Frau Fehrenbach,",
+        ),
+      );
+      assert.ok(
+        an({ name: "Dr. Klaus Meier", anrede: "herr" }).includes(
+          "Sehr geehrter Herr Meier,",
+        ),
+      );
+    });
+
+    it("copes with a single-word name", () => {
+      assert.ok(
+        an({ name: "Fehrenbach", anrede: "frau" }).includes(
+          "Sehr geehrte Frau Fehrenbach,",
+        ),
+      );
+    });
+
+    it("falls back to the neutral form rather than addressing nobody", () => {
+      // An empty name cannot happen through the form, which requires it — but
+      // "Sehr geehrte Frau ," is the kind of line that reaches a real landlord
+      // once and is remembered.
+      assert.ok(
+        an({ name: "   ", anrede: "frau" }).includes(
+          "Sehr geehrte Damen und Herren,",
+        ),
+      );
+    });
   });
 });

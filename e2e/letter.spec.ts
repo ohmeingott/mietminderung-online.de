@@ -257,3 +257,40 @@ test.describe("Mängelanzeige wizard", () => {
     await expectNoHorizontalOverflow(page);
   });
 });
+
+test.describe("Anrede des Vermieters", () => {
+  test.beforeEach(async ({ page }) => {
+    await stubEnhanceApi(page);
+    await page.goto("/#pruefung");
+    await completeCheck(page);
+    await openLetterWizard(page);
+  });
+
+  test("defaults to the neutral form and never writes the slash form", async ({
+    page,
+  }) => {
+    await reachPreview(page);
+    const brief = await page.getByTestId("brieftext").inputValue();
+    expect(brief).toContain("Sehr geehrte Damen und Herren,");
+    // The line that gave the generator away on the first printed letter.
+    expect(brief).not.toContain("Sehr geehrte/r");
+  });
+
+  test("addresses a private landlord by surname when asked to", async ({
+    page,
+  }) => {
+    await fillTenant(page);
+    await page.getByTestId("letter-next").click();
+    await fillLandlord(page, { ...LANDLORD, name: "Ursula Fehrenbach" });
+    await page.getByTestId("vermieter-anrede-frau").click();
+    await page.getByTestId("letter-next").click();
+    await page.getByTestId("letter-preview").click();
+    await chooseDeadline(page);
+    await expect(page.getByTestId("brieftext")).not.toHaveValue("");
+
+    const brief = await page.getByTestId("brieftext").inputValue();
+    expect(brief).toContain("Sehr geehrte Frau Fehrenbach,");
+    // The first name belongs in the address block, not in the salutation.
+    expect(brief).not.toContain("Frau Ursula");
+  });
+});
