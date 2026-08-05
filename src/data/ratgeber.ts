@@ -127,7 +127,9 @@ An
 
 Betreff: Mängelanzeige für die Wohnung [Adresse, Stockwerk, Wohnungsnummer]
 
-Sehr geehrte/r [Name],
+Sehr geehrte Damen und Herren,
+(bei einer namentlich bekannten Person: Sehr geehrte Frau [Nachname], /
+Sehr geehrter Herr [Nachname],)
 
 hiermit zeige ich Ihnen folgenden Mangel in der von mir gemieteten
 Wohnung an:
