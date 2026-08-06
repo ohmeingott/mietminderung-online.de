@@ -126,6 +126,12 @@ const FEHLER_SLUGS = new Set([
   "zustimmung_fehlt",
 ]);
 
+/** Both declarations, as they travel to the checkout route. */
+interface Erklaerungen {
+  verlangtSofortigenBeginn: boolean;
+  kenntErloeschen: boolean;
+}
+
 /**
  * Prices are always shown in German formatting. The amount is charged in euros
  * by a German operator, and a locale-specific rendering — Arabic-Indic digits,
@@ -188,11 +194,16 @@ export default function VersandKarte({
   const [hinweise, setHinweise] = useState<Hinweise | null>(null);
   const [vorgang, setVorgang] = useState<Vorgang | null>(null);
   /**
-   * The § 356 Abs. 4 BGB declaration. Unchecked by default and never
-   * pre-selected: a pre-ticked box is not the "ausdrückliche Zustimmung" the
-   * provision asks for, and would make the whole declaration worthless.
+   * The two declarations under § 356 Abs. 5 Nr. 2 BGB. Two states and not one
+   * flag with two labels: lit. a and lit. c are separate declarations, and the
+   * order record has to show that each was made on its own.
+   *
+   * Both unchecked by default and never pre-selected — a pre-ticked box is not
+   * the express declaration the provision asks for, and would make the whole
+   * thing worthless.
    */
-  const [zustimmung, setZustimmung] = useState(false);
+  const [verlangtSofortigenBeginn, setVerlangtSofortigenBeginn] = useState(false);
+  const [kenntErloeschen, setKenntErloeschen] = useState(false);
 
   /**
    * The polling loop outlives a step change. Without this the loop would keep
@@ -205,6 +216,20 @@ export default function VersandKarte({
       aktiv.current = false;
     };
   }, []);
+
+  /**
+   * Ticking a box clears a complaint about the boxes.
+   *
+   * Unreachable through the UI as it stands — the order button requires both
+   * declarations, so the route cannot answer `zustimmung_fehlt` to anyone who
+   * got here honestly. It stays because the alternative is an error message
+   * that outlives the thing it complains about, and because the gate and this
+   * handler are free to drift apart later.
+   */
+  const erklaere = (setzen: (an: boolean) => void) => (an: boolean) => {
+    setzen(an);
+    if (an && fehlerSlug === "zustimmung_fehlt") setFehlerSlug(null);
+  };
 
   const fehlerText = () => {
     // Only null means "no error". An empty slug is what a dropped connection or
@@ -274,12 +299,15 @@ export default function VersandKarte({
   /**
    * Opens the Stripe payment page for an already prepared job.
    *
-   * The § 356 declaration travels as an argument rather than being read from
-   * state: this callback is memoised with an empty dependency list, and a
-   * captured stale `false` would block a payment the user did consent to.
+   * The § 356 declarations travel as an argument rather than being read from
+   * state: what is sent has to be what the user had declared at the moment
+   * they ordered, not whatever the component holds by the time the request
+   * goes out. As the callback is also memoised with an empty dependency list,
+   * reading state here would in fact capture the initial `false` and refuse
+   * every payment — but the argument would be right even without that.
    */
   const bezahlen = useCallback(
-    async (job: Vorgang, zurueck: Phase, zustimmungErteilt: boolean) => {
+    async (job: Vorgang, zurueck: Phase, erklaerungen: Erklaerungen) => {
       setPhase("weiterleiten");
       try {
         const ergebnis = await mitFrist<{ url: string } | { fehler: string }>(
@@ -292,7 +320,8 @@ export default function VersandKarte({
                 jobId: job.jobId,
                 produktId: job.produktId,
                 token: job.token,
-                zustimmung: zustimmungErteilt,
+                verlangtSofortigenBeginn: erklaerungen.verlangtSofortigenBeginn,
+                kenntErloeschen: erklaerungen.kenntErloeschen,
               }),
               signal,
             });
@@ -387,7 +416,7 @@ export default function VersandKarte({
         setPhase("warnung");
         return;
       }
-      await bezahlen(job, "auswahl", zustimmung);
+      await bezahlen(job, "auswahl", { verlangtSofortigenBeginn, kenntErloeschen });
     } catch (err) {
       if (!aktiv.current) return;
       // A deadline gets its own message; anything else — a dropped connection,
@@ -580,28 +609,42 @@ export default function VersandKarte({
       )}
 
       {/*
-        § 356 Abs. 4 BGB. Sits directly above the order button, unticked, and
-        gates it: the declaration has to be made before the order, not after,
-        and it has to be the user's own act. The link opens in a new tab so
-        reading the Widerrufsbelehrung does not destroy the letter draft, which
-        lives in React state and does not survive navigation.
+        § 356 Abs. 5 Nr. 2 BGB. Two separate boxes, both unticked, sitting
+        directly above the order button and gating it: lit. a is the express
+        request to start early, lit. c the separate acknowledgement that the
+        right expires on completion. One tick for both does not satisfy the
+        provision, and the declarations have to be made before the order, not
+        after. The link opens in a new tab so reading the Widerrufsbelehrung
+        does not destroy the letter draft, which lives in React state and does
+        not survive navigation.
       */}
-      <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-field border border-ink-200 p-3.5">
-        <input
-          type="checkbox"
-          data-testid="dispatch-consent"
-          checked={zustimmung}
-          disabled={beschaeftigt}
-          onChange={(e) => {
-            setZustimmung(e.target.checked);
-            if (e.target.checked && fehlerSlug === "zustimmung_fehlt") {
-              setFehlerSlug(null);
-            }
-          }}
-          className="mt-0.5 h-5 w-5 shrink-0 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
+      {/*
+        Disabled on the fieldset, as with the product fieldset above: a disabled
+        fieldset disables the controls inside it natively, and it deliberately
+        leaves the Widerrufsbelehrung link alone — an anchor is not a form
+        control, so it stays clickable while the payment page is opening.
+      */}
+      <fieldset className="mt-5 flex flex-col gap-2.5" disabled={beschaeftigt}>
+        {/*
+          Named for screen readers but not shown: the two boxes are one
+          precondition block, and an unnamed fieldset announces as a group
+          with no purpose. Visually the sentences speak for themselves and the
+          card has no room for another heading.
+        */}
+        <legend className="sr-only">{t("dispatch.consentHeading")}</legend>
+        <Erklaerungskasten
+          testId="dispatch-consent-start"
+          gewaehlt={verlangtSofortigenBeginn}
+          onToggle={erklaere(setVerlangtSofortigenBeginn)}
+          text={t("dispatch.consentStart")}
         />
-        <span className="text-xs leading-relaxed text-ink-600">
-          {t("dispatch.consent")}{" "}
+        <Erklaerungskasten
+          testId="dispatch-consent-expiry"
+          gewaehlt={kenntErloeschen}
+          onToggle={erklaere(setKenntErloeschen)}
+          text={t("dispatch.consentExpiry")}
+        />
+        <p className="text-xs text-ink-500">
           <a
             href="/widerruf"
             target="_blank"
@@ -610,17 +653,25 @@ export default function VersandKarte({
           >
             {t("dispatch.consentLink")}
           </a>
-        </span>
-      </label>
+        </p>
+      </fieldset>
 
       <Button
         type="button"
         data-testid="dispatch-submit"
         // Never let the browser ask for a job the route will refuse.
-        disabled={beschaeftigt || !zustimmung || !EMAIL_PATTERN.test(mieter.email)}
+        disabled={
+          beschaeftigt ||
+          !verlangtSofortigenBeginn ||
+          !kenntErloeschen ||
+          !EMAIL_PATTERN.test(mieter.email)
+        }
         onClick={() => {
           if (phase === "warnung" && vorgang) {
-            void bezahlen(vorgang, "warnung", zustimmung);
+            void bezahlen(vorgang, "warnung", {
+              verlangtSofortigenBeginn,
+              kenntErloeschen,
+            });
             return;
           }
           void starteVersand();
@@ -647,5 +698,38 @@ export default function VersandKarte({
         {t("dispatch.freeStays")}
       </p>
     </div>
+  );
+}
+
+/**
+ * One declaration, one box.
+ *
+ * Extracted so the two are structurally identical: if they ever drifted apart
+ * visually, the more prominent one would read as the real declaration and the
+ * other as fine print — which is exactly what § 356 Abs. 5 Nr. 2 BGB does not
+ * allow. Design tokens only; raw Tailwind palettes are an ESLint error here.
+ */
+function Erklaerungskasten({
+  testId,
+  gewaehlt,
+  onToggle,
+  text,
+}: {
+  testId: string;
+  gewaehlt: boolean;
+  onToggle: (an: boolean) => void;
+  text: string;
+}) {
+  return (
+    <label className="flex cursor-pointer items-start gap-3 rounded-field border border-ink-200 p-3.5">
+      <input
+        type="checkbox"
+        data-testid={testId}
+        checked={gewaehlt}
+        onChange={(e) => onToggle(e.target.checked)}
+        className="mt-0.5 h-5 w-5 shrink-0 rounded border-ink-300 text-brand-600 focus:ring-brand-500"
+      />
+      <span className="text-xs leading-relaxed text-ink-600">{text}</span>
+    </label>
   );
 }

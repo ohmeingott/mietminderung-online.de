@@ -331,6 +331,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     // done (lit. c). Folding them into a single tick does not satisfy the
     // provision. The German wording is the one in src/lib/widerrufstext.ts;
     // these six translations are a reading aid, not the binding version.
+    "dispatch.consentHeading": "Bevor wir mit dem Druck beginnen dürfen",
     "dispatch.consentStart":
       "Ich verlange ausdrücklich, dass Sie mit dem Druck und dem Versand meiner Mängelanzeige vor Ablauf der Widerrufsfrist beginnen.",
     "dispatch.consentExpiry":
@@ -708,6 +709,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "The postal service records the delivery into the letterbox. As soon as it is reported, we email you the shipment number and the tracking link. It is not an Übergabe-Einschreiben signed for by the recipient — and no postal product can provide conclusive proof of receipt.",
     "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
     "dispatch.send": "Send (chargeable)",
+    "dispatch.consentHeading": "Before we may start printing",
     "dispatch.consentStart":
       "I expressly request that you begin printing and sending my defect notice before the withdrawal period expires.",
     "dispatch.consentExpiry":
@@ -1043,6 +1045,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.taxNote":
       "§ 19 UStG uyarınca katma değer vergisi hesaplanmaz.",
     "dispatch.send": "Ücretli olarak gönder",
+    "dispatch.consentHeading": "Baskıya başlayabilmemiz için",
     "dispatch.consentStart":
       "Kusur bildirimimin basımına ve gönderimine cayma süresi dolmadan başlamanızı açıkça talep ediyorum.",
     "dispatch.consentExpiry":
@@ -1376,6 +1379,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.taxNote":
       "Згідно з § 19 UStG податок на додану вартість не нараховується.",
     "dispatch.send": "Надіслати платно",
+    "dispatch.consentHeading": "Перш ніж ми зможемо розпочати друк",
     "dispatch.consentStart":
       "Я прямо вимагаю, щоб ви розпочали друк і надсилання мого повідомлення про недоліки до закінчення строку відмови.",
     "dispatch.consentExpiry":
@@ -1708,6 +1712,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.taxNote":
       "Согласно § 19 UStG налог на добавленную стоимость не начисляется.",
     "dispatch.send": "Отправить платно",
+    "dispatch.consentHeading": "Прежде чем мы сможем начать печать",
     "dispatch.consentStart":
       "Я прямо требую, чтобы вы приступили к печати и отправке моего уведомления о недостатках до истечения срока отказа.",
     "dispatch.consentExpiry":
@@ -2039,6 +2044,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "تُسجِّل شركة البريد إيداع الخطاب في صندوق البريد. وبمجرد الإبلاغ عن التسليم نرسل إليك رقم الإرسالية ورابط التتبّع عبر البريد الإلكتروني. وهو ليس Übergabe-Einschreiben الذي يوقّع عليه المستلم — ولا يمكن لأي منتج بريدي أن يقدّم إثباتاً قاطعاً للاستلام.",
     "dispatch.taxNote": "وفقاً لـ § 19 UStG لا تُحتسب ضريبة القيمة المضافة.",
     "dispatch.send": "إرسال مقابل رسوم",
+    "dispatch.consentHeading": "قبل أن نتمكن من بدء الطباعة",
     "dispatch.consentStart":
       "أطلب صراحةً أن تبدؤوا طباعة إشعار العيوب الخاص بي وإرساله قبل انقضاء مهلة الانسحاب.",
     "dispatch.consentExpiry":
@@ -2368,6 +2374,7 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Poczta rejestruje wrzucenie listu do skrzynki pocztowej. Gdy tylko doręczenie zostanie zgłoszone, prześlemy Ci e-mailem numer przesyłki i link do śledzenia. Nie jest to Übergabe-Einschreiben z podpisem odbiorcy — i żaden produkt pocztowy nie zapewni pewnego dowodu doręczenia.",
     "dispatch.taxNote": "Zgodnie z § 19 UStG podatek VAT nie jest naliczany.",
     "dispatch.send": "Wyślij odpłatnie",
+    "dispatch.consentHeading": "Zanim będziemy mogli rozpocząć druk",
     "dispatch.consentStart":
       "Wyraźnie żądam, aby rozpoczęli Państwo druk i wysyłkę mojego zgłoszenia wad przed upływem terminu odstąpienia od umowy.",
     "dispatch.consentExpiry":
