@@ -405,6 +405,14 @@ test.describe("Postversand (eBrief)", () => {
     await expect(karte).toContainText(erwarteterSteuerhinweis("tr"));
     // The German product name is kept on purpose; the explanation is not.
     await expect(karte).toContainText("Übergabe-Einschreiben değildir");
+
+    // The two declarations are translated, but only the German wording binds.
+    // A user in a non-German UI is not reading a legal text here — they are
+    // making a declaration by ticking it — so the caveat has to stand next to
+    // the boxes, and in a language they can actually read.
+    await expect(karte).toContainText(
+      "Bu iki beyanın bağlayıcı olan hâli Almanca metindir"
+    );
     await expect(page.getByTestId("dispatch-submit")).toContainText(
       "Ücretli olarak gönder"
     );

@@ -187,7 +187,7 @@ export default function VersandKarte({
   onEmailChange,
   onAdresseKorrigieren,
 }: VersandKarteProps) {
-  const { t, steuerhinweis } = useTranslation();
+  const { t, locale, steuerhinweis } = useTranslation();
   const [produktId, setProduktId] = useState<ProduktId>("brief");
   const [phase, setPhase] = useState<Phase>("auswahl");
   const [fehlerSlug, setFehlerSlug] = useState<string | null>(null);
@@ -646,6 +646,20 @@ export default function VersandKarte({
           onToggle={erklaere(setKenntErloeschen)}
           text={t("dispatch.consentExpiry")}
         />
+        {/*
+          The two declarations above are translated, but only the German
+          wording binds — the same rule the legal pages follow, and LegalPage
+          says so to anyone reading them in another language. Here the user is
+          not reading a text, they are making a declaration by ticking it, so
+          the note belongs next to the boxes rather than behind the link. The
+          German wording lives in src/lib/widerrufstext.ts and is one click
+          away below.
+        */}
+        {locale !== "de" && (
+          <p lang="de" className="text-xs text-ink-500">
+            {t("dispatch.consentBinding")}
+          </p>
+        )}
         <p className="text-xs text-ink-500">
           <a
             href="/widerruf"

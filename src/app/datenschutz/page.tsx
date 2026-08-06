@@ -411,9 +411,12 @@ export default function Datenschutz() {
             <li>
               <strong>Empfänger:</strong> Resend als Auftragsverarbeiter für
               den Versand beider E-Mails — der Meldung an uns und der
-              Bestätigung an Sie, siehe den vorstehenden Abschnitt. Eine
-              Weitergabe an den Druckdienstleister oder an die Post findet
-              nicht statt.
+              Bestätigung an Sie, siehe den vorstehenden Abschnitt. Die Meldung
+              geht in unserem eigenen Postfach ein, das über{" "}
+              <strong>Google Workspace (Google Ireland Limited)</strong> läuft;
+              Google verarbeitet die Nachricht deshalb als Auftragsverarbeiter
+              mit. Eine Weitergabe an den Druckdienstleister oder an die Post
+              findet nicht statt.
             </li>
             <li>
               <strong>Speicherdauer:</strong> Ihre Erklärung erreicht uns als
@@ -524,11 +527,10 @@ export default function Datenschutz() {
             Eine darüber hinausgehende Weitergabe Ihrer Daten an Dritte findet
             nicht statt — mit einer Ausnahme: Widerrufen Sie über die
             Schaltfläche oder formlos per E-Mail, landet Ihre Erklärung in
-            unserem eigenen E-Mail-Postfach; der E-Mail-Provider, der dieses
-            Postfach betreibt, verarbeitet die Nachricht technisch mit. Wir
-            benennen ihn hier, sobald diese Frage abschließend geklärt ist.
-            Wir verkaufen keine Daten und betreiben keine Werbe- oder
-            Profilbildung.
+            unserem eigenen Postfach, das über Google Workspace (Google Ireland
+            Limited) läuft. Google verarbeitet die Nachricht dabei als
+            Auftragsverarbeiter mit. Wir verkaufen keine Daten und betreiben
+            keine Werbe- oder Profilbildung.
           </p>
         </>
       ),

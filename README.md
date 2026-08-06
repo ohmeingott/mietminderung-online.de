@@ -82,12 +82,18 @@ Impressum, Datenschutzerklärung, AGB und Widerrufsbelehrung sind bewusst nur
 auf Deutsch verfügbar — nur diese Fassung ist rechtsverbindlich. Betreiberdaten
 stehen zentral in `src/lib/site.ts`.
 
-Die Seite ist **vollständig kostenlos**: Prüfung, Berechnung und die erzeugte
-Mängelanzeige zum Herunterladen. Es gibt kein kostenpflichtiges Angebot, keinen
-Bestellvorgang und keine Zahlungsdaten — die Rechtstexte sagen genau das. Den
-Brief versendet der Mieter selbst.
+Prüfung, Berechnung und die erzeugte Mängelanzeige zum Herunterladen sind
+**kostenlos** und bleiben es. Daneben gibt es genau **eine kostenpflichtige
+Leistung**: den Postversand der Mängelanzeige über eBrief/PIN AG, bezahlt über
+Stripe. Der Mieter bleibt Absender und Unterzeichner.
 
-Vor dem Livegang: **[LAUNCH_CHECKLIST.md](./LAUNCH_CHECKLIST.md)** lesen.
+Weil damit ein Fernabsatzvertrag zustande kommt, hängt an dieser einen Leistung
+das Widerrufsrecht: zwei getrennte Erklärungen vor der Bestellung nach
+§ 356 Abs. 5 Nr. 2 BGB und die Schaltfläche „Vertrag widerrufen" auf
+`/widerruf` nach § 356a BGB. Die Texte stehen an einer Stelle, in
+`src/lib/widerrufstext.ts`, und `src/lib/widerrufstext.test.ts` hält die
+Anforderungen als ausführbare Prüfung fest. Der Stand der anwaltlichen Prüfung
+liegt in [docs/ANWALTLICHE_PRUEFUNG.md](./docs/ANWALTLICHE_PRUEFUNG.md).
 
 ## Deployment
 

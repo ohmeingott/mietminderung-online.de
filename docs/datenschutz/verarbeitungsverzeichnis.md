@@ -155,8 +155,8 @@ darin selbst mitteilt.
 | **Betroffene** | Personen, die über die Schaltfläche oder formlos per E-Mail eine Widerrufserklärung zum Postversand abgeben. Die Route prüft weder eine vorherige Zahlung noch eine Bestellung (siehe `src/app/api/widerruf/route.ts`), sodass grundsätzlich jede Person eine Erklärung abgeben kann, unabhängig davon, ob tatsächlich bestellt oder bezahlt wurde |
 | **Datenarten** | E-Mail-Adresse (Pflichtangabe, weil der Eingang bestätigt werden muss), auf freiwilliger Basis Name, Auftragsnummer und eine Anmerkung, sowie Zeitpunkt des Eingangs nach Datum und Uhrzeit. Beim formlosen Widerruf per E-Mail: was die betroffene Person darin selbst mitteilt |
 | **Rechtsgrundlage** | Art. 6 Abs. 1 lit. c DSGVO — rechtliche Verpflichtung aus § 356a BGB; soweit es um die Rückabwicklung des Vertrags geht, zusätzlich Art. 6 Abs. 1 lit. b DSGVO |
-| **Empfänger** | Resend (Plus Five Five, Inc.) als Auftragsverarbeiter für den Versand beider E-Mails — der Meldung an uns und der Bestätigung an die widerrufende Person, siehe Nummer 7. Außerdem der E-Mail-Provider, über den das Postfach des Verantwortlichen läuft, weil die Meldung dort eingeht und die vollständige Erklärung samt Freitext-Anmerkung enthält (Anbieter noch zu benennen, siehe Offene Punkte). Keine Weitergabe an den Druckdienstleister oder an die Post |
-| **Drittland** | Resend: US-Unternehmen; Übermittlung gestützt auf Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO. Für den E-Mail-Provider des Verantwortlichen-Postfachs noch offen, siehe Offene Punkte |
+| **Empfänger** | Resend (Plus Five Five, Inc.) als Auftragsverarbeiter für den Versand beider E-Mails — der Meldung an uns und der Bestätigung an die widerrufende Person, siehe Nummer 7. Außerdem Google Ireland Limited als Betreiber des Postfachs `info@animals-of-cologne.de` (Google Workspace), weil die Meldung dort eingeht und die vollständige Erklärung samt Freitext-Anmerkung enthält. Keine Weitergabe an den Druckdienstleister oder an die Post |
+| **Drittland** | Resend: US-Unternehmen; Übermittlung gestützt auf Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO. Google: Verantwortlicher in der EU ist Google Ireland Limited; Übermittlung an die US-Muttergesellschaft möglich, gestützt auf die Standardvertragsklauseln des Cloud Data Processing Addendum |
 | **Löschfrist** | Die Erklärung erreicht uns als E-Mail und verbleibt im E-Mail-Postfach des Verantwortlichen, solange sie zum Nachweis der ordnungsgemäßen Abwicklung benötigt wird — praktisch für die Dauer der handels- und steuerrechtlichen Aufbewahrungsfristen. Keine gesonderte Datenbank, kein Datensatz in der Anwendung selbst |
 | **TOM** | keine Weitergabe an den Druckdienstleister oder die Post; Verarbeitung getrennt vom Druckauftrag |
 
@@ -186,11 +186,13 @@ darin selbst mitteilt.
 - [ ] Prüfen, ob mit Vercel ein DPA abgeschlossen ist
 - [ ] Nach Aufnahme des Live-Betriebs die tatsächlichen Löschfristen der
       PIN AG gegen Ziffer 10 des AVV verifizieren
-- [ ] **E-Mail-Provider des Verantwortlichen-Postfachs benennen** (betrifft
-      Nummer 9, Widerruf über die Schaltfläche). `POST /api/widerruf` schickt
-      die Meldung über jede eingehende Widerrufserklärung — samt vollständiger
-      Erklärung und Freitext-Anmerkung — an die Adresse des Verantwortlichen.
-      Der Anbieter dieses Postfachs ist damit Empfänger personenbezogener
-      Daten, ist aber bisher nicht benannt. Anbieter ermitteln, in Nummer 9
-      unter Empfänger und Drittland eintragen und, falls es sich um einen
-      Auftragsverarbeiter handelt, einen AVV nach Art. 28 DSGVO abschließen
+- [ ] **Google-AVV auf das Betreiberpostfach erstrecken** (betrifft Nummer 9,
+      Widerruf über die Schaltfläche). `POST /api/widerruf` schickt die Meldung
+      über jede eingehende Widerrufserklärung — samt vollständiger Erklärung
+      und Freitext-Anmerkung — an `info@animals-of-cologne.de`. Der
+      MX-Eintrag der Domain zeigt auf `smtp.google.com`, das Postfach läuft
+      also über Google Workspace; Google ist damit Auftragsverarbeiter auch für
+      diese Daten und in Nummer 9 eingetragen. Zu prüfen bleibt, ob das
+      Cloud Data Processing Addendum akzeptiert ist und Workspace-Mail
+      abdeckt — es ist dieselbe Frage wie beim Punkt zu Gemini und Sheets
+      darüber, und sie lässt sich in einem Zug beantworten

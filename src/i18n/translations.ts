@@ -340,6 +340,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Ich verlange ausdrücklich, dass Sie mit dem Druck und dem Versand meiner Mängelanzeige vor Ablauf der Widerrufsfrist beginnen.",
     "dispatch.consentExpiry":
       "Mir ist bekannt, dass mein Widerrufsrecht erlischt, sobald Sie die Leistung vollständig erbracht haben — sobald der Brief also gedruckt und in die Zustellung gegeben ist. Diese Kenntnis bestätige ich hiermit.",
+    "dispatch.consentBinding":
+      "Verbindlich ist die deutsche Fassung dieser beiden Erklärungen.",
     "dispatch.consentLink": "Widerrufsbelehrung",
     "dispatch.error.zustimmung_fehlt":
       "Bitte bestätigen Sie beide Erklärungen — ohne sie dürfen wir den Brief vor Ablauf der Widerrufsfrist nicht drucken und versenden.",
@@ -720,6 +722,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "I expressly request that you begin printing and sending my defect notice before the withdrawal period expires.",
     "dispatch.consentExpiry":
       "I understand that my right of withdrawal expires as soon as you have fully performed the service — that is, as soon as the letter has been printed and handed over for delivery. I hereby confirm that I am aware of this.",
+    "dispatch.consentBinding":
+      "The German wording of these two declarations is the legally binding one.",
     "dispatch.consentLink": "Right of withdrawal",
     "dispatch.error.zustimmung_fehlt":
       "Please confirm both declarations — without them we may not print and send the letter before the withdrawal period ends.",
@@ -1058,6 +1062,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Kusur bildirimimin basımına ve gönderimine cayma süresi dolmadan başlamanızı açıkça talep ediyorum.",
     "dispatch.consentExpiry":
       "Hizmeti tamamen ifa ettiğinizde — yani mektup basılıp teslimata verildiğinde — cayma hakkımın sona ereceğini biliyorum. Bunu bildiğimi burada teyit ediyorum.",
+    "dispatch.consentBinding":
+      "Bu iki beyanın bağlayıcı olan hâli Almanca metindir.",
     "dispatch.consentLink": "Cayma hakkı",
     "dispatch.error.zustimmung_fehlt":
       "Lütfen her iki beyanı da onaylayın; aksi hâlde mektubu cayma süresi dolmadan basıp gönderemeyiz.",
@@ -1394,6 +1400,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Я прямо вимагаю, щоб ви розпочали друк і надсилання мого повідомлення про недоліки до закінчення строку відмови.",
     "dispatch.consentExpiry":
       "Мені відомо, що моє право на відмову припиняється, щойно ви повністю виконаєте послугу — тобто щойно лист буде надруковано та передано для доставки. Цим підтверджую, що мені це відомо.",
+    "dispatch.consentBinding":
+      "Юридично зобов'язальною є німецька редакція цих двох заяв.",
     "dispatch.consentLink": "Право на відмову",
     "dispatch.error.zustimmung_fehlt":
       "Будь ласка, підтвердьте обидві заяви — без них ми не можемо надрукувати й надіслати лист до закінчення строку відмови.",
@@ -1729,6 +1737,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Я прямо требую, чтобы вы приступили к печати и отправке моего уведомления о недостатках до истечения срока отказа.",
     "dispatch.consentExpiry":
       "Мне известно, что моё право на отказ прекращается, как только вы полностью окажете услугу — то есть как только письмо будет напечатано и передано для доставки. Настоящим подтверждаю, что мне это известно.",
+    "dispatch.consentBinding":
+      "Юридически обязательной является немецкая редакция этих двух заявлений.",
     "dispatch.consentLink": "Право на отказ",
     "dispatch.error.zustimmung_fehlt":
       "Пожалуйста, подтвердите оба заявления — без них мы не можем напечатать и отправить письмо до истечения срока отказа.",
@@ -2063,6 +2073,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "أطلب صراحةً أن تبدؤوا طباعة إشعار العيوب الخاص بي وإرساله قبل انقضاء مهلة الانسحاب.",
     "dispatch.consentExpiry":
       "أعلم أن حقي في الانسحاب يسقط بمجرد تنفيذكم الخدمة بالكامل، أي بمجرد طباعة الخطاب وتسليمه للتوزيع. وأؤكد بهذا علمي بذلك.",
+    "dispatch.consentBinding":
+      "النص الألماني لهذين الإقرارين هو النص المُلزِم قانوناً.",
     "dispatch.consentLink": "الحق في الانسحاب",
     "dispatch.error.zustimmung_fehlt":
       "يرجى تأكيد الإقرارين معاً؛ فبدونهما لا يمكننا طباعة الخطاب وإرساله قبل انتهاء مهلة الانسحاب.",
@@ -2395,6 +2407,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Wyraźnie żądam, aby rozpoczęli Państwo druk i wysyłkę mojego zgłoszenia wad przed upływem terminu odstąpienia od umowy.",
     "dispatch.consentExpiry":
       "Wiem, że moje prawo odstąpienia wygasa z chwilą pełnego wykonania usługi — to znaczy z chwilą wydrukowania listu i przekazania go do doręczenia. Niniejszym potwierdzam, że jest mi to wiadome.",
+    "dispatch.consentBinding":
+      "Wiążąca jest niemiecka wersja tych dwóch oświadczeń.",
     "dispatch.consentLink": "Prawo odstąpienia",
     "dispatch.error.zustimmung_fehlt":
       "Proszę potwierdzić obie deklaracje — bez nich nie możemy wydrukować i nadać listu przed upływem terminu odstąpienia.",

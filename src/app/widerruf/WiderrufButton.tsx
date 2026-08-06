@@ -144,7 +144,13 @@ export default function WiderrufButton() {
   if (phase === "zu") {
     return (
       <div className="flex flex-col gap-2">
-        {/* Label prescribed by § 356a Abs. 1 BGB — do not reword. */}
+        {/*
+          § 356a Abs. 1 BGB: the function must be labelled „gut lesbar mit
+          ‚Vertrag widerrufen' oder einer anderen gleichbedeutenden eindeutigen
+          Formulierung". An equivalent unambiguous wording is therefore allowed
+          — but the statutory one needs no argument, and anything else invites
+          one. Do not reword it.
+        */}
         <Button
           type="button"
           data-testid="widerruf-oeffnen"
@@ -226,12 +232,16 @@ export default function WiderrufButton() {
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
           {/*
-            Label prescribed by § 356a Abs. 3 BGB — do not reword, and do not
-            swap it out while the request is in flight either. The safe reading
-            is that the button has to bear this text; a screenshot taken
-            mid-request showing anything else is an argument nobody needs to
-            hand over. The spinner carries the pending state instead, and
-            e2e/widerruf.spec.ts holds this in place.
+            § 356a Abs. 3 BGB: the confirmation function must be labelled „gut
+            lesbar und mit ‚Widerruf bestätigen' oder einer anderen
+            gleichbedeutenden eindeutigen Formulierung". So an equivalent
+            wording is permitted — „Einen Moment …", which an earlier version
+            swapped in while the request was in flight, is not one. It means
+            something else entirely, and a screenshot taken mid-request would
+            show a statutory control that does not say what it confirms.
+
+            The spinner carries the pending state instead, and
+            e2e/widerruf.spec.ts holds the label in place through the request.
           */}
           <Button
             type="submit"
