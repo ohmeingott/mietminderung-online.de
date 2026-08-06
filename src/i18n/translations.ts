@@ -27,6 +27,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Tabelle",
     "nav.guide": "Ratgeber",
+    "nav.primary": "Hauptnavigation",
+    "nav.mobile": "Mobile Navigation",
     "nav.send": "Brief versenden",
     "versand.teaser.eyebrow": "Nicht nur prüfen — erledigen",
     "versand.teaser.more": "So funktioniert der Versand",
@@ -259,6 +261,31 @@ export const translations: Record<Locale, Record<string, string>> = {
     "common.note": "Hinweis",
     "common.backHome": "Zur Startseite",
 
+    // Ratgeber-Seiten (Hub, Artikelgerüst, Übersetzungshinweis)
+    "common.home": "Startseite",
+    "ratgeber.hubTitle": "Ratgeber Mietminderung",
+    "ratgeber.hubLead":
+      "Von der ersten Mängelanzeige bis zur Rückforderung zu viel gezahlter Miete: Diese Anleitungen erklären Schritt für Schritt und ohne Fachjargon, wie Sie Ihr Recht als Mieter nach deutschem Mietrecht durchsetzen.",
+    "ratgeber.allArticles": "Alle Ratgeber-Artikel",
+    "ratgeber.toc": "Inhalt",
+    "ratgeber.faqHeading": "Häufige Fragen",
+    "ratgeber.readingMinutes": "Min. Lesezeit",
+    "ratgeber.questionCount": "beantwortete Fragen",
+    "ratgeber.updatedOn": "Zuletzt aktualisiert am",
+    "ratgeber.more": "Weitere Ratgeber",
+    "ratgeber.quoteTitle": "Sie suchen die Quote für einen konkreten Mangel?",
+    "ratgeber.quoteText":
+      "Die Ratgeber erklären das Verfahren. Wie viel Prozent Minderung bei Ihrem konkreten Mangel anerkannt sind, steht in der Mängelübersicht: Dort ist jeder Mangel einzeln aufgeschlüsselt, inklusive Rechner und Nachweis-Checkliste.",
+    "ratgeber.cta.title": "Mängelanzeige in 3 Minuten erstellen",
+    "ratgeber.cta.text":
+      "Anspruch prüfen, Minderungsquote berechnen und ein fertiges Schreiben mit allen Pflichtangaben nach § 536c BGB erhalten. Kostenlos und ohne Registrierung.",
+    "ratgeber.cta.button": "Jetzt kostenlos starten",
+    "ratgeber.disclaimer":
+      "Dieser Beitrag dient der allgemeinen Information und stellt keine Rechtsberatung dar. Trotz sorgfältiger Recherche kann keine Gewähr für Richtigkeit, Vollständigkeit und Aktualität übernommen werden. Bei konkreten rechtlichen Fragen wenden Sie sich an einen Mieterverein oder einen Fachanwalt für Mietrecht.",
+    "ratgeber.translated":
+      "Dieser Text wurde maschinell übersetzt. Rechtlich maßgeblich ist allein die deutsche Fassung.",
+    "ratgeber.translatedLink": "Zum deutschen Original",
+
     // Wizard, Frist und "Wie geht es weiter?"
     "letter.step.frist": "Frist",
     "check.pickCategoryHint": "Wählen Sie eine Kategorie, um die passenden Mängel zu sehen.",
@@ -409,6 +436,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Table",
     "nav.guide": "Guides",
+    "nav.primary": "Main navigation",
+    "nav.mobile": "Mobile navigation",
     "nav.send": "Send letter",
     "versand.teaser.eyebrow": "Not just check — get it done",
     "versand.teaser.more": "How the dispatch works",
@@ -639,6 +668,31 @@ export const translations: Record<Locale, Record<string, string>> = {
     "common.note": "Note",
     "common.backHome": "Back to homepage",
 
+    // Ratgeber-Seiten (Hub, Artikelgerüst, Übersetzungshinweis)
+    "common.home": "Home",
+    "ratgeber.hubTitle": "Rent Reduction Guides",
+    "ratgeber.hubLead":
+      "From the first defect notice (Mängelanzeige) to reclaiming overpaid rent: these guides explain step by step, and without jargon, how to enforce your rights as a tenant under German rental law.",
+    "ratgeber.allArticles": "All guide articles",
+    "ratgeber.toc": "Contents",
+    "ratgeber.faqHeading": "Frequently asked questions",
+    "ratgeber.readingMinutes": "min read",
+    "ratgeber.questionCount": "questions answered",
+    "ratgeber.updatedOn": "Last updated on",
+    "ratgeber.more": "More guides",
+    "ratgeber.quoteTitle": "Looking for the rate for a specific defect?",
+    "ratgeber.quoteText":
+      "The guides explain the procedure. How many percent of a reduction is recognised for your specific defect is listed in the defect overview: every defect is broken down individually, including a calculator and an evidence checklist.",
+    "ratgeber.cta.title": "Create a defect notice in 3 minutes",
+    "ratgeber.cta.text":
+      "Check your claim, calculate the reduction rate and receive a finished letter with everything § 536c BGB requires. Free and without registration.",
+    "ratgeber.cta.button": "Start now for free",
+    "ratgeber.disclaimer":
+      "This article provides general information and does not constitute legal advice (Rechtsberatung). Despite careful research, no guarantee can be given for accuracy, completeness or timeliness. For specific legal questions, contact a tenants' association (Mieterverein) or a lawyer specialising in rental law.",
+    "ratgeber.translated":
+      "This text was machine-translated. Only the German version is legally binding.",
+    "ratgeber.translatedLink": "To the German original",
+
     // Wizard, Frist und "Wie geht es weiter?"
     "letter.step.frist": "Deadline",
     "check.pickCategoryHint": "Pick a category to see the defects it covers.",
@@ -776,6 +830,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "SSS",
     "nav.table": "Tablo",
     "nav.guide": "Rehber",
+    "nav.primary": "Ana gezinme",
+    "nav.mobile": "Mobil gezinme",
     "nav.send": "Mektup gönder",
     "versand.teaser.eyebrow": "Sadece kontrol değil — hallet",
     "versand.teaser.more": "Gönderim nasıl işliyor",
@@ -974,6 +1030,31 @@ export const translations: Record<Locale, Record<string, string>> = {
     "common.note": "Not",
     "common.backHome": "Ana sayfaya",
 
+    // Ratgeber-Seiten (Hub, Artikelgerüst, Übersetzungshinweis)
+    "common.home": "Ana sayfa",
+    "ratgeber.hubTitle": "Kira İndirimi Rehberi",
+    "ratgeber.hubLead":
+      "İlk ayıp bildiriminden (Mängelanzeige) fazla ödenen kiranın geri alınmasına kadar: Bu rehberler, Alman kira hukukuna göre kiracı olarak hakkınızı nasıl kullanacağınızı adım adım ve hukuk jargonu olmadan anlatır.",
+    "ratgeber.allArticles": "Tüm rehber yazıları",
+    "ratgeber.toc": "İçindekiler",
+    "ratgeber.faqHeading": "Sık sorulan sorular",
+    "ratgeber.readingMinutes": "dk. okuma",
+    "ratgeber.questionCount": "yanıtlanmış soru",
+    "ratgeber.updatedOn": "Son güncelleme",
+    "ratgeber.more": "Diğer rehberler",
+    "ratgeber.quoteTitle": "Belirli bir kusur için oranı mı arıyorsunuz?",
+    "ratgeber.quoteText":
+      "Rehberler süreci anlatır. Sizin somut kusurunuz için kabul edilen indirim yüzdesi kusur listesinde yer alır: Her kusur tek tek açıklanmıştır, hesaplayıcı ve kanıt kontrol listesi dahil.",
+    "ratgeber.cta.title": "3 dakikada ayıp bildirimi (Mängelanzeige) oluşturun",
+    "ratgeber.cta.text":
+      "Hakkınızı kontrol edin, indirim oranını hesaplayın ve § 536c BGB'nin gerektirdiği tüm zorunlu bilgileri içeren hazır bir mektup alın. Ücretsiz ve kayıt gerektirmez.",
+    "ratgeber.cta.button": "Ücretsiz başlayın",
+    "ratgeber.disclaimer":
+      "Bu yazı genel bilgilendirme amaçlıdır ve hukuki danışmanlık (Rechtsberatung) niteliği taşımaz. Özenli araştırmaya rağmen doğruluk, eksiksizlik ve güncellik konusunda garanti verilemez. Somut hukuki sorularınız için bir kiracı derneğine (Mieterverein) veya kira hukuku avukatına başvurun.",
+    "ratgeber.translated":
+      "Bu metin makine çevirisidir. Hukuken yalnızca Almanca sürüm geçerlidir.",
+    "ratgeber.translatedLink": "Almanca orijinaline git",
+
     // Wizard, Frist und "Wie geht es weiter?"
     "letter.step.frist": "Süre",
     "check.pickCategoryHint": "İlgili kusurları görmek için bir kategori seçin.",
@@ -1107,6 +1188,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Таблиця",
     "nav.guide": "Порадник",
+    "nav.primary": "Головна навігація",
+    "nav.mobile": "Мобільна навігація",
     "nav.send": "Надіслати лист",
     "versand.teaser.eyebrow": "Не лише перевірити — зробити",
     "versand.teaser.more": "Як працює надсилання",
@@ -1304,6 +1387,31 @@ export const translations: Record<Locale, Record<string, string>> = {
     "common.note": "Примітка",
     "common.backHome": "На головну",
 
+    // Ratgeber-Seiten (Hub, Artikelgerüst, Übersetzungshinweis)
+    "common.home": "Головна",
+    "ratgeber.hubTitle": "Порадник зі зниження орендної плати",
+    "ratgeber.hubLead":
+      "Від першого повідомлення про недоліки (Mängelanzeige) до повернення переплаченої орендної плати: ці інструкції крок за кроком і без юридичного жаргону пояснюють, як реалізувати свої права наймача за німецьким орендним правом.",
+    "ratgeber.allArticles": "Усі статті порадника",
+    "ratgeber.toc": "Зміст",
+    "ratgeber.faqHeading": "Поширені запитання",
+    "ratgeber.readingMinutes": "хв читання",
+    "ratgeber.questionCount": "відповідей на запитання",
+    "ratgeber.updatedOn": "Останнє оновлення",
+    "ratgeber.more": "Інші статті порадника",
+    "ratgeber.quoteTitle": "Шукаєте відсоток для конкретного недоліку?",
+    "ratgeber.quoteText":
+      "Порадник пояснює процедуру. Скільки відсотків зниження визнано для вашого конкретного недоліку, зазначено в переліку недоліків: кожен недолік розібрано окремо, разом із калькулятором і контрольним списком доказів.",
+    "ratgeber.cta.title": "Створіть повідомлення про недоліки за 3 хвилини",
+    "ratgeber.cta.text":
+      "Перевірте право, розрахуйте відсоток зниження й отримайте готовий лист з усіма обов'язковими даними за § 536c BGB. Безкоштовно та без реєстрації.",
+    "ratgeber.cta.button": "Почати безкоштовно",
+    "ratgeber.disclaimer":
+      "Ця стаття має загальний інформаційний характер і не є юридичною консультацією (Rechtsberatung). Попри ретельне дослідження, не можна гарантувати правильність, повноту та актуальність. З конкретними правовими питаннями звертайтеся до спілки наймачів (Mieterverein) або до адвоката з орендного права.",
+    "ratgeber.translated":
+      "Цей текст перекладено машинно. Юридично чинною є лише німецька версія.",
+    "ratgeber.translatedLink": "До німецького оригіналу",
+
     // Wizard, Frist und "Wie geht es weiter?"
     "letter.step.frist": "Строк",
     "check.pickCategoryHint": "Оберіть категорію, щоб побачити відповідні недоліки.",
@@ -1438,6 +1546,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Таблица",
     "nav.guide": "Справочник",
+    "nav.primary": "Главная навигация",
+    "nav.mobile": "Мобильная навигация",
     "nav.send": "Отправить письмо",
     "versand.teaser.eyebrow": "Не только проверить — сделать",
     "versand.teaser.more": "Как работает отправка",
@@ -1633,6 +1743,31 @@ export const translations: Record<Locale, Record<string, string>> = {
     "common.note": "Примечание",
     "common.backHome": "На главную",
 
+    // Ratgeber-Seiten (Hub, Artikelgerüst, Übersetzungshinweis)
+    "common.home": "Главная",
+    "ratgeber.hubTitle": "Рекомендации по снижению арендной платы",
+    "ratgeber.hubLead":
+      "От первого уведомления о недостатках (Mängelanzeige) до возврата переплаченной арендной платы: эти инструкции шаг за шагом и без юридического жаргона объясняют, как реализовать свои права нанимателя по немецкому арендному праву.",
+    "ratgeber.allArticles": "Все статьи",
+    "ratgeber.toc": "Содержание",
+    "ratgeber.faqHeading": "Частые вопросы",
+    "ratgeber.readingMinutes": "мин чтения",
+    "ratgeber.questionCount": "отвеченных вопросов",
+    "ratgeber.updatedOn": "Последнее обновление",
+    "ratgeber.more": "Другие материалы",
+    "ratgeber.quoteTitle": "Ищете процент для конкретного недостатка?",
+    "ratgeber.quoteText":
+      "Рекомендации объясняют процедуру. Сколько процентов снижения признано для вашего конкретного недостатка, указано в перечне недостатков: каждый недостаток разобран отдельно, вместе с калькулятором и чек-листом доказательств.",
+    "ratgeber.cta.title": "Создайте уведомление о недостатках за 3 минуты",
+    "ratgeber.cta.text":
+      "Проверьте право, рассчитайте процент снижения и получите готовое письмо со всеми обязательными данными по § 536c BGB. Бесплатно и без регистрации.",
+    "ratgeber.cta.button": "Начать бесплатно",
+    "ratgeber.disclaimer":
+      "Эта статья носит общий информационный характер и не является юридической консультацией (Rechtsberatung). Несмотря на тщательное исследование, гарантировать правильность, полноту и актуальность невозможно. По конкретным правовым вопросам обращайтесь в союз нанимателей (Mieterverein) или к адвокату по арендному праву.",
+    "ratgeber.translated":
+      "Этот текст переведён машинно. Юридическую силу имеет только немецкая версия.",
+    "ratgeber.translatedLink": "К немецкому оригиналу",
+
     // Wizard, Frist und "Wie geht es weiter?"
     "letter.step.frist": "Срок",
     "check.pickCategoryHint": "Выберите категорию, чтобы увидеть подходящие недостатки.",
@@ -1767,6 +1902,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "الأسئلة الشائعة",
     "nav.table": "الجدول",
     "nav.guide": "الدليل",
+    "nav.primary": "التنقل الرئيسي",
+    "nav.mobile": "التنقل على الهاتف",
     "nav.send": "إرسال الخطاب",
     "versand.teaser.eyebrow": "لا تكتفِ بالتحقق — أنجز الأمر",
     "versand.teaser.more": "كيف يتم الإرسال",
@@ -1962,6 +2099,31 @@ export const translations: Record<Locale, Record<string, string>> = {
     "common.note": "ملاحظة",
     "common.backHome": "إلى الصفحة الرئيسية",
 
+    // Ratgeber-Seiten (Hub, Artikelgerüst, Übersetzungshinweis)
+    "common.home": "الصفحة الرئيسية",
+    "ratgeber.hubTitle": "دليل تخفيض الإيجار",
+    "ratgeber.hubLead":
+      "من أول إخطار بالعيوب (Mängelanzeige) حتى استرداد الإيجار المدفوع زيادةً: تشرح هذه الأدلة خطوة بخطوة وبلا مصطلحات معقدة كيف تمارس حقك كمستأجر بموجب قانون الإيجار الألماني.",
+    "ratgeber.allArticles": "جميع مقالات الدليل",
+    "ratgeber.toc": "المحتويات",
+    "ratgeber.faqHeading": "الأسئلة الشائعة",
+    "ratgeber.readingMinutes": "دقيقة قراءة",
+    "ratgeber.questionCount": "سؤالاً مُجاباً",
+    "ratgeber.updatedOn": "آخر تحديث",
+    "ratgeber.more": "أدلة أخرى",
+    "ratgeber.quoteTitle": "هل تبحث عن النسبة لعيب محدد؟",
+    "ratgeber.quoteText":
+      "تشرح الأدلة الإجراءات. أما نسبة التخفيض المعترف بها لعيبك المحدد فمذكورة في قائمة العيوب: كل عيب مُفصَّل على حدة، مع حاسبة وقائمة تحقق بالأدلة.",
+    "ratgeber.cta.title": "أنشئ إخطار العيوب في 3 دقائق",
+    "ratgeber.cta.text":
+      "تحقق من حقك، احسب نسبة التخفيض واحصل على خطاب جاهز يتضمن كل البيانات الإلزامية وفق § 536c BGB. مجاناً وبدون تسجيل.",
+    "ratgeber.cta.button": "ابدأ مجاناً",
+    "ratgeber.disclaimer":
+      "هذه المقالة للمعلومات العامة ولا تشكل استشارة قانونية (Rechtsberatung). ورغم البحث الدقيق، لا يمكن ضمان الصحة والاكتمال والتحديث. للأسئلة القانونية المحددة، توجه إلى جمعية المستأجرين (Mieterverein) أو محامٍ متخصص في قانون الإيجار.",
+    "ratgeber.translated":
+      "تُرجم هذا النص آلياً. النسخة الألمانية وحدها هي المُلزِمة قانوناً.",
+    "ratgeber.translatedLink": "إلى الأصل الألماني",
+
     // Wizard, Frist und "Wie geht es weiter?"
     "letter.step.frist": "المهلة",
     "check.pickCategoryHint": "اختر فئة لعرض العيوب المندرجة تحتها.",
@@ -2093,6 +2255,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.faq": "FAQ",
     "nav.table": "Tabela",
     "nav.guide": "Poradnik",
+    "nav.primary": "Nawigacja główna",
+    "nav.mobile": "Nawigacja mobilna",
     "nav.send": "Wyślij pismo",
     "versand.teaser.eyebrow": "Nie tylko sprawdź — załatw",
     "versand.teaser.more": "Jak działa wysyłka",
@@ -2287,6 +2451,31 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Shared
     "common.note": "Wskazówka",
     "common.backHome": "Na stronę główną",
+
+    // Ratgeber-Seiten (Hub, Artikelgerüst, Übersetzungshinweis)
+    "common.home": "Strona główna",
+    "ratgeber.hubTitle": "Poradnik: obniżka czynszu",
+    "ratgeber.hubLead":
+      "Od pierwszego zgłoszenia wad (Mängelanzeige) po odzyskanie nadpłaconego czynszu: te poradniki wyjaśniają krok po kroku i bez żargonu, jak egzekwować swoje prawa jako najemca w niemieckim prawie najmu.",
+    "ratgeber.allArticles": "Wszystkie artykuły poradnika",
+    "ratgeber.toc": "Spis treści",
+    "ratgeber.faqHeading": "Częste pytania",
+    "ratgeber.readingMinutes": "min czytania",
+    "ratgeber.questionCount": "odpowiedzi na pytania",
+    "ratgeber.updatedOn": "Ostatnia aktualizacja",
+    "ratgeber.more": "Więcej poradników",
+    "ratgeber.quoteTitle": "Szukasz stawki dla konkretnej wady?",
+    "ratgeber.quoteText":
+      "Poradniki wyjaśniają procedurę. Ile procent obniżki uznaje się przy Twojej konkretnej wadzie, znajdziesz w przeglądzie wad: każda wada jest opisana osobno, wraz z kalkulatorem i listą dowodów.",
+    "ratgeber.cta.title": "Utwórz zgłoszenie wad w 3 minuty",
+    "ratgeber.cta.text":
+      "Sprawdź roszczenie, oblicz stawkę obniżki i otrzymaj gotowe pismo ze wszystkimi danymi wymaganymi przez § 536c BGB. Bezpłatnie i bez rejestracji.",
+    "ratgeber.cta.button": "Zacznij bezpłatnie",
+    "ratgeber.disclaimer":
+      "Ten artykuł ma charakter ogólnoinformacyjny i nie stanowi porady prawnej (Rechtsberatung). Mimo starannego opracowania nie można zagwarantować poprawności, kompletności i aktualności. W konkretnych sprawach prawnych zwróć się do zrzeszenia najemców (Mieterverein) lub adwokata specjalizującego się w prawie najmu.",
+    "ratgeber.translated":
+      "Ten tekst został przetłumaczony maszynowo. Prawnie wiążąca jest wyłącznie wersja niemiecka.",
+    "ratgeber.translatedLink": "Do niemieckiego oryginału",
 
     // Wizard, Frist und "Wie geht es weiter?"
     "letter.step.frist": "Termin",

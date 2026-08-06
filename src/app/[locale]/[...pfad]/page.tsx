@@ -4,6 +4,17 @@ import Datenschutz from "@/app/datenschutz/page";
 import Impressum from "@/app/impressum/page";
 import Nutzungsbedingungen from "@/app/nutzungsbedingungen/page";
 import Widerruf from "@/app/widerruf/page";
+import JsonLd from "@/components/JsonLd";
+import RatgeberArtikelView from "@/components/ratgeber/RatgeberArtikelView";
+import RatgeberHubView from "@/components/ratgeber/RatgeberHubView";
+import { getRatgeberBySlug } from "@/data/ratgeber";
+import { istRatgeberSlug, lokalerPfad, type RatgeberSlug } from "@/i18n/pfade";
+import {
+  hatRatgeber,
+  ratgeberLocales,
+  ratgeberSlugsFuer,
+  ratgeberText,
+} from "@/i18n/ratgeber";
 import {
   DEFAULT_LOCALE,
   isLocale,
@@ -11,6 +22,9 @@ import {
   PREFIXED_LOCALES,
   splitLocalePath,
 } from "@/i18n/routing";
+import { ts } from "@/i18n/server";
+import type { Locale } from "@/i18n/translations";
+import { artikelSchemaFor, hubSchema } from "@/lib/ratgeberSchema";
 import { buildMetadata } from "@/lib/seo";
 
 /**
@@ -58,13 +72,41 @@ for (const path of LEGAL_PATHS) {
   }
 }
 
+/** The localized URL of a German path, split into route segments. */
+function segmenteFuer(locale: Locale, deutscherPfad: string): string[] {
+  const lokal = lokalerPfad(locale, deutscherPfad) ?? deutscherPfad;
+  return lokal.split("/").filter(Boolean);
+}
+
 export function generateStaticParams() {
-  return PREFIXED_LOCALES.flatMap((locale) =>
-    LEGAL_PATHS.map((path) => ({ locale, pfad: [path.slice(1)] })),
-  );
+  return PREFIXED_LOCALES.flatMap((locale) => {
+    const legal = LEGAL_PATHS.map((path) => ({
+      locale,
+      pfad: [path.slice(1)],
+    }));
+
+    // Only the guides this language actually has. A route generated for a
+    // missing translation would render the German text under a translated URL.
+    const ratgeber = hatRatgeber(locale)
+      ? [
+          { locale, pfad: segmenteFuer(locale, "/ratgeber") },
+          ...ratgeberSlugsFuer(locale).map((slug) => ({
+            locale,
+            pfad: segmenteFuer(locale, `/ratgeber/${slug}`),
+          })),
+        ]
+      : [];
+
+    return [...legal, ...ratgeber];
+  });
 }
 
 type Params = Promise<{ locale: string; pfad: string[] }>;
+
+type Ziel =
+  | { art: "rechtstext"; locale: Locale; slug: Rechtstext }
+  | { art: "ratgeberHub"; locale: Locale }
+  | { art: "ratgeberArtikel"; locale: Locale; slug: RatgeberSlug };
 
 /**
  * What a localized URL resolves to.
@@ -72,13 +114,23 @@ type Params = Promise<{ locale: string; pfad: string[] }>;
  * The German `basePath` is the identity of the page, so resolution is a lookup
  * on that and never on the localized segments themselves.
  */
-function aufloesen(locale: string, pfad: string[]) {
+function aufloesen(locale: string, pfad: string[]): Ziel | null {
   if (!isLocale(locale) || locale === DEFAULT_LOCALE) return null;
 
   const { basePath } = splitLocalePath(`/${locale}/${pfad.join("/")}`);
 
-  const rechtstext = RECHTSTEXTE[basePath.slice(1) as Rechtstext];
-  if (rechtstext) return { art: "rechtstext" as const, locale, ...rechtstext };
+  if (basePath.slice(1) in RECHTSTEXTE) {
+    return { art: "rechtstext", locale, slug: basePath.slice(1) as Rechtstext };
+  }
+
+  if (basePath === "/ratgeber") {
+    return hatRatgeber(locale) ? { art: "ratgeberHub", locale } : null;
+  }
+
+  const slug = basePath.startsWith("/ratgeber/") ? basePath.slice(10) : null;
+  if (slug && istRatgeberSlug(slug) && ratgeberSlugsFuer(locale).includes(slug)) {
+    return { art: "ratgeberArtikel", locale, slug };
+  }
 
   return null;
 }
@@ -92,19 +144,52 @@ export async function generateMetadata({
   const ziel = aufloesen(locale, pfad);
   if (!ziel) return {};
 
-  /**
-   * `index: false` on purpose. The content is byte-identical German across
-   * seven URLs; the German original is the one that belongs in the index, and
-   * these exist for people, not for crawlers. For the same reason they carry
-   * no `hreflang`: there is nothing to alternate between.
-   */
+  if (ziel.art === "rechtstext") {
+    /**
+     * `index: false` on purpose. The content is byte-identical German across
+     * seven URLs; the German original is the one that belongs in the index,
+     * and these exist for people, not for crawlers. For the same reason they
+     * carry no `hreflang`: there is nothing to alternate between.
+     */
+    return buildMetadata({
+      title: `${RECHTSTEXTE[ziel.slug].title} | Mietminderung Online`,
+      description:
+        "Die rechtlichen Informationen zu Mietminderung Online. Nur die deutsche Fassung ist rechtsverbindlich.",
+      path: `/${ziel.slug}`,
+      locale: ziel.locale,
+      index: false,
+    });
+  }
+
+  if (ziel.art === "ratgeberHub") {
+    return buildMetadata({
+      title: ts(ziel.locale, "ratgeber.hubTitle"),
+      description: ts(ziel.locale, "ratgeber.hubLead"),
+      path: "/ratgeber",
+      locale: ziel.locale,
+      // Only the languages that have guides. A cluster naming a URL that 404s
+      // is worse than no cluster at all.
+      alternateLocales: [
+        DEFAULT_LOCALE,
+        ...PREFIXED_LOCALES.filter(hatRatgeber),
+      ],
+    });
+  }
+
+  const text = ratgeberText(ziel.locale, ziel.slug);
+  const quelle = getRatgeberBySlug(ziel.slug);
+  if (!text || !quelle) return {};
+
   return buildMetadata({
-    title: `${ziel.title} | Mietminderung Online`,
-    description:
-      "Die rechtlichen Informationen zu Mietminderung Online. Nur die deutsche Fassung ist rechtsverbindlich.",
-    path: `/${pfad.join("/")}`,
+    title: text.metaTitle,
+    description: text.description,
+    path: `/ratgeber/${ziel.slug}`,
+    keywords: text.keywords,
+    type: "article",
+    publishedTime: quelle.published,
+    modifiedTime: quelle.updated,
     locale: ziel.locale,
-    index: false,
+    alternateLocales: ratgeberLocales(ziel.slug),
   });
 }
 
@@ -129,6 +214,34 @@ export default async function LokalisierteSeite({
   const ziel = aufloesen(locale, pfad);
   if (!ziel) notFound();
 
-  const { Component } = ziel;
-  return <Component />;
+  if (ziel.art === "rechtstext") {
+    const { Component } = RECHTSTEXTE[ziel.slug];
+    return <Component />;
+  }
+
+  if (ziel.art === "ratgeberHub") {
+    return (
+      <>
+        <JsonLd data={hubSchema(ziel.locale)} />
+        <RatgeberHubView locale={ziel.locale} />
+      </>
+    );
+  }
+
+  const quelle = getRatgeberBySlug(ziel.slug);
+  if (!quelle) notFound();
+
+  const schema = artikelSchemaFor(ziel.locale, ziel.slug);
+
+  return (
+    <>
+      {schema && <JsonLd data={schema} />}
+      <RatgeberArtikelView
+        locale={ziel.locale}
+        slug={ziel.slug}
+        updated={quelle.updated}
+        readingMinutes={quelle.readingMinutes}
+      />
+    </>
+  );
 }

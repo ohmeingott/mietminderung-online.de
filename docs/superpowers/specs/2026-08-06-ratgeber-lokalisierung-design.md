@@ -68,11 +68,13 @@ eine Routing-Tatsache, kein Inhalt: So beantworten Router, `generateStaticParams
 und `check:i18n` die Frage „welche URLs existieren", ohne 280.000 Zeichen
 Artikeltext in den Modulgraphen zu ziehen.
 
-Eine Sprache ist entweder gar nicht vorhanden (noch nicht begonnen) oder
-vollständig. Halb übersetzte Sprachen erzeugen kaputte `hreflang`-Cluster und
-deutschen Text unter fremdsprachiger URL; `check:i18n` lässt diesen Zustand
-nicht durch, und Routen werden nur für Sprachen erzeugt, die den Artikel
-tatsächlich haben.
+Verfügbarkeit gilt **pro Artikel**, nicht pro Sprache. Ursprünglich war „ganz
+oder gar nicht" geplant, um kaputte `hreflang`-Cluster zu vermeiden — aber die
+Cluster werden ohnehin pro Artikel berechnet, und die Route wird nur für
+Sprachen erzeugt, die den Artikel wirklich haben. Damit ist der Fehlerfall
+ausgeschlossen, und die Übersetzung lässt sich schrittweise ausliefern statt in
+einem Block von 280.000 Zeichen. `check:i18n` meldet die Abdeckung je Sprache,
+damit ein halber Stand sichtbar bleibt.
 
 Das bestehende flache `Record<string, string>` ist für den Mängelkatalog
 richtig, für Langtexte aber gefährlich: Ein eingefügter Absatz im deutschen
