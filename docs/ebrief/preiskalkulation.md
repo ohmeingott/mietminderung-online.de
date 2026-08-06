@@ -48,18 +48,28 @@ voll berechnet. Die naheliegende Annahme, ein Blatt fasse zwei Seiten, gilt
 nur bei beidseitigem Druck und stand hier zeitweise falsch.
 
 Seit der Layoutanpassung (Zeilenabstand 5,0 mm, Umbruch bei 280 mm) passt eine
-Mängelanzeige mit ein bis drei Mängeln auf **eine** Seite, also ein Blatt. Ab
-vier Mängeln werden es zwei. Wer eine Unterschrift zeichnet, bekommt in jedem
-Fall ein zweites Blatt: Die Signatur wird auf eine neue Seite geschoben, wenn
-sie nicht 30 mm über dem Umbruch beginnt.
+Mängelanzeige mit bis zu vier Mängeln auf **eine** Seite, also ein Blatt.
 
-| Mängel | Seiten | Blätter | Produkt |
-|---:|---:|---:|---|
-| 1–3 | 1 | 1 | Standardbrief |
-| 4–5 | 2 | 2 | Standardbrief + 1 Zusatzblatt |
-| mit Unterschrift | +1 | +1 | ein Blatt mehr als oben |
+Die Unterschrift kostete früher in jedem Fall ein zweites Blatt: Sie wurde ans
+Textende gehängt und von dort auf eine neue Seite geschoben, sobald sie nicht
+30 mm über dem Umbruch begann — was bei einem vollen Brief immer zutraf. Seit
+sie in die Lücke zwischen Grussformel und Namen gesetzt wird, wo sie in einem
+deutschen Brief ohnehin hingehört, kostet sie beim häufigsten Brief gar nichts
+mehr. Der Platz dafür entsteht erst beim Rendern und nur, wenn wirklich
+unterschrieben wurde; der unsignierte Brief ist deshalb exakt so lang wie zuvor.
+Siehe `src/lib/briefPdf.ts` und `src/lib/brief/unterschriftsstelle.ts`.
 
-Aus dem Standardbrief fällt die Anzeige erst ab dem vierten Blatt.
+Gemessen, mit der Angabe „noch nicht angezeigt":
+
+| Mängel | Blätter ohne Unterschrift | mit Unterschrift |
+|---:|---:|---:|
+| 1–2 | 1 | 1 |
+| 3–4 | 1 | 2 |
+| 5–6 | 2 | 2 |
+
+Die Angabe „bereits mündlich angezeigt" fügt einen Absatz hinzu und verschiebt
+die Schwelle um je einen Mangel nach unten. Aus dem Standardbrief fällt die
+Anzeige erst ab dem vierten Blatt.
 
 ### Warum brutto gerechnet wird
 
