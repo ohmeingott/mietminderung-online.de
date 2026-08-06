@@ -6,6 +6,7 @@ import {
 import { istRatgeberSlug, type RatgeberSlug } from "../pfade";
 import { DEFAULT_LOCALE } from "../routing";
 import { locales, type Locale } from "../translations";
+import ru from "./ru";
 import tr from "./tr";
 import type { RatgeberText, RatgeberUebersetzung } from "./typen";
 
@@ -25,6 +26,7 @@ export type { RatgeberText, RatgeberSectionText } from "./typen";
  * so a half-finished language is visible rather than silent.
  */
 const uebersetzungen: Partial<Record<Locale, RatgeberUebersetzung>> = {
+  ru,
   tr,
 };
 

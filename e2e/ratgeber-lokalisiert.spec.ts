@@ -23,6 +23,8 @@ const ORIGIN = (
 /** The Turkish guide that is translated, and its German original. */
 const DEUTSCH = "/ratgeber/maengelanzeige-schreiben";
 const TUERKISCH = "/tr/rehber/ayip-bildirimi-yazma";
+/** The same guide in Russian — a URL that is Cyrillic end to end. */
+const RUSSISCH = "/ru/рекомендации/уведомление-о-недостатках";
 
 function alternates(html: string): Record<string, string> {
   const out: Record<string, string> = {};
@@ -96,11 +98,39 @@ test.describe("Localized guides", () => {
     }
   });
 
+  test("a non-Latin URL resolves and renders its own language", async ({
+    page,
+  }) => {
+    /*
+     * This exact page was built, written to disk and still answered 404. With
+     * `dynamicParams = false` Next's param matching does not survive a Cyrillic
+     * segment, so all eight Russian guides existed and none could be opened.
+     * The failure is invisible in a build log — only a request shows it.
+     */
+    const response = await page.goto(RUSSISCH);
+    expect(response?.status()).toBe(200);
+    await expect(page.locator("h1")).toContainText("Уведомление о недостатках");
+
+    // The anchors have to survive the script too: an ASCII-only slugify turned
+    // every Cyrillic heading into the same empty id.
+    const ids = await page
+      .locator("main section[id]")
+      .evaluateAll((els) => els.map((e) => e.id));
+    expect(ids.length).toBeGreaterThan(1);
+    expect(ids.every((id) => id.length > 0)).toBe(true);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
   test("the German slug under a locale prefix stays a 404", async ({
     page,
   }) => {
     const duplikat = await page.goto("/tr/ratgeber/maengelanzeige-schreiben");
     expect(duplikat?.status()).toBe(404);
+
+    // Same rule for a non-Latin locale: only the canonical localized URL
+    // answers, never the German slug behind the prefix.
+    const kyrillisch = await page.goto("/ru/ratgeber/maengelanzeige-schreiben");
+    expect(kyrillisch?.status()).toBe(404);
 
     const unuebersetzt = await page.goto("/tr/rehber/mietminderung-berechnen");
     expect(unuebersetzt?.status()).toBe(404);

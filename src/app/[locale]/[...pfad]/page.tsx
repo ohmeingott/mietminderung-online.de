@@ -50,7 +50,22 @@ import { buildMetadata } from "@/lib/seo";
  * else. This file only decides what to render for the German path that comes
  * back.
  */
-export const dynamicParams = false;
+/**
+ * `true`, and not by preference.
+ *
+ * With `dynamicParams = false` Next answers any path outside the generated
+ * param list with `NoFallbackError`, and its param matching does not survive a
+ * non-ASCII segment: every Cyrillic and Arabic guide URL was built, written to
+ * disk, and then answered 404 — encoded or decoded made no difference. All
+ * eight Russian pages existed and none of them could be opened.
+ *
+ * Leaving it dynamic costs a function invocation for paths that do not exist.
+ * It does not weaken the routing: `aufloesen` accepts only the canonical
+ * localized URL of a known page and returns `null` for everything else, so an
+ * unknown path still ends in `notFound()`. The generated pages remain static;
+ * this only changes what happens to requests that miss them.
+ */
+export const dynamicParams = true;
 
 const RECHTSTEXTE = {
   impressum: { Component: Impressum, title: "Impressum" },
@@ -72,10 +87,37 @@ for (const path of LEGAL_PATHS) {
   }
 }
 
-/** The localized URL of a German path, split into route segments. */
+/**
+ * The localized URL of a German path, split into route segments.
+ *
+ * The segments are percent-encoded. Next registers a statically generated
+ * route under exactly the string `generateStaticParams` returns, while a
+ * browser sends the path encoded — so a Cyrillic or Arabic segment handed over
+ * decoded produced a manifest key of "/ru/рекомендации" that no incoming
+ * request for "/ru/%D1%80..." could ever match. Every one of those pages was
+ * built and then answered 404.
+ *
+ * `aufloesen` decodes again before looking the path up, so the mapping table
+ * keeps working in readable text.
+ */
 function segmenteFuer(locale: Locale, deutscherPfad: string): string[] {
   const lokal = lokalerPfad(locale, deutscherPfad) ?? deutscherPfad;
-  return lokal.split("/").filter(Boolean);
+  return lokal.split("/").filter(Boolean).map(encodeURIComponent);
+}
+
+/** Reverses `segmenteFuer`. Latin segments pass through unchanged. */
+function dekodiere(pfad: string[]): string {
+  return pfad
+    .map((segment) => {
+      try {
+        return decodeURIComponent(segment);
+      } catch {
+        // A malformed escape can only come from a hand-typed URL; leaving it
+        // as-is makes the lookup miss and the route 404, which is right.
+        return segment;
+      }
+    })
+    .join("/");
 }
 
 export function generateStaticParams() {
@@ -117,7 +159,23 @@ type Ziel =
 function aufloesen(locale: string, pfad: string[]): Ziel | null {
   if (!isLocale(locale) || locale === DEFAULT_LOCALE) return null;
 
-  const { basePath } = splitLocalePath(`/${locale}/${pfad.join("/")}`);
+  const angefragt = `/${dekodiere(pfad)}`;
+  const { basePath } = splitLocalePath(`/${locale}${angefragt}`);
+
+  /**
+   * The requested URL has to be the canonical localized form of that page, not
+   * merely something that resolves to it. Without this check
+   * `/tr/ratgeber/maengelanzeige-schreiben` — the German slug under a Turkish
+   * prefix — renders the Turkish article as well, and the page competes with a
+   * duplicate of itself for the same content.
+   *
+   * The static param list used to hide this: a path it did not contain simply
+   * never reached the resolver. Since the list can no longer be the gate (see
+   * `dynamicParams`), the rule belongs here, where it is checked on every
+   * request rather than only on the ones somebody thought to generate.
+   */
+  const kanonisch = lokalerPfad(locale, basePath) ?? basePath;
+  if (angefragt !== kanonisch) return null;
 
   if (basePath.slice(1) in RECHTSTEXTE) {
     return { art: "rechtstext", locale, slug: basePath.slice(1) as Rechtstext };
