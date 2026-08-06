@@ -408,7 +408,8 @@ test.describe("The e-mail is asked for at dispatch and nowhere else", () => {
 
     // Paid dispatch: the address is asked for here, where it is needed.
     await expect(page.getByTestId("dispatch-email")).toBeVisible();
-    await page.getByTestId("dispatch-consent").check();
+    await page.getByTestId("dispatch-consent-start").check();
+    await page.getByTestId("dispatch-consent-expiry").check();
     await expect(page.getByTestId("dispatch-submit")).toBeDisabled();
     expect(stub.vorbereiten, "a job must never be prepared without an address").toHaveLength(0);
 

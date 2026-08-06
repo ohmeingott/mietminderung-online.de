@@ -9,7 +9,7 @@
  * Asserted is the presence of what the statute names, not the wording: the
  * service, the price actually charged, the trader's identity and postal
  * address, the order date, the full Widerrufsbelehrung, the model form, and the
- * confirmation of the § 356 Abs. 4 declaration. Both parts are checked — a mail
+ * confirmation of the § 356 Abs. 5 Nr. 2 declarations. Both parts are checked — a mail
  * whose text/plain alternative is empty is what a strict client shows.
  *
  * Since the first live order it also guards three things that are not about

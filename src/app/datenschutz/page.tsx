@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import LegalPage, { NumberedSections } from "@/components/LegalPage";
 import { gesellschafterListe, site } from "@/lib/site";
@@ -379,6 +380,63 @@ export default function Datenschutz() {
       ),
     },
     {
+      heading: "Widerruf über die Schaltfläche (§ 356a BGB)",
+      body: (
+        <>
+          <p>
+            Auf unserer <Link href="/widerruf">Widerrufsseite</Link> stellen wir eine
+            Schaltfläche „Vertrag widerrufen“ bereit, über die Sie den
+            kostenpflichtigen Postversand online widerrufen können. Dazu sind
+            wir seit dem 19. Juni 2026 gesetzlich verpflichtet.
+          </p>
+          <ul>
+            <li>
+              <strong>Verarbeitet werden:</strong> Ihre E-Mail-Adresse
+              (Pflichtangabe, weil wir Ihnen den Eingang bestätigen müssen),
+              auf freiwilliger Basis Ihr Name, die Auftragsnummer und eine
+              Anmerkung, sowie der Zeitpunkt des Eingangs nach Datum und
+              Uhrzeit.
+            </li>
+            <li>
+              <strong>Zweck:</strong> Entgegennahme Ihrer Widerrufserklärung,
+              die gesetzlich vorgeschriebene Bestätigung des Eingangs auf einem
+              dauerhaften Datenträger und die Abwicklung des Widerrufs.
+            </li>
+            <li>
+              <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. c DSGVO —
+              die Verarbeitung erfüllt eine rechtliche Verpflichtung aus
+              § 356a BGB. Soweit es um die Rückabwicklung des Vertrags geht,
+              zusätzlich Art. 6 Abs. 1 lit. b DSGVO.
+            </li>
+            <li>
+              <strong>Empfänger:</strong> Resend als Auftragsverarbeiter für
+              den Versand beider E-Mails — der Meldung an uns und der
+              Bestätigung an Sie, siehe den vorstehenden Abschnitt. Die Meldung
+              geht in unserem eigenen Postfach ein, das über{" "}
+              <strong>Google Workspace (Google Ireland Limited)</strong> läuft;
+              Google verarbeitet die Nachricht deshalb als Auftragsverarbeiter
+              mit. Eine Weitergabe an den Druckdienstleister oder an die Post
+              findet nicht statt.
+            </li>
+            <li>
+              <strong>Speicherdauer:</strong> Ihre Erklärung erreicht uns als
+              E-Mail und bleibt im E-Mail-Postfach des Verantwortlichen,
+              solange wir sie zum Nachweis der ordnungsgemäßen Abwicklung
+              benötigen — praktisch für die Dauer der handels- und
+              steuerrechtlichen Aufbewahrungsfristen. Eine gesonderte
+              Datenbank führen wir dafür nicht; in der Anwendung selbst wird
+              die Erklärung nicht gespeichert.
+            </li>
+          </ul>
+          <p>
+            Sie können Ihren Widerruf stattdessen jederzeit formlos per E-Mail
+            an <a href={mailto}>{site.operator.email}</a> erklären. Dann
+            verarbeiten wir nur, was Sie uns dabei selbst mitteilen.
+          </p>
+        </>
+      ),
+    },
+    {
       heading: "Lokale Speicherung im Browser",
       body: (
         <>
@@ -456,7 +514,10 @@ export default function Datenschutz() {
                 </tr>
                 <tr>
                   <td>Resend (Plus Five Five, Inc.)</td>
-                  <td>Versand der E-Mails zu Ihrem Versandauftrag</td>
+                  <td>
+                    Versand der E-Mails zu Ihrem Versandauftrag und Ihrer
+                    Widerrufserklärung
+                  </td>
                   <td>USA (Versand über Irland)</td>
                 </tr>
               </tbody>
@@ -464,8 +525,12 @@ export default function Datenschutz() {
           </div>
           <p>
             Eine darüber hinausgehende Weitergabe Ihrer Daten an Dritte findet
-            nicht statt. Wir verkaufen keine Daten und betreiben keine Werbe-
-            oder Profilbildung.
+            nicht statt — mit einer Ausnahme: Widerrufen Sie über die
+            Schaltfläche oder formlos per E-Mail, landet Ihre Erklärung in
+            unserem eigenen Postfach, das über Google Workspace (Google Ireland
+            Limited) läuft. Google verarbeitet die Nachricht dabei als
+            Auftragsverarbeiter mit. Wir verkaufen keine Daten und betreiben
+            keine Werbe- oder Profilbildung.
           </p>
         </>
       ),

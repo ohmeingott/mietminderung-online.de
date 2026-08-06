@@ -63,11 +63,13 @@ async function expectFreeDownloadIntact(page: Page) {
 }
 
 /**
- * The § 356 Abs. 4 BGB declaration gates the order button, so every path that
- * reaches checkout has to make it — exactly as a real user would.
+ * The two declarations under § 356 Abs. 5 Nr. 2 BGB gate the order button, so
+ * every path that reaches checkout has to make both — exactly as a real user
+ * would.
  */
 async function zustimmen(page: Page) {
-  await page.getByTestId("dispatch-consent").check();
+  await page.getByTestId("dispatch-consent-start").check();
+  await page.getByTestId("dispatch-consent-expiry").check();
 }
 
 /** The switcher's aria-label is itself translated, so target it by test id. */
@@ -132,30 +134,45 @@ test.describe("Postversand (eBrief)", () => {
     expect(karte).toContain("kann kein Postprodukt erbringen");
   });
 
-  test("keeps the order button locked until the withdrawal declaration is made", async ({
+  test("keeps the order button locked until both declarations are made", async ({
     page,
   }) => {
     const stub = await stubVersandApi(page, { status: "bereit" });
     await reachDispatchCard(page);
 
-    // Unticked on arrival. A pre-selected box is not the "ausdrückliche
-    // Zustimmung" § 356 Abs. 4 BGB asks for, and the whole declaration would
-    // be worthless if the user never had to make it.
-    const kasten = page.getByTestId("dispatch-consent");
-    await expect(kasten).not.toBeChecked();
+    // Unticked on arrival, both of them. A pre-selected box is not the express
+    // declaration § 356 Abs. 5 Nr. 2 BGB asks for, and the whole thing would be
+    // worthless if the user never had to make it.
+    const beginn = page.getByTestId("dispatch-consent-start");
+    const erloeschen = page.getByTestId("dispatch-consent-expiry");
+    await expect(beginn).not.toBeChecked();
+    await expect(erloeschen).not.toBeChecked();
     await expect(page.getByTestId("dispatch-submit")).toBeDisabled();
 
-    // Both halves of the declaration have to be on the page, not just a link
-    // to them: the request to start early, and the loss of the right.
+    // Both declarations have to be on the page, not just a link to them: the
+    // request to start early, and the loss of the right.
     const karte = await page.getByTestId("dispatch-card").innerText();
     expect(karte).toContain("Ich verlange ausdrücklich");
     expect(karte).toContain("Widerrufsrecht erlischt");
 
-    await kasten.check();
+    // One alone is not enough — that is the whole point of the 2026 change.
+    await beginn.check();
+    await expect(page.getByTestId("dispatch-submit")).toBeDisabled();
+    await beginn.uncheck();
+    await erloeschen.check();
+    await expect(page.getByTestId("dispatch-submit")).toBeDisabled();
+
+    await beginn.check();
     await expect(page.getByTestId("dispatch-submit")).toBeEnabled();
 
-    // And it is revocable right up to the order — unticking locks it again.
-    await kasten.uncheck();
+    // And they are revocable right up to the order — unticking either locks it
+    // again. Both, because a declaration the user can no longer take back is
+    // not a declaration they were free to make.
+    await erloeschen.uncheck();
+    await expect(page.getByTestId("dispatch-submit")).toBeDisabled();
+    await erloeschen.check();
+    await expect(page.getByTestId("dispatch-submit")).toBeEnabled();
+    await beginn.uncheck();
     await expect(page.getByTestId("dispatch-submit")).toBeDisabled();
 
     expect(stub.checkout).toHaveLength(0);
@@ -211,9 +228,10 @@ test.describe("Postversand (eBrief)", () => {
       jobId: VERSAND_JOB_ID,
       produktId: "brief",
       token: VERSAND_TOKEN,
-      // Without this the server refuses the session — the letter would go out
-      // while the tenant still had fourteen days to withdraw.
-      zustimmung: true,
+      // Without both of these the server refuses the session — the letter would
+      // go out while the tenant still had fourteen days to withdraw.
+      verlangtSofortigenBeginn: true,
+      kenntErloeschen: true,
     });
   });
 
@@ -254,7 +272,8 @@ test.describe("Postversand (eBrief)", () => {
       jobId: VERSAND_JOB_ID,
       produktId: "einwurfEinschreiben",
       token: VERSAND_TOKEN,
-      zustimmung: true,
+      verlangtSofortigenBeginn: true,
+      kenntErloeschen: true,
     });
   });
 
@@ -386,6 +405,14 @@ test.describe("Postversand (eBrief)", () => {
     await expect(karte).toContainText(erwarteterSteuerhinweis("tr"));
     // The German product name is kept on purpose; the explanation is not.
     await expect(karte).toContainText("Übergabe-Einschreiben değildir");
+
+    // The two declarations are translated, but only the German wording binds.
+    // A user in a non-German UI is not reading a legal text here — they are
+    // making a declaration by ticking it — so the caveat has to stand next to
+    // the boxes, and in a language they can actually read.
+    await expect(karte).toContainText(
+      "Bu iki beyanın bağlayıcı olan hâli Almanca metindir"
+    );
     await expect(page.getByTestId("dispatch-submit")).toContainText(
       "Ücretli olarak gönder"
     );

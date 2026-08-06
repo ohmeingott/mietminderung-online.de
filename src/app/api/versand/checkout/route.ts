@@ -175,7 +175,8 @@ interface CheckoutBody {
   jobId?: unknown;
   produktId?: unknown;
   token?: unknown;
-  zustimmung?: unknown;
+  verlangtSofortigenBeginn?: unknown;
+  kenntErloeschen?: unknown;
 }
 
 /**
@@ -248,7 +249,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ fehler: "unvollstaendig" }, { status: 400 });
   }
 
-  const { jobId, produktId, token, zustimmung } = body ?? {};
+  const { jobId, produktId, token, verlangtSofortigenBeginn, kenntErloeschen } =
+    body ?? {};
 
   // Before anything else, and in particular before the job is looked up: the
   // answer below reveals whether the job exists and how far along it is.
@@ -265,16 +267,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ fehler: "unvollstaendig" }, { status: 400 });
   }
 
-  // § 356 Abs. 4 BGB. The letter is posted within hours, so the withdrawal
-  // right has to be dealt with before the order, not after. Strict `!== true`
-  // rather than a truthiness check: a "false" string or a 1 must not pass for
-  // a declaration the customer has to make deliberately.
+  // § 356 Abs. 5 Nr. 2 BGB. The letter is posted within hours, so the
+  // withdrawal right has to be dealt with before the order, not after. Two
+  // declarations, checked separately: lit. a is the express request to start
+  // early, lit. c the acknowledgement that the right expires on completion.
+  // One flag standing for both would be exactly the defect this replaces.
   //
-  // This cannot stop a crafted request — the flag comes from the client either
+  // Strict `!== true` rather than a truthiness check: a "false" string or a 1
+  // must not pass for a declaration the customer has to make deliberately.
+  //
+  // This cannot stop a crafted request — the flags come from the client either
   // way — and it is not meant to. It stops the UI from ever reaching checkout
-  // without asking, and it makes the declaration a documented precondition of
+  // without asking, and it makes the declarations a documented precondition of
   // the order rather than an afterthought.
-  if (zustimmung !== true) {
+  if (verlangtSofortigenBeginn !== true || kenntErloeschen !== true) {
     return NextResponse.json({ fehler: "zustimmung_fehlt" }, { status: 400 });
   }
 
@@ -368,14 +374,16 @@ export async function POST(request: Request) {
         // the jobId travelling with the payment is what connects the money to
         // the letter; the produktId rides along for logs and support.
         //
-        // `widerrufZustimmung` is the record that the § 356 Abs. 4 declaration
-        // was made: there is no database, so Stripe is the order record, and a
-        // consent that lives only in a React checkbox is a consent nobody can
-        // produce in a dispute. Deliberately a constant and not a timestamp —
+        // `widerrufVerlangen` and `widerrufErloeschen` are the record that both
+        // § 356 Abs. 5 Nr. 2 declarations were made: there is no database, so
+        // Stripe is the order record, and a consent that lives only in a React
+        // checkbox is a consent nobody can produce in a dispute. Two entries
+        // and not one, because they are two declarations and each has to be
+        // provable on its own. Deliberately constants and not timestamps —
         // Stripe refuses a reused idempotency key whose parameters differ, so a
         // per-request timestamp would turn every legitimate retry into a
         // "checkout_fehler". The session's own creation time answers "when"
-        // closely enough; the declaration is made moments before it.
+        // closely enough; the declarations are made moments before it.
         metadata: {
           // Which service this session belongs to. The Stripe account is shared
           // with widerspruch-krankengeld.de and Stripe cannot filter events by
@@ -384,7 +392,8 @@ export async function POST(request: Request) {
           herkunft: HERKUNFT,
           jobId: String(gepruefteJobId),
           produktId: produkt.id,
-          widerrufZustimmung: "356-4-BGB",
+          widerrufVerlangen: "356-5-2-a-BGB",
+          widerrufErloeschen: "356-5-2-c-BGB",
         },
         // Two pages of their own, not a query parameter on a wizard step: the
         // letter wizard lives in React state that the full-page trip to Stripe

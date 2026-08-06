@@ -53,13 +53,15 @@ const LEGAL_PAGES = [
     footerLink: "Widerrufsrecht",
     heading: "Widerrufsrecht",
     // The paid dispatch makes this a real Widerrufsbelehrung: the statutory
-    // period, the model form, and the early-expiry rule the order flow relies
-    // on. A page that lost any of them would leave a sold service unbelehrt.
+    // period, the model form, the early-expiry rule the order flow relies on,
+    // and the button § 356a Abs. 1 BGB requires. A page that lost any of them
+    // would leave a sold service unbelehrt.
     mustContain: [
       "Widerrufsbelehrung",
       "vierzehn Tagen",
       "Muster-Widerrufsformular",
-      "§ 356 Abs. 4 BGB",
+      "§ 356 Abs. 5 Nr. 2 BGB",
+      "Vertrag widerrufen",
     ],
   },
 ] as const;
@@ -86,6 +88,40 @@ test.describe("Legal pages", () => {
         .click();
       await expect(page).toHaveURL(new RegExp(`${legal.path}$`));
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(legal.heading);
+    });
+  }
+
+  /*
+   * § 356a Abs. 1 BGB wants the withdrawal button permanently available. It
+   * lives at the top of /widerruf, so what makes it permanently available is
+   * that every page links there.
+   *
+   * The site has two footers, and only one of them used to: the content pages
+   * render src/components/content/ContentFooter.tsx, which carried three of
+   * the four legal links and left out the withdrawal page. Nothing failed —
+   * the reachability test above only ever loads the homepage, which uses the
+   * other footer. This is the test that would have caught it.
+   */
+  const INHALTSSEITEN = [
+    "/ratgeber",
+    "/mietminderungstabelle",
+    "/mietminderung",
+    "/maengelanzeige-versenden",
+  ] as const;
+
+  for (const pfad of INHALTSSEITEN) {
+    test(`${pfad} reaches the withdrawal page from its footer`, async ({
+      page,
+    }) => {
+      await page.goto(pfad);
+      await page
+        .getByRole("contentinfo")
+        .getByRole("link", { name: "Widerrufsrecht", exact: true })
+        .click();
+      await expect(page).toHaveURL(/\/widerruf$/);
+      await expect(page.getByTestId("widerruf-oeffnen")).toHaveText(
+        "Vertrag widerrufen"
+      );
     });
   }
 
@@ -157,7 +193,7 @@ test.describe("Legal pages", () => {
     // /widerruf has to keep saying when the right lapses.
     await page.goto("/widerruf");
     const widerruf = await page.locator("article").innerText();
-    expect(widerruf).toContain("§ 356 Abs. 4 BGB");
+    expect(widerruf).toContain("§ 356 Abs. 5 Nr. 2 BGB");
     expect(widerruf).toContain("Vollständig erbracht");
   });
 

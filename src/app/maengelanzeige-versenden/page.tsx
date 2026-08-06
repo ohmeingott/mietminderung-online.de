@@ -85,7 +85,7 @@ const faqs = () => [
   {
     question: "Kann ich den Versand widerrufen?",
     answer:
-      "Damit wir sofort mit dem Druck beginnen dürfen, bestätigen Sie beim Bezahlen ausdrücklich den sofortigen Versandbeginn. Ihr Widerrufsrecht erlischt nach § 356 Abs. 4 BGB in dem Moment, in dem der Brief gedruckt und in die Zustellung gegeben ist. Solange Sie den Bezahlvorgang abbrechen, wird nichts versendet und nichts berechnet.",
+      "Damit wir sofort mit dem Druck beginnen dürfen, geben Sie beim Bezahlen zwei getrennte Erklärungen ab: Sie verlangen ausdrücklich den sofortigen Beginn, und Sie bestätigen davon getrennt, dass Ihnen das Erlöschen bekannt ist. Ihr Widerrufsrecht erlischt nach § 356 Abs. 5 Nr. 2 BGB in dem Moment, in dem der Brief gedruckt und in die Zustellung gegeben ist. Bis dahin können Sie jederzeit über die Schaltfläche „Vertrag widerrufen“ auf unserer Widerrufsseite widerrufen. Solange Sie den Bezahlvorgang abbrechen, wird nichts versendet und nichts berechnet.",
   },
   {
     question: "Wird meine Mängelanzeige bei Ihnen gespeichert?",

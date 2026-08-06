@@ -8,7 +8,9 @@ import {
 import {
   erloeschenHinweis,
   musterWiderrufsformular,
+  vertragsbezeichnung,
   widerrufsbelehrung,
+  widerrufserklaerungSatz,
 } from "@/lib/widerrufstext";
 
 /**
@@ -171,7 +173,7 @@ const ABLAUF_SAETZE: readonly string[] = [
  * Carries what § 312f Abs. 2 und 3 BGB together with Art. 246a EGBGB require on
  * a durable medium: the service, the total price actually paid, who the trader
  * is, the full Widerrufsbelehrung with the model form, and the confirmation of
- * the § 356 Abs. 4 declaration made at the order.
+ * the two § 356 Abs. 5 Nr. 2 declarations made at the order.
  *
  * It doubles as the Eingangsbestätigung under § 312i Abs. 1 Nr. 3 BGB, which is
  * why the webhook sends it as soon as the payment is confirmed rather than when
@@ -473,6 +475,146 @@ ${ABSATZ.map((s) => `<p style="margin:0 0 12px;">${escapeHtml(s)}</p>`).join("")
 
   return {
     subject: "Zwei Wochen nach Ihrer Mängelanzeige",
+    html: layout(bodyHtml, identityFooterHtml()),
+    text,
+  };
+}
+
+/**
+ * One withdrawal declaration, as it arrived.
+ *
+ * Only the email address is required — a withdrawal is a unilateral
+ * declaration that takes effect on receipt, and letting it fail on a missing
+ * order number would be legally wrong and practically shabby. Everything else
+ * helps with matching it to an order and is optional.
+ */
+export interface Widerrufsangaben {
+  /** The contact channel under § 356a Abs. 2 BGB, and where this mail goes. */
+  email: string;
+  name: string;
+  auftragsnummer: string;
+  anmerkung: string;
+  /** Already formatted in German local time — see src/lib/datum.ts. */
+  eingegangenAm: string;
+}
+
+/** An optional entry, or a line that says plainly that nothing was given. */
+function oderFehlt(wert: string): string {
+  return wert.trim() || "— nicht angegeben —";
+}
+
+/**
+ * The operator's copy. This mail is the proof of receipt.
+ *
+ * It goes out before the customer's confirmation and its failure is the one
+ * that aborts the request: without it nobody can show that the withdrawal
+ * arrived, and the customer has to be told to use another channel.
+ */
+export function widerrufMeldungEmail(angaben: Widerrufsangaben): RenderedEmail {
+  const zeilen: [string, string][] = [
+    ["Eingegangen am", escapeHtml(angaben.eingegangenAm)],
+    ["E-Mail", escapeHtml(angaben.email)],
+    ["Auftragsnummer", escapeHtml(oderFehlt(angaben.auftragsnummer))],
+    ["Name", escapeHtml(oderFehlt(angaben.name))],
+    ["Vertrag", escapeHtml(vertragsbezeichnung)],
+  ];
+
+  const bodyHtml = `
+<h1 style="margin:0 0 16px;font-size:20px;">Widerruf eingegangen</h1>
+<p style="margin:0 0 12px;">Über die Schaltfläche nach § 356a BGB ist ein Widerruf eingegangen.</p>
+${datenTabelleHtml(zeilen)}
+<h2 style="margin:0 0 8px;font-size:16px;">Anmerkung</h2>
+<p style="margin:0 0 12px;">${escapeHtml(oderFehlt(angaben.anmerkung))}</p>`;
+
+  const text = [
+    "Widerruf eingegangen",
+    "",
+    "Über die Schaltfläche nach § 356a BGB ist ein Widerruf eingegangen.",
+    "",
+    `Eingegangen am: ${angaben.eingegangenAm}`,
+    `E-Mail: ${angaben.email}`,
+    `Auftragsnummer: ${oderFehlt(angaben.auftragsnummer)}`,
+    `Name: ${oderFehlt(angaben.name)}`,
+    `Vertrag: ${vertragsbezeichnung}`,
+    "",
+    "Anmerkung:",
+    oderFehlt(angaben.anmerkung),
+  ].join("\n");
+
+  return {
+    subject: `Widerruf eingegangen — ${angaben.email}`,
+    html: layout(bodyHtml, identityFooterHtml()),
+    text,
+  };
+}
+
+/**
+ * The confirmation for the person who withdrew.
+ *
+ * § 356a Abs. 4 BGB prescribes what has to be in it: "den Inhalt der
+ * Widerrufserklärung sowie das Datum und die Uhrzeit ihres Eingangs". The
+ * content is therefore given back in full and not merely acknowledged — this
+ * mail is the durable medium on which the consumer later has to be able to
+ * prove what they declared and when.
+ *
+ * The closing paragraph says what happens next without promising a refund that
+ * may not be owed: if the letter was already posted, the right had expired.
+ */
+export function widerrufBestaetigungEmail(
+  angaben: Widerrufsangaben
+): RenderedEmail {
+  const ABSCHLUSS =
+    "Wir prüfen den Vorgang und melden uns. Hatten wir Ihre Mängelanzeige zum Zeitpunkt Ihres Widerrufs noch nicht zur Post gegeben, erstatten wir Ihnen den vollen Betrag. War sie bereits unterwegs, ist Ihr Widerrufsrecht nach § 356 Absatz 5 Nummer 2 BGB erloschen — wir melden uns auch dann und erklären Ihnen den Stand.";
+
+  const zeilen: [string, string][] = [
+    ["Eingegangen am", escapeHtml(angaben.eingegangenAm)],
+    ["Vertrag", escapeHtml(vertragsbezeichnung)],
+    ["E-Mail-Adresse", escapeHtml(angaben.email)],
+    ["Name", escapeHtml(oderFehlt(angaben.name))],
+    ["Auftragsnummer", escapeHtml(oderFehlt(angaben.auftragsnummer))],
+  ];
+
+  const bodyHtml = `
+<h1 style="margin:0 0 16px;font-size:20px;">Ihr Widerruf ist bei uns eingegangen</h1>
+<p style="margin:0 0 20px;">wir bestätigen Ihnen den Eingang Ihrer Widerrufserklärung. Ihre Frist ist mit dem Absenden gewahrt.</p>
+
+<h2 style="margin:0 0 8px;font-size:16px;">Ihre Erklärung im Wortlaut</h2>
+<p style="margin:0 0 16px;padding:12px 14px;border-left:3px solid ${RULE};">${escapeHtml(widerrufserklaerungSatz)}</p>
+
+${datenTabelleHtml(zeilen)}
+
+<h2 style="margin:0 0 8px;font-size:16px;">Ihre Anmerkung</h2>
+<p style="margin:0 0 20px;">${escapeHtml(oderFehlt(angaben.anmerkung))}</p>
+
+<p style="margin:0 0 12px;">${escapeHtml(ABSCHLUSS)}</p>
+<p style="margin:0;color:${MUTED};font-size:13px;">Bewahren Sie diese E-Mail auf. Sie enthält den Inhalt Ihrer Erklärung sowie Datum und Uhrzeit ihres Eingangs (§ 356a Absatz 4 BGB).</p>`;
+
+  const text = [
+    "Ihr Widerruf ist bei uns eingegangen",
+    "",
+    "wir bestätigen Ihnen den Eingang Ihrer Widerrufserklärung. Ihre Frist ist mit dem Absenden gewahrt.",
+    "",
+    "Ihre Erklärung im Wortlaut:",
+    widerrufserklaerungSatz,
+    "",
+    `Eingegangen am: ${angaben.eingegangenAm}`,
+    `Vertrag: ${vertragsbezeichnung}`,
+    `E-Mail-Adresse: ${angaben.email}`,
+    `Name: ${oderFehlt(angaben.name)}`,
+    `Auftragsnummer: ${oderFehlt(angaben.auftragsnummer)}`,
+    "",
+    "Ihre Anmerkung:",
+    oderFehlt(angaben.anmerkung),
+    "",
+    ABSCHLUSS,
+    "",
+    "Bewahren Sie diese E-Mail auf. Sie enthält den Inhalt Ihrer Erklärung sowie Datum und Uhrzeit ihres Eingangs (§ 356a Absatz 4 BGB).",
+    "",
+    identityFooterText(),
+  ].join("\n");
+
+  return {
+    subject: "Ihr Widerruf ist bei uns eingegangen",
     html: layout(bodyHtml, identityFooterHtml()),
     text,
   };
