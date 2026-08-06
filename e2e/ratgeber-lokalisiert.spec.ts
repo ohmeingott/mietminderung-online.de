@@ -25,6 +25,8 @@ const DEUTSCH = "/ratgeber/maengelanzeige-schreiben";
 const TUERKISCH = "/tr/rehber/ayip-bildirimi-yazma";
 /** The same guide in Russian — a URL that is Cyrillic end to end. */
 const RUSSISCH = "/ru/рекомендации/уведомление-о-недостатках";
+/** Arabic — the only right-to-left language on the site. */
+const ARABISCH = "/ar/دليل/كتابة-اخطار-العيوب";
 
 function alternates(html: string): Record<string, string> {
   const out: Record<string, string> = {};
@@ -119,6 +121,26 @@ test.describe("Localized guides", () => {
     expect(ids.length).toBeGreaterThan(1);
     expect(ids.every((id) => id.length > 0)).toBe(true);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  test("the Arabic guide is laid out right to left without JavaScript", async ({
+    browser,
+  }) => {
+    /*
+     * `<html dir>` is left-to-right on every page and only corrected on the
+     * client. For Arabic that correction is too late: direction decides the
+     * layout, not just how a screen reader announces it, and a crawler never
+     * sees it at all. The pages therefore mark their own subtree.
+     */
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    const seite = await context.newPage();
+    const response = await seite.goto(ARABISCH);
+    expect(response?.status()).toBe(200);
+
+    const wrapper = seite.locator("div[dir]").first();
+    await expect(wrapper).toHaveAttribute("dir", "rtl");
+    await expect(wrapper).toHaveAttribute("lang", "ar");
+    await context.close();
   });
 
   test("the German slug under a locale prefix stays a 404", async ({

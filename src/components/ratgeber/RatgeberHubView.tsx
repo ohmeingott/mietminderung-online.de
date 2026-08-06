@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { getRatgeberBySlug } from "@/data/ratgeber";
 import { ratgeberSlugsFuer, ratgeberText } from "@/i18n/ratgeber";
 import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
-import { ts } from "@/i18n/server";
+import { richtung, ts } from "@/i18n/server";
 import type { Locale } from "@/i18n/translations";
 import { hubCrumbs } from "@/lib/ratgeberSchema";
 
@@ -15,7 +15,13 @@ export default function RatgeberHubView({ locale }: { locale: Locale }) {
   const home = localeHref(locale, "/");
 
   return (
-    <>
+    /*
+     * `dir`/`lang` on the subtree, because the document carries German and
+     * left-to-right for every page — see `richtung()`. Without this the Arabic
+     * guides render mirrored until the client corrects them, and a crawler
+     * never sees the correction.
+     */
+    <div dir={richtung(locale)} lang={locale}>
       <ContentHeader locale={locale} />
 
       <main className="bg-paper-sunken">
@@ -145,6 +151,6 @@ export default function RatgeberHubView({ locale }: { locale: Locale }) {
       </main>
 
       <ContentFooter locale={locale} />
-    </>
+    </div>
   );
 }
