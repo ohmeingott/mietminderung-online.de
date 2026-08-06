@@ -1,3 +1,8 @@
+import {
+  alleUebersetztenPfade,
+  deutscherPfad,
+  lokalerPfad,
+} from "./pfade";
 import { locales, type Locale } from "./translations";
 
 /**
@@ -22,17 +27,34 @@ export const PREFIXED_LOCALES: Locale[] = locales
   .filter((code) => code !== DEFAULT_LOCALE);
 
 /**
- * The pages that exist in every language.
+ * The pages that exist in every language *under the same path*.
  *
- * The defect pages, the guides, the dispatch page and the legal texts are
- * German-only: their content lives in `src/data/*.ts` and has no translation,
- * and the legal texts describe a contract under German law where a translation
- * would not be the binding version. Declaring a locale variant of those would
- * point `hreflang` and the language switcher at URLs that 404.
+ * The guides also exist in every language, but their URL is translated too, so
+ * they live in `pfade.ts` and reach this module through
+ * `UEBERSETZTE_INHALTSPFADE` below. The split is not cosmetic: these two paths
+ * are identical in every language and can be written as literals, the guides
+ * are not.
+ *
+ * The defect pages and the dispatch page are still German-only — their content
+ * lives in `src/data/*.ts` with no translation yet. The legal texts are a
+ * separate case handled by `LEGAL_PATHS`. Declaring a locale variant of a page
+ * that has none would point `hreflang` and the language switcher at URLs that
+ * 404.
  */
 export const TRANSLATED_PATHS = ["/", "/faq"] as const;
 
 export type TranslatedPath = (typeof TRANSLATED_PATHS)[number];
+
+/**
+ * The German paths of pages that exist in every language under a *translated*
+ * URL — today the guides, later the defect pages.
+ *
+ * Callers keep using the German path as the page's identity and let
+ * `localeHref` produce the localized URL; nothing outside `pfade.ts` needs to
+ * know what the Turkish slug is.
+ */
+export const UEBERSETZTE_INHALTSPFADE: readonly string[] =
+  alleUebersetztenPfade();
 
 /**
  * The legal texts, which exist under every locale prefix but keep a German
@@ -58,10 +80,11 @@ export const LEGAL_PATHS = [
 
 export type LegalPath = (typeof LEGAL_PATHS)[number];
 
-/** Every path that has a per-locale URL, for whatever reason. */
+/** Every German path that has a per-locale URL, for whatever reason. */
 const PREFIXABLE_PATHS: readonly string[] = [
   ...TRANSLATED_PATHS,
   ...LEGAL_PATHS,
+  ...UEBERSETZTE_INHALTSPFADE,
 ];
 
 export function isLocale(value: string): value is Locale {
@@ -83,6 +106,12 @@ export function isLegalPath(path: string): path is LegalPath {
  * Unprefixed paths are German, which is also the right answer for the
  * German-only routes — "/impressum" is `{ locale: "de", basePath:
  * "/impressum" }`.
+ *
+ * Translated URLs are mapped back to the German path they stand for, so
+ * "/tr/rehber/ayip-bildirimi-yazma" comes out as `{ locale: "tr", basePath:
+ * "/ratgeber/maengelanzeige-schreiben" }`. A path with no known translation is
+ * returned unchanged — that is what keeps "/tr/faq" and "/tr/impressum"
+ * working without an entry in `pfade.ts`.
  */
 export function splitLocalePath(pathname: string): {
   locale: Locale;
@@ -93,7 +122,8 @@ export function splitLocalePath(pathname: string): {
 
   if (first && isLocale(first) && first !== DEFAULT_LOCALE) {
     const rest = segments.slice(1).join("/");
-    return { locale: first, basePath: rest ? `/${rest}` : "/" };
+    const lokal = rest ? `/${rest}` : "/";
+    return { locale: first, basePath: deutscherPfad(first, lokal) ?? lokal };
   }
 
   return { locale: DEFAULT_LOCALE, basePath: pathname || "/" };
@@ -106,9 +136,14 @@ export function splitLocalePath(pathname: string): {
  * than to a prefixed URL that does not exist. This is what the language
  * switcher on the legal pages does: someone reading the Impressum who picks
  * Turkish gets the Turkish homepage, not a 404.
+ *
+ * `basePath` is always the German path. Pages whose URL is translated as well
+ * are looked up in `pfade.ts`; everything else keeps its German path under the
+ * prefix, which is what the legal texts and the FAQ do.
  */
 export function localeHref(locale: Locale, basePath: string): string {
   if (locale === DEFAULT_LOCALE) return basePath;
   if (!PREFIXABLE_PATHS.includes(basePath)) return `/${locale}`;
-  return basePath === "/" ? `/${locale}` : `/${locale}${basePath}`;
+  if (basePath === "/") return `/${locale}`;
+  return `/${locale}${lokalerPfad(locale, basePath) ?? basePath}`;
 }
