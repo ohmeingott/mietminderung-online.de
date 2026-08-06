@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { nachfassEmail, sendungsmeldungEmail } from "./templates";
+import {
+  nachfassEmail,
+  sendungsmeldungEmail,
+  widerrufBestaetigungEmail,
+  widerrufMeldungEmail,
+} from "./templates";
 
 /**
  * The two follow-up mails.
@@ -111,6 +116,96 @@ describe("nachfassEmail", () => {
     const mail = nachfassEmail({ referenz: "40123" });
     for (const teil of beideTeile(mail)) {
       assert.match(teil, /letzte E-Mail/);
+    }
+  });
+});
+
+describe("widerrufBestaetigungEmail", () => {
+  const ANGABEN = {
+    email: "mieterin@beispiel.de",
+    name: "Maria Musterfrau",
+    auftragsnummer: "40123",
+    anmerkung: "Bitte um Rückruf.",
+    eingegangenAm: "04.08.2026, 14:00 MESZ",
+  };
+
+  it("gives back the content of the declaration, not just the receipt", () => {
+    // § 356a Abs. 4 BGB: the confirmation carries "den Inhalt der
+    // Widerrufserklärung sowie das Datum und die Uhrzeit ihres Eingangs".
+    // Acknowledging receipt alone does not satisfy that — this mail is the
+    // durable medium on which the consumer later has to be able to prove what
+    // they declared.
+    const mail = widerrufBestaetigungEmail(ANGABEN);
+    for (const teil of beideTeile(mail)) {
+      assert.match(teil, /Hiermit widerrufe ich/);
+      assert.match(teil, /Postversand der Mängelanzeige/);
+      assert.match(teil, /04\.08\.2026/);
+      assert.match(teil, /14:00/);
+      assert.match(teil, /Maria Musterfrau/);
+      assert.match(teil, /40123/);
+      assert.match(teil, /mieterin@beispiel\.de/);
+      assert.match(teil, /Bitte um Rückruf/);
+    }
+  });
+
+  it("copes when only the email address was given", () => {
+    // A withdrawal must not fail on a missing order number, so the form only
+    // requires the address. A line reading "Name:" with nothing behind it, or
+    // a literal "undefined", is worse than a line saying nothing was given.
+    const mail = widerrufBestaetigungEmail({
+      email: "mieterin@beispiel.de",
+      name: "",
+      auftragsnummer: "",
+      anmerkung: "",
+      eingegangenAm: "04.08.2026, 14:00 MESZ",
+    });
+    for (const teil of beideTeile(mail)) {
+      assert.doesNotMatch(teil, /undefined|null/);
+      assert.match(teil, /nicht angegeben/);
+    }
+  });
+
+  it("does not promise a refund it cannot make", () => {
+    // Once the right has expired there is nothing to give back. A sentence
+    // that leaves this open creates an expectation the operator cannot meet.
+    const mail = widerrufBestaetigungEmail(ANGABEN);
+    assert.match(mail.text, /§ 356 Absatz 5 Nummer 2 BGB/);
+    assert.match(mail.text, /erloschen/i);
+  });
+});
+
+describe("widerrufMeldungEmail", () => {
+  it("carries everything the operator needs to act", () => {
+    const mail = widerrufMeldungEmail({
+      email: "mieterin@beispiel.de",
+      name: "",
+      auftragsnummer: "40123",
+      anmerkung: "",
+      eingegangenAm: "04.08.2026, 14:00 MESZ",
+    });
+    for (const teil of beideTeile(mail)) {
+      assert.match(teil, /mieterin@beispiel\.de/);
+      assert.match(teil, /40123/);
+      assert.match(teil, /04\.08\.2026/);
+    }
+    assert.match(mail.subject, /Widerruf/);
+  });
+
+  it("says plainly what was not given", () => {
+    // The form requires only an address, so most of these will be empty most
+    // of the time. A bare "Name:" or a literal "undefined" in the operator's
+    // copy is how a withdrawal gets mistaken for a malformed submission.
+    const mail = widerrufMeldungEmail({
+      email: "mieterin@beispiel.de",
+      name: "",
+      auftragsnummer: "",
+      anmerkung: "",
+      eingegangenAm: "04.08.2026, 14:00 MESZ",
+    });
+    for (const teil of beideTeile(mail)) {
+      assert.doesNotMatch(teil, /undefined|null/);
+      assert.match(teil, /nicht angegeben/);
+      assert.match(teil, /Postversand der Mängelanzeige/);
     }
   });
 });
