@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { expectNoHorizontalOverflow } from "./helpers";
 import { PRODUKTE } from "../src/lib/ebrief/produkte";
+import { steuermodus } from "../src/lib/steuer";
 
 /** Currency formatting uses a non-breaking space; innerText need not keep it. */
 const normalisiert = (text: string) => text.replace(/[\u00a0\u202f]/g, " ");
@@ -160,11 +161,18 @@ test.describe("Legal pages", () => {
       expect(normalisiert(body)).toContain(normalisiert(preis));
     }
 
-    // § 19 UStG: a small business may not state VAT. The § 19 note is required
-    // and any "inkl. MwSt." next to it would be a tax statement owed under
-    // § 14c UStG.
-    expect(body).toContain("§ 19 UStG");
-    expect(body.toLowerCase()).not.toContain("mwst");
+    // The tax statement follows STEUERMODUS, like the price it stands under.
+    // As a small business the § 19 note is required and any "inkl. MwSt." next
+    // to it would be a tax statement owed under § 14c UStG; under standard
+    // taxation the price has to name the tax it contains (§§ 5, 5a UWG) and
+    // the § 19 claim would be the false one.
+    if (steuermodus() === "kleinunternehmer") {
+      expect(body).toContain("§ 19 UStG");
+      expect(body.toLowerCase()).not.toContain("mwst");
+    } else {
+      expect(body).toContain("Endpreise einschließlich 19 % Umsatzsteuer");
+      expect(body).not.toContain("§ 19 UStG");
+    }
   });
 
   test("no legal page promises a print cut-off time", async ({ page }) => {

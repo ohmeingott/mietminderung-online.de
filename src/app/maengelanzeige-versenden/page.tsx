@@ -6,6 +6,7 @@ import ContentHeader from "@/components/content/ContentHeader";
 import JsonLd from "@/components/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { PRODUKTE } from "@/lib/ebrief/produkte";
+import { steuerhinweisFaq, steuerhinweisPreisblock } from "@/lib/steuer";
 import {
   articleSchema,
   breadcrumbSchema,
@@ -47,14 +48,19 @@ const euro = (cent: number) =>
 const briefPreis = euro(PRODUKTE.brief.preisCent);
 const einschreibenPreis = euro(PRODUKTE.einwurfEinschreiben.preisCent);
 
-const faqs = [
+/**
+ * Built per request rather than kept as a module constant: the tax sentence in
+ * the price answer follows STEUERMODUS, and a constant would freeze whichever
+ * mode happened to be set when this module was first evaluated.
+ */
+const faqs = () => [
   {
     question: "Kann ich meine Mängelanzeige hier direkt versenden lassen?",
     answer: `Ja. Sie erstellen die Mängelanzeige kostenlos im Online-Check, und statt sie nur herunterzuladen, können Sie sie von uns drucken und per Post an Ihren Vermieter senden lassen. Als Brief kostet das ${briefPreis}, als Einwurf-Einschreiben ${einschreibenPreis}. Sie brauchen weder Drucker noch Briefmarke und müssen nicht zur Post.`,
   },
   {
     question: "Was kostet der Versand der Mängelanzeige?",
-    answer: `Der Brief kostet ${briefPreis}, das Einwurf-Einschreiben ${einschreibenPreis}. Das sind Endpreise, weitere Kosten entstehen nicht. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Das Erstellen der Mängelanzeige und der PDF-Download bleiben in jedem Fall kostenlos.`,
+    answer: `Der Brief kostet ${briefPreis}, das Einwurf-Einschreiben ${einschreibenPreis}. ${steuerhinweisFaq()} Das Erstellen der Mängelanzeige und der PDF-Download bleiben in jedem Fall kostenlos.`,
   },
   {
     question: "Brief oder Einwurf-Einschreiben — was ist besser?",
@@ -127,6 +133,10 @@ const schritte = [
 ];
 
 export default function MaengelanzeigeVersendenPage() {
+  // One list for both the structured data and the rendered accordion: the FAQ
+  // schema must state what the page states.
+  const faqListe = faqs();
+
   return (
     <>
       <JsonLd
@@ -141,7 +151,7 @@ export default function MaengelanzeigeVersendenPage() {
             dateModified: LAST_UPDATED,
             section: "Mietrecht",
           }),
-          faqSchema(faqs),
+          faqSchema(faqListe),
           breadcrumbSchema(crumbs)
         )}
       />
@@ -263,10 +273,9 @@ export default function MaengelanzeigeVersendenPage() {
                 </div>
 
                 <p className="mt-4 text-xs text-ink-500 leading-relaxed">
-                  Gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Das
-                  Erstellen der Mängelanzeige und der Download als PDF sind und
-                  bleiben kostenlos — der Versand ist ein Angebot, kein
-                  Pflichtprogramm.
+                  {steuerhinweisPreisblock()} Das Erstellen der Mängelanzeige
+                  und der Download als PDF sind und bleiben kostenlos — der
+                  Versand ist ein Angebot, kein Pflichtprogramm.
                 </p>
               </section>
 
@@ -342,7 +351,7 @@ export default function MaengelanzeigeVersendenPage() {
                   Häufige Fragen zum Versand
                 </h2>
                 <div className="space-y-3">
-                  {faqs.map((faq) => (
+                  {faqListe.map((faq) => (
                     <details
                       key={faq.question}
                       className="group rounded-card border border-ink-200 bg-paper-raised"

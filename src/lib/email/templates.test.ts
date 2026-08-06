@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  bestellbestaetigungEmail,
   nachfassEmail,
   sendungsmeldungEmail,
   widerrufBestaetigungEmail,
@@ -8,13 +9,120 @@ import {
 } from "./templates";
 
 /**
- * The two follow-up mails.
+ * The three mails of the paid dispatch.
  *
- * The order confirmation is guarded by scripts/check-bestellbestaetigung.ts,
- * which asserts what § 312f BGB obliges it to carry. These two owe nothing
- * statutory — what they owe is that they do not claim more than the eBrief
- * interface actually delivers, and that is what is asserted here.
+ * What § 312f BGB obliges the order confirmation to carry is guarded by
+ * scripts/check-bestellbestaetigung.ts; what is asserted here is the one thing
+ * about it that has two correct answers — the VAT statement, which follows
+ * STEUERMODUS and must be right in either mode. The two follow-up mails owe
+ * nothing statutory: what they owe is that they do not claim more than the
+ * eBrief interface actually delivers.
  */
+
+/** A payment late on a German summer evening — 21:58 CEST is 19:58 UTC. */
+const BESTELLUNG = {
+  produktId: "einwurfEinschreiben",
+  betragCent: 699,
+  referenz: "40123",
+  bestelltAm: new Date("2026-07-31T19:58:00Z"),
+};
+
+/** Renders the confirmation with STEUERMODUS set, then restores the env. */
+function mailImModus(modus: string | undefined) {
+  const vorher = process.env.STEUERMODUS;
+  if (modus === undefined) delete process.env.STEUERMODUS;
+  else process.env.STEUERMODUS = modus;
+  try {
+    return bestellbestaetigungEmail(BESTELLUNG);
+  } finally {
+    if (vorher === undefined) delete process.env.STEUERMODUS;
+    else process.env.STEUERMODUS = vorher;
+  }
+}
+
+/**
+ * The confirmation in `modus`, as labelled parts.
+ *
+ * Both of them, always — a confirmation whose text/plain alternative is
+ * missing the invoice is what a strict mail client shows the customer. The
+ * label rides along so a failure names the part it came from.
+ */
+function bestaetigungTeile(modus: string): [string, string][] {
+  const mail = mailImModus(modus);
+  return [
+    ["HTML-Teil", mail.html],
+    ["Text-Teil", mail.text],
+  ];
+}
+
+describe("bestellbestaetigungEmail im Kleinunternehmermodus", () => {
+  it("nennt die Steuerbefreiung ausdrücklich", () => {
+    // § 34a Satz 1 Nr. 5 UStDV, nach dem BMF-Schreiben vom 18.3.2025 auch auf
+    // Kleinbetragsrechnungen.
+    for (const [teil, inhalt] of bestaetigungTeile("kleinunternehmer")) {
+      assert.match(
+        inhalt,
+        /Gemäß § 19 UStG wird keine Umsatzsteuer berechnet und daher nicht ausgewiesen\./,
+        teil,
+      );
+    }
+  });
+
+  it("weist keinen Steuerbetrag aus", () => {
+    // Ein ausgewiesener Betrag wäre nach § 14c Abs. 1 UStG geschuldet, auch
+    // wenn er nie vereinnahmt wurde.
+    for (const [teil, inhalt] of bestaetigungTeile("kleinunternehmer")) {
+      assert.doesNotMatch(inhalt, /19 %|MwSt|zzgl\.|Nettobetrag/i, teil);
+    }
+  });
+
+  it("zeigt den gezahlten Betrag als Gesamtpreis", () => {
+    for (const [teil, inhalt] of bestaetigungTeile("kleinunternehmer")) {
+      assert.match(inhalt, /Gesamtpreis/, teil);
+      assert.match(inhalt, /6,99/, teil);
+    }
+  });
+
+  it("bleibt der Modus ohne gesetzte Variable", () => {
+    // Der Live-Betrieb hängt daran: ohne STEUERMODUS keine Steueraussage.
+    assert.equal(mailImModus(undefined).text, mailImModus("kleinunternehmer").text);
+  });
+});
+
+describe("bestellbestaetigungEmail im Regelmodus", () => {
+  it("weist Steuersatz und Steuerbetrag aus", () => {
+    // § 14 Abs. 4 Nr. 8 UStG: der anzuwendende Steuersatz und der auf das
+    // Entgelt entfallende Steuerbetrag. 6,99 € brutto = 5,87 € + 1,12 €.
+    for (const [teil, inhalt] of bestaetigungTeile("regel")) {
+      assert.match(inhalt, /Umsatzsteuer 19 %/, teil);
+      assert.match(inhalt, /1,12/, teil);
+    }
+  });
+
+  it("nennt das Entgelt, auf das sich die Steuer bezieht", () => {
+    for (const [teil, inhalt] of bestaetigungTeile("regel")) {
+      assert.match(inhalt, /Nettobetrag/, teil);
+      assert.match(inhalt, /5,87/, teil);
+    }
+  });
+
+  it("beruft sich nicht mehr auf § 19 UStG", () => {
+    // Die Aussage wäre falsch, sobald Stripe die Steuer tatsächlich einzieht.
+    for (const [teil, inhalt] of bestaetigungTeile("regel")) {
+      assert.doesNotMatch(inhalt, /§ 19 UStG/, teil);
+      assert.match(inhalt, /Im Gesamtpreis sind 19 % Umsatzsteuer enthalten\./, teil);
+    }
+  });
+
+  it("lässt den gezahlten Gesamtpreis unverändert", () => {
+    // tax_behavior ist "inclusive": der Katalogpreis bleibt der Endpreis, die
+    // Steuer steckt darin. Der Kunde zahlt in beiden Modi dasselbe.
+    for (const [teil, inhalt] of bestaetigungTeile("regel")) {
+      assert.match(inhalt, /Gesamtpreis/, teil);
+      assert.match(inhalt, /6,99/, teil);
+    }
+  });
+});
 
 const STAND = {
   shipmentNumber: "0100819941060737",

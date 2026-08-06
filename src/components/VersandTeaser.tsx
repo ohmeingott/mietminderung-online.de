@@ -33,7 +33,7 @@ const euro = (cent: number) =>
   (cent / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
 export default function VersandTeaser() {
-  const { t, locale, dir } = useTranslation();
+  const { t, locale, dir, steuerhinweis } = useTranslation();
   const home = localeHref(locale, "/");
 
   const optionen = [
@@ -114,7 +114,7 @@ export default function VersandTeaser() {
               </li>
             ))}
             <li className="text-xs leading-relaxed text-ink-400">
-              {t("dispatch.taxNote")}
+              {steuerhinweis}
             </li>
           </ul>
         </div>

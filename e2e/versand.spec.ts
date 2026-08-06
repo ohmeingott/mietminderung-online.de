@@ -1,6 +1,8 @@
 import { test, expect, type Locator, type Page } from "@playwright/test";
 import {
   completeCheck,
+  erwarteterSteuerhinweis,
+  istKleinunternehmer,
   LANDLORD,
   openLetterWizard,
   reachPreview,
@@ -97,13 +99,15 @@ test.describe("Postversand (eBrief)", () => {
       normalisiert(preis(PRODUKTE.einwurfEinschreiben.preisCent))
     );
 
-    // § 19 UStG: the operator is a small business and may not state VAT. An
+    // The tax note, in whichever mode the server runs. Under § 19 UStG an
     // "inkl. 19 % MwSt." slipped in here would be a tax statement owed under
-    // § 14c UStG, so the absence is asserted rather than assumed.
+    // § 14c UStG, so its absence is asserted rather than assumed.
     const karte = normalisiert(await page.getByTestId("dispatch-card").innerText());
-    expect(karte).toContain("Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.");
-    expect(karte.toLowerCase()).not.toContain("mwst");
-    expect(karte).not.toMatch(/19\s*%/);
+    expect(karte).toContain(normalisiert(erwarteterSteuerhinweis()));
+    if (istKleinunternehmer()) {
+      expect(karte.toLowerCase()).not.toContain("mwst");
+      expect(karte).not.toMatch(/19\s*%/);
+    }
   });
 
   test("sells the tracked option as an Einwurf-Einschreiben, not as an Einschreiben", async ({
@@ -397,10 +401,8 @@ test.describe("Postversand (eBrief)", () => {
     await expect(karte).toBeVisible();
     await expect(karte).toContainText("Doğrudan ev sahibine gönderin");
     await expect(karte).toContainText("Gönderim türünü seçin");
-    // The § 19 note must survive translation — it is what replaces a VAT line.
-    await expect(karte).toContainText(
-      "§ 19 UStG uyarınca katma değer vergisi hesaplanmaz."
-    );
+    // The tax note must survive translation — it is the price statement.
+    await expect(karte).toContainText(erwarteterSteuerhinweis("tr"));
     // The German product name is kept on purpose; the explanation is not.
     await expect(karte).toContainText("Übergabe-Einschreiben değildir");
     await expect(page.getByTestId("dispatch-submit")).toContainText(

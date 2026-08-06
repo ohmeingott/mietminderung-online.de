@@ -187,7 +187,7 @@ export default function VersandKarte({
   onEmailChange,
   onAdresseKorrigieren,
 }: VersandKarteProps) {
-  const { t } = useTranslation();
+  const { t, steuerhinweis } = useTranslation();
   const [produktId, setProduktId] = useState<ProduktId>("brief");
   const [phase, setPhase] = useState<Phase>("auswahl");
   const [fehlerSlug, setFehlerSlug] = useState<string | null>(null);
@@ -503,12 +503,14 @@ export default function VersandKarte({
         {t("dispatch.einschreibenHint")}
       </p>
       {/*
-        § 19 UStG: the operator is a small business and may not state VAT. This
-        line is the statement that replaces it and must never become an "inkl.
-        MwSt." — an unwarranted tax statement is owed under § 14c UStG.
+        The last price statement before the pay button, and the only translated
+        one. It follows STEUERMODUS: as a small business no VAT may be stated —
+        an unwarranted one is owed under § 14c UStG — and under standard
+        taxation the price has to name the tax it contains (§§ 5, 5a UWG).
+        Never write either sentence in here; it belongs in the translations.
       */}
       <p className="mt-1 text-xs leading-relaxed text-ink-500">
-        {t("dispatch.taxNote")}
+        {steuerhinweis}
       </p>
 
       {offeneHinweise.length > 0 && (
