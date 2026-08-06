@@ -76,13 +76,24 @@ test.describe("Localized guides", () => {
     expect(de["x-default"]).toBe(`${ORIGIN}${DEUTSCH}`);
   });
 
-  test("an untranslated guide claims no translations", async ({ page }) => {
-    await page.goto("/ratgeber/mietminderung-berechnen");
+  test("every URL the cluster names actually resolves", async ({ page }) => {
+    // The property that has to hold no matter how far the translation has
+    // come: a cluster may only name languages that really have the guide. A
+    // single 404 in here and Google discards the whole cluster, which is the
+    // silent way this feature stops working.
+    await page.goto(DEUTSCH);
     const langs = alternates(await page.content());
 
-    // Only German and x-default. Naming /tr/... here would point the cluster
-    // at a URL that 404s.
-    expect(Object.keys(langs).sort()).toEqual(["de", "x-default"]);
+    expect(Object.keys(langs)).toContain("de");
+    expect(Object.keys(langs)).toContain("x-default");
+
+    for (const [lang, href] of Object.entries(langs)) {
+      // The cluster carries absolute production URLs; the test server is
+      // local, so only the path is fetched.
+      expect(href.startsWith(ORIGIN), `${lang} → ${href}`).toBe(true);
+      const seite = await page.request.get(href.slice(ORIGIN.length) || "/");
+      expect(seite.status(), `${lang} → ${href}`).toBe(200);
+    }
   });
 
   test("the German slug under a locale prefix stays a 404", async ({
@@ -95,20 +106,34 @@ test.describe("Localized guides", () => {
     expect(unuebersetzt?.status()).toBe(404);
   });
 
-  test("the localized hub lists only the guides that language has", async ({
+  test("the localized hub lists exactly the guides that language has", async ({
     page,
   }) => {
+    // Turkish is fully translated, so its hub carries the same eight guides as
+    // the German one. The assertion is deliberately relative rather than a
+    // hard-coded eight: it stays true as the other languages fill in, and it
+    // still fails if the hub ever lists a guide the language does not have.
+    await page.goto("/ratgeber");
+    const deutsch = await page
+      .locator('main article a[href^="/ratgeber/"]')
+      .count();
+
     const response = await page.goto("/tr/rehber");
     expect(response?.status()).toBe(200);
 
     // Scoped to the article grid: the footer lists the same guides, so an
     // unscoped locator counts every entry twice.
     const links = page.locator('main article a[href^="/tr/rehber/"]');
-    await expect(links).toHaveCount(1);
-    await expect(links.first()).toHaveAttribute("href", TUERKISCH);
+    await expect(links).toHaveCount(deutsch);
+    await expect(links.filter({ hasText: /.+/ }).first()).toBeVisible();
 
-    // The footer offers the translated guide too, and nothing it does not have.
-    const imFooter = page.locator('footer a[href^="/tr/rehber/"]');
-    await expect(imFooter).toHaveCount(1);
+    // Every card links to a page that exists, not to a German slug.
+    for (const href of await links.evaluateAll((as) =>
+      as.map((a) => a.getAttribute("href") ?? ""),
+    )) {
+      expect(href.startsWith("/tr/rehber/")).toBe(true);
+      const seite = await page.request.get(href);
+      expect(seite.status()).toBe(200);
+    }
   });
 });
