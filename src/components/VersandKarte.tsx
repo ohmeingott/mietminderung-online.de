@@ -656,9 +656,7 @@ export default function VersandKarte({
           away below.
         */}
         {locale !== "de" && (
-          <p lang="de" className="text-xs text-ink-500">
-            {t("dispatch.consentBinding")}
-          </p>
+          <p className="text-xs text-ink-500">{t("dispatch.consentBinding")}</p>
         )}
         <p className="text-xs text-ink-500">
           <a
