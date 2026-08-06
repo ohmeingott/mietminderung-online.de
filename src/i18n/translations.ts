@@ -310,10 +310,12 @@ export const translations: Record<Locale, Record<string, string>> = {
     "letter.basedOn":
       "Basiert auf Ihrer Prüfung: ca. {quote} % Minderung bei {rent} € Bruttowarmmiete.",
 
-    // Letter — dispatch by post (eBrief). The tax note replaces a VAT
-    // statement and must stay a "no VAT is charged" sentence: the operator is
-    // a small business under § 19 UStG, and an unwarranted tax statement would
-    // be owed under § 14c UStG.
+    // Letter — dispatch by post (eBrief). Which of the two tax notes is shown
+    // follows STEUERMODUS; the components never choose between them, see
+    // src/i18n/steuerhinweis.ts. As a small business the exemption has to be
+    // named expressly and an unwarranted tax statement would be owed under
+    // § 14c UStG, so `taxNote` must stay a "no VAT is charged" sentence and
+    // `taxNoteRegel` must stay one that names the rate.
     "dispatch.title": "Direkt an den Vermieter senden",
     "dispatch.subtitle":
       "Wir drucken Ihre Mängelanzeige und geben sie zur Post — Sie brauchen weder Drucker noch Briefmarke.",
@@ -323,6 +325,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.einschreibenHint":
       "Die Post erfasst den Einwurf in den Briefkasten. Sobald die Zustellung gemeldet ist, schicken wir Ihnen Sendungsnummer und Verfolgungslink per E-Mail. Es ist kein Übergabe-Einschreiben mit Unterschrift des Empfängers — einen sicheren Zugangsnachweis kann kein Postprodukt erbringen.",
     "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
+    "dispatch.taxNoteRegel":
+      "Die Preise sind Endpreise einschließlich 19 % Umsatzsteuer.",
     "dispatch.send": "Kostenpflichtig versenden",
     // § 356 Abs. 4 BGB. The letter is printed and posted long before the
     // 14-day withdrawal period ends, so the order needs both halves of the
@@ -689,12 +693,12 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Letter — delivery
     "letter.basedOn":
       "Based on your check: approx. {quote}% reduction at {rent} € gross warm rent.",
-    // Letter — dispatch by post (eBrief). The tax note replaces a VAT
-    // statement and must stay a "no VAT is charged" sentence: the operator is
-    // a small business under § 19 UStG, and an unwarranted tax statement would
-    // be owed under § 14c UStG. The German legal and postal terms are kept
-    // untranslated because the tenant meets those exact words on the German
-    // postal receipt and in German law.
+    // Letter — dispatch by post (eBrief). Which of the two tax notes is shown
+    // follows STEUERMODUS; see the note in the German block. The German legal
+    // and postal terms are kept untranslated because the tenant meets those
+    // exact words on the German postal receipt and in German law — including
+    // the § 19 sentence itself, which cites a statute verbatim. `taxNoteRegel`
+    // cites nothing and is therefore written in English.
     "dispatch.title": "Send it straight to your landlord",
     "dispatch.subtitle":
       "We print your defect notice and post it — you need neither a printer nor a stamp.",
@@ -704,6 +708,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.einschreibenHint":
       "The postal service records the delivery into the letterbox. As soon as it is reported, we email you the shipment number and the tracking link. It is not an Übergabe-Einschreiben signed for by the recipient — and no postal product can provide conclusive proof of receipt.",
     "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
+    "dispatch.taxNoteRegel":
+      "All prices are final prices including 19 % German VAT (Umsatzsteuer).",
     "dispatch.send": "Send (chargeable)",
     "dispatch.consent":
       "I expressly request that you begin sending immediately. I understand that I lose my right of withdrawal as soon as the letter has been printed and handed over for delivery.",
@@ -1037,6 +1043,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Posta, mektubun posta kutusuna atılmasını kaydeder. Teslimat bildirilir bildirilmez gönderi numarasını ve takip bağlantısını size e-posta ile iletiriz. Bu, alıcının imzasını gerektiren bir Übergabe-Einschreiben değildir — ve hiçbir posta ürünü kesin bir tebliğ kanıtı sağlayamaz.",
     "dispatch.taxNote":
       "§ 19 UStG uyarınca katma değer vergisi hesaplanmaz.",
+    "dispatch.taxNoteRegel":
+      "Tüm fiyatlar, %19 katma değer vergisi dahil nihai fiyatlardır.",
     "dispatch.send": "Ücretli olarak gönder",
     "dispatch.consent":
       "Gönderime hemen başlamanızı açıkça talep ediyorum. Mektup basılıp teslimata verildiğinde cayma hakkımı kaybedeceğimi biliyorum.",
@@ -1368,6 +1376,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Пошта фіксує вкидання листа до поштової скриньки. Щойно надійде повідомлення про доставку, ми надішлемо вам номер відправлення та посилання для відстеження електронною поштою. Це не Übergabe-Einschreiben із підписом отримувача — і жоден поштовий продукт не може дати беззаперечного підтвердження отримання.",
     "dispatch.taxNote":
       "Згідно з § 19 UStG податок на додану вартість не нараховується.",
+    "dispatch.taxNoteRegel":
+      "Усі ціни є кінцевими та включають 19 % податку на додану вартість.",
     "dispatch.send": "Надіслати платно",
     "dispatch.consent":
       "Я прямо вимагаю, щоб ви негайно розпочали відправлення. Мені відомо, що я втрачаю право на відмову, щойно лист буде надруковано та передано для доставки.",
@@ -1698,6 +1708,8 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Почта фиксирует опускание письма в почтовый ящик. Как только поступит сообщение о доставке, мы пришлём вам номер отправления и ссылку для отслеживания по электронной почте. Это не Übergabe-Einschreiben с подписью получателя — и ни один почтовый продукт не может дать бесспорного подтверждения получения.",
     "dispatch.taxNote":
       "Согласно § 19 UStG налог на добавленную стоимость не начисляется.",
+    "dispatch.taxNoteRegel":
+      "Все цены являются окончательными и включают 19 % налога на добавленную стоимость.",
     "dispatch.send": "Отправить платно",
     "dispatch.consent":
       "Я прямо требую, чтобы вы немедленно приступили к отправке. Мне известно, что я теряю право на отказ, как только письмо будет напечатано и передано для доставки.",
@@ -2027,6 +2039,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.einschreibenHint":
       "تُسجِّل شركة البريد إيداع الخطاب في صندوق البريد. وبمجرد الإبلاغ عن التسليم نرسل إليك رقم الإرسالية ورابط التتبّع عبر البريد الإلكتروني. وهو ليس Übergabe-Einschreiben الذي يوقّع عليه المستلم — ولا يمكن لأي منتج بريدي أن يقدّم إثباتاً قاطعاً للاستلام.",
     "dispatch.taxNote": "وفقاً لـ § 19 UStG لا تُحتسب ضريبة القيمة المضافة.",
+    "dispatch.taxNoteRegel":
+      "جميع الأسعار نهائية وتشمل ضريبة القيمة المضافة بنسبة 19 %.",
     "dispatch.send": "إرسال مقابل رسوم",
     "dispatch.consent":
       "أطلب صراحةً أن تبدؤوا الإرسال فوراً. وأعلم أنني أفقد حقي في الانسحاب بمجرد طباعة الخطاب وتسليمه للتوزيع.",
@@ -2354,6 +2368,8 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.einschreibenHint":
       "Poczta rejestruje wrzucenie listu do skrzynki pocztowej. Gdy tylko doręczenie zostanie zgłoszone, prześlemy Ci e-mailem numer przesyłki i link do śledzenia. Nie jest to Übergabe-Einschreiben z podpisem odbiorcy — i żaden produkt pocztowy nie zapewni pewnego dowodu doręczenia.",
     "dispatch.taxNote": "Zgodnie z § 19 UStG podatek VAT nie jest naliczany.",
+    "dispatch.taxNoteRegel":
+      "Wszystkie ceny są cenami końcowymi i zawierają 19 % podatku VAT.",
     "dispatch.send": "Wyślij odpłatnie",
     "dispatch.consent":
       "Wyraźnie żądam, aby rozpoczęli Państwo wysyłkę natychmiast. Wiem, że tracę prawo odstąpienia od umowy z chwilą wydrukowania listu i przekazania go do doręczenia.",

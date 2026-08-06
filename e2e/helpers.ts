@@ -1,6 +1,9 @@
 import { expect, type Page, type Route } from "@playwright/test";
 import { PRODUKTE, istProduktId } from "../src/lib/ebrief/produkte";
 import { STORAGE_KEY as FLOW_STORAGE_KEY } from "../src/components/wizard/flowState";
+import { translations, type Locale } from "../src/i18n/translations";
+import { steuerhinweisSchluessel } from "../src/i18n/steuerhinweis";
+import { steuermodus } from "../src/lib/steuer";
 
 /**
  * Makes every navigation in this test start the wizard from its first question.
@@ -482,4 +485,23 @@ export async function expectNoHorizontalOverflow(page: Page) {
     scrollWidth,
     `page scrolls horizontally: ${scrollWidth}px content in ${clientWidth}px viewport`
   ).toBeLessThanOrEqual(clientWidth + 1);
+}
+
+/**
+ * The VAT sentence the page has to show, for the mode the server was started
+ * in and in the language under test.
+ *
+ * Read from the same translations the app renders rather than written out: the
+ * sentence exists in seven languages and in two tax modes, and a test that
+ * pinned one of the fourteen would fail for the wrong reason the moment
+ * STEUERMODUS changes. What the tests assert is that the sentence is *there* —
+ * whether it says the right thing is settled in src/i18n/steuerhinweis.test.ts.
+ */
+export function erwarteterSteuerhinweis(locale: Locale = "de"): string {
+  return translations[locale][steuerhinweisSchluessel(steuermodus())];
+}
+
+/** True while the site sells under § 19 UStG — no VAT may appear anywhere. */
+export function istKleinunternehmer(): boolean {
+  return steuermodus() === "kleinunternehmer";
 }
