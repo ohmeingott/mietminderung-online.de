@@ -10,7 +10,8 @@
 
 **Dieses Dokument steht für sich.** Sämtliche Texte, um die es geht, sind im
 Anhang vollständig abgedruckt, einschließlich der Bestätigungs-E-Mail nach
-§ 356a Abs. 4 BGB in der Fassung, die der Verbraucher erhält. Ein Blick in das
+§ 356a Abs. 4 BGB in der Fassung, die der Verbraucher erhält, und seit dieser
+Fassung auch der Wortlaut der Vorschriften selbst (Anhang A.0). Ein Blick in das
 Repository ist zur Beantwortung der Fragen nicht erforderlich; die Fundstellen
 in Abschnitt A.10 dienen nur der Nachvollziehbarkeit.
 
@@ -26,9 +27,12 @@ Prüfung Teil der Änderung ist und nicht ihr Nachtrag.
 
 **Wo wir schon recherchiert haben,** sagen wir es und nennen die Quelle, damit
 keine Arbeit doppelt gemacht wird. Diese Vorarbeit ersetzt die eigene Prüfung
-ausdrücklich nicht — sie soll sie nur abkürzen. Insbesondere ist der
-Gesetzeswortlaut in der seit dem 19.6.2026 geltenden Fassung von uns **nicht**
-gegen eine autoritative Quelle verifiziert worden (siehe Abschnitt 7).
+ausdrücklich nicht — sie soll sie nur abkürzen. Der **Wortlaut** der
+einschlägigen Vorschriften ist inzwischen abgeglichen: § 356a BGB und § 356
+Abs. 5 BGB in der seit dem 19.6.2026 geltenden Fassung wurden am 6. August 2026
+bei gesetze-im-internet.de abgerufen und stehen in **Anhang A.0**. Ungeprüft ist
+damit nicht mehr der Gesetzestext, sondern die rechtliche **Bewertung** — und
+die ist der Gegenstand dieses Dokuments (siehe Abschnitt 7).
 
 ---
 
@@ -83,6 +87,15 @@ Nutzers oder beim Druckdienstleister. Das ist für Abschnitt 3 erheblich.
 Bis zum 18.6.2026 stand im Code eine einzige kombinierte Zustimmung, und alle
 Texte zitierten § 356 Abs. 4 BGB. Das ist ersetzt worden.
 
+**Die alte Fundstelle war nicht nur veraltet — sie zeigte auf etwas anderes.**
+§ 356 Abs. 4 BGB in der geltenden Fassung regelt die Höchstfrist: „Das
+Widerrufsrecht erlischt spätestens zwölf Monate und 14 Tage nach dem in
+Absatz 2 oder § 355 Absatz 2 Satz 2 genannten Zeitpunkt“ (Anhang A.0). Mit dem
+vorzeitigen Erlöschen bei vollständig erbrachter Dienstleistung hat sie nichts
+zu tun. Wer sich für dieses Erlöschen auf Abs. 4 berief, berief sich auf eine
+Vorschrift, die diese Rechtsfolge nicht trägt. Für Frage 5.2 — die Verkäufe seit
+dem 19.6.2026 — ist das erheblich.
+
 ### Wie es jetzt aussieht
 
 Unmittelbar über dem Bestellbutton stehen **zwei getrennte Kästchen**, jedes mit
@@ -131,12 +144,40 @@ Dazu:
   gebaut, damit nicht eines optisch zur eigentlichen Erklärung und das andere
   zum Kleingedruckten wird.
 
+### Was der abgeglichene Wortlaut hergibt
+
+Der Text der Vorschrift steht in Anhang A.0. Drei Beobachtungen daraus, die wir
+mitgeprüft haben möchten:
+
+- **Es sind tatsächlich zwei Erklärungen.** lit. a (ausdrückliche Zustimmung zum
+  Beginn vor Ablauf der Frist) und lit. c (Bestätigung der Kenntnis vom
+  Erlöschen) stehen als getrennte Voraussetzungen nebeneinander. Die Umstellung
+  auf zwei Kästchen ist damit nicht bloß die vorsichtige Lesart, sondern das,
+  was der Wortlaut verlangt.
+- **lit. b greift hier nach unserem Verständnis nicht.** Er verlangt die
+  Übermittlung der Zustimmung nach lit. a auf einem dauerhaften Datenträger nur
+  „bei einem außerhalb von Geschäftsräumen geschlossenen Vertrag“. Dieser
+  Vertrag wird über die Online-Benutzeroberfläche geschlossen, ist also ein
+  Fernabsatz- und kein Außergeschäftsraumvertrag. Wir haben den Punkt geprüft
+  und nicht übersehen — bitte bestätigen Sie ihn oder widersprechen Sie.
+  Unabhängig davon geht die Bestellbestätigung mit beiden Erklärungen ohnehin
+  auf dauerhaftem Datenträger hinaus (Anhang A.5).
+- **„Verlangen“ statt „Zustimmen“ — eine Formulierungsfrage.** lit. a spricht
+  davon, dass der Verbraucher „ausdrücklich zugestimmt hat“; unsere Erklärung
+  lautet „Ich verlange ausdrücklich, dass Sie … beginnen“. „Verlangen“ ist das
+  Stärkere und deckt das Zustimmen dem Wortsinn nach ab, und der amtliche
+  Mustertext zum Wertersatz (Anhang A.4) spricht seinerseits davon, dass der
+  Verbraucher „verlangt“ hat. Wir behaupten aber nicht, dass das genügt — es ist
+  Teil von Frage 2.1.
+
 ### Frage 2.1
 
 **Genügen die beiden Erklärungen in dieser Fassung den Anforderungen des § 356
 Abs. 5 Nr. 2 lit. a und lit. c BGB?** Insbesondere: Ist das Verlangen nach lit. a
-hinreichend „ausdrücklich“, und ist die Kenntnisbestätigung nach lit. c so
-gefasst, dass das Erlöschen tatsächlich eintritt?
+hinreichend „ausdrücklich“, deckt „verlangen“ das „zugestimmt hat“ des
+Gesetzeswortlauts ab, und ist die Kenntnisbestätigung nach lit. c so gefasst,
+dass das Erlöschen tatsächlich eintritt? Und trifft unsere Einschätzung zu, dass
+lit. b hier nicht anzuwenden ist?
 
 ### Frage 2.2
 
@@ -265,14 +306,20 @@ funktioniert dann nicht.
 
 ### Beschriftungen
 
-Beide gesetzlich vorgegebenen Beschriftungen werden **wörtlich und unverändert**
-verwendet:
+Beide Schaltflächen tragen die im Gesetz genannten Beschriftungen **wörtlich und
+unverändert**:
 
 - die Schaltfläche, die das Formular öffnet: **„Vertrag widerrufen“**
 - die Schaltfläche, die das Formular abschließt: **„Widerruf bestätigen“**
 
-Sie werden nicht umformuliert, weder aus stilistischen Gründen noch für andere
-Sprachfassungen — die Seite ist durchgängig deutsch.
+**Zwingend sind diese Worte allerdings nicht.** § 356a Abs. 1 und Abs. 3 lassen
+jeweils „eine andere gleichbedeutende eindeutige Formulierung“ zu (Anhang A.0).
+Wir bleiben trotzdem beim gesetzlichen Wortlaut: Er braucht kein Argument, jede
+andere Fassung lädt eines ein. Umformuliert wird er nicht, weder aus
+stilistischen Gründen noch für andere Sprachfassungen — die Seite ist
+durchgängig deutsch. Die Kommentare im Code sagen das seit dieser Änderung
+ebenso; sie behaupteten vorher, die Beschriftungen seien wörtlich
+vorgeschrieben.
 
 ### Das Formular
 
@@ -335,13 +382,14 @@ folgt.
 
 ### Frage 4.1
 
-**Genügt die Platzierung dem „ständig verfügbar“ und „hervorgehoben und gut
-lesbar“ des § 356a Abs. 1 BGB?** Konkret: Reicht es, dass jede Seite im
-Fußbereich auf `/widerruf` verlinkt und die Schaltfläche dort das erste Element
-ist — oder verlangt die Vorschrift die Schaltfläche selbst auf jeder Seite statt
-eines Links zu ihr? Falls Letzteres, bitten wir um einen Hinweis, ob eine
-dauerhaft eingeblendete Schaltfläche im Fußbereich gemeint ist oder etwas
-anderes.
+**Genügt die Platzierung dem § 356a Abs. 1 BGB?** Die Vorschrift verlangt, dass
+die Widerrufsfunktion während der Widerrufsfrist ständig verfügbar, an
+hervorgehobener Stelle und leicht zugänglich ist (Anhang A.0). Konkret: Reicht
+es, dass jede Seite im Fußbereich auf `/widerruf` verlinkt und die Schaltfläche
+dort das erste Element ist — oder verlangt die Vorschrift die Schaltfläche
+selbst auf jeder Seite statt eines Links zu ihr? Falls Letzteres, bitten wir um
+einen Hinweis, ob eine dauerhaft eingeblendete Schaltfläche im Fußbereich
+gemeint ist oder etwas anderes.
 
 ### Frage 4.2
 
@@ -365,7 +413,10 @@ den Betreiber, oder muss die Anwendung dem Nutzer den Fehlschlag anzeigen?
 ## 5. Offene Fragen
 
 Diese sechs Punkte sind uns bei der Umsetzung aufgefallen und im Code nicht
-entschieden worden. Sie wiegen so schwer wie die Abschnitte davor.
+entschieden worden. Sie wiegen so schwer wie die Abschnitte davor. Zwei von
+ihnen haben sich seit der ersten Fassung dieses Dokuments verengt — 5.3 durch
+den abgeglichenen Gesetzeswortlaut, 5.5 durch die Ermittlung des Anbieters —,
+erledigt ist keiner.
 
 ### 5.1 Preisaufspaltung nach EuGH C-641/19
 
@@ -396,6 +447,12 @@ zweier Erklärungen, durchgehend § 356 Abs. 4 BGB zitiert, kein Widerrufsbutton
 Diese Änderung wirkt nicht zurück — die Bestellbestätigungen sind verschickt, die
 Stripe-Metadaten tragen den alten Vermerk `widerrufZustimmung: "356-4-BGB"`.
 
+Der Abgleich mit dem Gesetzestext hat diesen Punkt verschärft statt entschärft:
+§ 356 Abs. 4 BGB regelt heute die Höchstfrist von zwölf Monaten und 14 Tagen
+(Abschnitt 2 und Anhang A.0). Die alten Texte haben also nicht bloß eine
+veraltete Nummer genannt, sondern eine Vorschrift, die das behauptete Erlöschen
+nicht anordnet.
+
 **Frage:** Was folgt daraus?
 
 - Ist bei diesen Verträgen das Widerrufsrecht nicht erloschen, sodass die
@@ -415,15 +472,24 @@ bestätigen“**; der Wartezustand wird durch einen Ladekreis und `aria-busy`
 angezeigt. Eine frühere Fassung tauschte die Beschriftung gegen „Einen Moment …“
 aus.
 
-Gewählt wurde die konservative Lesart: Wenn Abs. 3 diese Beschriftung vorschreibt,
-soll der Knopf sie tragen — auch auf einem Bildschirmfoto, das mitten in der
-Übermittlung entsteht. Ein automatischer Test hält das fest.
+Gewählt wurde die konservative Lesart: Der Knopf trägt die Beschriftung
+durchgehend — auch auf einem Bildschirmfoto, das mitten in der Übermittlung
+entsteht. Ein automatischer Test hält das fest.
 
-**Frage:** Ist das erforderlich, oder darf die Beschriftung während der
-Übermittlung durch einen Wartetext ersetzt werden? Die Antwort hat keine
-praktische Folge außer der, dass wir wissen, wie streng die Vorgabe zu lesen ist
-— sie beeinflusst aber, wie wir künftig mit den vorgeschriebenen Beschriftungen
-umgehen.
+**Der abgeglichene Wortlaut nimmt der Frage einen Teil ihrer Schärfe, ohne sie
+zu erledigen.** Abs. 3 verlangt die Beschriftung „Widerruf bestätigen“ *oder
+eine andere gleichbedeutende eindeutige Formulierung* (Anhang A.0) — die Worte
+selbst sind also nicht sakrosankt. „Einen Moment …“ ist aber keine
+gleichbedeutende Formulierung, sondern sagt etwas anderes: Ein Bildschirmfoto
+aus der Übermittlung zeigte dann eine gesetzlich vorgeschriebene Schaltfläche,
+die nicht sagt, was sie bestätigt. Die konservative Wahl steht damit auf
+festerem Grund als vorher.
+
+**Frage:** Übrig bleibt der schmale Rest — muss eine Schaltfläche, die während
+der Übermittlung gesperrt ist und einen Ladekreis zeigt, die Beschriftung
+überhaupt noch tragen? Die praktischen Folgen sind gering: Wir ändern nichts,
+gleich wie die Antwort ausfällt. Sie sagt uns nur, wie streng die Vorgabe zu
+lesen ist.
 
 ### 5.4 IP-Adresse zur Ratenbegrenzung, nicht in der Datenschutzerklärung
 
@@ -452,22 +518,30 @@ ergänzt werden, und wenn ja: mit welcher Rechtsgrundlage und welcher
 Speicherdauerangabe? Ein Formulierungsvorschlag wäre uns lieber als eine
 Feststellung.
 
-### 5.5 E-Mail-Provider des Betreiberpostfachs
+### 5.5 Google als Betreiber des Betreiberpostfachs
 
 Die Meldung über jeden eingehenden Widerruf geht — samt vollständiger Erklärung
 und Freitext-Anmerkung — an `info@animals-of-cologne.de`. Der Anbieter, der
-dieses Postfach betreibt, ist damit **Empfänger personenbezogener Daten**. Er ist
-im Verzeichnis der Verarbeitungstätigkeiten nicht benannt, und ob mit ihm ein
-Auftragsverarbeitungsvertrag nach Art. 28 DSGVO besteht oder bestehen muss, ist
-ungeklärt. Der Punkt ist in
-`docs/datenschutz/verarbeitungsverzeichnis.md` als offener Punkt vermerkt; die
-Datenschutzerklärung sagt an der Stelle, dass der Anbieter benannt wird, sobald
-die Frage geklärt ist.
+dieses Postfach betreibt, ist damit **Empfänger personenbezogener Daten**.
 
-**Frage:** Ist ein AVV erforderlich, oder ist der Provider eines gewöhnlichen
-Geschäftspostfachs unter den üblichen Bedingungen kein Auftragsverarbeiter?
-Genügt die vorläufige Formulierung in der Datenschutzerklärung bis zur Klärung,
-oder muss der Anbieter vor dem Livegang benannt sein?
+**Wer das ist, ist inzwischen geklärt.** Der MX-Eintrag von
+`animals-of-cologne.de` verweist auf `smtp.google.com`; das Postfach läuft über
+**Google Workspace**, Verantwortlicher in der EU ist die Google Ireland Limited.
+Google steht seit dieser Änderung in Nummer 9 des Verzeichnisses der
+Verarbeitungstätigkeiten (`docs/datenschutz/verarbeitungsverzeichnis.md`) unter
+Empfänger und Drittland, und ebenso in der öffentlichen Datenschutzerklärung —
+im Abschnitt zum Widerruf und in der Aufzählung der Empfänger. Der vorläufige
+Satz, der Anbieter werde benannt, sobald die Frage geklärt sei, ist damit
+entfallen.
+
+**Frage:** Offen ist nur noch, ob das Google Cloud Data Processing Addendum
+akzeptiert ist und ob es Workspace-Mail abdeckt — ob also ein
+Auftragsverarbeitungsvertrag nach Art. 28 DSGVO und eine tragfähige Grundlage
+für die Übermittlung in die USA vorliegen. Dieselbe Frage steht im Verzeichnis
+bereits für Gemini und Google Sheets offen; sie lässt sich in einem Zug
+beantworten. Der erste Teil ist eine Frage an den Betreiber, der zweite eine an
+Sie: Genügt das Addendum, wenn es akzeptiert ist, für diesen Zweck — oder
+braucht es für ein gewöhnliches Geschäftspostfach mehr?
 
 ### 5.6 Die sechs nichtdeutschen Übersetzungen der beiden Erklärungen
 
@@ -486,26 +560,39 @@ darüber den Hinweis: „Diese rechtlichen Informationen sind ausschließlich au
 Deutsch verfügbar, da nur die deutsche Fassung rechtsverbindlich ist.“ Die
 Übersetzungen der beiden Kästchen sind eine Lesehilfe.
 
-**Frage:** Trägt dieser Rahmen? Kann sich ein Verbraucher, der die Bestellung in
-türkischer Sprache abgeschlossen hat, wirksam auf die deutsche Fassung der
-Erklärung verpflichten lassen — oder muss die Erklärung, die er ankreuzt, in
-seiner Sprache verbindlich sein? Falls Letzteres, brauchen wir eine
-muttersprachliche Prüfung aller sechs Fassungen vor dem Livegang, und die
-Übersetzungen im Anhang wären der Ausgangspunkt.
+**Neu seit dieser Änderung: Der Hinweis steht auch unmittelbar neben den beiden
+Kästchen.** Ruft jemand die Bezahlkarte in einer anderen Sprache als Deutsch
+auf, steht unter den beiden Erklärungen ein Satz **in seiner Sprache**, dass die
+deutsche Fassung dieser beiden Erklärungen die verbindliche ist (englisch: „The
+German wording of these two declarations is the legally binding one.“, türkisch:
+„Bu iki beyanın bağlayıcı olan hâli Almanca metindir.“). In der deutschen
+Sprachfassung erscheint er nicht, weil es dort nichts zu unterscheiden gibt.
+Eine Playwright-Prüfung hält ihn für die türkische Fassung fest. Er steht
+bewusst an den Kästchen und nicht hinter dem Link auf die Widerrufsbelehrung:
+Wer hier ankreuzt, liest keinen Rechtstext, sondern gibt eine Erklärung ab.
+
+**Frage:** Trägt dieser Hinweis den Rahmen? Kann ein Verbraucher, der die
+Bestellung in türkischer Sprache abgeschlossen hat, durch das Ankreuzen einer
+türkischen Erklärung wirksam auf die deutsche Fassung verpflichtet werden, weil
+die Seite ihm das in seiner Sprache sagt — oder bindet eine Erklärung, die er in
+seiner Sprache abgibt, gerade in dieser Sprache, gleich was daneben steht? Falls
+Letzteres, brauchen wir eine muttersprachliche Prüfung aller sechs Fassungen vor
+dem Livegang, und die Übersetzungen im Anhang wären der Ausgangspunkt.
 
 ---
 
 ## 6. Was wir bereits recherchiert haben
 
 Damit keine Arbeit doppelt gemacht wird — mit dem ausdrücklichen Vorbehalt, dass
-nichts davon Ihre eigene Prüfung ersetzt:
+nichts davon Ihre eigene Prüfung ersetzt. Wo „Wortlaut abgeglichen“ steht, ist
+der Text der Vorschrift gemeint, nicht seine Anwendung auf diesen Fall:
 
-| Punkt | Was wir angenommen haben | Quelle unserer Annahme |
+| Punkt | Stand bei uns | Quelle |
 |---|---|---|
-| Seit dem 19.6.2026 ist die einschlägige Norm § 356 Abs. 5 Nr. 2 BGB, vorher § 356 Abs. 4 BGB | übernommen | Vorgabe des Auftraggebers; Schwesterprojekt `widerspruch-krankengeld.de` |
-| Die Norm verlangt zwei getrennte Erklärungen (lit. a und lit. c), eine kombinierte genügt nicht | übernommen | wie vor |
-| § 356a BGB verlangt seit dem 19.6.2026 eine Schaltfläche „Vertrag widerrufen“ und eine abschließende Schaltfläche „Widerruf bestätigen“ | übernommen, Beschriftungen wörtlich | wie vor |
-| § 356a Abs. 4 BGB verlangt in der Bestätigung den Inhalt der Erklärung sowie Datum und Uhrzeit des Eingangs | umgesetzt | wie vor |
+| Seit dem 19.6.2026 ist die einschlägige Norm § 356 Abs. 5 Nr. 2 BGB, vorher § 356 Abs. 4 BGB | Wortlaut abgeglichen. § 356 Abs. 4 BGB regelt heute die Höchstfrist von zwölf Monaten und 14 Tagen — die alte Fundstelle war nicht nur veraltet, sondern unpassend | gesetze-im-internet.de, abgerufen am 6.8.2026 (Anhang A.0) |
+| Die Norm verlangt zwei getrennte Erklärungen (lit. a und lit. c), eine kombinierte genügt nicht | Wortlaut abgeglichen, bestätigt: lit. a und lit. c stehen als getrennte Voraussetzungen nebeneinander. lit. b betrifft nur außerhalb von Geschäftsräumen geschlossene Verträge und greift hier nach unserer Einschätzung nicht (Frage 2.1) | wie vor |
+| § 356a BGB verlangt seit dem 19.6.2026 eine Schaltfläche „Vertrag widerrufen“ und eine abschließende Schaltfläche „Widerruf bestätigen“ | Wortlaut abgeglichen — mit einer Korrektur: Abs. 1 und Abs. 3 lassen „eine andere gleichbedeutende eindeutige Formulierung“ zu, die Beschriftungen sind also nicht zwingend. Wir verwenden sie freiwillig unverändert (Abschnitt 4) | wie vor |
+| § 356a Abs. 4 BGB verlangt in der Bestätigung den Inhalt der Erklärung sowie Datum und Uhrzeit des Eingangs | Wortlaut abgeglichen, umgesetzt | wie vor |
 | Fehlerhafte Belehrung → vollständiger Vergütungsverlust | Grund für dieses Dokument | EuGH C-97/22 |
 | Wertersatz zeitanteilig nach Gesamtpreis, sofern nichts anderes transparent vereinbart | als offene Frage 5.1 vermerkt, nicht umgesetzt | EuGH C-641/19 |
 | § 312g Abs. 2 Nr. 1 BGB (Kundenspezifikation) trägt hier nicht, weil er Waren betrifft | Ausnahme wird nicht in Anspruch genommen | eigene Einschätzung |
@@ -515,13 +602,20 @@ nichts davon Ihre eigene Prüfung ersetzt:
 
 ## 7. Was wir nicht geprüft haben
 
-**Der Gesetzesstand ist von uns nicht verifiziert worden.** Der Wortlaut des
-§ 356 Abs. 5 Nr. 2 BGB und des § 356a BGB in der seit dem 19.6.2026 geltenden
-Fassung wurde während der Umsetzung **nicht gegen eine autoritative Quelle
-abgeglichen**. Die Umsetzung folgt der Angabe des Auftraggebers und dem
-Schwesterprojekt `widerspruch-krankengeld.de`. Wenn eine der Annahmen aus
-Abschnitt 6 falsch ist, ist die Umsetzung an dieser Stelle falsch — auch dann,
-wenn sie in sich schlüssig aussieht. Das ist der erste Punkt, um den wir bitten.
+**Der Gesetzeswortlaut ist abgeglichen — die Bewertung nicht.** Der Text des
+§ 356a BGB und des § 356 Abs. 5 BGB in der seit dem 19.6.2026 geltenden Fassung
+wurde am **6. August 2026** bei **gesetze-im-internet.de** abgerufen; er steht
+in Anhang A.0, und Abschnitt 6 hält fest, was der Abgleich an unseren früheren
+Annahmen bestätigt und was er korrigiert hat. Ungeprüft ist damit nicht mehr,
+was die Vorschriften sagen, sondern **ob unsere Umsetzung ihnen genügt**: ob die
+beiden Erklärungen in ihrer Fassung tragen, ob die Platzierung der Schaltfläche
+reicht, ob die Bestätigung nach Inhalt und Form ausreicht. Das ist der
+Gegenstand der Fragen in den Abschnitten 2 bis 5.
+
+Nicht abgeglichen haben wir **Rechtsprechung und Literatur** zu den neuen
+Vorschriften. Die beiden in Abschnitt 6 genannten EuGH-Entscheidungen sind uns
+nur ihrem Ergebnis nach bekannt; die Einordnung der neuen Normen durch
+Kommentare oder Instanzgerichte kennen wir nicht.
 
 **Kein automatisierter Test deckt `POST /api/widerruf` selbst ab.** Das
 Repository hat überhaupt keine Tests für API-Routen — das ist kein Versäumnis
@@ -537,12 +631,14 @@ dieser Änderung, sondern der Stand des Projekts. Abgedeckt sind:
 - die Bestätigungs-E-Mail, durch Modultests
   (`src/lib/email/templates.test.ts`);
 - das Verhalten im Browser, durch Playwright (`e2e/widerruf.spec.ts`): dass die
-  Schaltfläche mit der vorgeschriebenen Beschriftung existiert, dass das
+  Schaltfläche mit der gesetzlichen Beschriftung existiert, dass das
   Formular sich öffnet und ohne E-Mail-Adresse nicht abgesendet werden kann, dass
   „Widerruf bestätigen“ die Erklärung überträgt und die Beschriftung auch während
   der Übermittlung stehen bleibt;
 - seit dieser Änderung auch die Erreichbarkeit von den redaktionellen Seiten aus
-  (`e2e/legal.spec.ts`).
+  (`e2e/legal.spec.ts`) und der Hinweis neben den beiden Kästchen, dass die
+  deutsche Fassung der Erklärungen die verbindliche ist, in einer nichtdeutschen
+  Sprachfassung (`e2e/versand.spec.ts`, Frage 5.6).
 
 Nicht getestet ist damit das Serververhalten: die Reihenfolge der beiden
 E-Mails, das Verhalten bei Zustellfehlern und die Ratenbegrenzung.
@@ -566,7 +662,73 @@ dieser Änderung heraus aufgefallen sind.
 
 # Anhang
 
-Alle Texte im Wortlaut, unmittelbar aus dem Code ausgelesen.
+A.0 gibt die Vorschriften wieder, an denen zu messen ist. A.1 bis A.9 sind die
+Texte des Dienstes im Wortlaut, unmittelbar aus dem Code ausgelesen; A.10 nennt
+nur die Fundstellen im Repository.
+
+## A.0 Der Gesetzeswortlaut
+
+Abgerufen am **6. August 2026** bei **gesetze-im-internet.de**. Wiedergegeben
+ist, worauf die Umsetzung sich stützt. Wo wir zusammenfassen statt zu zitieren,
+steht es dabei.
+
+### § 356a BGB — Elektronische Widerrufsfunktion bei Fernabsatzverträgen
+
+**Absatz 1**, Satz 1:
+
+```
+Bei Fernabsatzverträgen, die über eine Online-Benutzeroberfläche geschlossen werden, hat der Unternehmer sicherzustellen, dass der Verbraucher auf der Online-Benutzeroberfläche durch das Nutzen einer Widerrufsfunktion eine Widerrufserklärung abgeben kann.
+```
+
+**Absatz 1** zur Beschriftung:
+
+```
+Die Widerrufsfunktion muss gut lesbar mit „Vertrag widerrufen“ oder einer anderen gleichbedeutenden eindeutigen Formulierung beschriftet sein.
+```
+
+**Absatz 1** verlangt darüber hinaus — hier zusammengefasst, nicht im Wortlaut —,
+dass die Widerrufsfunktion während der Widerrufsfrist ständig verfügbar, an
+hervorgehobener Stelle und leicht zugänglich ist.
+
+**Absatz 2** (zusammengefasst): Die Widerrufsfunktion muss es dem Verbraucher
+ermöglichen, die Widerrufserklärung zu übermitteln und dabei anzugeben oder zu
+bestätigen: seinen Namen, Angaben zur Identifizierung des Vertrags sowie
+elektronische Kontaktdaten, unter denen ihm die Bestätigung des Eingangs
+übermittelt werden kann.
+
+**Absatz 3** zur Beschriftung der Bestätigungsfunktion:
+
+```
+Diese Bestätigungsfunktion muss gut lesbar und mit „Widerruf bestätigen“ oder einer anderen gleichbedeutenden eindeutigen Formulierung beschriftet sein.
+```
+
+**Absatz 4** (zusammengefasst): Betätigt der Verbraucher die
+Bestätigungsfunktion, hat der Unternehmer ihm unverzüglich auf einem dauerhaften
+Datenträger eine Bestätigung des Eingangs zu übermitteln, die den Inhalt der
+Widerrufserklärung sowie Datum und Uhrzeit des Eingangs enthält.
+
+**Absatz 5** (zusammengefasst): Der Widerruf gilt als rechtzeitig erklärt, wenn
+er vor Ablauf der Widerrufsfrist über die Widerrufsfunktion abgegeben wurde.
+
+### § 356 Abs. 5 BGB — Erlöschen bei vollständig erbrachter Dienstleistung
+
+Der hier maßgebliche Teil im Wortlaut:
+
+```
+Das Widerrufsrecht erlischt bei Verträgen über die Erbringung von Dienstleistungen auch unter folgenden Voraussetzungen: … 2. bei einem Vertrag, der den Verbraucher zur Zahlung eines Preises verpflichtet, mit der vollständigen Erbringung der Dienstleistung, wenn der Verbraucher vor Beginn der Erbringung a) ausdrücklich zugestimmt hat, dass der Unternehmer mit der Erbringung der Dienstleistung vor Ablauf der Widerrufsfrist beginnt, b) bei einem außerhalb von Geschäftsräumen geschlossenen Vertrag die Zustimmung nach Buchstabe a auf einem dauerhaften Datenträger übermittelt hat und c) seine Kenntnis davon bestätigt hat, dass sein Widerrufsrecht mit vollständiger Vertragserfüllung durch den Unternehmer erlischt
+```
+
+Die Auslassung („…“) steht für die Nummer 1, die wir hier nicht wiedergeben;
+einschlägig ist die Nummer 2.
+
+### § 356 Abs. 4 BGB — die Höchstfrist
+
+Im Wortlaut, weil die Texte des Dienstes bis zum 18.6.2026 diese Vorschrift für
+das Erlöschen zitiert haben (Abschnitt 2, Frage 5.2):
+
+```
+Das Widerrufsrecht erlischt spätestens zwölf Monate und 14 Tage nach dem in Absatz 2 oder § 355 Absatz 2 Satz 2 genannten Zeitpunkt
+```
 
 ## A.1 Vertragsbezeichnung
 
@@ -708,8 +870,9 @@ Bestätigung an den Verbraucher hinaus.
 
 ## A.9 Die beiden Erklärungen in den sechs weiteren Sprachfassungen
 
-Lesehilfe; verbindlich ist allein die deutsche Fassung aus A.3. Gegenstand von
-Frage 5.6.
+Lesehilfe; verbindlich ist allein die deutsche Fassung aus A.3. Seit dieser
+Änderung sagt die Bezahlkarte das in jeder nichtdeutschen Sprachfassung auch
+selbst, unmittelbar unter den beiden Kästchen. Gegenstand von Frage 5.6.
 
 **Englisch**
 
@@ -768,8 +931,8 @@ nicht benötigt.
 |---|---|
 | `src/lib/widerrufstext.ts` | sämtliche Widerrufstexte als einzige Quelle: die beiden Erklärungen, die Belehrung, der Erlöschenshinweis, das Muster-Widerrufsformular, die Widerrufserklärung und die Vertragsbezeichnung (Anhänge A.1 bis A.7) |
 | `src/lib/widerrufstext.test.ts` | die Anforderungen als ausführbare Prüfung; verhindert, dass eine Anforderung stillschweigend entfernt wird |
-| `src/components/VersandKarte.tsx` | die beiden Kästchen über dem Bestellbutton und die Sperre des Buttons |
-| `src/i18n/translations.ts` | beide Erklärungen in sieben Sprachen (Anhang A.9) |
+| `src/components/VersandKarte.tsx` | die beiden Kästchen über dem Bestellbutton, die Sperre des Buttons und der Verbindlichkeitshinweis in den nichtdeutschen Sprachfassungen (Frage 5.6) |
+| `src/i18n/translations.ts` | beide Erklärungen in sieben Sprachen (Anhang A.9) und der Verbindlichkeitshinweis (`dispatch.consentBinding`) |
 | `src/app/api/versand/checkout/route.ts` | serverseitige Prüfung beider Erklärungen und ihr Vermerk in den Stripe-Metadaten |
 | `src/app/widerruf/page.tsx` | die Seite `/widerruf`: Schaltfläche oben, Geltungsbereich, Belehrung, Erlöschen, Musterformular |
 | `src/components/Footer.tsx`, `src/components/content/ContentFooter.tsx` | die beiden Fußbereiche; beide verlinken `/widerruf` (Abschnitt 4) |
@@ -778,7 +941,8 @@ nicht benötigt.
 | `src/lib/email/templates.ts` | die beiden E-Mails (`widerrufMeldungEmail`, `widerrufBestaetigungEmail`) sowie die Bestellbestätigung mit Belehrung und Musterformular |
 | `src/lib/datum.ts` | der Eingangszeitpunkt in deutscher Ortszeit |
 | `src/app/datenschutz/page.tsx` | der Abschnitt zur Schaltfläche nach § 356a BGB |
-| `docs/datenschutz/verarbeitungsverzeichnis.md` | Nummer 9 des Verzeichnisses und der offene Punkt zum E-Mail-Provider (Frage 5.5) |
+| `docs/datenschutz/verarbeitungsverzeichnis.md` | Nummer 9 des Verzeichnisses mit Google als Betreiber des Postfachs und der verbliebene Punkt zum Cloud Data Processing Addendum (Frage 5.5) |
 | `e2e/widerruf.spec.ts` | Prüfung des Browserverhaltens rund um die Schaltfläche |
+| `e2e/versand.spec.ts` | Prüfung, dass der Verbindlichkeitshinweis in der türkischen Sprachfassung neben den Kästchen steht (Frage 5.6) |
 | `e2e/legal.spec.ts` | Prüfung, dass `/widerruf` aus dem Fußbereich der redaktionellen Seiten erreichbar ist |
 | `docs/plans/2026-08-06-widerruf-356a-design.md` | das Entwurfsdokument zu dieser Änderung, mit den Begründungen im Einzelnen |
