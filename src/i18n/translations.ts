@@ -324,17 +324,20 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Die Post erfasst den Einwurf in den Briefkasten. Sobald die Zustellung gemeldet ist, schicken wir Ihnen Sendungsnummer und Verfolgungslink per E-Mail. Es ist kein Übergabe-Einschreiben mit Unterschrift des Empfängers — einen sicheren Zugangsnachweis kann kein Postprodukt erbringen.",
     "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
     "dispatch.send": "Kostenpflichtig versenden",
-    // § 356 Abs. 4 BGB. The letter is printed and posted long before the
-    // 14-day withdrawal period ends, so the order needs both halves of the
-    // statutory declaration: the express request to start early, and the
-    // acknowledgement that the right expires once we are done. Without it the
-    // customer keeps a withdrawal right over a letter that is already in the
-    // landlord's mailbox — and we would owe the money back.
-    "dispatch.consent":
-      "Ich verlange ausdrücklich, dass Sie mit dem Versand sofort beginnen. Mir ist bekannt, dass mein Widerrufsrecht erlischt, sobald der Brief gedruckt und in die Zustellung gegeben ist.",
+    // § 356 Abs. 5 Nr. 2 BGB. The letter is printed and posted long before the
+    // 14-day withdrawal period ends, so the order needs both declarations —
+    // and they are two, not one: the express request to start early (lit. a)
+    // and, separately, the acknowledgement that the right expires once we are
+    // done (lit. c). Folding them into a single tick does not satisfy the
+    // provision. The German wording is the one in src/lib/widerrufstext.ts;
+    // these six translations are a reading aid, not the binding version.
+    "dispatch.consentStart":
+      "Ich verlange ausdrücklich, dass Sie mit dem Druck und dem Versand meiner Mängelanzeige vor Ablauf der Widerrufsfrist beginnen.",
+    "dispatch.consentExpiry":
+      "Mir ist bekannt, dass mein Widerrufsrecht erlischt, sobald Sie die Leistung vollständig erbracht haben — sobald der Brief also gedruckt und in die Zustellung gegeben ist. Diese Kenntnis bestätige ich hiermit.",
     "dispatch.consentLink": "Widerrufsbelehrung",
     "dispatch.error.zustimmung_fehlt":
-      "Bitte bestätigen Sie den sofortigen Versandbeginn — sonst dürfen wir den Brief vor Ablauf der Widerrufsfrist nicht verschicken.",
+      "Bitte bestätigen Sie beide Erklärungen — ohne sie dürfen wir den Brief vor Ablauf der Widerrufsfrist nicht drucken und versenden.",
     "dispatch.preparing": "Sendung wird vorbereitet...",
     "dispatch.checkingAddress": "Adresse wird geprüft...",
     "dispatch.redirecting": "Weiter zur Bezahlung...",
@@ -705,11 +708,13 @@ export const translations: Record<Locale, Record<string, string>> = {
       "The postal service records the delivery into the letterbox. As soon as it is reported, we email you the shipment number and the tracking link. It is not an Übergabe-Einschreiben signed for by the recipient — and no postal product can provide conclusive proof of receipt.",
     "dispatch.taxNote": "Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.",
     "dispatch.send": "Send (chargeable)",
-    "dispatch.consent":
-      "I expressly request that you begin sending immediately. I understand that I lose my right of withdrawal as soon as the letter has been printed and handed over for delivery.",
+    "dispatch.consentStart":
+      "I expressly request that you begin printing and sending my defect notice before the withdrawal period expires.",
+    "dispatch.consentExpiry":
+      "I understand that my right of withdrawal expires as soon as you have fully performed the service — that is, as soon as the letter has been printed and handed over for delivery. I hereby confirm that I am aware of this.",
     "dispatch.consentLink": "Right of withdrawal",
     "dispatch.error.zustimmung_fehlt":
-      "Please confirm that we may start sending straight away — otherwise we may not post the letter before the withdrawal period ends.",
+      "Please confirm both declarations — without them we may not print and send the letter before the withdrawal period ends.",
     "dispatch.preparing": "Preparing your letter...",
     "dispatch.checkingAddress": "Checking the address...",
     "dispatch.redirecting": "Taking you to payment...",
@@ -1038,11 +1043,13 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.taxNote":
       "§ 19 UStG uyarınca katma değer vergisi hesaplanmaz.",
     "dispatch.send": "Ücretli olarak gönder",
-    "dispatch.consent":
-      "Gönderime hemen başlamanızı açıkça talep ediyorum. Mektup basılıp teslimata verildiğinde cayma hakkımı kaybedeceğimi biliyorum.",
+    "dispatch.consentStart":
+      "Kusur bildirimimin basımına ve gönderimine cayma süresi dolmadan başlamanızı açıkça talep ediyorum.",
+    "dispatch.consentExpiry":
+      "Hizmeti tamamen ifa ettiğinizde — yani mektup basılıp teslimata verildiğinde — cayma hakkımın sona ereceğini biliyorum. Bunu bildiğimi burada teyit ediyorum.",
     "dispatch.consentLink": "Cayma hakkı",
     "dispatch.error.zustimmung_fehlt":
-      "Lütfen gönderime hemen başlanmasını onaylayın; aksi hâlde mektubu cayma süresi dolmadan gönderemeyiz.",
+      "Lütfen her iki beyanı da onaylayın; aksi hâlde mektubu cayma süresi dolmadan basıp gönderemeyiz.",
     "dispatch.preparing": "Gönderi hazırlanıyor...",
     "dispatch.checkingAddress": "Adres kontrol ediliyor...",
     "dispatch.redirecting": "Ödemeye yönlendiriliyorsunuz...",
@@ -1369,11 +1376,13 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.taxNote":
       "Згідно з § 19 UStG податок на додану вартість не нараховується.",
     "dispatch.send": "Надіслати платно",
-    "dispatch.consent":
-      "Я прямо вимагаю, щоб ви негайно розпочали відправлення. Мені відомо, що я втрачаю право на відмову, щойно лист буде надруковано та передано для доставки.",
+    "dispatch.consentStart":
+      "Я прямо вимагаю, щоб ви розпочали друк і надсилання мого повідомлення про недоліки до закінчення строку відмови.",
+    "dispatch.consentExpiry":
+      "Мені відомо, що моє право на відмову припиняється, щойно ви повністю виконаєте послугу — тобто щойно лист буде надруковано та передано для доставки. Цим підтверджую, що мені це відомо.",
     "dispatch.consentLink": "Право на відмову",
     "dispatch.error.zustimmung_fehlt":
-      "Будь ласка, підтвердьте негайний початок відправлення — інакше ми не можемо надіслати лист до закінчення строку відмови.",
+      "Будь ласка, підтвердьте обидві заяви — без них ми не можемо надрукувати й надіслати лист до закінчення строку відмови.",
     "dispatch.preparing": "Відправлення готується...",
     "dispatch.checkingAddress": "Перевіряємо адресу...",
     "dispatch.redirecting": "Переходимо до оплати...",
@@ -1699,11 +1708,13 @@ export const translations: Record<Locale, Record<string, string>> = {
     "dispatch.taxNote":
       "Согласно § 19 UStG налог на добавленную стоимость не начисляется.",
     "dispatch.send": "Отправить платно",
-    "dispatch.consent":
-      "Я прямо требую, чтобы вы немедленно приступили к отправке. Мне известно, что я теряю право на отказ, как только письмо будет напечатано и передано для доставки.",
+    "dispatch.consentStart":
+      "Я прямо требую, чтобы вы приступили к печати и отправке моего уведомления о недостатках до истечения срока отказа.",
+    "dispatch.consentExpiry":
+      "Мне известно, что моё право на отказ прекращается, как только вы полностью окажете услугу — то есть как только письмо будет напечатано и передано для доставки. Настоящим подтверждаю, что мне это известно.",
     "dispatch.consentLink": "Право на отказ",
     "dispatch.error.zustimmung_fehlt":
-      "Пожалуйста, подтвердите немедленное начало отправки — иначе мы не можем отправить письмо до истечения срока отказа.",
+      "Пожалуйста, подтвердите оба заявления — без них мы не можем напечатать и отправить письмо до истечения срока отказа.",
     "dispatch.preparing": "Отправление готовится...",
     "dispatch.checkingAddress": "Проверяем адрес...",
     "dispatch.redirecting": "Переходим к оплате...",
@@ -2028,11 +2039,13 @@ export const translations: Record<Locale, Record<string, string>> = {
       "تُسجِّل شركة البريد إيداع الخطاب في صندوق البريد. وبمجرد الإبلاغ عن التسليم نرسل إليك رقم الإرسالية ورابط التتبّع عبر البريد الإلكتروني. وهو ليس Übergabe-Einschreiben الذي يوقّع عليه المستلم — ولا يمكن لأي منتج بريدي أن يقدّم إثباتاً قاطعاً للاستلام.",
     "dispatch.taxNote": "وفقاً لـ § 19 UStG لا تُحتسب ضريبة القيمة المضافة.",
     "dispatch.send": "إرسال مقابل رسوم",
-    "dispatch.consent":
-      "أطلب صراحةً أن تبدؤوا الإرسال فوراً. وأعلم أنني أفقد حقي في الانسحاب بمجرد طباعة الخطاب وتسليمه للتوزيع.",
+    "dispatch.consentStart":
+      "أطلب صراحةً أن تبدؤوا طباعة إشعار العيوب الخاص بي وإرساله قبل انقضاء مهلة الانسحاب.",
+    "dispatch.consentExpiry":
+      "أعلم أن حقي في الانسحاب يسقط بمجرد تنفيذكم الخدمة بالكامل، أي بمجرد طباعة الخطاب وتسليمه للتوزيع. وأؤكد بهذا علمي بذلك.",
     "dispatch.consentLink": "الحق في الانسحاب",
     "dispatch.error.zustimmung_fehlt":
-      "يرجى تأكيد البدء الفوري بالإرسال، وإلا فلن نتمكن من إرسال الخطاب قبل انتهاء مهلة الانسحاب.",
+      "يرجى تأكيد الإقرارين معاً؛ فبدونهما لا يمكننا طباعة الخطاب وإرساله قبل انتهاء مهلة الانسحاب.",
     "dispatch.preparing": "جارٍ تجهيز الإرسال...",
     "dispatch.checkingAddress": "جارٍ التحقق من العنوان...",
     "dispatch.redirecting": "جارٍ الانتقال إلى الدفع...",
@@ -2355,11 +2368,13 @@ export const translations: Record<Locale, Record<string, string>> = {
       "Poczta rejestruje wrzucenie listu do skrzynki pocztowej. Gdy tylko doręczenie zostanie zgłoszone, prześlemy Ci e-mailem numer przesyłki i link do śledzenia. Nie jest to Übergabe-Einschreiben z podpisem odbiorcy — i żaden produkt pocztowy nie zapewni pewnego dowodu doręczenia.",
     "dispatch.taxNote": "Zgodnie z § 19 UStG podatek VAT nie jest naliczany.",
     "dispatch.send": "Wyślij odpłatnie",
-    "dispatch.consent":
-      "Wyraźnie żądam, aby rozpoczęli Państwo wysyłkę natychmiast. Wiem, że tracę prawo odstąpienia od umowy z chwilą wydrukowania listu i przekazania go do doręczenia.",
+    "dispatch.consentStart":
+      "Wyraźnie żądam, aby rozpoczęli Państwo druk i wysyłkę mojego zgłoszenia wad przed upływem terminu odstąpienia od umowy.",
+    "dispatch.consentExpiry":
+      "Wiem, że moje prawo odstąpienia wygasa z chwilą pełnego wykonania usługi — to znaczy z chwilą wydrukowania listu i przekazania go do doręczenia. Niniejszym potwierdzam, że jest mi to wiadome.",
     "dispatch.consentLink": "Prawo odstąpienia",
     "dispatch.error.zustimmung_fehlt":
-      "Proszę potwierdzić natychmiastowe rozpoczęcie wysyłki — w przeciwnym razie nie możemy nadać listu przed upływem terminu odstąpienia.",
+      "Proszę potwierdzić obie deklaracje — bez nich nie możemy wydrukować i nadać listu przed upływem terminu odstąpienia.",
     "dispatch.preparing": "Przesyłka jest przygotowywana...",
     "dispatch.checkingAddress": "Sprawdzamy adres...",
     "dispatch.redirecting": "Przechodzimy do płatności...",
