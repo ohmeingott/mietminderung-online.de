@@ -140,7 +140,7 @@ const ABLAUF_SAETZE: readonly string[] = [
  * Carries what § 312f Abs. 2 und 3 BGB together with Art. 246a EGBGB require on
  * a durable medium: the service, the total price actually paid, who the trader
  * is, the full Widerrufsbelehrung with the model form, and the confirmation of
- * the § 356 Abs. 4 declaration made at the order.
+ * the two § 356 Abs. 5 Nr. 2 declarations made at the order.
  *
  * It doubles as the Eingangsbestätigung under § 312i Abs. 1 Nr. 3 BGB, which is
  * why the webhook sends it as soon as the payment is confirmed rather than when

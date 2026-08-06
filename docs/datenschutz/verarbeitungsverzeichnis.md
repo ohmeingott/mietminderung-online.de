@@ -133,12 +133,32 @@ Drei E-Mails, alle über denselben Weg und alle zum selben Auftrag:
 |---|---|
 | **Zweck** | Einzug des Entgelts für den Postversand, Zuordnung der Zahlung zum Briefauftrag |
 | **Betroffene** | zahlende Nutzer |
-| **Datenarten** | beim Verantwortlichen nur: Zahlungsstatus, Betrag, Vorgangs- und Auftragsnummer, Nachweis der Erklärung nach § 356 Abs. 4 BGB sowie zwei Vermerke darüber, welche der E-Mails aus Nummer 7 bereits versandt wurde. Zahlungsmittel werden unmittelbar bei Stripe eingegeben und erreichen uns nicht. |
+| **Datenarten** | beim Verantwortlichen nur: Zahlungsstatus, Betrag, Vorgangs- und Auftragsnummer, Nachweis der beiden Erklärungen nach § 356 Abs. 5 Nr. 2 BGB sowie zwei Vermerke darüber, welche der E-Mails aus Nummer 7 bereits versandt wurde. Zahlungsmittel werden unmittelbar bei Stripe eingegeben und erreichen uns nicht. |
 | **Rechtsgrundlage** | Art. 6 Abs. 1 lit. b DSGVO; für die Aufbewahrung Art. 6 Abs. 1 lit. c DSGVO i. V. m. §§ 147 AO, 257 HGB |
 | **Empfänger** | Stripe Payments Europe, Limited, Dublin, Irland |
 | **Drittland** | Übermittlung an die US-Muttergesellschaft möglich |
 | **Löschfrist** | handels- und steuerrechtliche Aufbewahrungsfristen (6 bzw. 10 Jahre) |
 | **TOM** | keine Zahlungsdaten im eigenen System; Weiterleitung auf die von Stripe gehostete Bezahlseite |
+
+## 9. Widerruf über die Schaltfläche (§ 356a BGB)
+
+Auf `/widerruf` steht eine Schaltfläche „Vertrag widerrufen“ bereit, über die
+Nutzer den kostenpflichtigen Postversand online widerrufen können. Dazu sind
+wir seit dem 19. Juni 2026 gesetzlich verpflichtet. Alternativ kann der
+Widerruf jederzeit formlos per E-Mail an die Adresse des Verantwortlichen
+erklärt werden; in diesem Fall verarbeiten wir nur, was die betroffene Person
+darin selbst mitteilt.
+
+| | |
+|---|---|
+| **Zweck** | Entgegennahme der Widerrufserklärung, die gesetzlich vorgeschriebene Bestätigung des Eingangs auf einem dauerhaften Datenträger und die Abwicklung des Widerrufs |
+| **Betroffene** | Personen, die über die Schaltfläche oder formlos per E-Mail eine Widerrufserklärung zum Postversand abgeben. Die Route prüft weder eine vorherige Zahlung noch eine Bestellung (siehe `src/app/api/widerruf/route.ts`), sodass grundsätzlich jede Person eine Erklärung abgeben kann, unabhängig davon, ob tatsächlich bestellt oder bezahlt wurde |
+| **Datenarten** | E-Mail-Adresse (Pflichtangabe, weil der Eingang bestätigt werden muss), auf freiwilliger Basis Name, Auftragsnummer und eine Anmerkung, sowie Zeitpunkt des Eingangs nach Datum und Uhrzeit. Beim formlosen Widerruf per E-Mail: was die betroffene Person darin selbst mitteilt |
+| **Rechtsgrundlage** | Art. 6 Abs. 1 lit. c DSGVO — rechtliche Verpflichtung aus § 356a BGB; soweit es um die Rückabwicklung des Vertrags geht, zusätzlich Art. 6 Abs. 1 lit. b DSGVO |
+| **Empfänger** | Resend (Plus Five Five, Inc.) als Auftragsverarbeiter für den Versand beider E-Mails — der Meldung an uns und der Bestätigung an die widerrufende Person, siehe Nummer 7. Außerdem der E-Mail-Provider, über den das Postfach des Verantwortlichen läuft, weil die Meldung dort eingeht und die vollständige Erklärung samt Freitext-Anmerkung enthält (Anbieter noch zu benennen, siehe Offene Punkte). Keine Weitergabe an den Druckdienstleister oder an die Post |
+| **Drittland** | Resend: US-Unternehmen; Übermittlung gestützt auf Standardvertragsklauseln nach Art. 46 Abs. 2 lit. c DSGVO. Für den E-Mail-Provider des Verantwortlichen-Postfachs noch offen, siehe Offene Punkte |
+| **Löschfrist** | Die Erklärung erreicht uns als E-Mail und verbleibt im E-Mail-Postfach des Verantwortlichen, solange sie zum Nachweis der ordnungsgemäßen Abwicklung benötigt wird — praktisch für die Dauer der handels- und steuerrechtlichen Aufbewahrungsfristen. Keine gesonderte Datenbank, kein Datensatz in der Anwendung selbst |
+| **TOM** | keine Weitergabe an den Druckdienstleister oder die Post; Verarbeitung getrennt vom Druckauftrag |
 
 ---
 
@@ -166,3 +186,11 @@ Drei E-Mails, alle über denselben Weg und alle zum selben Auftrag:
 - [ ] Prüfen, ob mit Vercel ein DPA abgeschlossen ist
 - [ ] Nach Aufnahme des Live-Betriebs die tatsächlichen Löschfristen der
       PIN AG gegen Ziffer 10 des AVV verifizieren
+- [ ] **E-Mail-Provider des Verantwortlichen-Postfachs benennen** (betrifft
+      Nummer 9, Widerruf über die Schaltfläche). `POST /api/widerruf` schickt
+      die Meldung über jede eingehende Widerrufserklärung — samt vollständiger
+      Erklärung und Freitext-Anmerkung — an die Adresse des Verantwortlichen.
+      Der Anbieter dieses Postfachs ist damit Empfänger personenbezogener
+      Daten, ist aber bisher nicht benannt. Anbieter ermitteln, in Nummer 9
+      unter Empfänger und Drittland eintragen und, falls es sich um einen
+      Auftragsverarbeiter handelt, einen AVV nach Art. 28 DSGVO abschließen

@@ -60,8 +60,9 @@ be recovered when it is rebuilt. To bring it back you will need, at minimum:
 
 - [ ] A payment provider (Stripe, Mollie, PayPal).
 - [ ] An order confirmation email (`§ 312i Abs. 1 Nr. 3 BGB`).
-- [ ] The explicit consent checkbox for starting the service before the
-      withdrawal period ends (`§ 356 Abs. 4 BGB`).
+- [ ] The two explicit-consent checkboxes for starting the service before the
+      withdrawal period ends (`§ 356 Abs. 5 Nr. 2 BGB`) — one checkbox is no
+      longer sufficient.
 - [ ] A full Widerrufsbelehrung with Muster-Widerrufsformular back on `/widerruf`,
       which currently states that there is nothing to withdraw.
 - [ ] `EBRIEF_USERNAME` / `EBRIEF_PASSWORD` in the environment.
