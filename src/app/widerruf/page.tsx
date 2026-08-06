@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
+import WiderrufButton from "./WiderrufButton";
 import { site } from "@/lib/site";
 import {
   erloeschenHinweis,
@@ -21,6 +22,30 @@ export default function Widerruf() {
       intro="Widerrufsbelehrung für den kostenpflichtigen Postversand."
       updated={site.legalVersion}
     >
+      {/*
+        § 356a Abs. 1 BGB asks for two things, and each is discharged by
+        something different. "Permanently available" is discharged by the
+        footer, which links this page from every page of the site. "Prominently
+        placed" is discharged here, by putting the button at the very top of
+        the page — above the explanation of what the notice covers, not below
+        it.
+
+        The email address in the paragraph is not decoration: the button is a
+        client component, so with JavaScript disabled it prerenders and does
+        nothing. Naming the mailbox in the server-rendered text keeps a working
+        withdrawal channel on the page even when the component never hydrates.
+      */}
+      <LegalSection heading="Vertrag widerrufen">
+        <p>
+          Wenn Sie den kostenpflichtigen Postversand widerrufen möchten, können
+          Sie das hier online tun. Sie können uns stattdessen auch formlos
+          schreiben, etwa per E-Mail an{" "}
+          <a href={`mailto:${site.operator.email}`}>{site.operator.email}</a> —
+          beides ist wirksam.
+        </p>
+        <WiderrufButton />
+      </LegalSection>
+
       <LegalSection heading="Wofür diese Belehrung gilt">
         <p>
           Die Prüfung, die Berechnung der Minderungsquote und die Erstellung der
@@ -52,9 +77,10 @@ export default function Widerruf() {
         <p>
           Damit Ihr Brief ohne Wartezeit in den Druck geht, müssen wir mit der
           Ausführung vor Ablauf der Widerrufsfrist beginnen. Deshalb bitten wir
-          Sie vor der Bestellung um Ihre ausdrückliche Zustimmung dazu und um
-          die Bestätigung, dass Sie Ihr Widerrufsrecht mit der vollständigen
-          Erbringung verlieren.
+          Sie vor der Bestellung um zwei getrennte Erklärungen: das
+          ausdrückliche Verlangen, dass wir sofort beginnen, und davon getrennt
+          die Bestätigung, dass Ihnen bekannt ist, dass Ihr Widerrufsrecht mit
+          der vollständigen Erbringung erlischt.
         </p>
         <p>{erloeschenHinweis}</p>
         <p>
@@ -64,7 +90,7 @@ export default function Widerruf() {
           frankiert wird er von unserem Druckdienstleister, die Zustellung
           übernimmt anschließend die PIN AG. Wann der Druckdienstleister diese
           Schritte abschließt, liegt nicht in unserer Hand — mit ihrem Abschluss
-          erlischt Ihr Widerrufsrecht nach § 356 Abs. 4 BGB, in aller Regel also
+          erlischt Ihr Widerrufsrecht nach § 356 Abs. 5 Nr. 2 BGB, in aller Regel also
           kurz nach Ihrer Bestellung. Bis dahin können Sie widerrufen.
         </p>
         <p>

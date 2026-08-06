@@ -52,13 +52,15 @@ const LEGAL_PAGES = [
     footerLink: "Widerrufsrecht",
     heading: "Widerrufsrecht",
     // The paid dispatch makes this a real Widerrufsbelehrung: the statutory
-    // period, the model form, and the early-expiry rule the order flow relies
-    // on. A page that lost any of them would leave a sold service unbelehrt.
+    // period, the model form, the early-expiry rule the order flow relies on,
+    // and the button § 356a Abs. 1 BGB requires. A page that lost any of them
+    // would leave a sold service unbelehrt.
     mustContain: [
       "Widerrufsbelehrung",
       "vierzehn Tagen",
       "Muster-Widerrufsformular",
-      "§ 356 Abs. 4 BGB",
+      "§ 356 Abs. 5 Nr. 2 BGB",
+      "Vertrag widerrufen",
     ],
   },
 ] as const;
@@ -149,7 +151,7 @@ test.describe("Legal pages", () => {
     // /widerruf has to keep saying when the right lapses.
     await page.goto("/widerruf");
     const widerruf = await page.locator("article").innerText();
-    expect(widerruf).toContain("§ 356 Abs. 4 BGB");
+    expect(widerruf).toContain("§ 356 Abs. 5 Nr. 2 BGB");
     expect(widerruf).toContain("Vollständig erbracht");
   });
 
