@@ -28,15 +28,20 @@ interface BuildMetadataInput {
    */
   locale?: Locale;
   /**
-   * Set on pages that exist in every language. Emits a reciprocal `hreflang`
-   * set for all seven locales plus `x-default`.
+   * Set on pages that exist in more than one language. `true` emits a
+   * reciprocal `hreflang` set for all seven locales; an explicit list emits
+   * one for exactly those, which is what the guides need while a language is
+   * only part-way translated — a cluster naming a URL that 404s is worse than
+   * no cluster at all.
    *
    * Deliberately opt-in rather than derived: `hreflang` has to be reciprocal to
    * be honoured at all, so declaring it for a page whose translations do not
-   * exist is worse than declaring nothing. The defect pages, guides, dispatch
-   * page and legal texts are German-only and must leave this off.
+   * exist is worse than declaring nothing. The defect pages and the dispatch
+   * page are still German-only and must leave this off; the legal texts stay
+   * off for a different reason — they are German under every prefix, so there
+   * is nothing to alternate between.
    */
-  alternateLocales?: boolean;
+  alternateLocales?: boolean | readonly Locale[];
 }
 
 /**
@@ -46,8 +51,14 @@ interface BuildMetadataInput {
  * whose language we do not serve, and German is the language of the
  * jurisdiction this whole site is about.
  */
-function languageAlternates(basePath: string): Record<string, string> {
-  const entries = locales.map((l) => [
+function languageAlternates(
+  basePath: string,
+  nur?: readonly Locale[],
+): Record<string, string> {
+  const verfuegbar = nur ?? locales.map((l) => l.code);
+  const entries = locales
+    .filter((l) => verfuegbar.includes(l.code))
+    .map((l) => [
     // Region-free codes on purpose. The audience for the Turkish version are
     // tenants in Germany, not visitors from Turkey, so "tr" is right and
     // "tr-TR" would be a claim about the country we do not mean to make.
@@ -102,7 +113,14 @@ export function buildMetadata({
     ...(keywords?.length ? { keywords } : {}),
     alternates: {
       canonical: url,
-      ...(alternateLocales ? { languages: languageAlternates(path) } : {}),
+      ...(alternateLocales
+        ? {
+            languages: languageAlternates(
+              path,
+              Array.isArray(alternateLocales) ? alternateLocales : undefined,
+            ),
+          }
+        : {}),
     },
     robots: {
       index,
@@ -218,14 +236,33 @@ export interface Crumb {
   path: string;
 }
 
-export function breadcrumbSchema(crumbs: Crumb[]) {
+/**
+ * The `inLanguage` value for a page in `locale`.
+ *
+ * German keeps the region tag it has always carried — this site is about
+ * German law served to people in Germany, and that page's markup should not
+ * change because the guides gained translations. The other languages are
+ * region-free for the same reason `hreflang` is: the audience are tenants in
+ * Germany, not visitors from Turkey.
+ */
+function schemaSprache(locale: Locale): string {
+  return locale === DEFAULT_LOCALE ? "de-DE" : locale;
+}
+
+/**
+ * `crumb.path` is always the German path, like everywhere else; `locale`
+ * decides which URL it resolves to. A trail on a Turkish page has to name
+ * Turkish URLs — pointing at the German ones would describe a different page
+ * than the one carrying the markup.
+ */
+export function breadcrumbSchema(crumbs: Crumb[], locale: Locale = DEFAULT_LOCALE) {
   return {
     "@type": "BreadcrumbList",
     itemListElement: crumbs.map((crumb, i) => ({
       "@type": "ListItem",
       position: i + 1,
       name: crumb.name,
-      item: absoluteUrl(crumb.path),
+      item: absoluteUrl(localeHref(locale, crumb.path)),
     })),
   };
 }
@@ -244,10 +281,12 @@ export function faqSchema(entries: { question: string; answer: string }[]) {
 interface ArticleSchemaInput {
   headline: string;
   description: string;
+  /** Always the German path; `locale` decides which URL it resolves to. */
   path: string;
   datePublished: string;
   dateModified: string;
   section?: string;
+  locale?: Locale;
 }
 
 export function articleSchema({
@@ -257,15 +296,19 @@ export function articleSchema({
   datePublished,
   dateModified,
   section,
+  locale = DEFAULT_LOCALE,
 }: ArticleSchemaInput) {
   return {
     "@type": "Article",
     headline,
     description,
-    mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(path) },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteUrl(localeHref(locale, path)),
+    },
     datePublished,
     dateModified,
-    inLanguage: "de-DE",
+    inLanguage: schemaSprache(locale),
     ...(section ? { articleSection: section } : {}),
     author: { "@id": ORGANIZATION_ID },
     publisher: { "@id": ORGANIZATION_ID },
