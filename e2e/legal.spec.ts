@@ -90,6 +90,40 @@ test.describe("Legal pages", () => {
     });
   }
 
+  /*
+   * § 356a Abs. 1 BGB wants the withdrawal button permanently available. It
+   * lives at the top of /widerruf, so what makes it permanently available is
+   * that every page links there.
+   *
+   * The site has two footers, and only one of them used to: the content pages
+   * render src/components/content/ContentFooter.tsx, which carried three of
+   * the four legal links and left out the withdrawal page. Nothing failed —
+   * the reachability test above only ever loads the homepage, which uses the
+   * other footer. This is the test that would have caught it.
+   */
+  const INHALTSSEITEN = [
+    "/ratgeber",
+    "/mietminderungstabelle",
+    "/mietminderung",
+    "/maengelanzeige-versenden",
+  ] as const;
+
+  for (const pfad of INHALTSSEITEN) {
+    test(`${pfad} reaches the withdrawal page from its footer`, async ({
+      page,
+    }) => {
+      await page.goto(pfad);
+      await page
+        .getByRole("contentinfo")
+        .getByRole("link", { name: "Widerrufsrecht", exact: true })
+        .click();
+      await expect(page).toHaveURL(/\/widerruf$/);
+      await expect(page.getByTestId("widerruf-oeffnen")).toHaveText(
+        "Vertrag widerrufen"
+      );
+    });
+  }
+
   test("legal pages carry the site header and footer", async ({ page }) => {
     await page.goto("/impressum");
     await expect(page.getByRole("banner")).toBeVisible();

@@ -99,6 +99,22 @@ export default function ContentFooter() {
                   Nutzungsbedingungen
                 </Link>
               </li>
+              {/*
+                § 356a Abs. 1 BGB wants the withdrawal button permanently
+                available. The button itself lives at the top of /widerruf, so
+                what makes it permanently available is that every page links
+                there — and these seven content pages did not, because this
+                footer carried only three of the four legal links that
+                src/components/Footer.tsx has.
+              */}
+              <li>
+                <Link
+                  href="/widerruf"
+                  className="text-sm hover:text-white transition-colors"
+                >
+                  Widerrufsrecht
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
