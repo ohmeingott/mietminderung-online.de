@@ -7,8 +7,10 @@ import { istRatgeberSlug, type RatgeberSlug } from "../pfade";
 import { DEFAULT_LOCALE } from "../routing";
 import { locales, type Locale } from "../translations";
 import ar from "./ar";
+import pl from "./pl";
 import ru from "./ru";
 import tr from "./tr";
+import uk from "./uk";
 import type { RatgeberText, RatgeberUebersetzung } from "./typen";
 
 export type { RatgeberText, RatgeberSectionText } from "./typen";
@@ -28,8 +30,10 @@ export type { RatgeberText, RatgeberSectionText } from "./typen";
  */
 const uebersetzungen: Partial<Record<Locale, RatgeberUebersetzung>> = {
   ar,
+  pl,
   ru,
   tr,
+  uk,
 };
 
 /** Every locale a given guide is published in, German first. */
