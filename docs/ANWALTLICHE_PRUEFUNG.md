@@ -234,17 +234,27 @@ Die Schaltfläche „Vertrag widerrufen“ steht **ganz oben auf `/widerruf`** �
 ersten Abschnitt der Seite, vor der Erläuterung, wofür die Belehrung gilt, und
 vor der Belehrung selbst.
 
-`/widerruf` ist aus dem Fußbereich verlinkt. **Einschränkung, die wir offenlegen:**
-Der Dienst hat zwei Fußbereiche. Der Fußbereich mit dem Widerrufslink erscheint
-auf der Startseite mit dem gesamten Bestell- und Bezahlablauf, auf der FAQ-Seite,
-auf der Ergebnisseite nach der Zahlung und auf allen Rechtstextseiten. Die
-redaktionellen Seiten (`/mietminderung/…`, `/mietminderungstabelle`,
-`/ratgeber/…`, `/maengelanzeige-versenden`) tragen einen zweiten, statischen
-Fußbereich, der nur Impressum, Datenschutz und Nutzungsbedingungen verlinkt —
-**dort ist `/widerruf` nicht aus dem Fußbereich erreichbar** (auf
-`/maengelanzeige-versenden` gibt es allerdings einen Link im Seitentext). Das ist
-kein Zustand, den wir verteidigen; er ist bisher nur niemandem aufgefallen und
-wird auf Ihr Wort hin behoben.
+**`/widerruf` ist aus dem Fußbereich jeder Seite des Dienstes verlinkt.** Was die
+Schaltfläche im Sinne des Abs. 1 ständig verfügbar macht, ist genau das: Sie
+steht oben auf `/widerruf`, und von überall führt ein Fußbereichslink dorthin.
+
+**Wie es dazu kam — offengelegt, weil die Lücke bis in diese Änderung hinein
+bestand.** Der Dienst hat zwei Fußbereiche. Der eine erscheint auf der
+Startseite mit dem gesamten Bestell- und Bezahlablauf, auf der FAQ-Seite, auf
+der Ergebnisseite nach der Zahlung und auf allen Rechtstextseiten; er führte den
+Widerrufslink von Anfang an. Der zweite, statische Fußbereich der sieben
+redaktionellen Seiten (`/mietminderung`, `/mietminderung/…`,
+`/mietminderungstabelle`, `/ratgeber`, `/ratgeber/…`,
+`/maengelanzeige-versenden`) führte dagegen nur drei der vier Rechtstexte —
+Impressum, Datenschutz und Nutzungsbedingungen — und ließ den Widerruf aus. Von
+diesen Seiten aus war `/widerruf` also nicht über den Fußbereich erreichbar; nur
+`/maengelanzeige-versenden` hatte einen Link im Seitentext.
+
+Das ist beim Schreiben dieses Dokuments aufgefallen und **als Teil dieser
+Änderung behoben worden**: Der zweite Fußbereich trägt jetzt denselben Link
+(„Widerrufsrecht“ → `/widerruf`). Vier automatische Tests laden je eine der
+betroffenen Seiten, klicken den Link in deren Fußbereich und prüfen, dass man auf
+`/widerruf` landet und dort die Schaltfläche „Vertrag widerrufen“ vorfindet.
 
 Neben der Schaltfläche steht ein Satz, dass das Widerrufsrecht erloschen ist,
 wenn die Mängelanzeige bereits zur Post gegeben wurde, sowie ein Hinweis, dass
@@ -326,11 +336,12 @@ folgt.
 ### Frage 4.1
 
 **Genügt die Platzierung dem „ständig verfügbar“ und „hervorgehoben und gut
-lesbar“ des § 356a Abs. 1 BGB?** Konkret: Reicht ein Link im Fußbereich auf eine
-Seite, auf der die Schaltfläche ganz oben steht — oder muss die Schaltfläche
-selbst von jeder Seite aus unmittelbar erreichbar sein? Und: Muss der Link in
-*jedem* Fußbereich stehen, also auch auf den redaktionellen Seiten, auf denen
-kein Vertrag geschlossen werden kann?
+lesbar“ des § 356a Abs. 1 BGB?** Konkret: Reicht es, dass jede Seite im
+Fußbereich auf `/widerruf` verlinkt und die Schaltfläche dort das erste Element
+ist — oder verlangt die Vorschrift die Schaltfläche selbst auf jeder Seite statt
+eines Links zu ihr? Falls Letzteres, bitten wir um einen Hinweis, ob eine
+dauerhaft eingeblendete Schaltfläche im Fußbereich gemeint ist oder etwas
+anderes.
 
 ### Frage 4.2
 
@@ -529,10 +540,22 @@ dieser Änderung, sondern der Stand des Projekts. Abgedeckt sind:
   Schaltfläche mit der vorgeschriebenen Beschriftung existiert, dass das
   Formular sich öffnet und ohne E-Mail-Adresse nicht abgesendet werden kann, dass
   „Widerruf bestätigen“ die Erklärung überträgt und die Beschriftung auch während
-  der Übermittlung stehen bleibt.
+  der Übermittlung stehen bleibt;
+- seit dieser Änderung auch die Erreichbarkeit von den redaktionellen Seiten aus
+  (`e2e/legal.spec.ts`).
 
 Nicht getestet ist damit das Serververhalten: die Reihenfolge der beiden
 E-Mails, das Verhalten bei Zustellfehlern und die Ratenbegrenzung.
+
+**Die Lücke im Fußbereich der redaktionellen Seiten (Abschnitt 4) ist beim
+Schreiben dieses Dokuments aufgefallen, nicht durch einen Test.** Bis dahin gab
+es überhaupt keine Prüfung, ob `/widerruf` von jeder Seite aus erreichbar ist —
+der vorhandene Erreichbarkeitstest lädt nur die Startseite, und die verwendet den
+anderen Fußbereich. Der Mangel bestand also seit der Einführung des Buttons
+unbemerkt. Das ist ein fairer Hinweis darauf, wo das verbleibende Risiko dieser
+Änderung liegt: nicht in den Texten, die durchgängig durch Tests abgesichert
+sind, sondern in den Stellen, an denen eine Anforderung des § 356a BGB von etwas
+abhängt, das außerhalb der Widerrufsdateien liegt.
 
 **Nicht Gegenstand dieser Prüfung** sind das übrige Produkt, die
 Minderungsquoten, das RDG, die Nutzungsbedingungen im Übrigen und die
@@ -749,6 +772,7 @@ nicht benötigt.
 | `src/i18n/translations.ts` | beide Erklärungen in sieben Sprachen (Anhang A.9) |
 | `src/app/api/versand/checkout/route.ts` | serverseitige Prüfung beider Erklärungen und ihr Vermerk in den Stripe-Metadaten |
 | `src/app/widerruf/page.tsx` | die Seite `/widerruf`: Schaltfläche oben, Geltungsbereich, Belehrung, Erlöschen, Musterformular |
+| `src/components/Footer.tsx`, `src/components/content/ContentFooter.tsx` | die beiden Fußbereiche; beide verlinken `/widerruf` (Abschnitt 4) |
 | `src/app/widerruf/WiderrufButton.tsx` | die Schaltfläche nach § 356a BGB, das Formular und die Bestätigung in der Oberfläche |
 | `src/app/api/widerruf/route.ts` | Entgegennahme der Erklärung, Meldung an den Betreiber, Bestätigung an den Verbraucher |
 | `src/lib/email/templates.ts` | die beiden E-Mails (`widerrufMeldungEmail`, `widerrufBestaetigungEmail`) sowie die Bestellbestätigung mit Belehrung und Musterformular |
@@ -756,4 +780,5 @@ nicht benötigt.
 | `src/app/datenschutz/page.tsx` | der Abschnitt zur Schaltfläche nach § 356a BGB |
 | `docs/datenschutz/verarbeitungsverzeichnis.md` | Nummer 9 des Verzeichnisses und der offene Punkt zum E-Mail-Provider (Frage 5.5) |
 | `e2e/widerruf.spec.ts` | Prüfung des Browserverhaltens rund um die Schaltfläche |
+| `e2e/legal.spec.ts` | Prüfung, dass `/widerruf` aus dem Fußbereich der redaktionellen Seiten erreichbar ist |
 | `docs/plans/2026-08-06-widerruf-356a-design.md` | das Entwurfsdokument zu dieser Änderung, mit den Begründungen im Einzelnen |
