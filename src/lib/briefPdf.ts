@@ -1,4 +1,5 @@
 import jsPDF from "jspdf";
+import { findeUnterschriftsluecke } from "./brief/unterschriftsstelle";
 import { DEJAVU_SANS_REGULAR_BASE64 } from "./fonts/dejaVuSans";
 
 /**
@@ -71,8 +72,29 @@ const ZEILENHOEHE_MM = 5.0;
 const SEITENUMBRUCH_Y_MM = 280;
 const FOLGESEITE_START_Y_MM = 25;
 
-const UNTERSCHRIFT_BREITE_MM = 50;
-const UNTERSCHRIFT_HOEHE_MM = 20;
+/**
+ * The signature is set smaller here than in the free download
+ * (src/lib/generatePdf.ts), and the difference is worth a sheet of paper.
+ *
+ * It is placed into the gap between "Mit freundlichen Grüßen" and the typed
+ * name, and the gap has to grow by the image's height for it to fit. The
+ * common Mängelanzeige ends around 264 mm with one defect and 274 mm with two,
+ * against a page break at 280 mm — so every millimetre reserved here is a
+ * millimetre closer to a second sheet that eBrief bills for. At 15 mm the
+ * one-defect letter stays on one sheet; at 20 mm it does not.
+ *
+ * 15 × 37.5 mm is also simply what a signature measures on paper. The free
+ * download is under no such pressure and keeps the larger size.
+ */
+const UNTERSCHRIFT_BREITE_MM = 37.5;
+const UNTERSCHRIFT_HOEHE_MM = 15;
+
+/**
+ * Clearance between the foot of the signature and the baseline of the typed
+ * name. A baseline is the foot of the glyphs, not their top: without this the
+ * name's ascenders would reach up into the image.
+ */
+const UNTERSCHRIFT_ABSTAND_MM = 3.5;
 
 const SCHRIFT = "DejaVuSans";
 
@@ -272,6 +294,35 @@ function kuerzeAufEineZeile(
   return { zeile: `${gekuerzt}…`, gekuerzt: true };
 }
 
+/** Where the signature goes, page included — the break can fall in between. */
+interface Unterschriftsplatz {
+  seite: number;
+  y: number;
+}
+
+/**
+ * How much the signature gap has to grow, in mm.
+ *
+ * The letter already leaves a blank line between the closing and the name.
+ * Only the shortfall is added, so a letter the user has rewritten with a
+ * generous gap of its own is not stretched any further.
+ */
+function fehlenderPlatz(zeilen: string[], luecke: number): number {
+  let leerzeilen = 0;
+  while (
+    luecke + leerzeilen < zeilen.length &&
+    zeilen[luecke + leerzeilen].trim() === ""
+  ) {
+    leerzeilen++;
+  }
+  return Math.max(
+    0,
+    UNTERSCHRIFT_HOEHE_MM +
+      UNTERSCHRIFT_ABSTAND_MM -
+      leerzeilen * ZEILENHOEHE_MM
+  );
+}
+
 /**
  * `befund` is an optional out-parameter rather than a second return value so
  * that the jsPDF instance stays the return type callers already build on.
@@ -345,9 +396,53 @@ export function generateVersandPdf(
     y += 2 * ZEILENHOEHE_MM;
   }
 
+  const zeilenDesKoerpers = koerper.split("\n");
+
+  /*
+   * Where the signature belongs: in the gap between "Mit freundlichen Grüßen"
+   * and the typed name, which is where a German letter puts it.
+   *
+   * It used to be appended after the whole text instead — that is, below the
+   * name — and because a full Mängelanzeige already ends near the foot of the
+   * page, the edge rule below then threw it onto a second sheet carrying
+   * nothing else. eBrief bills per sheet and prints single-sided, so that was
+   * a sheet of postage for a picture.
+   *
+   * The room is made here, at render time, and only when there is a signature
+   * to put in it. Widening the gap in the letter text itself would look
+   * tidier, but it would lengthen every letter, signed or not, and with six
+   * millimetres of slack left on a two-defect letter that buys a second sheet
+   * for people who never drew anything.
+   *
+   * Where the gap is, findeUnterschriftsluecke says — the same function a
+   * preview would use, so paper and screen cannot drift apart. If it finds
+   * none, the letter was rewritten past recognition and the old behaviour
+   * stands: the image goes at the end.
+   */
+  const luecke = opts.signatureDataUrl
+    ? findeUnterschriftsluecke(zeilenDesKoerpers)
+    : -1;
+  const zusatz =
+    luecke === -1 ? 0 : fehlenderPlatz(zeilenDesKoerpers, luecke);
+
+  /** Set once the walk reaches the gap. */
+  let unterschriftPlatz: Unterschriftsplatz | null = null;
+
   // Blank lines are meaningful paragraph breaks, so walk the text line by
   // line rather than letting jsPDF collapse it.
-  for (const absatz of koerper.split("\n")) {
+  for (let index = 0; index < zeilenDesKoerpers.length; index++) {
+    const absatz = zeilenDesKoerpers[index];
+
+    if (index === luecke) {
+      // Take the break before the gap rather than through it: an image split
+      // across two pages is worse than a closing left at the foot of one.
+      if (y + UNTERSCHRIFT_HOEHE_MM + UNTERSCHRIFT_ABSTAND_MM > SEITENUMBRUCH_Y_MM) {
+        neueSeite();
+      }
+      unterschriftPlatz = { seite: doc.getCurrentPageInfo().pageNumber, y };
+      y += zusatz;
+    }
+
     if (absatz.trim() === "") {
       y += ZEILENHOEHE_MM;
       if (y > SEITENUMBRUCH_Y_MM) neueSeite();
@@ -361,17 +456,34 @@ export function generateVersandPdf(
   }
 
   if (opts.signatureDataUrl) {
-    // The template forbids large graphics within 3 cm of the page edge.
-    if (y + UNTERSCHRIFT_HOEHE_MM > SEITENUMBRUCH_Y_MM - 30) neueSeite();
-    y += ZEILENHOEHE_MM;
-    doc.addImage(
-      opts.signatureDataUrl,
-      "PNG",
-      LINKER_RAND_MM,
-      y,
-      UNTERSCHRIFT_BREITE_MM,
-      UNTERSCHRIFT_HOEHE_MM
-    );
+    if (unterschriftPlatz) {
+      // The page is set explicitly: were the break to fall between the gap and
+      // the name, the image would otherwise land on the wrong one.
+      const zurueck = doc.getCurrentPageInfo().pageNumber;
+      doc.setPage(unterschriftPlatz.seite);
+      doc.addImage(
+        opts.signatureDataUrl,
+        "PNG",
+        LINKER_RAND_MM,
+        unterschriftPlatz.y,
+        UNTERSCHRIFT_BREITE_MM,
+        UNTERSCHRIFT_HOEHE_MM
+      );
+      doc.setPage(zurueck);
+    } else {
+      // No recognisable closing. The template forbids large graphics within
+      // 3 cm of the page edge.
+      if (y + UNTERSCHRIFT_HOEHE_MM > SEITENUMBRUCH_Y_MM - 30) neueSeite();
+      y += ZEILENHOEHE_MM;
+      doc.addImage(
+        opts.signatureDataUrl,
+        "PNG",
+        LINKER_RAND_MM,
+        y,
+        UNTERSCHRIFT_BREITE_MM,
+        UNTERSCHRIFT_HOEHE_MM
+      );
+    }
   }
 
   return doc;
