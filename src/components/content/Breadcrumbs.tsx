@@ -1,11 +1,21 @@
 import Link from "next/link";
+import { DEFAULT_LOCALE, localeHref } from "@/i18n/routing";
+import type { Locale } from "@/i18n/translations";
 import type { Crumb } from "@/lib/seo";
 
 /**
  * Visible breadcrumb trail. The matching BreadcrumbList JSON-LD is emitted by
- * the page itself so both stay in sync.
+ * the page itself so both stay in sync — which is why both take the German
+ * `crumb.path` and the locale, rather than pre-resolved URLs that could drift
+ * apart.
  */
-export default function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
+export default function Breadcrumbs({
+  crumbs,
+  locale = DEFAULT_LOCALE,
+}: {
+  crumbs: Crumb[];
+  locale?: Locale;
+}) {
   return (
     <nav aria-label="Breadcrumb" className="mb-6">
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-ink-500">
@@ -20,7 +30,7 @@ export default function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
               ) : (
                 <>
                   <Link
-                    href={crumb.path}
+                    href={localeHref(locale, crumb.path)}
                     className="hover:text-brand-700 transition-colors"
                   >
                     {crumb.name}

@@ -1,12 +1,18 @@
 import type { MetadataRoute } from "next";
-import { ratgeberArtikel } from "@/data/ratgeber";
+import { getRatgeberBySlug } from "@/data/ratgeber";
+import {
+  alleRatgeberSlugs,
+  hatRatgeber,
+  ratgeberLocales,
+  ratgeberSlugsFuer,
+} from "@/i18n/ratgeber";
 import {
   DEFAULT_LOCALE,
   localeHref,
   PREFIXED_LOCALES,
   TRANSLATED_PATHS,
 } from "@/i18n/routing";
-import { locales } from "@/i18n/translations";
+import { locales, type Locale } from "@/i18n/translations";
 import { alleMaengel, kategorieIndex } from "@/lib/mangelIndex";
 import { VERSAND_PATH } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/site";
@@ -24,15 +30,27 @@ const CONTENT_REVIEWED = new Date("2026-07-26");
  */
 const VERSAND_REVIEWED = new Date("2026-08-01");
 
-/** The full hreflang cluster for a path that exists in every language. */
-function sprachAlternativen(path: string) {
+/**
+ * The hreflang cluster for a path, over `nur` or over every language.
+ *
+ * Google treats sitemap alternates and the on-page `<link rel="alternate">` as
+ * the same signal, so this list has to match what the page emits — which for
+ * the guides is only the languages that actually have them.
+ */
+function sprachAlternativen(path: string, nur?: readonly Locale[]) {
+  const codes = (nur ?? locales.map((l) => l.code)) as readonly Locale[];
   return {
     languages: Object.fromEntries(
-      locales
-        .map((l) => [l.code, absoluteUrl(localeHref(l.code, path))])
+      codes
+        .map((code) => [code, absoluteUrl(localeHref(code, path))])
         .concat([["x-default", absoluteUrl(localeHref(DEFAULT_LOCALE, path))]]),
     ),
   };
+}
+
+/** Every language that has at least one guide, German first. */
+function ratgeberSprachen(): Locale[] {
+  return [DEFAULT_LOCALE, ...PREFIXED_LOCALES.filter(hatRatgeber)];
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -69,6 +87,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: CONTENT_REVIEWED,
       changeFrequency: "monthly",
       priority: 0.8,
+      alternates: sprachAlternativen("/ratgeber", ratgeberSprachen()),
     },
     {
       url: absoluteUrl("/faq"),
@@ -112,12 +131,44 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   );
 
-  const ratgeber: MetadataRoute.Sitemap = ratgeberArtikel.map((artikel) => ({
-    url: absoluteUrl(`/ratgeber/${artikel.slug}`),
-    lastModified: new Date(artikel.updated),
+  const ratgeber: MetadataRoute.Sitemap = alleRatgeberSlugs().map((slug) => ({
+    url: absoluteUrl(`/ratgeber/${slug}`),
+    lastModified: new Date(getRatgeberBySlug(slug)?.updated ?? CONTENT_REVIEWED),
     changeFrequency: "monthly",
     priority: 0.7,
+    alternates: sprachAlternativen(`/ratgeber/${slug}`, ratgeberLocales(slug)),
   }));
+
+  /**
+   * The guides under a locale prefix — the hub plus whatever articles that
+   * language has. Availability is per article, so a language part-way through
+   * translation lists exactly what exists rather than promising the rest.
+   */
+  const ratgeberUebersetzt: MetadataRoute.Sitemap = PREFIXED_LOCALES.filter(
+    hatRatgeber,
+  ).flatMap((locale) => [
+    {
+      url: absoluteUrl(localeHref(locale, "/ratgeber")),
+      lastModified: CONTENT_REVIEWED,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      alternates: sprachAlternativen("/ratgeber", ratgeberSprachen()),
+    },
+    ...ratgeberSlugsFuer(locale).map((slug) => ({
+      url: absoluteUrl(localeHref(locale, `/ratgeber/${slug}`)),
+      lastModified: new Date(
+        getRatgeberBySlug(slug)?.updated ?? CONTENT_REVIEWED,
+      ),
+      changeFrequency: "monthly" as const,
+      // Below the German original: same content, smaller audience per page,
+      // and the German pages carry the internal links.
+      priority: 0.6,
+      alternates: sprachAlternativen(
+        `/ratgeber/${slug}`,
+        ratgeberLocales(slug),
+      ),
+    })),
+  ]);
 
   const legal: MetadataRoute.Sitemap = [
     "/impressum",
@@ -131,5 +182,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
-  return [...core, ...uebersetzt, ...kategorien, ...maengel, ...ratgeber, ...legal];
+  return [
+    ...core,
+    ...uebersetzt,
+    ...kategorien,
+    ...maengel,
+    ...ratgeber,
+    ...ratgeberUebersetzt,
+    ...legal,
+  ];
 }
