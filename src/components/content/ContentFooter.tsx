@@ -150,16 +150,21 @@ export default function ContentFooter({
                 § 356a Abs. 1 BGB wants the withdrawal button permanently
                 available. The button itself lives at the top of /widerruf, so
                 what makes it permanently available is that every page links
-                there — and these seven content pages did not, because this
-                footer carried only three of the four legal links that
+                there — and the content pages did not, because this footer
+                carried only three of the four legal links that
                 src/components/Footer.tsx has.
+
+                Locale-prefixed like its three neighbours: the legal pages are
+                German under every prefix, but the chrome around them is not,
+                and a link that drops the reader's language here is a one-way
+                door out of it.
               */}
               <li>
                 <Link
-                  href="/widerruf"
+                  href={localeHref(locale, "/widerruf")}
                   className="text-sm hover:text-white transition-colors"
                 >
-                  Widerrufsrecht
+                  {ts(locale, "footer.withdrawal")}
                 </Link>
               </li>
             </ul>
