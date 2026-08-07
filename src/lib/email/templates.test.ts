@@ -124,6 +124,92 @@ describe("bestellbestaetigungEmail im Regelmodus", () => {
   });
 });
 
+/**
+ * Die Sendungsnummer in der Bestellbestätigung.
+ *
+ * Sie stand bisher nur in der Zustellmeldung, und die geht erst raus, wenn
+ * eBrief die Zustellung meldet. Wer den Aufpreis für die Nachvollziehbarkeit
+ * bezahlt hat, hatte damit ausgerechnet während der Tage nichts in der Hand,
+ * an denen er nachsehen möchte.
+ */
+describe("bestellbestaetigungEmail mit Sendungsnummer", () => {
+  const MIT_STAND = {
+    ...BESTELLUNG,
+    stand: {
+      shipmentNumber: "PIN123456789DE",
+      trackingUrl: "https://tracking.example/PIN123456789DE",
+    },
+  };
+
+  function teile(mail: { html: string; text: string }): [string, string][] {
+    return [
+      ["html", mail.html],
+      ["text", mail.text],
+    ];
+  }
+
+  it("nennt Nummer und Verfolgungslink in beiden Teilen", () => {
+    for (const [teil, inhalt] of teile(bestellbestaetigungEmail(MIT_STAND))) {
+      assert.match(inhalt, /PIN123456789DE/, teil);
+      assert.match(inhalt, /tracking\.example/, teil);
+    }
+  });
+
+  it("sagt dazu, dass die Verfolgung erst später anläuft", () => {
+    // Ohne diesen Satz klickt der Kunde am Bestelltag ins Leere und hält den
+    // Versand womöglich für gescheitert — die Nummer ist beim Barcode nur
+    // reserviert, erfasst ist die Sendung erst später.
+    for (const [teil, inhalt] of teile(bestellbestaetigungEmail(MIT_STAND))) {
+      assert.match(inhalt, /erst aktiv/, teil);
+    }
+  });
+
+  it("hält die Nummer aus dem Rechnungsteil heraus", () => {
+    // § 14 Abs. 4 UStG zählt Rechnungsangaben auf; eine Sendungsnummer gehört
+    // nicht dazu und hat zwischen Netto und Gesamtpreis nichts zu suchen.
+    const { html } = bestellbestaetigungEmail(MIT_STAND);
+    const rechnungsteil = html.slice(0, html.indexOf("Wie es weitergeht"));
+    assert.doesNotMatch(rechnungsteil, /PIN123456789DE/);
+  });
+
+  it("lässt den Block ganz weg, wenn eBrief noch nichts hat", () => {
+    // Der einfache Brief bekommt nie eine Nummer, und beim Einschreiben kann
+    // sie im Moment des Webhooks noch fehlen. Dann muss die Mail aussehen wie
+    // vorher — nicht wie eine mit einer leeren Zeile darin.
+    const ohne = bestellbestaetigungEmail(BESTELLUNG);
+    const leer = bestellbestaetigungEmail({
+      ...BESTELLUNG,
+      stand: { shipmentNumber: null, trackingUrl: null },
+    });
+    assert.equal(leer.text, ohne.text);
+    assert.equal(leer.html, ohne.html);
+    assert.doesNotMatch(ohne.text, /Sendungsnummer/);
+  });
+
+  it("nennt keinen Link, wenn eBrief nur die Nummer liefert", () => {
+    // Beide Felder sind einzeln optional. Eine Zeile "Sendungsverfolgung:"
+    // ohne Ziel wäre schlechter als keine. Geprüft wird die Zeile und nicht
+    // das Wort: Der Hinweissatz darunter enthält es ebenfalls, und der gehört
+    // dorthin.
+    const { text } = bestellbestaetigungEmail({
+      ...BESTELLUNG,
+      stand: { shipmentNumber: "PIN123456789DE", trackingUrl: null },
+    });
+    assert.match(text, /^Sendungsnummer: PIN123456789DE$/m);
+    assert.doesNotMatch(text, /^Sendungsverfolgung:/m);
+  });
+
+  it("spricht nicht von einem Link, wenn keiner dabei ist", () => {
+    // Ein Satz über einen Link, den die Mail nicht enthält, liest sich wie
+    // ein zweiter Fehler.
+    const { text } = bestellbestaetigungEmail({
+      ...BESTELLUNG,
+      stand: { shipmentNumber: "PIN123456789DE", trackingUrl: null },
+    });
+    assert.doesNotMatch(text, /\bLink\b/);
+  });
+});
+
 const STAND = {
   shipmentNumber: "0100819941060737",
   trackingUrl: "https://sendungsstatus.pin-ag.de/tracking?sendung=0100819941060737",
