@@ -76,7 +76,10 @@ test.describe("Mängelanzeige wizard", () => {
     expect(text).toContain(LANDLORD.name);
     expect(text).toContain("Heizungsausfall (komplett)");
     expect(text).toContain("Raum: Wohnzimmer");
-    expect(text).toContain("besteht seit seit dem 01.05.2026");
+    // Typed with the preposition, as the old example invited; the letter puts
+    // its own "seit" in front, and only one of them survives.
+    expect(text).toContain("besteht seit dem 01.05.2026");
+    expect(text).not.toContain("seit seit");
     expect(text).toContain("§ 536 Abs. 1 BGB");
     expect(text).toContain("§ 536a BGB");
     expect(text).toContain("Die Heizung ist seit Anfang Mai vollständig ausgefallen.");
@@ -298,5 +301,51 @@ test.describe("Anrede des Vermieters", () => {
     expect(brief).toContain("Sehr geehrte Frau Fehrenbach,");
     // The first name belongs in the address block, not in the salutation.
     expect(brief).not.toContain("Frau Ursula");
+  });
+});
+
+test.describe("Angaben zum Mangel", () => {
+  test("a quick choice for the timing reads correctly in the letter", async ({
+    page,
+  }) => {
+    await stubEnhanceApi(page);
+    await page.goto("/#pruefung");
+    await completeCheck(page);
+    await openLetterWizard(page);
+    await fillTenant(page);
+    await page.getByTestId("letter-next").click();
+    await fillLandlord(page);
+    await page.getByTestId("letter-next").click();
+
+    // The field asked for a date and people who cannot name one leave it
+    // empty; one tap is the whole point of the shortcut.
+    await page.getByTestId("detail-seit-0-dieser").click();
+    await page.getByTestId("letter-preview").click();
+    await chooseDeadline(page);
+    await expect(page.getByTestId("brieftext")).not.toHaveValue("");
+
+    const text = await page.getByTestId("brieftext").inputValue();
+    expect(text).toContain("(besteht seit dieser Woche)");
+    expect(text).not.toContain("seit seit");
+  });
+
+  test("the description field asks a question instead of showing an answer", async ({
+    page,
+  }) => {
+    await stubEnhanceApi(page);
+    await page.goto("/#pruefung");
+    await completeCheck(page);
+    await openLetterWizard(page);
+    await fillTenant(page);
+    await page.getByTestId("letter-next").click();
+    await fillLandlord(page);
+    await page.getByTestId("letter-next").click();
+
+    // It used to carry the catalogue's own description of the defect, which
+    // read as a value already filled in.
+    const platzhalter = await page
+      .getByTestId("detail-beschreibung-0")
+      .getAttribute("placeholder");
+    expect(platzhalter).toContain("?");
   });
 });

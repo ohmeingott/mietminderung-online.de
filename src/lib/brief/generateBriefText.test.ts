@@ -4,6 +4,7 @@ import { mangelKategorien } from "../../data/maengel";
 import {
   generateBriefText,
   type Anrede,
+  seitAngabe,
   type BriefDaten,
 } from "./generateBriefText";
 
@@ -234,5 +235,45 @@ describe("generateBriefText", () => {
         ),
       );
     });
+  });
+});
+
+describe("seitAngabe", () => {
+  it("drops a preposition the user typed along", () => {
+    // The field's old example read "z.B. seit dem 15.01.2026", so this is what
+    // people actually entered — and the letter said "besteht seit seit dem".
+    assert.equal(seitAngabe("seit dem 01.05.2026"), "dem 01.05.2026");
+    assert.equal(seitAngabe("Seit Mai"), "Mai");
+  });
+
+  it("leaves an answer without one alone", () => {
+    assert.equal(seitAngabe("Anfang Mai 2026"), "Anfang Mai 2026");
+    assert.equal(seitAngabe("dieser Woche"), "dieser Woche");
+  });
+
+  it("does not eat a word that merely starts with seit", () => {
+    assert.equal(seitAngabe("seitdem es geregnet hat"), "seitdem es geregnet hat");
+  });
+
+  it("trims surrounding whitespace", () => {
+    assert.equal(seitAngabe("  seit   Mai  "), "Mai");
+  });
+});
+
+describe("besteht seit im Brief", () => {
+  it("renders the preposition exactly once", () => {
+    const text = generateBriefText({
+      mieter: MIETER,
+      vermieter: VERMIETER,
+      maengel: [mangel("heizung_total")],
+      details: {
+        heizung_total: { raum: "", seit: "seit dem 01.05.2026", beschreibung: "" },
+      },
+      antworten: { angezeigt: "nein" },
+      frist: new Date(2026, 10, 20),
+      heute: new Date(2026, 10, 17),
+    });
+    assert.ok(text.includes("(besteht seit dem 01.05.2026)"));
+    assert.ok(!text.includes("seit seit"));
   });
 });
