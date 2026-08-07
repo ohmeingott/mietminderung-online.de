@@ -52,6 +52,23 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    /*
+     * Working copies of this repository that Claude Code creates under
+     * .claude/worktrees.
+     *
+     * Without this line ESLint descends into every copy and checks the same
+     * project several times over — including their .next directories, which
+     * the ignores above do not catch because those patterns are relative to
+     * the root. Measured in the sibling project: 14,013 messages, none of them
+     * outside .claude.
+     *
+     * The cost is not the runtime. It is that `npm run lint` stops being
+     * usable locally, and the rule against raw Tailwind palettes above is the
+     * only thing holding the design system together — nobody spots it in
+     * fourteen thousand lines of noise. CI never showed this, because a fresh
+     * checkout has no worktrees.
+     */
+    ".claude/**",
   ]),
 ]);
 
