@@ -11,6 +11,7 @@ import { HERKUNFT, istFremd } from "@/lib/herkunft";
 import { stripe, stripeKonfiguriert } from "@/lib/stripe";
 import { emailConfigured, sendEmail } from "@/lib/email/send";
 import { bestellbestaetigungEmail } from "@/lib/email/templates";
+import { sendungsstand } from "@/lib/versandNachlauf";
 
 /**
  * Explicit, because the signature check depends on it: constructEvent hashes
@@ -95,6 +96,11 @@ async function sendeBestellbestaetigung(kontext: {
   referenz: string;
   /** When the payment completed — printed as "Bestellt am". */
   bestelltAm: Date;
+  /**
+   * Shipment number and link, read off the job that was fetched before the
+   * dispatch. Left out of the mail when eBrief has nothing yet.
+   */
+  stand?: { shipmentNumber: string | null; trackingUrl: string | null };
   jobId: number;
   eventId: string;
 }): Promise<void> {
@@ -125,6 +131,7 @@ async function sendeBestellbestaetigung(kontext: {
         betragCent,
         referenz,
         bestelltAm: kontext.bestelltAm,
+        stand: kontext.stand,
       }),
     });
     if (!ergebnis.ok) {
@@ -586,6 +593,18 @@ export async function POST(request: Request) {
       produktId,
       betragCent: session.amount_total,
       referenz: String(jobId),
+      /*
+       * Read off the job fetched at the top of this block, before the
+       * dispatch. eBrief assigns the shipment number when the barcode is
+       * collected, which is well before anything is distributed here, so a
+       * second getJob would spend a request to learn the same thing.
+       *
+       * Best effort by design: if the number is not there yet, or the product
+       * is the untracked plain letter, `sendungsstand` returns nulls and the
+       * mail simply omits the block. The nightly follow-up remains the
+       * backstop — this only stops the customer waiting for it.
+       */
+      stand: sendungsstand(job),
       // The event's own timestamp, not the session's: the session is created
       // when the customer opens Checkout, while this event is emitted when the
       // payment is confirmed — which for a delayed method can be days later,

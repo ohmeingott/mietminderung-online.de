@@ -201,11 +201,76 @@ export function bestellbestaetigungEmail(params: {
   referenz: string;
   /** When the payment completed — the "Bestellt am" of the model form. */
   bestelltAm: Date;
+  /**
+   * Shipment number and tracking link, if eBrief already has them.
+   *
+   * Optional because they genuinely may not be there. eBrief assigns the
+   * number when the barcode is collected, which for the Einwurf-Einschreiben
+   * has normally happened by the time the webhook runs — but "normally" is not
+   * "always", and the plain letter goes out with `IsTracking: "false"` and
+   * never gets one at all. Absent, this mail reads exactly as it did before.
+   *
+   * The reason to try at all: until now the number reached the customer only
+   * through the nightly follow-up, and only once eBrief reported the delivery.
+   * Somebody who paid the surcharge for traceability therefore had nothing in
+   * hand during the days when they would actually want to look — which is the
+   * whole of the time the letter is in transit.
+   */
+  stand?: { shipmentNumber: string | null; trackingUrl: string | null };
 }): RenderedEmail {
   const leistung =
     PRODUKTBEZEICHNUNG[params.produktId] ?? "Postversand Ihrer Mängelanzeige";
   const betrag = euroFromCent(params.betragCent);
   const datum = bestelldatum(params.bestelltAm);
+
+  /*
+   * The shipment block, deliberately NOT folded into the invoice table above.
+   *
+   * That table carries what § 14 Abs. 4 UStG wants next to the amounts; a
+   * shipment number is not an accounting particular and has no business
+   * standing between the net figure and the total. It belongs where the
+   * dispatch is described, which is "Wie es weitergeht".
+   */
+  const sendungZeilenHtml: [string, string][] = [];
+  const sendungZeilenText: string[] = [];
+  if (params.stand?.shipmentNumber) {
+    sendungZeilenHtml.push([
+      "Sendungsnummer",
+      escapeHtml(params.stand.shipmentNumber),
+    ]);
+    sendungZeilenText.push(`Sendungsnummer: ${params.stand.shipmentNumber}`);
+    if (params.stand.trackingUrl) {
+      const url = escapeHtml(params.stand.trackingUrl);
+      sendungZeilenHtml.push([
+        "Sendungsverfolgung",
+        `<a href="${url}" style="color:${INK};">Sendung ansehen</a>`,
+      ]);
+      sendungZeilenText.push(
+        `Sendungsverfolgung: ${params.stand.trackingUrl}`,
+      );
+    }
+  }
+
+  /**
+   * The caveat is not a footnote — it is the reason the number can be given
+   * out this early at all.
+   *
+   * eBrief reserves the number when the barcode is collected; the tracking
+   * only knows it once the post has actually registered the item. Without this
+   * sentence the customer clicks straight into an empty result on the same day
+   * they ordered, and may well conclude the whole dispatch failed.
+   *
+   * Speaks of "die Abfrage" rather than "der Link": eBrief fills the two fields
+   * independently, so there are mails that carry a number and no link, and a
+   * sentence about a link that is not there reads like a second thing gone
+   * wrong.
+   */
+  const SENDUNGSHINWEIS =
+    "Die Sendungsverfolgung wird erst aktiv, wenn die Post Ihre Sendung erfasst hat — in der Regel am nächsten Werktag. Bis dahin kann die Abfrage noch ins Leere laufen; das heißt nicht, dass etwas schiefgegangen ist.";
+
+  const sendungHtml = sendungZeilenHtml.length
+    ? `${datenTabelleHtml(sendungZeilenHtml)}<p style="margin:0 0 12px;color:${MUTED};font-size:13px;">${escapeHtml(SENDUNGSHINWEIS)}</p>`
+    : "";
 
   const belehrungHtml = widerrufsbelehrung
     .map((p) => `<p style="margin:0 0 10px;">${escapeHtml(p)}</p>`)
@@ -239,6 +304,7 @@ export function bestellbestaetigungEmail(params: {
 
 <h2 style="margin:0 0 8px;font-size:16px;">Wie es weitergeht</h2>
 ${ABLAUF_SAETZE.map((s) => `<p style="margin:0 0 12px;">${escapeHtml(s)}</p>`).join("")}
+${sendungHtml}
 <p style="margin:0 0 4px;">Bei Fragen antworten Sie einfach auf diese E-Mail — bitte nennen Sie dabei die Auftragsnummer ${escapeHtml(params.referenz)}.</p>
 
 <div style="margin:32px 0 0;border-top:1px solid ${RULE};padding-top:20px;color:${MUTED};font-size:12px;line-height:1.55;">
@@ -272,6 +338,10 @@ ${ABLAUF_SAETZE.map((s) => `<p style="margin:0 0 12px;">${escapeHtml(s)}</p>`).j
     "",
     "WIE ES WEITERGEHT",
     ...ABLAUF_SAETZE,
+    // Only when there is something to say — see the block above.
+    ...(sendungZeilenText.length
+      ? ["", ...sendungZeilenText, SENDUNGSHINWEIS, ""]
+      : []),
     `Bei Fragen antworten Sie einfach auf diese E-Mail — bitte nennen Sie dabei die Auftragsnummer ${params.referenz}.`,
     "",
     "—————————————————————————————",
